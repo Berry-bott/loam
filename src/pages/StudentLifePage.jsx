@@ -1,0 +1,326 @@
+"use client"
+
+import { useEffect, useRef } from "react"
+import { gsap } from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { Link } from "react-router-dom"
+import { ArrowRight, Trophy, Music, Palette, Users, Heart, Globe, Utensils, Home } from "lucide-react"
+import { Button } from "../components/ui/button"
+import { Navbar } from "../components/Navbar"
+import { Footer } from "../components/Footer"
+import { ScrollReveal } from "../components/ScrollReveal"
+import { VideoSection } from "../components/VideoSection"
+import { FloatingCard } from "../components/FloatingCard"
+import { MagneticButton } from "../components/MagneticButton"
+
+const activities = [
+  {
+    icon: Trophy,
+    title: "Athletics",
+    description: "15+ varsity sports teams competing at the highest level",
+    image: "/loam (21).jpeg",
+  },
+  {
+    icon: Music,
+    title: "Performing Arts",
+    description: "Theater productions, orchestra, choir, and band programs",
+    image: "/loam (49).jpeg",
+  },
+  {
+    icon: Palette,
+    title: "Visual Arts",
+    description: "Painting, sculpture, photography, and digital arts",
+    image: "/loam (42).jpeg",
+  },
+  {
+    icon: Users,
+    title: "Clubs & Organizations",
+    description: "50+ student-led clubs from robotics to debate",
+    image: "/loam (43).jpeg",
+  },
+]
+
+const facilities = [
+  { icon: Utensils, title: "Dining Hall", description: "Farm-to-table cuisine with diverse menu options" },
+  { icon: Home, title: "Residence Halls", description: "Modern dormitories with study spaces and lounges" },
+  { icon: Heart, title: "Wellness Center", description: "Health services and counseling support" },
+  { icon: Globe, title: "International Programs", description: "Study abroad and exchange opportunities" },
+]
+
+const testimonials = [
+  {
+    quote: "Westfield gave me the confidence to pursue my dreams. The community here is like family.",
+    name: "Sarah Chen",
+    role: "Class of 2024",
+    image: "/female-student-portrait-professional.jpg",
+  },
+  {
+    quote: "The balance between academics and extracurriculars helped me grow as a complete person.",
+    name: "Marcus Johnson",
+    role: "Class of 2023",
+    image: "/male-student-portrait-professional.jpg",
+  },
+  {
+    quote: "I found my passion for science here and now I'm pursuing my PhD at MIT.",
+    name: "Emily Rodriguez",
+    role: "Class of 2020",
+    image: "/young-professional-portrait.png",
+  },
+]
+
+export default function StudentLifePage() {
+  const heroRef = useRef(null)
+  const marqueeRef = useRef(null)
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger)
+
+    if (heroRef.current) {
+      gsap.to(heroRef.current, {
+        yPercent: 30,
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
+      })
+    }
+
+    if (marqueeRef.current) {
+      gsap.to(marqueeRef.current, {
+        xPercent: -50,
+        ease: "none",
+        duration: 20,
+        repeat: -1,
+      })
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach((st) => st.kill())
+    }
+  }, [])
+
+  return (
+    <>
+      <Navbar />
+      <main className="min-h-screen pt-16">
+        <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+          <div ref={heroRef} className="absolute inset-0 z-0">
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
+              poster="/students-campus-life-activities.jpg"
+            >
+              <source
+                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4"
+                type="video/mp4"
+              />
+            </video>
+            <div className="absolute inset-0 bg-foreground/50" />
+          </div>
+
+          <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
+            <ScrollReveal>
+              <p className="text-background/70 text-sm uppercase tracking-[0.3em] font-medium mb-4">Student Life</p>
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-background mb-6 text-balance">
+                More Than <span className="italic">Education</span>
+              </h1>
+              <p className="text-background/80 text-lg md:text-xl max-w-2xl mx-auto">
+                Discover a vibrant community where students thrive through sports, arts, clubs, and lifelong
+                friendships.
+              </p>
+            </ScrollReveal>
+          </div>
+        </section>
+
+        <section className="py-8 bg-accent text-accent-foreground overflow-hidden">
+          <div ref={marqueeRef} className="flex whitespace-nowrap">
+            {[...Array(2)].map((_, i) => (
+              <div key={i} className="flex items-center gap-8 px-4">
+                <span className="text-lg font-medium">Athletics</span>
+                <span className="text-2xl">•</span>
+                <span className="text-lg font-medium">Theater</span>
+                <span className="text-2xl">•</span>
+                <span className="text-lg font-medium">Music</span>
+                <span className="text-2xl">•</span>
+                <span className="text-lg font-medium">Art</span>
+                <span className="text-2xl">•</span>
+                <span className="text-lg font-medium">Debate</span>
+                <span className="text-2xl">•</span>
+                <span className="text-lg font-medium">Robotics</span>
+                <span className="text-2xl">•</span>
+                <span className="text-lg font-medium">Community Service</span>
+                <span className="text-2xl">•</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="py-24 md:py-32 px-4">
+          <div className="max-w-7xl mx-auto">
+            <ScrollReveal className="text-center mb-16">
+              <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Get Involved</p>
+              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4">Activities & Programs</h2>
+              <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+                From competitive sports to creative arts, find your passion and make memories that last a lifetime.
+              </p>
+            </ScrollReveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {activities.map((activity, index) => (
+                <FloatingCard key={activity.title} index={index}>
+                  <div className="group relative bg-background border border-border rounded-2xl overflow-hidden hover:border-accent transition-all duration-500">
+                    <div className="grid grid-cols-1 md:grid-cols-2">
+                      <div className="relative aspect-square md:aspect-auto">
+                        <img
+                          src={activity.image || "/placeholder.svg"}
+                          alt={activity.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                      </div>
+                      <div className="p-8 flex flex-col justify-center">
+                        <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
+                          <activity.icon className="h-6 w-6 text-accent" />
+                        </div>
+                        <h3 className="font-serif text-2xl font-semibold mb-2">{activity.title}</h3>
+                        <p className="text-muted-foreground mb-4">{activity.description}</p>
+                        <Link
+                          to="#"
+                          className="text-accent font-medium inline-flex items-center hover:gap-2 transition-all"
+                        >
+                          Explore <ArrowRight className="ml-1 h-4 w-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </FloatingCard>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-24 md:py-32 px-4 bg-secondary/30">
+          <div className="max-w-7xl mx-auto">
+            <ScrollReveal className="text-center mb-16">
+              <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Day in the Life</p>
+              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4">Experience Student Life</h2>
+            </ScrollReveal>
+
+            <VideoSection
+              videoUrl="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4"
+              posterUrl="/loam (19).jpeg"
+              title="A Day at Westfield"
+              description="Follow our students through a typical day on campus"
+            />
+          </div>
+        </section>
+
+        <section className="py-24 md:py-32 px-4">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <ScrollReveal animation="slideRight">
+                <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Campus Life</p>
+                <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">World-Class Facilities</h2>
+                <p className="text-muted-foreground text-lg mb-8">
+                  Our campus is designed to support every aspect of student life, from academic pursuits to relaxation
+                  and recreation.
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {facilities.map((facility) => (
+                    <div key={facility.title} className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+                        <facility.icon className="h-5 w-5 text-accent" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-1">{facility.title}</h4>
+                        <p className="text-muted-foreground text-sm">{facility.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </ScrollReveal>
+
+              <ScrollReveal animation="slideLeft">
+                <div className="relative aspect-square rounded-2xl overflow-hidden">
+                  <img
+                    src="/loam (35).jpeg"
+                    alt="Campus facilities"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </ScrollReveal>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-24 md:py-32 px-4 bg-primary text-primary-foreground">
+          <div className="max-w-7xl mx-auto">
+            <ScrollReveal className="text-center mb-16">
+              <p className="text-sm font-medium text-primary-foreground/70 mb-4 uppercase tracking-wider">
+                Student Stories
+              </p>
+              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4">Hear From Our Alumni</h2>
+            </ScrollReveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {testimonials.map((testimonial, index) => (
+                <ScrollReveal key={testimonial.name} delay={index * 0.1}>
+                  <div className="bg-primary-foreground/10 rounded-2xl p-8 h-full">
+                    <p className="text-primary-foreground/90 text-lg mb-6 italic">"{testimonial.quote}"</p>
+                    <div className="flex items-center gap-4">
+                      <div className="relative w-12 h-12 rounded-full overflow-hidden">
+                        <img
+                          src={testimonial.image || "/placeholder.svg"}
+                          alt={testimonial.name}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <p className="font-semibold">{testimonial.name}</p>
+                        <p className="text-primary-foreground/70 text-sm">{testimonial.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-24 md:py-32 px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <ScrollReveal>
+              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">Ready to Join Our Community?</h2>
+              <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
+                Experience the Westfield difference and become part of something extraordinary.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <MagneticButton>
+                  <Link to="/admissions">
+                    <Button size="lg" className="rounded-full">
+                      Apply Now
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </Link>
+                </MagneticButton>
+                <MagneticButton>
+                  <Link to="/contact">
+                    <Button size="lg" variant="outline" className="rounded-full bg-transparent">
+                      Contact Us
+                    </Button>
+                  </Link>
+                </MagneticButton>
+              </div>
+            </ScrollReveal>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  )
+}
