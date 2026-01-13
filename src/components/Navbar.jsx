@@ -1,4 +1,3 @@
-"use client"
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
@@ -13,7 +12,7 @@ const navLinks = [
   { href: "/student-life", label: "Student Life" },
   { href: "/gallery", label: "Gallery" },
   { href: "/events", label: "Events" },
-  { href: "/adverts", label: "Adverts" },
+  // { href: "/adverts", label: "Adverts" },
 ]
 
 export function Navbar() {
@@ -27,7 +26,11 @@ export function Navbar() {
             <div className="h-9 w-9 rounded-full bg-primary" >
             <img src="/school-logo.jpeg" alt="" />
               </div>
-            <span className="font-serif text-xl font-semibold text-foreground">Loam</span>
+              <div className="flex flex-col">
+            <span className="font-serif text-xl font-semibold text-foreground">Loam Polytechnic..
+            </span>
+            <span className="text-[10.5px] ">Loamy soil for academic excellence</span>
+            </div>
           </Link>
 
           <div className="hidden lg:flex items-center gap-6">

@@ -20,29 +20,29 @@ import video from "../assets/video/loam-mega.mp4"
 
 const heroSlides = [
   {
-    image: "/loam1.jpeg",
-    title: "Excellence in Education, Boundless Futures",
-    subtitle: "Welcome to Westfield Academy",
+    image: "/loam (24).jpeg",
+    title: "Loamy soil for academic excellence",
+    subtitle: "Welcome to Loam Polytechnic",
   },
   {
     image: "/loam (37).jpeg",
-    title: "Discover Your Potential Through Innovation",
-    subtitle: "State-of-the-Art Facilities",
+    subtitle: "This is Loam Polytechnic",
+    title: "Modern Practical workshops and labs",
   },
   {
-    image: "/loam (24).jpeg",
+    image: "/loam54.jpg",
     title: "Where Dreams Take Flight",
-    subtitle: "50+ Years of Excellence",
+    subtitle: "Loam Polytechnic",
   },
   {
-    image: "/loam (27).jpeg",
-    title: "Building Champions in Every Field",
-    subtitle: "Athletics & Beyond",
+    image: "/loam (40).jpeg",
+    title:"Print library with wide range of printed learning materials",
+    subtitle: "Loam Polytechnic",
   },
   {
     image: "/loam (41).jpeg",
-    title: "Nurturing Creative Excellence",
-    subtitle: "Arts & Culture",
+    title: " State-of-the-art digital library",
+    subtitle: "Loam Polytechnic",
   },
 ]
 
@@ -50,26 +50,26 @@ const features = [
   {
     icon: GraduationCap,
     number: "01",
-    title: "Academic Excellence",
-    description: "Rigorous curriculum designed to challenge and inspire students to reach their full potential.",
+    title: "Modern Learning Facilities",
+    description: "Loam Polytechnic is equipped with modern learning facilities designed to support effective teaching and hands-on training. Our classrooms are spacious, well-ventilated, and fitted with learning aids that make lessons clear and engaging.",
   },
   {
     icon: Users,
     number: "02",
-    title: "Community Focus",
-    description: "A supportive environment where every student is valued and encouraged to contribute.",
+    title: "Experienced Instructors",
+    description: "Loam Polytechnic is proud to have a team of experienced and dedicated instructors who are passionate about teaching and skill development. Our instructors are professionals in their fields, with strong academic backgrounds and real industry experience.",
   },
   {
     icon: Award,
     number: "03",
-    title: "Holistic Development",
-    description: "Programs that nurture intellectual, emotional, and physical growth.",
+    title: "Affordable Tuition and Accommodation",
+    description: "Loam Polytechnic is committed to making quality education accessible to everyone. Our tuition fees are affordable and carefully structured to suit students from different backgrounds, without reducing the quality of training.We also provide safe and comfortable accommodation at a reasonable cost. Our hostels are well-managed, secure, and located close to learning facilities, making it easy for students to focus on their studies.",
   },
   {
     icon: BookOpen,
     number: "04",
-    title: "Innovative Learning",
-    description: "State-of-the-art facilities and teaching methods that prepare students for the future.",
+    title: "100% Practical-Oriented Courses",
+    description: "At Loam Polytechnic, all our courses are designed to be fully practical and hands-on. We believe students learn best by doing, not just by listening. That is why every programme includes regular practical sessions, workshops, and real-life projects.",
   },
 ]
 
@@ -109,6 +109,7 @@ export default function HomePage() {
     <>
       <Navbar />
       <main className="min-h-screen mt-10">
+
         <section className="relative h-screen overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0 scale-110">
             <HeroSlider slides={heroSlides} autoPlayInterval={6000} />
@@ -117,7 +118,19 @@ export default function HomePage() {
           <div
             ref={ctaRef}
             className="absolute bottom-32 left-1/2 -translate-x-1/2 z-20 flex flex-col sm:flex-row gap-4"
-          >
+    >
+            <MagneticButton>
+              <Link to="/admissions">
+                <Button
+                  size="lg"
+                  className="rounded-full bg-background text-foreground hover:bg-background/90 px-8 shadow-xl"
+                >
+                  1-year Tution-free Scholarship
+                  {/* <ArrowRight className="ml-2 h-4 w-4" /> */}
+                </Button>
+              </Link>
+            </MagneticButton>
+          <div className="flex gap-4">
             <MagneticButton>
               <Link to="/admissions">
                 <Button
@@ -142,6 +155,7 @@ export default function HomePage() {
               </Link>
             </MagneticButton>
           </div>
+          </div>
 
           <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce z-20">
             <div className="w-6 h-10 border-2 border-background/50 rounded-full flex justify-center">
@@ -154,15 +168,16 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto">
             <ScrollReveal>
               <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Why Choose Us</p>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-balance max-w-2xl">
-                Building foundations for extraordinary futures
+              <h2 className="font-serif text-4xl md:text-2xl font-bold mb-4 text-balance max-w-2xl">
+               Loam Polytechnic is committed to training students with real-world skills. Our focus is on practical learning, 
+               innovation, and preparing students for employment and entrepreneurship.
               </h2>
             </ScrollReveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
               {features.map((feature, index) => (
                 <FloatingCard key={feature.title} index={index}>
-                  <div className="group border-[1.5px] border-border bg-background rounded-2xl p-8 hover:border-accent transition-all duration-500 h-full">
+                  <div className="group border-[1.5px] border-border bg-background rounded-2xl p-6 hover:border-accent transition-all duration-500 h-full">
                     <div className="flex items-start justify-between mb-6">
                       <span className="font-serif text-7xl font-bold text-muted group-hover:text-accent/30 transition-colors">
                         {feature.number}
@@ -181,16 +196,18 @@ export default function HomePage() {
         <section className="py-24 md:py-32 px-4">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal className="text-center mb-16">
-              <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Experience Westfield</p>
+              <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Experience Loam Polytechnic</p>
               <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-balance">See our campus come alive</h2>
             </ScrollReveal>
-
+              <div className="-mb-32">
             <VideoSection
               videoUrl={video}
               posterUrl="/loam (19).jpeg"
-              title="A Day at Westfield Academy"
+              title="A Day at loam Academy"
               description="Experience the vibrant learning environment that shapes future leaders"
             />
+
+              </div>
           </div>
         </section>
 
@@ -206,9 +223,15 @@ export default function HomePage() {
                     Shaping minds, building character, inspiring futures
                   </h2>
                   <p className="text-primary-foreground/80 text-lg mb-8">
-                    Founded in 1975, Westfield Academy has grown from a small community school into a premier
-                    educational institution, recognized for academic rigor and holistic student development.
+                    Loam Polytechnic is approved by the Federal Ministry of Education 
+                    for academic activities and accredited by National Board for Technical Education (NBTE) for
+                     National Diploma (ND) Programmes.
                   </p>
+                  <p className="mb-4">•	Electrical Electronics Engineering
+                      •	Computer Engineering Technology
+                      •	Computer Science
+                      •	Accountancy
+                      •	Statistics <span className="text-destructive-foreground ">awaiting  more..</span></p>
                   <MagneticButton>
                     <Link to="/about">
                       <Button variant="secondary" size="lg" className="rounded-full text-foreground bg-background">

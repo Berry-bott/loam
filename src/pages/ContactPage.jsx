@@ -16,17 +16,17 @@ const contactInfo = [
   {
     icon: MapPin,
     title: "Address",
-    details: ["123 Academy Lane", "Education City, EC 12345"],
+    details: ["Km 4 Old Itu Road, Ikono, Akwa Ibom State."],
   },
   {
     icon: Phone,
     title: "Phone",
-    details: ["+1 (555) 123-4567", "+1 (555) 123-4568"],
+    details: ["+2348052127771 ", "+2348101073958 "],
   },
   {
     icon: Mail,
     title: "Email",
-    details: ["info@westfield.edu", "admissions@westfield.edu"],
+    details: ["Loampoly@gmail.com"],
   },
   {
     icon: Clock,
@@ -35,13 +35,13 @@ const contactInfo = [
   },
 ]
 
-const departments = [
-  { name: "General Inquiries", email: "info@westfield.edu" },
-  { name: "Admissions", email: "admissions@westfield.edu" },
-  { name: "Financial Aid", email: "finaid@westfield.edu" },
-  { name: "Athletics", email: "athletics@westfield.edu" },
-  { name: "Alumni Relations", email: "alumni@westfield.edu" },
-]
+// const departments = [
+//   { name: "General Inquiries", email: "Loampoly@gmail.com" },
+//   { name: "Admissions", email: "Loampoly@gmail.com" },
+//   { name: "Financial Aid", email: "Loampoly@gmail.com" },
+//   { name: "Athletics", email: "Loampoly@gmail.com" },
+//   { name: "Alumni Relations", email: "Loampoly@gmail.com" },
+// ]
 
 export default function ContactPage() {
   const heroRef = useRef(null)
@@ -85,20 +85,21 @@ export default function ContactPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-16">
+      <main className="min-h-screen pt-16 overflow-hidden">
         <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0">
-            <img src="/school-campus-contact.jpg" alt="Westfield Campus" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-foreground/60" />
+            <img src="/WhatsApp Image 2023-05-13 at 7.13.26 PM (1).jpeg" alt="Westfield Campus" className="w-full h-full object-cover" />
+             <div className="absolute inset-0 bg-gradient-to-b from-foreground via-foreground/80 to-foreground/100" />
+
           </div>
 
           <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
             <ScrollReveal>
-              <p className="text-background/70 text-sm uppercase tracking-[0.3em] font-medium mb-4">Get In Touch</p>
+              <p className="text-muted text-sm uppercase tracking-[0.3em] font-medium mb-4">Get In Touch</p>
               <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-background mb-6">
                 Contact <span className="italic">Us</span>
               </h1>
-              <p className="text-background/80 text-lg md:text-xl max-w-2xl mx-auto">
+              <p className="text-muted text-lg md:text-xl max-w-2xl mx-auto">
                 We're here to answer your questions and help you on your journey to Westfield Academy.
               </p>
             </ScrollReveal>
@@ -192,19 +193,24 @@ export default function ContactPage() {
               <ScrollReveal animation="slideLeft">
                 <div className="space-y-8">
                   <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-border">
-                    <img src="/campus-map.jpg" alt="Campus Map" className="w-full h-full object-cover" />
+                  <a href="https://maps.app.goo.gl/cVRDg2anzCEqd5LF6" target="_blank">
+                    <img src="/maps.jpeg" alt="Campus Map" className="w-full h-full object-cover" />
+
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="bg-background/90 backdrop-blur-sm rounded-xl p-4 shadow-lg text-center">
                         <MapPin className="h-8 w-8 text-accent mx-auto mb-2" />
-                        <p className="font-semibold">Westfield Academy</p>
-                        <p className="text-muted-foreground text-sm">123 Academy Lane</p>
+                        <p className="font-semibold">Loam Polytechnic</p>
+                        <p className="text-muted-foreground text-sm"> Km 4 Old Itu Road, Ikono, Akwa Ibom State.</p>
                       </div>
                     </div>
+                  </a>
+
                   </div>
 
                   <div className="bg-secondary/50 rounded-2xl p-6">
-                    <h3 className="font-serif text-xl font-semibold mb-4">Department Contacts</h3>
-                    <div className="space-y-3">
+                    <h3 className="font-serif text-xl font-semibold mb-2">Department Contact</h3>
+                    <p>Call: +2347052127771</p>
+                    {/* <div className="space-y-3">
                       {departments.map((dept) => (
                         <div
                           key={dept.name}
@@ -216,7 +222,7 @@ export default function ContactPage() {
                           </a>
                         </div>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </ScrollReveal>

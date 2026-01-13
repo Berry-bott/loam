@@ -6,7 +6,7 @@ import AdmissionsPage from "./pages/AdmissionsPage"
 import StudentLifePage from "./pages/StudentLifePage"
 import GalleryPage from "./pages/GalleryPage"
 import EventsPage from "./pages/EventsPage"
-import AdvertsPage from "./pages/AdvertsPage"
+// import AdvertsPage from "./pages/AdvertsPage"
 import ContactPage from "./pages/ContactPage"
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
       <Route path="/student-life" element={<StudentLifePage />} />
       <Route path="/gallery" element={<GalleryPage />} />
       <Route path="/events" element={<EventsPage />} />
-      <Route path="/adverts" element={<AdvertsPage />} />
+      {/* <Route path="/adverts" element={<AdvertsPage />} /> */}
       <Route path="/contact" element={<ContactPage />} />
     </Routes>
   )

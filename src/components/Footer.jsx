@@ -18,9 +18,11 @@ const footerLinks = {
     { href: "#", label: "Career Opportunities" },
   ],
   contact: [
-    { label: "info@westfield.edu" },
-    { label: "+1 (555) 123-4567" },
-    { label: "123 Academy Lane, Education City" },
+    { label: "Loampolytexchnic.edu.com" },
+    { label: "Loampoly@gmail.com" },
+    { label: "08052127771 or 08101073958" },
+    { label: " Km 4 Old Itu Road, Ikono, Akwa Ibom State." },
+    { label: "Facebook | X | Instagram | youtube - @loampoly" },
   ],
 }
 
@@ -34,11 +36,12 @@ export function Footer() {
                <div className="h-12 w-12 rounded-full bg-" >
             <img src="/school-logo.jpeg" alt="" className="rounded-full" />
               </div>
-              <span className="font-serif text-xl font-semibold">Loam Polytechnic</span>
+            <div className="flex flex-col">
+            <span className="font-serif text-xl font-semibold text-">Loam Polytechnic..
+            </span>
+            <span className="text-[14px] text-destructive">Loamy soil for academic excellence</span>
             </div>
-            <p className="text-primary-foreground/70 max-w-md">
-              Nurturing minds, building futures. Excellence in education since 1975.
-            </p>
+            </div>
           </div>
 
           <div>
@@ -64,7 +67,7 @@ export function Footer() {
                 <li key={idx}>
                   <Link
                     to={link.href}
-                    className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
+                    className="text-primary-foreground hover:text-primary-foreground transition-colors text-sm"
                   >
                     {link.label}
                   </Link>
@@ -77,7 +80,7 @@ export function Footer() {
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2">
               {footerLinks.contact.map((item, idx) => (
-                <li key={idx} className="text-primary-foreground/70 text-sm">
+                <li key={idx} className="text-primary-foreground text-sm">
                   {item.label}
                 </li>
               ))}

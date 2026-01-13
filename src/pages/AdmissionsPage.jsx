@@ -23,28 +23,28 @@ const admissionSteps = [
   {
     icon: Calendar,
     step: "02",
-    title: "Schedule Visit",
-    description: "Tour our campus and meet with admissions counselors to learn more about our programs.",
+    title: " Screening",
+    description: "Visit our campus on the shaduled screening date, and get all your documents screened by the admission team. ",
   },
   {
     icon: Users,
     step: "03",
-    title: "Interview",
-    description: "Participate in a student and family interview with our admissions team.",
+    title: "Admission",
+    description: "Visit office of the admission officer for your admission letter.",
   },
   {
     icon: CheckCircle,
     step: "04",
     title: "Acceptance",
-    description: "Receive your admission decision and complete enrollment procedures.",
+    description: "Submit your admission decision and complete enrollment procedures.",
   },
 ]
 
 const deadlines = [
-  { program: "Early Decision", date: "November 15, 2026", status: "Open" },
-  { program: "Regular Decision", date: "January 15, 2027", status: "Open" },
-  { program: "Rolling Admission", date: "March 1, 2027", status: "Open" },
-  { program: "Transfer Students", date: "April 1, 2027", status: "Open" },
+  { program: "Early Decision", date: "November 15, 2025", status: "Open" },
+  { program: "Regular Decision", date: "January 15, 2026", status: "Open" },
+  { program: "Rolling Admission", date: "Feb 1, 2026", status: "Open" },
+  // { program: "Transfer Students", date: "April 1, 2027", status: "Open" },
 ]
 
 const stats = [
@@ -86,35 +86,44 @@ export default function AdmissionsPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-16">
+      <main className="min-h-screen pt-16 border overflow-hidden">
         <section className="relative h-[80vh] flex items-center overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0">
             <img
-              src="/loam (24).jpeg"
+              src="/IMG_5161.jpg"
               alt="Westfield Campus"
               className="w-screen h-full object-cover overflow-hidden"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/2 to-transparent" />
           </div>
 
           <div className="relative z-10 px-4 max-w-7xl mx-auto w-full">
             <div className="max-w-2xl">
               <ScrollReveal>
                 <p className="text-muted text-sm uppercase tracking-[0.3em] font-medium mb-4">Admissions</p>
-                <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-background mb-6 text-balance">
-                  Your Future <span className="italic">Starts Here</span>
+                <h1 className="font-serif text-3xl sm:text-5xl md:text-5xl font-bold text-background mb-6 text-balance">
+                  SCHOLARSHIP! SCHOLARSHIP!! SCHOLARSHIP!!! <span className="italic text-md "> Starts Here</span>
                 </h1>
                 <p className="text-muted text-lg md:text-xl mb-8">
-                  Join a community of scholars, artists, athletes, and leaders. Begin your journey at Westfield Academy
-                  today.
+                  Loam Polytechnic is offering a one-year-tuition-free scholarship to suitably qualified candidates to study at Loam Polytechnic, Ikono in any of the following
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <MagneticButton>
-                    <Button size="lg" className="rounded-full bg-background text-foreground hover:bg-background/90">
+                 <MagneticButton>
+                  <a
+                    href="https://forms.gle/UTabZwtyhN8SpaW19"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button
+                      size="lg"
+                      className="rounded-full bg-background text-foreground hover:bg-background/90"
+                    >
                       Apply Now
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
-                  </MagneticButton>
+                  </a>
+                </MagneticButton>
+
                   <MagneticButton>
                     <Button
                       size="lg"
@@ -130,7 +139,7 @@ export default function AdmissionsPage() {
           </div>
         </section>
 
-        <section className="py-16 px-4 bg-accent text-accent-foreground">
+        <section className="py-16 px-4 bg-gray-500 text-background">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {stats.map((stat, index) => (
@@ -143,6 +152,82 @@ export default function AdmissionsPage() {
                   </div>
                 </ScrollReveal>
               ))}
+            </div>
+          </div>
+        </section>
+
+          <section className="py-24 md:py-32 px-4 bg-secondary/30">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <ScrollReveal animation="slideRight">
+                <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Learn More!</p>
+                <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">SCHOLARSHIP!!!</h2>
+                <p className="text-muted-foreground text-lg mb-2">
+                  Loam Polytechnic is offering a one-year-tuition-free scholarship to suitably qualified 
+                  candidates to study at Loam Polytechnic, Ikono in any of the following National Diploma 
+                  (ND) Courses: 
+                </p>
+                  <MagneticButton>
+                  <Button size="lg" className="rounded-full mb-[2px]">
+                  •	Statistics 
+                  </Button>
+                </MagneticButton>
+                 <MagneticButton>
+                  <Button size="lg" className="rounded-full mb-[2px]">
+                  •	Computer Science 
+                  </Button>
+                </MagneticButton>
+                  <MagneticButton>
+                  <Button size="lg" className="rounded-full mb-[2px]">
+                  •	Accountancy 
+                  </Button>
+                </MagneticButton>
+                  <MagneticButton>
+                  <Button size="lg" className="rounded-full mb-[2px]">
+                  •	Electrical Electronics Engineering 
+                  </Button>
+                </MagneticButton>
+                  <MagneticButton>
+                  <Button size="lg" className="rounded-full mb-[2px]">
+                  •	Computer Engineering Technology 
+                  </Button>
+                </MagneticButton>
+                 
+                  <MagneticButton>
+                  <Button size="lg" className="rounded-full mb-[2px]">
+                  •	Business Administration (awaiting) 
+                  </Button>
+                </MagneticButton>
+                  <MagneticButton>
+                  <Button size="lg" className="rounded-full mb-[2px]">
+                  •	Public Administration (awaiting) 
+                  </Button>
+                </MagneticButton>
+                  <MagneticButton>
+                  <Button size="lg" className="rounded-full mb-[2px]">
+                  •	Science Lab Technology (awaiting) 
+                  </Button>
+                </MagneticButton>
+                
+                <MagneticButton>
+                  <Button size="lg" className="rounded-full mb-[2px]">
+                  •	Estate Management (awaiting) 
+                  </Button>
+                </MagneticButton>
+                <MagneticButton>
+                  <Button size="lg" className="rounded-full">
+                  •	Mass Communication (awaiting)  
+                  </Button>
+                </MagneticButton>
+              </ScrollReveal>
+
+              {/* <ScrollReveal animation="slideLeft">
+                <VideoSection
+                  videoUrl="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+                  posterUrl="/loam (19).jpeg"
+                  title="Campus Tour"
+                />
+              </ScrollReveal> */}
             </div>
           </div>
         </section>
@@ -178,34 +263,7 @@ export default function AdmissionsPage() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 px-4 bg-secondary/30">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <ScrollReveal animation="slideRight">
-                <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Virtual Tour</p>
-                <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">Experience Our Campus</h2>
-                <p className="text-muted-foreground text-lg mb-8">
-                  Take a virtual tour of our beautiful campus, state-of-the-art facilities, and vibrant learning spaces.
-                  See where your child will thrive.
-                </p>
-                <MagneticButton>
-                  <Button size="lg" className="rounded-full">
-                    Schedule In-Person Visit
-                    <Calendar className="ml-2 h-4 w-4" />
-                  </Button>
-                </MagneticButton>
-              </ScrollReveal>
-
-              <ScrollReveal animation="slideLeft">
-                <VideoSection
-                  videoUrl="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
-                  posterUrl="/loam (19).jpeg"
-                  title="Campus Tour"
-                />
-              </ScrollReveal>
-            </div>
-          </div>
-        </section>
+      
 
         <section className="py-24 md:py-32 px-4">
           <div className="max-w-4xl mx-auto">

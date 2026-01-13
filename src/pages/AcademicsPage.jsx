@@ -116,7 +116,10 @@ export default function AcademicsPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-16">
+      <div className="h-screen flex justify-center items-center">
+    <h1 className="text-4xl text-foreground ">Work in Progress</h1>
+      </div>
+      {/* <main className="min-h-screen pt-16">
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0">
             <video
@@ -251,7 +254,7 @@ export default function AcademicsPage() {
             </ScrollReveal>
           </div>
         </section>
-      </main>
+      </main> */}
       <Footer />
     </>
   )

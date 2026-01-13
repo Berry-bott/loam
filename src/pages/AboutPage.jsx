@@ -118,25 +118,26 @@ export default function AboutPage() {
           <div className="max-w-7xl mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <p className="text-sm font-medium text-muted-foreground mb-4">About Westfield</p>
+                <p className="text-sm font-medium text-muted-foreground mb-4">About Loam Polytechnic</p>
                 <h1
                   ref={heroTitleRef}
                   className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-balance"
                 >
-                  Five decades of shaping exceptional minds
+                  Four year of continuous building and shaping of future leader 
                 </h1>
                 <p className="text-muted-foreground text-lg">
-                  Since 1975, Westfield Academy has been at the forefront of educational excellence, combining
-                  traditional values with innovative approaches to prepare students for a rapidly changing world.
+                  Since 2002, Loam Polytechnic’s e-Library has stood out as the leading CBT Centre in Akwa Ibom State.
+                   As the first private polytechnic in the state to provide such extensive facilities and learning space, 
+                   the institution has remained at the forefront of educational excellence—blending strong traditional values with innovative approaches to prepare students for a rapidly evolving world.  
                 </p>
               </div>
 
               <ScrollReveal animation="slideLeft">
                 <div className="relative aspect-square rounded-2xl overflow-hidden">
                   <img
-                    src="/loam (27).jpeg"
+                    src="/loam (41).jpeg"
                     alt="Westfield Academy campus"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </div>
               </ScrollReveal>
