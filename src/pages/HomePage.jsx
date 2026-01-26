@@ -74,10 +74,10 @@ const features = [
 ]
 
 const stats = [
-  { value: 1500, suffix: "+", label: "Students Enrolled" },
+  { value: 300, suffix: "+", label: "Students Enrolled" },
   { value: 98, suffix: "%", label: "Graduation Rate" },
-  { value: 50, suffix: "+", label: "Years of Excellence" },
-  { value: 120, suffix: "+", label: "Expert Faculty" },
+  { value: 4, suffix: "+", label: "Years of Excellence" },
+  { value: 5, suffix: "+", label: "Expert Faculty" },
 ]
 
 export default function HomePage() {

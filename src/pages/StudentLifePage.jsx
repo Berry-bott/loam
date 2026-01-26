@@ -16,27 +16,27 @@ import { MagneticButton } from "../components/MagneticButton"
 const activities = [
   {
     icon: Trophy,
-    title: "Athletics",
+    title: "Sports",
     description: "15+ varsity sports teams competing at the highest level",
-    image: "/loam (21).jpeg",
+    image: "/IMG_4724.JPG",
   },
   {
     icon: Music,
     title: "Performing Arts",
     description: "Theater productions, orchestra, choir, and band programs",
-    image: "/loam (49).jpeg",
+    image: "/IMG_20230808_144440_479.jpg",
   },
   {
     icon: Palette,
     title: "Visual Arts",
-    description: "Painting, sculpture, photography, and digital arts",
-    image: "/loam (42).jpeg",
+    description: "Sewing, Painting, sculpture, photography, and digital arts",
+    image: "/IMG_20230515_101814_799.jpg",
   },
   {
     icon: Users,
     title: "Clubs & Organizations",
     description: "50+ student-led clubs from robotics to debate",
-    image: "/loam (43).jpeg",
+    image: "/zone-meeting.jpeg",
   },
 ]
 
@@ -50,21 +50,18 @@ const facilities = [
 const testimonials = [
   {
     quote: "Loam Polytechnic gave me the confidence to pursue my dreams. The community here is like family.",
-    name: "Sarah Chen",
+    name: "Mercy Udoette",
     role: "Class of 2024",
-    image: "/",
   },
   {
     quote: "The balance between academics and extracurriculars helped me grow as a complete person.",
-    name: "Marcus Johnson",
-    role: "Class of 2023",
-    image: "/male-student-portrait-professional.jpg",
+    name: "James Johnson",
+    role: "Class of 2025",
   },
   {
-    quote: "I found my passion for science here and now I'm pursuing my PhD at MIT.",
-    name: "Emily Rodriguez",
-    role: "Class of 2020",
-    image: "/young-professional-portrait.png",
+    quote: "I found my passion for science here and now I'm pursuing it In Loam Polytechnic",
+    name: "Emilia Matthew",
+    role: "Class of 2025",
   },
 ]
 
@@ -228,7 +225,7 @@ export default function StudentLifePage() {
                 <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Campus Life</p>
                 <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">World-Class Facilities</h2>
                 <p className="text-muted-foreground text-lg mb-8">
-                  Our campus is designed to support every aspect of student life, from academic pursuits to relaxation
+                  Our Polytechnic is designed to support every aspect of student life, from academic pursuits to relaxation
                   and recreation.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -274,13 +271,13 @@ export default function StudentLifePage() {
                   <div className="bg-primary-foreground/10 rounded-2xl p-8 h-full">
                     <p className="text-primary-foreground/90 text-lg mb-6 italic">"{testimonial.quote}"</p>
                     <div className="flex items-center gap-4">
-                      <div className="relative w-12 h-12 rounded-full overflow-hidden">
+                      {/* <div className="relative w-12 h-12 rounded-full overflow-hidden">
                         <img
                           src={testimonial.image || "/placeholder.svg"}
                           alt={testimonial.name}
                           className="w-full h-full object-cover"
                         />
-                      </div>
+                      </div> */}
                       <div>
                         <p className="font-semibold">{testimonial.name}</p>
                         <p className="text-primary-foreground/70 text-sm">{testimonial.role}</p>
