@@ -7,7 +7,7 @@ import { Button } from "./ui/button"
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/academics", label: "Academics" },
+  // { href: "/academics", label: "Academics" },
   { href: "/admissions", label: "Admissions" },
   { href: "/student-life", label: "Student Life" },
   { href: "/gallery", label: "Gallery" },
@@ -20,7 +20,7 @@ export function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background backdrop-blur-md border-b border-border">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <nav className="mx-auto px-4  lg:px-4">
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <div className="h-9 w-9 rounded-full bg-primary" >
