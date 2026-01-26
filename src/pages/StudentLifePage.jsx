@@ -105,7 +105,7 @@ export default function StudentLifePage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-16">
+      <main className="min-h-screen pt-16 overflow-hidden">
         <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0">
             <video
@@ -117,7 +117,7 @@ export default function StudentLifePage() {
               poster="/students-campus-life-activities.jpg"
             >
               <source
-                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4"
+                src="/loam-video.mp4"
                 type="video/mp4"
               />
             </video>
@@ -212,10 +212,11 @@ export default function StudentLifePage() {
             </ScrollReveal>
 
             <VideoSection
-              videoUrl="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/VolkswagenGTIReview.mp4"
+              videoUrl="/new-loam.mp4"
               posterUrl="/loam (19).jpeg"
               title="A Day at Westfield"
               description="Follow our students through a typical day on campus"
+              className="h-[700px] border-4"
             />
           </div>
         </section>

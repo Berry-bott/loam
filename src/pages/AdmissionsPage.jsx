@@ -156,17 +156,19 @@ export default function AdmissionsPage() {
           </div>
         </section>
 
-          <section className="py-24 md:py-32 px-4 bg-secondary/30">
+          <section className="py-24 md:py-24 px-4 bg-secondary/30">
           <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <ScrollReveal animation="slideRight">
-                <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Learn More!</p>
-                <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">SCHOLARSHIP!!!</h2>
-                <p className="text-muted-foreground text-lg mb-2">
-                  Loam Polytechnic is offering a one-year-tuition-free scholarship to suitably qualified 
-                  candidates to study at Loam Polytechnic, Ikono in any of the following National Diploma 
+            <div className="grid grid-cols-1 lg:grid-cols- gap-16 items-center">
+              <div>
+                <p className="text-sm font-medium text-accent uppercase tracking-wider mb-2">Learn More!</p>
+                <h2 className="font-serif text-4xl md:text-5xl font-bold mb-2">SCHOLARSHIP!!!</h2>
+              </div>
+                <p className="text-muted-foreground text-lg "> 
+                  Loam Polytechnic is offering a one-year-tuition-free scholarship <br /> to suitably qualified 
+                  candidates to study at Loam Polytechnic, <br /> Ikono in any of the following National Diploma 
                   (ND) Courses: 
                 </p>
+              <ScrollReveal animation="slideRight" className="flex flex-wrap justify-center items- gap-4  ">
                   <MagneticButton>
                   <Button size="lg" className="rounded-full mb-[2px]">
                   •	Statistics 
@@ -192,7 +194,6 @@ export default function AdmissionsPage() {
                   •	Computer Engineering Technology 
                   </Button>
                 </MagneticButton>
-                 
                   <MagneticButton>
                   <Button size="lg" className="rounded-full mb-[2px]">
                   •	Business Administration (awaiting) 
@@ -208,7 +209,6 @@ export default function AdmissionsPage() {
                   •	Science Lab Technology (awaiting) 
                   </Button>
                 </MagneticButton>
-                
                 <MagneticButton>
                   <Button size="lg" className="rounded-full mb-[2px]">
                   •	Estate Management (awaiting) 
