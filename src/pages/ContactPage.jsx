@@ -88,7 +88,7 @@ export default function ContactPage() {
       <main className="min-h-screen pt-16 overflow-hidden">
         <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0">
-            <img src="/WhatsApp Image 2023-05-13 at 7.13.26 PM (1).jpeg" alt="Westfield Campus" className="w-full h-full object-cover" />
+            <img src="/WhatsApp Image 2023-05-13 at 7.13.26 PM (1).jpeg" alt="Loam Polytechic" className="w-full h-full object-cover" />
              <div className="absolute inset-0 bg-gradient-to-b from-foreground via-foreground/80 to-foreground/100" />
 
           </div>
@@ -100,7 +100,7 @@ export default function ContactPage() {
                 Contact <span className="italic">Us</span>
               </h1>
               <p className="text-muted text-lg md:text-xl max-w-2xl mx-auto">
-                We're here to answer your questions and help you on your journey to Westfield Academy.
+                We're here to answer your questions and help you on your journey to Loam Polytechnic.
               </p>
             </ScrollReveal>
           </div>
@@ -235,7 +235,7 @@ export default function ContactPage() {
             <ScrollReveal>
               <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">Schedule a Campus Visit</h2>
               <p className="text-primary-foreground/80 text-lg mb-8 max-w-2xl mx-auto">
-                Experience Westfield Academy firsthand. Schedule a tour and meet our faculty, staff, and students.
+                Experience Loam Polytechnic firsthand. Schedule a tour and meet our faculty, staff, and students.
               </p>
               <MagneticButton className="inline-block">
                 <Button size="lg" variant="secondary" className="rounded-full">

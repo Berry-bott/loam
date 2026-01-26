@@ -15,19 +15,19 @@ const values = [
     icon: Target,
     title: "Mission",
     description:
-      "To provide exceptional education that empowers students to become critical thinkers, compassionate leaders, and lifelong learners who positively impact their communities and the world.",
+      "To acquire, preserve and promote inclusive access to a wide range of information resources and services that support educational, cultural, and recreational activities of our clientele",
   },
   {
     icon: Eye,
     title: "Vision",
     description:
-      "To be a global leader in education, recognized for innovation, inclusivity, and our commitment to nurturing the full potential of every student.",
+      "To be the best library and information center that equip and promote was information search, retrieval, and utilization skills  for the 21st century learning activities",
   },
   {
     icon: Heart,
     title: "Values",
     description:
-      "Integrity, excellence, respect, responsibility, and community form the foundation of everything we do at Westfield Academy.",
+      "Integrity, excellence, respect, responsibility, and community form the foundation of everything we do at Loam Polytechnic.",
   },
   {
     icon: Lightbulb,
@@ -39,19 +39,19 @@ const values = [
 
 const leadership = [
   {
-    name: "Dr. Sarah Mitchell",
-    role: "Principal",
+    name: "Otuekong Eddie Etim",
+    role: "Rector with NBTE Officials",
     image: "/loam (45).jpeg",
   },
   {
-    name: "Prof. James Chen",
-    role: "Vice Principal",
+    name: "Dcns Helen Ekong ",
+    role: "Chairperson with the Rector",
     image: "/loam (30).jpeg",
   },
   {
     name: "Dr. Emily Roberts",
     role: "Dean of Academics",
-    image: "/loam (13).jpeg",
+    image: "/Loam-members.jpeg",
   },
   {
     name: "Mr. Michael Thompson",
@@ -61,12 +61,12 @@ const leadership = [
 ]
 
 const timeline = [
-  { year: "1975", event: "Westfield Academy founded with 50 students" },
-  { year: "1985", event: "New campus expansion and first graduating class of 200" },
-  { year: "1995", event: "Introduction of international exchange program" },
-  { year: "2005", event: "STEM center and innovation lab established" },
-  { year: "2015", event: "Awarded National School of Excellence" },
-  { year: "2025", event: "Celebrating 50 years of educational excellence" },
+  { year: "2003", event: "Loam Polytechnic founded with 50 students" },
+  { year: "2004", event: "New campus expansion and first graduating class of 100" },
+  { year: "2025", event: "Introduction of international exchange program" },
+  { year: "2005", event: "Innovation lab established" },
+  // { year: "2015", event: "Awarded National School of Excellence" },
+  // { year: "2025", event: "Celebrating 50 years of educational excellence" },
 ]
 
 export default function AboutPage() {
@@ -136,7 +136,7 @@ export default function AboutPage() {
                 <div className="relative aspect-square rounded-2xl overflow-hidden">
                   <img
                     src="/loam (41).jpeg"
-                    alt="Westfield Academy campus"
+                    alt="Loam Polytechnic campus"
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -198,7 +198,7 @@ export default function AboutPage() {
             <ScrollReveal>
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-center mb-4">Leadership Team</h2>
               <p className="text-primary-foreground/70 text-center max-w-2xl mx-auto mb-16">
-                Meet the dedicated professionals guiding Westfield Academy towards continued excellence.
+                Meet the dedicated professionals guiding Loam Polytechnic towards continued excellence.
               </p>
             </ScrollReveal>
 

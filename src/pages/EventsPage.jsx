@@ -129,7 +129,7 @@ export default function EventsPage() {
               <span className="italic">Comes Alive</span>
             </h1>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              From academic showcases to cultural celebrations, discover the events that make Westfield Academy a
+              From academic showcases to cultural celebrations, discover the events that make Loam Polytechnic a
               vibrant community.
             </p>
           </div>

@@ -51,7 +51,7 @@ const admissionHighlights = [
 const testimonials = [
   {
     quote:
-      "Westfield Academy transformed my daughter's approach to learning. The teachers are exceptional and truly care about each student.",
+      "Loam Polytechnic transformed my daughter's approach to learning. The teachers are exceptional and truly care about each student.",
     author: "Sarah M., Parent",
     image: "/woman-portrait.png",
   },
@@ -63,7 +63,7 @@ const testimonials = [
   },
   {
     quote:
-      "As an alumni, I can say that Westfield prepared me exceptionally well for university and beyond. Forever grateful.",
+      "As an alumni, I can say that Loam Polytechnic prepared me exceptionally well for university and beyond. Forever grateful.",
     author: "Dr. Emily Chen, Alumni",
     image: "/professional-woman-portrait.png",
   },
@@ -117,7 +117,7 @@ export default function AdvertsPage() {
                   ref={heroTitleRef}
                   className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-balance"
                 >
-                  Shape Your Future at Westfield Academy
+                  Shape Your Future at Loam Polytechnic
                 </h1>
                 <p className="text-muted-foreground text-lg mb-8">
                   Join a community of learners, innovators, and future leaders. Discover programs designed to unlock
@@ -139,7 +139,7 @@ export default function AdvertsPage() {
                   <div className="aspect-[4/3] rounded-2xl overflow-hidden">
                     <img
                       src="/IMG_PIX 2.jpg"
-                      alt="Students at Westfield Academy"
+                      alt="Students at Loam Polytechnic"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -271,7 +271,7 @@ export default function AdvertsPage() {
               <div className="relative rounded-2xl overflow-hidden">
                 <img
                   src="/school-campus-beautiful.jpg"
-                  alt="Westfield Academy Campus"
+                  alt="Loam Polytechnic Campus"
                   className="w-full h-[400px] object-cover"
                 />
                 <div className="absolute inset-0 bg-foreground/70" />

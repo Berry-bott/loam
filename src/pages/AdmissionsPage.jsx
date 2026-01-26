@@ -91,7 +91,7 @@ export default function AdmissionsPage() {
           <div ref={heroRef} className="absolute inset-0 z-0">
             <img
               src="/IMG_5161.jpg"
-              alt="Westfield Campus"
+              alt="Loam Polytechnic"
               className="w-screen h-full object-cover overflow-hidden"
             />
           <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/2 to-transparent" />
@@ -238,7 +238,7 @@ export default function AdmissionsPage() {
               <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">How to Apply</p>
               <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4">Simple Admission Process</h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                Our streamlined application process makes it easy for families to join the Westfield community.
+                Our streamlined application process makes it easy for families to join the Loam community.
               </p>
             </ScrollReveal>
 

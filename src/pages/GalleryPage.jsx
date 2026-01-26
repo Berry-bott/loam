@@ -6,36 +6,36 @@ import { Navbar } from "../components/Navbar"
 import { Footer } from "../components/Footer"
 import { ScrollReveal } from "../components/ScrollReveal"
 
-const categories = ["All", "Campus", "Events", "Sports", "Arts", "Academics"]
+const categories = ["All", "Campus", "Library", "Sports", "Hall", "Computer Science"]
 
 const galleryImages = [
-  { id: 1, src: "/loam (39).jpeg", category: "Campus", title: "Main Library" },
+  { id: 1, src: "/loam (39).jpeg", category: "Library", title: "Loam Polytechnic E-Library" },
   {
     id: 2,
     src: "/loam (14).jpeg",
     category: "Sports",
-    title: "Annual Sports Day",
+    title: "Sports Facility",
   },
   {
     id: 3,
     src: "/loam (8).jpeg",
-    category: "Arts",
-    title: "Drama Production",
+    category: "Library",
+    title: "Reference Library",
   },
   {
     id: 4,
     src: "/loam (50).jpeg",
-    category: "Academics",
-    title: "Science Fair",
+    category: "Lab",
+    title: "Accountancy Laborary",
   },
-  { id: 5, src: "/loam (37).jpeg", category: "Events", title: "Graduation 2025" },
-  { id: 6, src: "/loam (15).jpeg", category: "Campus", title: "Campus Overview" },
-  { id: 7, src: "IMG_4730.JPG", category: "Sports", title: "Basketball Championship" },
-  { id: 8, src: "/loam (47).jpeg", category: "Arts", title: "Art Studio" },
-  { id: 9, src: "/loam (23).jpeg", category: "Campus", title: "Dining Hall" },
-  { id: 10, src: "/loam (5).jpeg", category: "Academics", title: "Robotics Club" },
-  { id: 11, src: "/loam (6).jpeg", category: "Arts", title: "Spring Concert" },
-  { id: 12, src: "/loam (38).jpeg", category: "Events", title: "Senior Prom" },
+  { id: 5, src: "/loam (37).jpeg", category: "Workshop", title: "Electronics   Workshop" },
+  { id: 6, src: "/loam (15).jpeg", category: "Hall", title:"Conference Hall" },
+  { id: 7, src: "IMG_4730.JPG", category: "Sports", title: "BasketBall Court" },
+  { id: 8, src: "/loam (47).jpeg", category: "Arts", title: "Computer Science Lab" },
+  { id: 9, src: "/loam (23).jpeg", category: "Enterprenue", title: "Skills Center" },
+  { id: 10, src: "/loam (5).jpeg", category: "Conference", title: "NBTE Meeting " },
+  { id: 11, src: "/loam (6).jpeg", category: "Computer Science", title: "NBTE Accreditation" },
+  { id: 12, src: "/loam (38).jpeg", category: "Computer Science", title: "Networing Lab" },
 ]
 
 export default function GalleryPage() {
@@ -95,7 +95,7 @@ export default function GalleryPage() {
               <span className="italic">Creating Memories</span>
             </h1>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Explore the vibrant life at Westfield Academy through our collection of photographs capturing academic
+              Explore the vibrant life at Loam Polytechnic through our collection of photographs capturing academic
               achievements, sporting triumphs, and creative expressions.
             </p>
           </div>
@@ -140,7 +140,7 @@ export default function GalleryPage() {
                     />
                     <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/40 transition-colors duration-300 flex items-end">
                       <div className="p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                        <span className="text-xs font-medium text-background/70">{image.category}</span>
+                        <span className="text-xs font-medium text-blue-900">{image.category}</span>
                         <h3 className="font-serif text-xl font-semibold text-background">{image.title}</h3>
                       </div>
                     </div>

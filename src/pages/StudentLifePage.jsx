@@ -49,10 +49,10 @@ const facilities = [
 
 const testimonials = [
   {
-    quote: "Westfield gave me the confidence to pursue my dreams. The community here is like family.",
+    quote: "Loam Polytechnic gave me the confidence to pursue my dreams. The community here is like family.",
     name: "Sarah Chen",
     role: "Class of 2024",
-    image: "/female-student-portrait-professional.jpg",
+    image: "/",
   },
   {
     quote: "The balance between academics and extracurriculars helped me grow as a complete person.",
@@ -212,9 +212,9 @@ export default function StudentLifePage() {
             </ScrollReveal>
 
             <VideoSection
-              videoUrl="/new-loam.mp4"
-              posterUrl="/loam (19).jpeg"
-              title="A Day at Westfield"
+              videoUrl="/loam-video.mp4"
+              posterUrl="/loam (20).jpeg"
+              title="A Day at Loam Polytechnic"
               description="Follow our students through a typical day on campus"
               className="h-[700px] border-4"
             />
@@ -298,7 +298,7 @@ export default function StudentLifePage() {
             <ScrollReveal>
               <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">Ready to Join Our Community?</h2>
               <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-                Experience the Westfield difference and become part of something extraordinary.
+                Experience the Loam Polytechnic difference and become part of something extraordinary.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <MagneticButton>
