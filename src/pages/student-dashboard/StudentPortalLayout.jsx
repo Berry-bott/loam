@@ -8,7 +8,7 @@ export default function StudentPortalLayout() {
 
   return (
     <PortalShell
-      title="LOAM POLY"
+      title="LOAM POLYTECHNIC"
       subtitle="Student Portal"
       sessionLabel="Academic Session 2024 / 2025"
       links={studentTopbarLinks}

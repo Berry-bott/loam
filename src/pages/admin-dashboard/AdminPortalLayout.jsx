@@ -8,7 +8,7 @@ export default function AdminPortalLayout() {
 
   return (
     <PortalShell
-      title="LOAM POLY"
+      title="LOAM POLYTECHNIC"
       subtitle="Super Admin Panel"
       sessionLabel="Super Admin Portal"
       links={adminTopbarLinks}

@@ -163,7 +163,7 @@ export default function StudentDashboardPage() {
           <span>Current GPA 4.28 / 5.0</span>
           <span>Credits Earned 92</span>
         </div>
-        <span>Loam Poly Student Access Only</span>
+        <span>Loam Polytechnic Student Access Only</span>
       </div>
       </div>
 

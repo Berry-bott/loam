@@ -20,7 +20,7 @@ export default function AdminCoursesPage() {
         <PageEyebrow>Curriculum Management</PageEyebrow>
         <PageTitle
           title="The Course Registry"
-          description="A centralized ledger of all academic offerings at LOAMPOLY. Ensure alignment with institutional standards and accreditation."
+          description="A centralized ledger of all academic offerings at LOAM POLYTECHNIC. Ensure alignment with institutional standards and accreditation."
           actions={
             <PortalButton onClick={() => setModalOpen(true)}>
               <Plus className="h-4 w-4" />Add New Course

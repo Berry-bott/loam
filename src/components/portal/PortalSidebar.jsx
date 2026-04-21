@@ -36,7 +36,7 @@ export function PortalSidebar({
               className="h-11 w-11 rounded-[4px] border border-white/20 object-cover"
             />
             <div>
-              <p className="text-[18px] font-bold uppercase tracking-tight">{title}</p>
+              <p className="text-[17px] font-bold uppercase tracking-tight">{title}</p>
               <p className="text-[10px] uppercase tracking-[0.18em] text-white/55">{subtitle}</p>
             </div>
           </Link>

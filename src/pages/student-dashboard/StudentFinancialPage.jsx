@@ -155,7 +155,7 @@ export default function StudentFinancialPage() {
             <p className="mt-3 text-sm leading-6 text-[#7c6b5d]">
               The bursary office is open Monday to Friday, 8:00 AM - 4:00 PM for all financial inquiries.
             </p>
-            <p className="mt-4 text-sm font-semibold text-[#5b2117]">bursar@loampoly.edu</p>
+            <p className="mt-4 text-sm font-semibold text-[#5b2117]">bursar@loampolytechnic.edu</p>
           </PortalCard>
         </div>
       </div>

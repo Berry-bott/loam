@@ -17,7 +17,7 @@ export default function AdminPaymentsPage() {
   return (
     <>
       <div className="space-y-6">
-        <PageEyebrow>LOAM POLY</PageEyebrow>
+        <PageEyebrow>LOAM POLYTECHNIC</PageEyebrow>
         <PageTitle
           title="Payment Monitoring"
           description="Observe live institutional collections, trace failed transactions, and reconcile pending student obligations."

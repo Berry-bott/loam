@@ -45,12 +45,12 @@ export default function StudentProfilePage() {
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
             <InfoRow label="Full Legal Name" value="John Ebenezer Doe" />
             <InfoRow label="Matriculation ID" value="HPT/ENG/23/042" />
-            <InfoRow label="University Email Address" value="j.doe@loampoly.edu.ng" />
+            <InfoRow label="University Email Address" value="j.doe@loampolytechnic.edu.ng" />
             <InfoRow label="Primary Phone Contact" value="+234 802 000 0000" />
             <div className="sm:col-span-2">
               <InfoRow
                 label="Residential Address"
-                value="Plot 42, Academic Boulevard, Institutional District, LOAM POLY Campus"
+                value="Plot 42, Academic Boulevard, Institutional District, LOAM POLYTECHNIC Campus"
               />
             </div>
           </div>

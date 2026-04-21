@@ -1114,7 +1114,7 @@ export default function AdminDashboardPage() {
   return (
     <>
       <div className="space-y-6">
-        <PageEyebrow>LOAM POLY</PageEyebrow>
+        <PageEyebrow>LOAM POLYTECHNIC</PageEyebrow>
         <PageTitle
           title="Dashboard Overview"
           description="Institutional performance and application pipeline"

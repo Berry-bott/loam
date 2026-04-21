@@ -167,7 +167,7 @@ export default function StudentDocumentsPage() {
       >
         <div className="space-y-4 text-sm text-[#7f6d5f]">
           <p>Office hours: Monday to Friday, 9:00 AM - 3:00 PM.</p>
-          <p>Email: verification.office@loampoly.edu</p>
+          <p>Email: verification.office@loampolytechnic.edu</p>
           <PortalButton
             className="w-full"
             onClick={() => {
