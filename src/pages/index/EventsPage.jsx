@@ -4,10 +4,10 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react"
-import { Button } from "../components/ui/button"
-import { Navbar } from "../components/Navbar"
-import { Footer } from "../components/Footer"
-import { ScrollReveal } from "../components/ScrollReveal"
+import { Button } from "../../components/ui/button"
+import { Navbar } from "../../components/index/Navbar"
+import { Footer } from "../../components/index/Footer"
+import { ScrollReveal } from "../../components/index/ScrollReveal"
 
 const upcomingEvents = [
   {

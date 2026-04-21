@@ -86,7 +86,7 @@
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { Menu, X } from "lucide-react"
-import { Button } from "./ui/button"
+import { Button } from "../ui/button"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -148,6 +148,11 @@ export function Navbar() {
 
           {/* Desktop button */}
           <div className="hidden lg:flex items-center gap-3">
+            <Link to="/auth/login">
+              <Button variant="outline" className="rounded-full">
+                Login
+              </Button>
+            </Link>
             <Link to="/contact">
               <Button className="rounded-full">
                 Contact Us
@@ -187,6 +192,11 @@ export function Navbar() {
               <Link to="/contact" onClick={() => setIsOpen(false)}>
                 <Button className="rounded-full w-fit">
                   Contact Us
+                </Button>
+              </Link>
+              <Link to="/auth/login" onClick={() => setIsOpen(false)}>
+                <Button variant="outline" className="rounded-full w-fit">
+                  Login
                 </Button>
               </Link>
             </div>

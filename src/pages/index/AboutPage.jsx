@@ -4,11 +4,11 @@ import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Target, Eye, Heart, Lightbulb } from "lucide-react"
-import { Navbar } from "../components/Navbar"
-import { Footer } from "../components/Footer"
-import { ScrollReveal } from "../components/ScrollReveal"
-import { ParallaxImage } from "../components/ParallaxImage"
-import { CounterAnimation } from "../components/CounterAnimation"
+import { Navbar } from "../../components/index/Navbar"
+import { Footer } from "../../components/index/Footer"
+import { ScrollReveal } from "../../components/index/ScrollReveal"
+import { ParallaxImage } from "../../components/index/ParallaxImage"
+import { CounterAnimation } from "../../components/index/CounterAnimation"
 
 const values = [
   {

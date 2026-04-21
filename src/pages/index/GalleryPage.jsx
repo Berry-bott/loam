@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { X } from "lucide-react"
-import { Navbar } from "../components/Navbar"
-import { Footer } from "../components/Footer"
-import { ScrollReveal } from "../components/ScrollReveal"
+import { Navbar } from "../../components/index/Navbar"
+import { Footer } from "../../components/index/Footer"
+import { ScrollReveal } from "../../components/index/ScrollReveal"
 
 const categories = ["All", "Campus", "Library", "Sports", "Hall", "Computer Science"]
 

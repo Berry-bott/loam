@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Play, X } from "lucide-react"
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 export function VideoSection({ videoUrl, posterUrl, title, description }) {
   const containerRef = useRef(null)

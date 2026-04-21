@@ -1,21 +1,19 @@
-"use client"
-
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Link } from "react-router-dom"
 import { ArrowRight, GraduationCap, Users, Award, BookOpen, Play } from "lucide-react"
-import { Button } from "../components/ui/button"
-import { Navbar } from "../components/Navbar"
-import { Footer } from "../components/Footer"
-import { ScrollReveal } from "../components/ScrollReveal"
-import { ParallaxImage } from "../components/ParallaxImage"
-import { CounterAnimation } from "../components/CounterAnimation"
-import { MagneticButton } from "../components/MagneticButton"
-import { FloatingCard } from "../components/FloatingCard"
-import { HeroSlider } from "../components/HeroSlider"
-import VideoSection from "../components/VideoSection"
-import video from "../assets/video/loam-mega.mp4"
+import { Button } from "../../components/ui/button"
+import { Navbar } from "../../components/index/Navbar"
+import { Footer } from "../../components/index/Footer"
+import { ScrollReveal } from "../../components/index/ScrollReveal"
+import { ParallaxImage } from "../../components/index/ParallaxImage"
+import { CounterAnimation } from "../../components/index/CounterAnimation"
+import { MagneticButton } from "../../components/index/MagneticButton"
+import { FloatingCard } from "../../components/index/FloatingCard"
+import { HeroSlider } from "../../components/index/HeroSlider"
+import VideoSection from "../../components/index/VideoSection"
+import video from "../../assets/video/loam-mega.mp4"
 
 
 const heroSlides = [
@@ -117,8 +115,8 @@ export default function HomePage() {
 
           <div
             ref={ctaRef}
-            className="absolute bottom-32 left-1/2 -translate-x-1/2 z-20 flex flex-col sm:flex-row gap-4"
-    >
+            className="absolute bottom-32 left-1/2 z-20 flex -translate-x-1/2 flex-col gap-4"
+          >
             <MagneticButton>
               <Link to="/admissions">
                 <Button
@@ -130,31 +128,42 @@ export default function HomePage() {
                 </Button>
               </Link>
             </MagneticButton>
-          <div className="flex gap-4">
-            <MagneticButton>
-              <Link to="/admissions">
-                <Button
-                  size="lg"
-                  className="rounded-full bg-background text-foreground hover:bg-background/90 px-8 shadow-xl"
-                >
-                  Apply Now
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </MagneticButton>
-            <MagneticButton>
-              <Link to="/gallery">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="rounded-full border-background text-background hover:bg-background/10 bg-transparent px-8 backdrop-blur-sm"
-                >
-                  <Play className="mr-2 h-4 w-4" />
-                  Virtual Tour
-                </Button>
-              </Link>
-            </MagneticButton>
-          </div>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <MagneticButton>
+                <Link to="/admissions">
+                  <Button
+                    size="lg"
+                    className="rounded-full bg-background text-foreground hover:bg-background/90 px-8 shadow-xl"
+                  >
+                    Apply Now
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </MagneticButton>
+              <MagneticButton>
+                <Link to="/auth/login">
+                  <Button
+                    size="lg"
+                    className="rounded-full bg-[#8f120d] px-8 text-background shadow-xl hover:bg-[#7d0f0b]"
+                  >
+                    Portal Login
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </MagneticButton>
+              <MagneticButton>
+                <Link to="/gallery">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="rounded-full border-background text-background hover:bg-background/10 bg-transparent px-8 backdrop-blur-sm"
+                  >
+                    <Play className="mr-2 h-4 w-4" />
+                    Virtual Tour
+                  </Button>
+                </Link>
+              </MagneticButton>
+            </div>
           </div>
 
           <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce z-20">
