@@ -10,7 +10,7 @@ import { PortalInput } from "../../components/portal/PortalInput"
 const identityContent = {
   student: {
     heading: "Institutional Access",
-    copy: "Secure authentication for the LOAMPOLY academic ecosystem.",
+    copy: "Secure authentication for the LOAMPOLYTECHNIC academic ecosystem.",
     placeholder: "e.g. academic.registry@loampoly.edu",
   },
   admin: {
@@ -66,7 +66,7 @@ export default function LoginPage() {
             alt="Loam Poly"
             className="mx-auto mb-3 h-14 w-14 rounded-full border border-[#decfb8] object-cover shadow-sm"
           />
-          <h1 className="text-[34px] font-bold uppercase tracking-tight text-[#be2a22]">LOAM POLY</h1>
+          <h1 className="text-[34px] font-bold uppercase tracking-tight text-[#be2a22]">LOAM POLYTECHNIC</h1>
           <p className="text-sm font-medium uppercase tracking-[0.08em] text-[#a79a8f]">
             The Prestigious Ledger
           </p>
