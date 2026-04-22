@@ -112,3 +112,36 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  #course-registration-print-root,
+  #course-registration-print-root * {
+    visibility: visible !important;
+  }
+
+  #course-registration-print-root {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    padding: 0;
+    background: #fff;
+  }
+
+  .course-registration-print-sheet {
+    max-width: 210mm !important;
+    min-height: 297mm;
+    margin: 0 auto !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+}

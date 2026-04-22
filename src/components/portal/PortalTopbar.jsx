@@ -21,7 +21,7 @@ export function PortalTopbar({
   ]
 
   return (
-    <header className="border-b border-[#ede5db] bg-[#fffdfa] px-3 py-3 sm:px-5 lg:px-6">
+    <header className="sticky top-0 z-20 border-b border-[#ede5db] bg-[#fffdfa]/95 px-3 py-3 backdrop-blur-sm sm:px-5 lg:px-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
           <button

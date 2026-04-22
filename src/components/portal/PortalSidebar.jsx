@@ -24,7 +24,7 @@ export function PortalSidebar({
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-[86vw] max-w-[284px] flex-col bg-[#61100c] text-white transition-transform lg:static lg:z-auto lg:w-[260px] lg:max-w-none lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 flex h-full w-[86vw] max-w-[284px] flex-col overflow-hidden bg-[#61100c] text-white transition-transform lg:static lg:z-auto lg:h-full lg:w-[260px] lg:max-w-none lg:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -36,7 +36,7 @@ export function PortalSidebar({
               className="h-11 w-11 rounded-[4px] border border-white/20 object-cover"
             />
             <div>
-              <p className="text-[17px] font-bold uppercase tracking-tight">{title}</p>
+              <p className="text-[16px] font-bold uppercase tracking-tight">{title}</p>
               <p className="text-[10px] uppercase tracking-[0.18em] text-white/55">{subtitle}</p>
             </div>
           </Link>
@@ -49,7 +49,7 @@ export function PortalSidebar({
           </button>
         </div>
 
-        <nav className="space-y-1 overflow-y-auto px-3 py-4">
+        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
           {items.map((item) => (
             <NavLink
               key={item.to}

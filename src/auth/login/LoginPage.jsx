@@ -18,11 +18,11 @@ const identityContent = {
     copy: "Use your staff credentials to manage applicants, finance, and portal operations.",
     placeholder: "e.g. registry.office@loampoly.edu",
   },
-  admission: {
-    heading: "Admission Access",
-    copy: "Track your application and continue your admission process securely.",
-    placeholder: "e.g. applicant@loampoly.edu",
-  },
+  // admission: {
+  //   heading: "Admission Access",
+  //   copy: "Track your application and continue your admission process securely.",
+  //   placeholder: "e.g. applicant@loampoly.edu",
+  // },
 }
 
 export default function LoginPage() {
@@ -83,7 +83,7 @@ export default function LoginPage() {
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8e7a68]">
                 Select Identity
               </p>
-              <div className="grid grid-cols-3 rounded-[4px] bg-[#f2eeea] p-1">
+              <div className="grid grid-cols-2 rounded-[4px] bg-[#f2eeea] p-1">
                 {loginIdentityOptions.map((option) => (
                   <button
                     key={option.value}

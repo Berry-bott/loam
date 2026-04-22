@@ -117,17 +117,7 @@ export default function HomePage() {
             ref={ctaRef}
             className="absolute bottom-32 left-1/2 z-20 flex -translate-x-1/2 flex-col gap-4"
           >
-            <MagneticButton>
-              <Link to="/admissions">
-                <Button
-                  size="lg"
-                  className="rounded-full bg-background text-foreground hover:bg-background/90 px-8 shadow-xl"
-                >
-                  1-year Tution-free Scholarship
-                  {/* <ArrowRight className="ml-2 h-4 w-4" /> */}
-                </Button>
-              </Link>
-            </MagneticButton>
+
             <div className="flex flex-col gap-4 sm:flex-row">
               <MagneticButton>
                 <Link to="/admissions">

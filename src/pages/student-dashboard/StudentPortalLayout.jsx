@@ -10,12 +10,12 @@ export default function StudentPortalLayout() {
     <PortalShell
       title="LOAM POLYTECHNIC"
       subtitle="Student Portal"
-      sessionLabel="Academic Session 2024 / 2025"
+      sessionLabel="Student Hub"
       links={studentTopbarLinks}
       items={studentSidebarItems}
       logoutItem={logoutItem}
       user={{
-        name: session?.name || "Adewale John",
+        name: session?.name || "Udo Thompson",
         role: "Student",
         avatar: "/IMG_3175.jpeg",
       }}
@@ -25,4 +25,3 @@ export default function StudentPortalLayout() {
     </PortalShell>
   )
 }
-
