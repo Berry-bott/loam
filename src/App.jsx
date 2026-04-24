@@ -14,7 +14,7 @@ import StudentPortalLayout from "./pages/student-dashboard/StudentPortalLayout"
 import StudentDashboardPage from "./pages/student-dashboard/StudentDashboardPage"
 import StudentApplicationPage from "./pages/student-dashboard/StudentFeesPage"
 import StudentAcademicFeeHistoryPage from "./pages/student-dashboard/StudentAcademicFeeHistoryPage"
-import StudentFinancialPage from "./pages/student-dashboard/StudentFinancialPage"
+// import StudentFinancialPage from "./pages/student-dashboard/StudentFinancialPage"
 import StudentDocumentsPage from "./pages/student-dashboard/StudentDocumentsPage"
 import StudentProfilePage from "./pages/student-dashboard/StudentProfilePage"
 import CourseRegistrationPage from "./pages/student-dashboard/CourseRegistration"
@@ -58,7 +58,7 @@ function App() {
         <Route path="my-application" element={<StudentApplicationPage />} />
         <Route path="academic-fees" element={<StudentApplicationPage />} />
         <Route path="academic-fees/history" element={<StudentAcademicFeeHistoryPage />} />
-        <Route path="financial-statement" element={<StudentFinancialPage />} />
+        {/* <Route path="financial-statement" element={<StudentFinancialPage />} /> */}
         <Route path="documents" element={<StudentDocumentsPage />} />
         <Route path="profile-settings" element={<StudentProfilePage />} />
         <Route path="course-registration" element={<CourseRegistrationPage />} />

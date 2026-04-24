@@ -21,7 +21,7 @@ import {
 export const studentSidebarItems = [
   { label: "Dashboard", to: "/student-dashboard", icon: LayoutGrid },
   { label: "Academic Fees", to: "/student-dashboard/academic-fees", icon: FileBadge2 },
-  { label: "Financial Statement", to: "/student-dashboard/financial-statement", icon: CreditCard },
+  // { label: "Financial Statement", to: "/student-dashboard/financial-statement", icon: CreditCard },
   { label: "Documents", to: "/student-dashboard/documents", icon: FolderClosed },
   { label: "Course Registration", to: "/student-dashboard/course-registration", icon: BookOpenCheck },
   { label: "Profile Settings", to: "/student-dashboard/profile-settings", icon: UserRoundCog },

@@ -73,14 +73,15 @@ export default function StudentFeesPage() {
             </h1>
           </div>
 
-          <div className="flex flex-wrap gap-3 ">
+          <div className="flex flex-wrap gap-3  ">
             <PortalButton
-              variant="outline"
+              // variant="outline"
+              variant="gold"
               size="sm"
               onClick={() => navigate("/student-dashboard/academic-fees/history")}
             >
               <History className="h-4 w-4" />
-              Payment History
+              Financial statement
             </PortalButton>
             <div className="inline-flex h-9 items-center gap-2 rounded-[6px] border border-[#eadfce] bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6f170f]">
               <Wallet className="h-4 w-4" />
@@ -99,9 +100,7 @@ export default function StudentFeesPage() {
                     Select your parameters to calculate session fees.
                   </p>
                 </div>
-                <span className="rounded-full bg-[#f9eee8] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9d3a22]">
-                  Real-time
-                </span>
+
               </div>
 
               <div className="mt-5 grid gap-4 md:grid-cols-2">
@@ -120,31 +119,25 @@ export default function StudentFeesPage() {
               </div>
 
               <div className="mt-5 grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
-                <div className="rounded-[8px] border border-[#efe4d6] bg-[#fffdfa] p-5">
+                <div className="rounded-[8px] border border-[#efe4d6] bg-[#fffdfa] p-2">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#ab987f]">
-                    Calculated Fee
+                   Amount To pay
                   </p>
                   <div className="mt-3 flex flex-wrap items-end gap-3">
                     <p className="text-[40px] font-bold leading-none text-[#5a1c14]">
                       {formatNaira(calculatedFee)}.00
                     </p>
-                    <span className="rounded-full bg-[#fde8e4] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#b81d13]">
-                      + {formatNaira(processingCharge)} processing
-                    </span>
+                   
                   </div>
                 </div>
 
-                <div className="rounded-[8px] bg-[#7c130d] p-5 text-white">
+                <div className="rounded-[8px] bg-[#7c130d] p-2 text-white">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/65">
                     Quick Action
                   </p>
-                  <p className="mt-3 text-lg font-bold">Pay School Fees</p>
-                  <p className="mt-2 text-sm text-white/75">
-                    Continue directly to the bursary checkout flow.
-                  </p>
                   <PortalButton
                     variant="gold"
-                    className="mt-5 w-full"
+                    className="mt- w-full mt-2"
                     onClick={() => setToastMessage("Bursary checkout session prepared successfully.")}
                   >
                     Pay School Fees

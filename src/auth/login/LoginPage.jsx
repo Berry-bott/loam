@@ -18,11 +18,6 @@ const identityContent = {
     copy: "Login with staff credentials",
     placeholder: "e.g. registry.office@loampoly.edu",
   },
-  // admission: {
-  //   heading: "Admission Access",
-  //   copy: "Track your application and continue your admission process securely.",
-  //   placeholder: "e.g. applicant@loampoly.edu",
-  // },
 }
 
 export default function LoginPage() {
@@ -121,6 +116,7 @@ export default function LoginPage() {
                 autoComplete="current-password"
                 required
               />
+
 
               <label className="flex items-center gap-3 text-sm text-[#78685a]">
                 <input
