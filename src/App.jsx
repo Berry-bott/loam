@@ -12,7 +12,8 @@ import LoginPage from "./auth/login/LoginPage"
 // students routes
 import StudentPortalLayout from "./pages/student-dashboard/StudentPortalLayout"
 import StudentDashboardPage from "./pages/student-dashboard/StudentDashboardPage"
-import StudentApplicationPage from "./pages/student-dashboard/StudentApplicationPage"
+import StudentApplicationPage from "./pages/student-dashboard/StudentFeesPage"
+import StudentAcademicFeeHistoryPage from "./pages/student-dashboard/StudentAcademicFeeHistoryPage"
 import StudentFinancialPage from "./pages/student-dashboard/StudentFinancialPage"
 import StudentDocumentsPage from "./pages/student-dashboard/StudentDocumentsPage"
 import StudentProfilePage from "./pages/student-dashboard/StudentProfilePage"
@@ -28,6 +29,7 @@ import AdminFacultyPage from "./pages/admin-dashboard/AdminFacultyPage"
 import AdminNewsPage from "./pages/admin-dashboard/AdminNewsPage"
 import AdminPaymentsPage from "./pages/admin-dashboard/AdminPaymentsPage"
 import AdminSettingsPage from "./pages/admin-dashboard/AdminSettingsPage"
+import AdminManageStudentsPage from "./pages/admin-dashboard/AdminManageStudentsPage"
 import AdminStudentsPage from "./pages/admin-dashboard/AdminStudentsPage"
 import { RequirePortalRole } from "./app/RequirePortalRole"
 
@@ -55,6 +57,7 @@ function App() {
         <Route index element={<StudentDashboardPage />} />
         <Route path="my-application" element={<StudentApplicationPage />} />
         <Route path="academic-fees" element={<StudentApplicationPage />} />
+        <Route path="academic-fees/history" element={<StudentAcademicFeeHistoryPage />} />
         <Route path="financial-statement" element={<StudentFinancialPage />} />
         <Route path="documents" element={<StudentDocumentsPage />} />
         <Route path="profile-settings" element={<StudentProfilePage />} />
@@ -73,6 +76,7 @@ function App() {
         <Route path="courses" element={<AdminCoursesPage />} />
         <Route path="applications" element={<AdminApplicationsPage />} />
         <Route path="students" element={<AdminStudentsPage />} />
+        <Route path="students/manage" element={<AdminManageStudentsPage />} />
         <Route path="payments" element={<AdminPaymentsPage />} />
         <Route path="news" element={<AdminNewsPage />} />
         <Route path="faculty" element={<AdminFacultyPage />} />

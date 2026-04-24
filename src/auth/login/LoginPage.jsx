@@ -10,12 +10,12 @@ import { PortalInput } from "../../components/portal/PortalInput"
 const identityContent = {
   student: {
     heading: "Institutional Access",
-    copy: "Secure authentication for the LOAMPOLYTECHNIC academic ecosystem.",
+    copy: "Login with students credentials",
     placeholder: "e.g. academic.registry@loampoly.edu",
   },
   admin: {
     heading: "Staff Access",
-    copy: "Use your staff credentials to manage applicants, finance, and portal operations.",
+    copy: "Login with staff credentials",
     placeholder: "e.g. registry.office@loampoly.edu",
   },
   // admission: {

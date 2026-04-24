@@ -1,6 +1,7 @@
 // AdminStudentsPage.jsx
 import { useState } from "react"
 import { Download, Eye, Plus } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalToast } from "../../components/portal/PortalToast"
@@ -11,6 +12,7 @@ import {
 } from "../../components/admin-shared/Shared"
 
 export default function AdminStudentsPage() {
+  const navigate = useNavigate()
   const [modalOpen, setModalOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState("")
 
@@ -25,6 +27,12 @@ export default function AdminStudentsPage() {
             <>
               <PortalButton onClick={() => setModalOpen(true)}>
                 <Plus className="h-4 w-4" />Enroll New Student
+              </PortalButton>
+              <PortalButton
+                variant="gold"
+                onClick={() => navigate("/admin-dashboard/students/manage")}
+              >
+                <Eye className="h-4 w-4" />Manage Students
               </PortalButton>
               <PortalButton
                 variant="outline"
@@ -60,7 +68,9 @@ export default function AdminStudentsPage() {
                 <td className="border-y border-[#efe4d6] px-4 py-4">{row[3]}</td>
                 <td className="border-y border-[#efe4d6] px-4 py-4"><StatusPill>{row[4]}</StatusPill></td>
                 <td className="rounded-r-[6px] border-y border-r border-[#efe4d6] px-4 py-4 text-[#9b1810]">
-                  <button onClick={() => setToastMessage(`Student record ${row[1]} opened successfully.`)}>
+                  <button
+                    onClick={() => navigate("/admin-dashboard/students/manage", { state: { regNumber: row[1] } })}
+                  >
                     <Eye className="h-4 w-4" />
                   </button>
                 </td>
@@ -74,7 +84,7 @@ export default function AdminStudentsPage() {
                   <StatusPill>{row[4]}</StatusPill>
                   <button
                     className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9b1810]"
-                    onClick={() => setToastMessage(`Student record ${row[1]} opened successfully.`)}
+                    onClick={() => navigate("/admin-dashboard/students/manage", { state: { regNumber: row[1] } })}
                   >
                     View
                   </button>

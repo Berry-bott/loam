@@ -40,7 +40,7 @@ const profileFields = [
   { label: "Student Type", value: "Higher National Diploma" },
   { label: "Mobile Phone", value: "09027855092" },
   { label: "Email Address", value: "udothompson81@gmail.com" },
-  { label: "Permanent Address", value: "54 Odoro Ene Inidung Inang Eket." },
+  { label: "Permanent Address", value: "54 Odoro Enen Inidung Inang Eket." },
 ]
 
 function DashboardPanel({ children, className = "" }) {
@@ -56,7 +56,7 @@ export default function StudentDashboardPage() {
   const session = getPortalSession()
   const [activeModal, setActiveModal] = useState(null)
   const [toastMessage, setToastMessage] = useState("")
-  const studentName = session?.name || "Udo Thompson"
+  const studentName = session?.names || "Udo Thompson"
 
   return (
     <>
@@ -100,13 +100,13 @@ export default function StudentDashboardPage() {
         </div>
 
         <DashboardPanel className="p-0">
-          <div className="border-b border-[#efe4d6] px-5 py-5 sm:px-6">
+          <div className="border-b border-[#efe4d6] px-5 pb-3 sm:px-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-              <div className="flex items-center gap-4">
+              <div className="flex  gap-4">
                 <img
                   src="/IMG_3175.jpeg"
                   alt={studentName}
-                  className="h-16 w-16 rounded-[8px] object-cover"
+                  className="h-[150px] w-[150px] rounded-[8px] object-cover"
                 />
                 <div>
                   <div className="flex items-center gap-2">

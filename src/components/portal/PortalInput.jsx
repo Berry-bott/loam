@@ -11,7 +11,7 @@ export function PortalInput({
   return (
     <label className={cn("block", className)}>
       {(label || rightLabel) && (
-        <span className="mb-2 flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8d7969]">
+        <span className="mb-2 flex items-center justify-between text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#8d7969]">
           <span>{label}</span>
           {rightLabel ? <span className="text-[#b48d2d]">{rightLabel}</span> : null}
         </span>

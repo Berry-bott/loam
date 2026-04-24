@@ -45,6 +45,15 @@ const availableCourseSeed = [
     sessions: "4 Units",
     schedule: "1st Sem",
   },
+  {
+    code: "CSC 410",
+    title: "Web Application Packages",
+    track: "Core",
+    category: "Recommended for ND1 curriculum",
+    units: 4,
+    sessions: "4 Units",
+    schedule: "1st Sem",
+  },
 ]
 
 const currentCourseSeed = [
@@ -241,20 +250,20 @@ export default function CourseRegistrationPage() {
             }
           />
 
-          <div className="grid gap-4 xl:grid-cols-3">
+          <div className="grid gap-4 xl:grid-cols-4">
             {availableCourses.map((course) => (
               <PortalCard key={course.code} padding="sm" className="flex h-full flex-col">
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start justify-between gap-2">
                   <div>
                     <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#b7a391]">
                       {course.code}
                     </p>
-                    <h3 className="mt-3 text-[20px] font-bold leading-tight text-[#4d1b14]">
+                    <h3 className="mt-3 text-[13px] font-bold leading-tight text-[#4d1b14]">
                       {course.title}
                     </h3>
                   </div>
                   <span
-                    className={`rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] ${
+                    className={`rounded-full px-2.5 py-1 text-[8px] font-semibold uppercase tracking-[0.12em] ${
                       course.track === "Core"
                         ? "bg-[#fce8e6] text-[#9b1810]"
                         : "bg-[#f1f4fb] text-[#52719c]"
@@ -270,7 +279,7 @@ export default function CourseRegistrationPage() {
                 </div>
 
                 <div className="mt-6 flex items-center justify-between gap-3">
-                  <PortalButton className="min-w-[132px]" onClick={() => handleAcceptCourse(course)}>
+                  <PortalButton className="min-w-[100px]" onClick={() => handleAcceptCourse(course)}>
                     Accept Now
                   </PortalButton>
                   <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-[6px] border border-[#eadfce] bg-[#fcfaf7] px-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8c7768]">

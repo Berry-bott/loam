@@ -62,11 +62,11 @@ export default function StudentDocumentsPage() {
                   <tr key={record.name} className="bg-[#fffcf9] text-sm text-[#5c2418]">
                     <td className="rounded-l-[6px] border-y border-l border-[#efe4d6] px-4 py-4">
                       <p className="font-semibold">{record.name}</p>
-                      <p className="text-[11px] uppercase tracking-[0.12em] text-[#af9b84]">{record.note}</p>
+                      <p className="text-[9px] uppercase tracking-[0.12em] text-[#af9b84]">{record.note}</p>
                     </td>
                     <td className="border-y border-[#efe4d6] px-4 py-4">
                       <span
-                        className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
+                        className={`rounded-full px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] ${
                           record.status === "Verified"
                             ? "bg-[#e6f6e7] text-[#2d8a45]"
                             : record.status === "Pending"

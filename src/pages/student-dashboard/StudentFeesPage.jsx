@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { ChevronDown, Download, History, Wallet } from "lucide-react"
+import { useNavigate } from "react-router-dom"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalModal } from "../../components/portal/PortalModal"
@@ -47,10 +48,11 @@ function SelectField({ label, value, onChange, options }) {
   )
 }
 
-export default function StudentApplicationPage() {
+export default function StudentFeesPage() {
+  const navigate = useNavigate()
   const [sessionType, setSessionType] = useState(sessionOptions[0])
   const [paymentPlan, setPaymentPlan] = useState(paymentOptions[0])
-  const [activeModal, setActiveModal] = useState(null)
+  const [supportModalOpen, setSupportModalOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState("")
 
   const calculatedFee = 120000
@@ -72,7 +74,11 @@ export default function StudentApplicationPage() {
           </div>
 
           <div className="flex flex-wrap gap-3 ">
-            <PortalButton variant="outline" size="sm" onClick={() => setActiveModal("history")}>
+            <PortalButton
+              variant="outline"
+              size="sm"
+              onClick={() => navigate("/student-dashboard/academic-fees/history")}
+            >
               <History className="h-4 w-4" />
               Payment History
             </PortalButton>
@@ -237,7 +243,7 @@ export default function StudentApplicationPage() {
               <PortalButton
                 variant="gold"
                 className="mt-5"
-                onClick={() => setActiveModal("support")}
+                onClick={() => setSupportModalOpen(true)}
               >
                 Support Desk
               </PortalButton>
@@ -247,27 +253,8 @@ export default function StudentApplicationPage() {
       </div>
 
       <PortalModal
-        open={activeModal === "history"}
-        onClose={() => setActiveModal(null)}
-        title="Payment History"
-        description="Recent academic fee records attached to your student profile."
-      >
-        <div className="space-y-3">
-          {[
-            "Acceptance Fee - Verified - Oct 12, 2025",
-            "Department Materials Fee - Verified - Oct 14, 2025",
-            "ICT Fee - Pending Confirmation - Oct 20, 2025",
-          ].map((item) => (
-            <div key={item} className="rounded-[10px] border border-[#efe4d6] bg-[#fffdfa] p-4 text-sm text-[#6e5b4b]">
-              {item}
-            </div>
-          ))}
-        </div>
-      </PortalModal>
-
-      <PortalModal
-        open={activeModal === "support"}
-        onClose={() => setActiveModal(null)}
+        open={supportModalOpen}
+        onClose={() => setSupportModalOpen(false)}
         title="Bursary Support Desk"
         description="Support tickets are routed to the finance office for billing or payment issues."
       >
@@ -278,7 +265,7 @@ export default function StudentApplicationPage() {
           <PortalButton
             className="w-full"
             onClick={() => {
-              setActiveModal(null)
+              setSupportModalOpen(false)
               setToastMessage("A bursary support ticket has been opened for your account.")
             }}
           >

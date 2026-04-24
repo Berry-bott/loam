@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { ShieldCheck } from "lucide-react"
+import {  UserRound, ShieldCheck } from "lucide-react"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalModal } from "../../components/portal/PortalModal"
@@ -22,7 +22,9 @@ export default function StudentProfilePage() {
   return (
     <>
       <div className="space-y-6">
-      <div>
+      <div className="flex justify-between">
+        <span>
+
         <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b59a58]">
           Student Account
         </p>
@@ -30,16 +32,26 @@ export default function StudentProfilePage() {
           Profile Settings
         </h1>
         <p className="max-w-[760px] text-sm text-[#8b7969] sm:text-[15px]">
-          Manage your personal information, academic records, and secure your account through the
+          Manage your personal information, and secure your account <br /> through the
           centralized institutional portal.
         </p>
+        </span>
+        <div className="flex relative">
+          <img
+            src="/IMG_3175.jpeg"
+            alt=""
+            className="h-[150px] w-[150px] rounded-[8px] object-cover"
+          />
+          <span className="text-[12px] absolute top-0 right-0 bg-[#b48b26] hover:bg-[#9c721f] m-1  rounded cursor-pointer text-white border-2 border-[#b48b26]">update</span>
+          <div>
+          </div>
+        </div>
       </div>
 
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1.8fr)_280px]">
         <PortalCard>
           <div className="flex items-center justify-between gap-4">
             <p className="text-[24px] font-bold text-[#4f1d14]">Personal Information</p>
-            <PortalButton size="sm" onClick={() => setActiveModal("details")}>Update Details</PortalButton>
           </div>
 
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
@@ -125,7 +137,7 @@ export default function StudentProfilePage() {
       </PortalCard>
       </div>
 
-      <PortalModal
+      {/* <PortalModal
         open={activeModal === "details"}
         onClose={() => setActiveModal(null)}
         title="Update Personal Details"
@@ -147,7 +159,7 @@ export default function StudentProfilePage() {
             Submit Update
           </PortalButton>
         </div>
-      </PortalModal>
+      </PortalModal> */}
 
       <PortalModal
         open={activeModal === "credentials"}

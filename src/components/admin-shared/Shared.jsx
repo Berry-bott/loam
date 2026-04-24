@@ -68,11 +68,11 @@ export function StatusPill({ children }) {
 
 export function MetricCard({ label, value, note, accent = "red" }) {
   return (
-    <PortalCard accent={accent} className="p-5">
+    <PortalCard accent={accent} className="p-5 h-[150px]">
       <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#a88f7d]">
         {label}
       </p>
-      <p className="mt-4 text-[37px] font-bold text-[#541b13]">{value}</p>
+      <p className="mt-4 text-[19px] font-extrabold text-[#541b13]">{value}</p>
       <p
         className={`mt-2 text-[11px] font-semibold uppercase tracking-[0.12em] ${toneClass(
           note?.toLowerCase().includes("priority") || note?.toLowerCase().includes("needs")
