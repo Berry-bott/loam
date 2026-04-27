@@ -1,0 +1,209 @@
+import { ArrowRight, Clock, Mail } from "lucide-react"
+import { Button } from "../../ui/button"
+import { Input } from "../../ui/input"
+import { CounterAnimation } from "../CounterAnimation"
+import { MagneticButton } from "../MagneticButton"
+import { ScrollReveal } from "../ScrollReveal"
+import { admissionSteps, deadlines, stats } from "./admissionsData"
+
+export function AdmissionsHeroSection({ heroRef, onOpenApplication }) {
+  return (
+    <section className="relative flex h-[80vh] items-center overflow-hidden">
+      <div ref={heroRef} className="absolute inset-0 z-0">
+        <img src="/IMG_5161.jpg" alt="Loam Polytechnic" className="h-full w-screen object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/20 to-transparent" />
+      </div>
+
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4">
+        <div className="max-w-2xl">
+          <ScrollReveal>
+            <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-muted">Admissions</p>
+            <h1 className="mb-6 font-serif text-3xl font-bold text-background text-balance sm:text-5xl">
+              Your Future <span className="italic">Starts Here</span>
+            </h1>
+            <p className="mb-8 text-lg text-muted md:text-xl">
+              Join Loam Polytechnic and unlock a world-class education at Ikono.
+            </p>
+            <div className="flex flex-col gap-4 sm:flex-row">
+              <MagneticButton>
+                <Button
+                  size="lg"
+                  className="rounded-full bg-background text-foreground hover:bg-background/90"
+                  onClick={onOpenApplication}
+                >
+                  Apply Now <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </MagneticButton>
+              <MagneticButton>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="rounded-full border-background bg-transparent text-background hover:bg-background/10"
+                >
+                  Request Information
+                </Button>
+              </MagneticButton>
+            </div>
+          </ScrollReveal>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function AdmissionsStatsSection() {
+  return (
+    <section className="bg-gray-500 px-4 py-16 text-background">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+          {stats.map((stat, index) => (
+            <ScrollReveal key={stat.label} delay={index * 0.1}>
+              <div className="text-center">
+                <div className="font-serif text-4xl font-bold md:text-5xl">
+                  <CounterAnimation end={stat.value} suffix={stat.suffix} />
+                </div>
+                <p className="mt-2 text-sm text-accent-foreground/80">{stat.label}</p>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function AdmissionsApplySection({ onOpenApplication, onViewGuide }) {
+  return (
+    <section id="apply-form" className="bg-secondary/20 px-4 py-24 md:py-32">
+      <div className="mx-auto max-w-5xl">
+        <ScrollReveal className="mb-14 text-center">
+          <p className="mb-4 text-sm font-medium uppercase tracking-wider text-accent">Online Application</p>
+          <h2 className="mb-4 font-serif text-4xl font-bold md:text-5xl">Apply to Loam Polytechnic</h2>
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            Open the application form in a focused overlay, complete your details, then return here to continue reading the admission guide below.
+          </p>
+        </ScrollReveal>
+        <ScrollReveal>
+          <div className="rounded-[28px] border border-border bg-background px-6 py-10 text-center shadow-sm md:px-10">
+            <div className="mx-auto max-w-2xl">
+              <h3 className="mb-3 font-serif text-2xl font-semibold md:text-3xl">Ready to start your application?</h3>
+              <p className="mb-8 text-muted-foreground">
+                The admission form opens in a modal so you can finish it without losing your place on this page.
+              </p>
+              <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Button size="lg" className="rounded-full" onClick={onOpenApplication}>
+                  Start Application <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+                <Button size="lg" variant="outline" className="rounded-full" onClick={onViewGuide}>
+                  View Admission Guide
+                </Button>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  )
+}
+
+export function AdmissionsProcessSection() {
+  return (
+    <section id="admission-process" className="px-4 py-24 md:py-32">
+      <div className="mx-auto max-w-7xl">
+        <ScrollReveal className="mb-16 text-center">
+          <p className="mb-4 text-sm font-medium uppercase tracking-wider text-accent">How to Apply</p>
+          <h2 className="mb-4 font-serif text-4xl font-bold md:text-5xl">Simple Admission Process</h2>
+          <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+            Our streamlined application process makes it easy for families to join the Loam community.
+          </p>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+          {admissionSteps.map((step, index) => (
+            <ScrollReveal key={step.title} delay={index * 0.1}>
+              <div className="relative">
+                <div className="absolute -left-2 -top-4 text-8xl font-serif font-bold text-muted-foreground/10">
+                  {step.step}
+                </div>
+                <div className="relative pt-12">
+                  <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/10">
+                    <step.icon className="h-7 w-7 text-accent" />
+                  </div>
+                  <h3 className="mb-2 font-serif text-xl font-semibold">{step.title}</h3>
+                  <p className="text-muted-foreground">{step.description}</p>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+export function AdmissionsDeadlinesSection() {
+  return (
+    <section className="px-4 py-24 md:py-32">
+      <div className="mx-auto max-w-4xl">
+        <ScrollReveal className="mb-16 text-center">
+          <p className="mb-4 text-sm font-medium uppercase tracking-wider text-accent">Important Dates</p>
+          <h2 className="mb-4 font-serif text-4xl font-bold md:text-5xl">Application Deadlines</h2>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <div className="overflow-hidden rounded-2xl border border-border">
+            <div className="grid grid-cols-3 bg-secondary/50 p-4 font-semibold">
+              <span>Program</span>
+              <span>Deadline</span>
+              <span>Status</span>
+            </div>
+            {deadlines.map((deadline, index) => (
+              <div
+                key={deadline.program}
+                className={`grid grid-cols-3 items-center p-4 ${index !== deadlines.length - 1 ? "border-b border-border" : ""}`}
+              >
+                <span className="font-medium">{deadline.program}</span>
+                <span className="flex items-center text-muted-foreground">
+                  <Clock className="mr-2 h-4 w-4" />
+                  {deadline.date}
+                </span>
+                <span className="inline-flex items-center">
+                  <span className="mr-2 h-2 w-2 rounded-full bg-emerald-500" />
+                  {deadline.status}
+                </span>
+              </div>
+            ))}
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  )
+}
+
+export function AdmissionsSubscribeSection({ email, onEmailChange }) {
+  return (
+    <section className="bg-primary px-4 py-24 text-primary-foreground md:py-32">
+      <div className="mx-auto max-w-3xl text-center">
+        <ScrollReveal>
+          <Mail className="mx-auto mb-6 h-12 w-12 text-primary-foreground/70" />
+          <h2 className="mb-6 font-serif text-4xl font-bold md:text-5xl">Stay Informed</h2>
+          <p className="mb-8 text-lg text-primary-foreground/80">
+            Subscribe to receive updates about admissions, open houses, and important deadlines.
+          </p>
+          <div className="mx-auto flex max-w-md flex-col gap-4 sm:flex-row">
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={onEmailChange}
+              className="rounded-full border-primary-foreground/30 bg-primary-foreground/10 text-primary-foreground placeholder:text-primary-foreground/50"
+            />
+            <Button variant="secondary" className="rounded-full">
+              Subscribe
+            </Button>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  )
+}
