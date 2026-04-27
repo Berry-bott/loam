@@ -22,7 +22,7 @@ export function ApplicationModal({ isOpen, onClose, onReadGuideline }) {
 
   return (
     <div
-      className="fixed inset-0 z-[120] flex items-start justify-center bg-black/60 p-4 backdrop-blur-sm md:p-6"
+      className="fixed inset-0 z-[120] flex items-start justify-center bg-black/60 p-4 backdrop-blur-sm "
       onClick={onClose}
     >
       <div
@@ -36,7 +36,7 @@ export function ApplicationModal({ isOpen, onClose, onReadGuideline }) {
           <X className="h-4 w-4" />
         </button>
 
-        <div className="mb-6 pr-12">
+        <div className="mb- pr-12">
           <p className="mb-2 text-sm font-medium uppercase tracking-wider text-accent">Online Application</p>
           <h2 className="mb-2 font-serif text-3xl font-bold md:text-4xl">Apply to Loam Polytechnic</h2>
           <p className="max-w-2xl text-sm text-muted-foreground md:text-base">

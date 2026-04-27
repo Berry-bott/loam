@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ArrowRight, CheckCircle, ChevronLeft, ChevronRight, Clock, Mail, Upload } from "lucide-react"
 import { Button } from "../../ui/button"
 import { Input } from "../../ui/input"
@@ -36,6 +36,7 @@ const createJambSubject = () => ({
 export function ApplicationForm({ onClose, onReadGuideline }) {
   const [step, setStep] = useState(1)
   const [submitted, setSubmitted] = useState(false)
+  const formTopRef = useRef(null)
   const [trackingId] = useState(
     `LP-${new Date().getFullYear()}-${String(Math.floor(1000 + Math.random() * 9000))}`
   )
@@ -67,6 +68,10 @@ export function ApplicationForm({ onClose, onReadGuideline }) {
   const activeSittings = form.sittings.slice(0, Number(form.sittingCount))
   const stateOptions = Object.keys(nigeriaStatesAndLgas)
   const lgaOptions = form.stateOfOrigin ? nigeriaStatesAndLgas[form.stateOfOrigin] ?? [] : []
+
+  useEffect(() => {
+    formTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+  }, [step])
 
   const handleChange = (key) => (event) => {
     const value = event.target.value
@@ -178,8 +183,8 @@ export function ApplicationForm({ onClose, onReadGuideline }) {
   }
 
   return (
-    <div className="mx-auto w-full max-w-6xl">
-      <div className="sticky top-0 z-20 -mx-5 mb-8 border-b border-border bg-background/95 px-5 pb-6 pt-3 backdrop-blur md:-mx-6 md:px-6">
+    <div ref={formTopRef} className="mx-auto w-full max-w-6xl">
+      <div className="sticky -top-6 z-20 -mx-5 mb-8 border-b border-border bg-background/95 px-5 pb-6 pt-3 backdrop-blur md:-mx-6 md:px-6">
         <div className="mb-8">
           <div className="mb-2 flex justify-between text-xs text-muted-foreground">
             <span>APPLICATION PROGRESS: {progress}%</span>
