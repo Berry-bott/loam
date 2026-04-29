@@ -678,9 +678,7 @@ export function ApplicationForm({ onClose, onReadGuideline }) {
 
         <div className="mt-8 flex justify-between border-t border-border pt-6">
           <div className="flex gap-3">
-            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground">
-              Save as Draft
-            </Button>
+
             {step > 1 && (
               <Button variant="outline" size="sm" className="rounded-full" onClick={() => setStep((current) => current - 1)}>
                 <ChevronLeft className="mr-1 h-4 w-4" /> Back
@@ -688,9 +686,7 @@ export function ApplicationForm({ onClose, onReadGuideline }) {
             )}
           </div>
           <div className="flex gap-3">
-            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground" onClick={onClose}>
-              Cancel
-            </Button>
+
             {step < formStepLabels.length ? (
               <Button size="sm" className="rounded-full" onClick={() => setStep((current) => current + 1)}>
                 Next Step <ChevronRight className="ml-1 h-4 w-4" />

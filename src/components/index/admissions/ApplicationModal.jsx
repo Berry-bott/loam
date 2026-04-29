@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { X } from "lucide-react"
-import { ApplicationForm } from "./ApplicationForm"
+import { AdmissionsApplicationForm } from "./AdmissionsApplicationForm"
 
 export function ApplicationModal({ isOpen, onClose, onReadGuideline }) {
   useEffect(() => {
@@ -21,13 +21,10 @@ export function ApplicationModal({ isOpen, onClose, onReadGuideline }) {
   }
 
   return (
-    <div
-      className="fixed inset-0 z-[120] flex items-start justify-center bg-black/60 p-4 backdrop-blur-sm "
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 z-[120] flex items-start justify-center bg-black/60 p-4 backdrop-blur-sm ">
       <div
+        data-application-scroll-container="true"
         className="relative h-screen w-full max-w-4xl overflow-y-auto rounded-[28px] bg-background p-5 shadow-2xl [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden md:p-6"
-        onClick={(event) => event.stopPropagation()}
       >
         <button
           onClick={onClose}
@@ -44,7 +41,7 @@ export function ApplicationModal({ isOpen, onClose, onReadGuideline }) {
           </p>
         </div>
 
-        <ApplicationForm onClose={onClose} onReadGuideline={onReadGuideline} />
+        <AdmissionsApplicationForm onClose={onClose} onViewGuide={onReadGuideline} />
       </div>
     </div>
   )

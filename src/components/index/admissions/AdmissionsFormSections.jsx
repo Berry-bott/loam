@@ -1,10 +1,10 @@
 import { Upload } from "lucide-react"
 import { Input } from "../../ui/input"
-import { examTypeOptions, gradeOptions } from "./admissionsData"
+import { examTypeOptions, gradeOptions, jambYearOptions, subjectOptions } from "./admissionsData"
 
 function SectionHeading({ title }) {
   return (
-    <div className="mb-6 flex items-center gap-2 border-l-4 border-accent pl-3">
+    <div className="mb-6 flex items-center gap-2 rounded-r-xl border-l-4 border-accent bg-accent/5 px-3 py-2">
       <h3 className="font-serif text-xl font-semibold">{title}</h3>
     </div>
   )
@@ -67,15 +67,6 @@ export function PersonalInformationStep({
             <option>Female</option>
             <option>Others</option>
           </select>
-        </div>
-        <div>
-          <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Year of Graduation</label>
-          <Input
-            placeholder="e.g. 2023"
-            value={form.graduationYear}
-            onChange={handleChange("graduationYear")}
-            className="rounded-lg"
-          />
         </div>
         <div className="md:col-span-2">
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Email Address</label>
@@ -148,6 +139,42 @@ export function PersonalInformationStep({
             className="rounded-lg"
           />
         </div>
+        <div>
+          <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Sponsor Name</label>
+          <Input
+            placeholder="Full name of sponsor"
+            value={form.sponsorName}
+            onChange={handleChange("sponsorName")}
+            className="rounded-lg"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Sponsor Phone</label>
+          <Input
+            placeholder="+234 800 000 0000"
+            value={form.sponsorPhone}
+            onChange={handleChange("sponsorPhone")}
+            className="rounded-lg"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Emergency Contact Name</label>
+          <Input
+            placeholder="Full name of emergency contact"
+            value={form.emergencyContactName}
+            onChange={handleChange("emergencyContactName")}
+            className="rounded-lg"
+          />
+        </div>
+        <div>
+          <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Emergency Contact Phone</label>
+          <Input
+            placeholder="+234 800 000 0000"
+            value={form.emergencyContactPhone}
+            onChange={handleChange("emergencyContactPhone")}
+            className="rounded-lg"
+          />
+        </div>
       </div>
     </div>
   )
@@ -160,13 +187,16 @@ export function AcademicHistoryStep({
   handleSittingFieldChange,
   handleSittingSubjectChange,
   handleJambChange,
+  getAvailableSubjectOptions,
+  totalJambScore,
 }) {
   return (
     <div>
       <SectionHeading title="Academic History" />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="sm:col-span-2">
+      <div className="rounded-2xl border border-border bg-accent/5 p-4 md:p-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="sm:col-span-2">
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Last School Attended</label>
           <Input
             placeholder="Name of your secondary school"
@@ -174,24 +204,32 @@ export function AcademicHistoryStep({
             onChange={handleChange("lastSchool")}
             className="rounded-lg"
           />
-        </div>
+          </div>
 
-        <div>
-          <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Number of Sittings</label>
-          <select
-            value={form.sittingCount}
-            onChange={handleChange("sittingCount")}
-            className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
-          >
-            <option value="1">1 Sitting</option>
-            <option value="2">2 Sittings</option>
-          </select>
+          <div>
+            <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Number of Sittings</label>
+            <select
+              value={form.sittingCount}
+              onChange={handleChange("sittingCount")}
+              className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              <option value="1">1 Sitting</option>
+              <option value="2">2 Sittings</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div className={`mt-8 grid grid-cols-1 gap-6 ${Number(form.sittingCount) === 2 ? "xl:grid-cols-2" : ""}`}>
+      <div className={`mt-8 grid grid-cols-1 gap-6 ${Number(form.sittingCount) === 2 ? "lg:grid-cols-2" : ""}`}>
         {activeSittings.map((sitting, sittingIndex) => (
-          <div key={`sitting-${sittingIndex}`} className="rounded-2xl border border-border bg-secondary/10 p-5">
+          <div
+            key={`sitting-${sittingIndex}`}
+            className={`rounded-2xl border p-5 lg:p-6 ${
+              sittingIndex === 0
+                ? "border-accent/30 bg-gradient-to-b from-accent/10 to-background"
+                : "border-emerald-200 bg-gradient-to-b from-emerald-50 to-background"
+            }`}
+          >
             <div className="mb-5">
               <h4 className="font-serif text-lg font-semibold">Sitting {sittingIndex === 0 ? "A" : "B"}</h4>
               <p className="text-xs text-muted-foreground">
@@ -199,7 +237,7 @@ export function AcademicHistoryStep({
               </p>
             </div>
 
-            <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="mb-5 grid grid-cols-1 gap-4 md:grid-cols-2">
               <div>
                 <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Exam Type</label>
                 <select
@@ -224,7 +262,7 @@ export function AcademicHistoryStep({
                   className="rounded-lg"
                 />
               </div>
-              <div>
+              <div className="md:col-span-2">
                 <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Candidate Number</label>
                 <Input
                   placeholder="Enter candidate number"
@@ -239,18 +277,24 @@ export function AcademicHistoryStep({
               {sitting.subjects.map((subject, subjectIndex) => (
                 <div
                   key={`sitting-${sittingIndex}-subject-${subjectIndex}`}
-                  className="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_240px]"
+                  className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_160px]"
                 >
                   <div>
                     <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">
                       Subject {subjectIndex + 1}
                     </label>
-                    <Input
-                      placeholder="Enter subject"
+                    <select
                       value={subject.subject}
                       onChange={handleSittingSubjectChange(sittingIndex, subjectIndex, "subject")}
-                      className="rounded-lg"
-                    />
+                      className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+                    >
+                      <option value="">Select subject</option>
+                      {getAvailableSubjectOptions(sitting.subjects, subjectIndex).map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div>
                     <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Grade</label>
@@ -274,10 +318,39 @@ export function AcademicHistoryStep({
         ))}
       </div>
 
-      <div className="mt-8 rounded-2xl border border-border bg-secondary/10 p-5">
+      <div className="mt-8 rounded-2xl border border-accent/20 bg-gradient-to-b from-secondary/30 to-background p-5">
         <div className="mb-5">
           <h4 className="font-serif text-lg font-semibold">JAMB Details</h4>
-          <p className="text-xs text-muted-foreground">Provide 4 JAMB subjects and their scores.</p>
+          <p className="text-xs text-muted-foreground">
+            Add registration number, exam year, and 4 subjects. English Language is fixed as the first subject.
+          </p>
+        </div>
+
+        <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Registration Number</label>
+            <Input
+              placeholder="Enter JAMB registration number"
+              value={form.jambRegistrationNumber}
+              onChange={handleChange("jambRegistrationNumber")}
+              className="rounded-lg"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">JAMB Year</label>
+            <select
+              value={form.jambYear}
+              onChange={handleChange("jambYear")}
+              className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
+            >
+              <option value="">Select year</option>
+              {jambYearOptions.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
@@ -287,12 +360,19 @@ export function AcademicHistoryStep({
                 <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">
                   Subject {subjectIndex + 1}
                 </label>
-                <Input
-                  placeholder="Enter subject"
+                <select
                   value={subject.subject}
                   onChange={handleJambChange(subjectIndex, "subject")}
-                  className="rounded-lg"
-                />
+                  disabled={subjectIndex === 0}
+                  className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  <option value="">Select subject</option>
+                  {getAvailableSubjectOptions(form.jambSubjects, subjectIndex).map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Score</label>
@@ -307,6 +387,13 @@ export function AcademicHistoryStep({
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-5 rounded-xl border border-accent/20 bg-accent/5 px-4 py-3">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-sm text-muted-foreground">Total JAMB Score</span>
+            <span className="text-lg font-semibold text-foreground">{totalJambScore}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -325,14 +412,13 @@ export function DocumentUploadStep({ form, handleFile }) {
         {[
           { label: "Passport Photograph", key: "passport", desc: "Recent white-background passport photo" },
           { label: "WAEC Result (Optional)", key: "waecResult", desc: "Upload WAEC result slip or certificate if available" },
-          { label: "Birth Certificate", key: "birthCert", desc: "National Population Commission certificate" },
         ].map(({ label, key, desc }) => (
           <div key={key}>
             <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">{label}</label>
             <p className="mb-2 text-xs text-muted-foreground">{desc}</p>
             <label
               className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed p-4 transition-colors ${
-                form[key] ? "border-accent bg-accent/5" : "border-border hover:border-accent/50"
+                form[key] ? "border-accent bg-accent/10" : "border-border bg-secondary/10 hover:border-accent/50"
               }`}
             >
               <Upload className={`h-5 w-5 flex-shrink-0 ${form[key] ? "text-accent" : "text-muted-foreground"}`} />
@@ -352,7 +438,12 @@ export function DocumentUploadStep({ form, handleFile }) {
   )
 }
 
-export function ReviewSubmitStep({ form, activeSittings }) {
+export function ReviewSubmitStep({
+  form,
+  activeSittings,
+  totalJambScore,
+  handleToggleCheckbox,
+}) {
   return (
     <div>
       <SectionHeading title="Review & Submit" />
@@ -371,14 +462,20 @@ export function ReviewSubmitStep({ form, activeSittings }) {
             ["Phone", form.phone],
             ["Nationality", form.nationality],
             ["State / LGA", `${form.stateOfOrigin} / ${form.lga}`],
+            ["Sponsor", form.sponsorName],
+            ["Sponsor Phone", form.sponsorPhone],
+            ["Emergency Contact", form.emergencyContactName],
+            ["Emergency Phone", form.emergencyContactPhone],
           ],
         },
         {
           title: "Academic History",
           rows: [
             ["Last School", form.lastSchool],
-            ["Graduation Year", form.graduationYear],
             ["Number of Sittings", form.sittingCount],
+            ["JAMB Registration Number", form.jambRegistrationNumber],
+            ["JAMB Year", form.jambYear],
+            ["JAMB Total Score", String(totalJambScore)],
           ],
         },
         {
@@ -386,12 +483,11 @@ export function ReviewSubmitStep({ form, activeSittings }) {
           rows: [
             ["Passport", form.passport?.name ?? "Not uploaded"],
             ["WAEC Result", form.waecResult?.name ?? "Optional"],
-            ["Birth Certificate", form.birthCert?.name ?? "Not uploaded"],
           ],
         },
       ].map((section) => (
-        <div key={section.title} className="mb-6 overflow-hidden rounded-xl border border-border">
-          <div className="bg-secondary/40 px-4 py-2 text-sm font-semibold">{section.title}</div>
+        <div key={section.title} className="mb-6 overflow-hidden rounded-xl border border-border bg-background/70">
+          <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">{section.title}</div>
           {section.rows.map(([label, value]) => (
             <div key={label} className="grid grid-cols-2 border-t border-border px-4 py-2 text-sm">
               <span className="text-muted-foreground">{label}</span>
@@ -401,11 +497,18 @@ export function ReviewSubmitStep({ form, activeSittings }) {
         </div>
       ))}
 
-      <div className="mb-6 overflow-hidden rounded-xl border border-border">
-        <div className="bg-secondary/40 px-4 py-2 text-sm font-semibold">O&apos;Level Sittings</div>
-        <div className={`grid grid-cols-1 gap-4 p-4 ${Number(form.sittingCount) === 2 ? "xl:grid-cols-2" : ""}`}>
+      <div className="mb-6 overflow-hidden rounded-xl border border-border bg-background/70">
+        <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">O&apos;Level Sittings</div>
+        <div className={`grid grid-cols-1 gap-4 p-4 ${Number(form.sittingCount) === 2 ? "lg:grid-cols-2" : ""}`}>
           {activeSittings.map((sitting, sittingIndex) => (
-            <div key={`review-sitting-${sittingIndex}`} className="rounded-xl border border-border bg-background p-4">
+            <div
+              key={`review-sitting-${sittingIndex}`}
+              className={`rounded-xl border p-4 ${
+                sittingIndex === 0
+                  ? "border-accent/30 bg-accent/5"
+                  : "border-emerald-200 bg-emerald-50/60"
+              }`}
+            >
               <div className="mb-3 flex items-center justify-between">
                 <h4 className="text-sm font-semibold">Sitting {sittingIndex === 0 ? "A" : "B"}</h4>
                 <span className="text-xs text-muted-foreground">{sitting.examType || "Exam type not set"}</span>
@@ -435,20 +538,49 @@ export function ReviewSubmitStep({ form, activeSittings }) {
         </div>
       </div>
 
-      <div className="mb-6 overflow-hidden rounded-xl border border-border">
-        <div className="bg-secondary/40 px-4 py-2 text-sm font-semibold">JAMB Details</div>
+      <div className="mb-6 overflow-hidden rounded-xl border border-border bg-background/70">
+        <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">JAMB Details</div>
         <div className="space-y-2 p-4">
+          <div className="grid grid-cols-2 gap-3 border-b border-border pb-3 text-sm">
+            <span className="text-muted-foreground">Registration Number</span>
+            <span className="font-medium">{form.jambRegistrationNumber || "Not provided"}</span>
+          </div>
+          <div className="grid grid-cols-2 gap-3 border-b border-border pb-3 text-sm">
+            <span className="text-muted-foreground">Year</span>
+            <span className="font-medium">{form.jambYear || "Not provided"}</span>
+          </div>
           {form.jambSubjects.map((subject, subjectIndex) => (
             <div key={`review-jamb-${subjectIndex}`} className="grid grid-cols-[minmax(0,1fr)_80px] gap-3 text-sm">
               <span className="truncate">{subject.subject || `Subject ${subjectIndex + 1}`}</span>
               <span className="font-medium">{subject.score || "-"}</span>
             </div>
           ))}
+          <div className="grid grid-cols-[minmax(0,1fr)_80px] gap-3 border-t border-border pt-3 text-sm">
+            <span className="font-semibold">Total Score</span>
+            <span className="font-semibold">{totalJambScore}</span>
+          </div>
         </div>
       </div>
 
-      <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-        By submitting this form you confirm that all information provided is accurate and complete.
+      <div className="space-y-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+        <label className="flex items-start gap-3">
+          <input
+            type="checkbox"
+            checked={form.attestationAccepted}
+            onChange={handleToggleCheckbox("attestationAccepted")}
+            className="mt-1 h-4 w-4 rounded border-amber-300 text-amber-700 focus:ring-amber-500"
+          />
+          <span>I attest that all the information provided in this application is accurate and complete.</span>
+        </label>
+        <label className="flex items-start gap-3">
+          <input
+            type="checkbox"
+            checked={form.activationAccepted}
+            onChange={handleToggleCheckbox("activationAccepted")}
+            className="mt-1 h-4 w-4 rounded border-amber-300 text-amber-700 focus:ring-amber-500"
+          />
+          <span>I authorize the school to process this application and contact my sponsor or emergency contact if needed.</span>
+        </label>
       </div>
     </div>
   )

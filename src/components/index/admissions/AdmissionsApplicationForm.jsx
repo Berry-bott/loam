@@ -6,6 +6,7 @@ import {
   createJambSubject,
   createSitting,
   formStepLabels,
+  subjectOptions,
 } from "./admissionsData"
 import {
   AcademicHistoryStep,
@@ -66,7 +67,7 @@ function SubmissionSuccess({ trackingId, onViewGuide }) {
 
 function FormProgress({ step, progress }) {
   return (
-    <div className="sticky -top-6 z-20 -mx-5 mb-8 border-b border-border bg-background/95 px-5 pb-6 pt-2 backdrop-blur md:-mx-6 md:px-6">
+    <div className="sticky -top-6 z-20 -mx-5 mb-8 rounded-b-[28px] border-b border-border bg-gradient-to-r from-accent/10 via-background/95 to-secondary/60 px-5 pb-6 pt-2 backdrop-blur md:-mx-6 md:px-6">
       <div className="mb-8">
         <div className="mb-2 flex justify-between text-xs text-muted-foreground">
           <span>APPLICATION PROGRESS: {progress}%</span>
@@ -135,20 +136,32 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
     stateOfOrigin: "",
     lga: "",
     lastSchool: "",
-    graduationYear: "",
-    chosenCourse: "",
+    sponsorName: "",
+    sponsorPhone: "",
+    emergencyContactName: "",
+    emergencyContactPhone: "",
     sittingCount: "1",
     sittings: [createSitting(), createSitting()],
-    jambSubjects: Array.from({ length: 4 }, () => createJambSubject()),
+    jambRegistrationNumber: "",
+    jambYear: "",
+    jambSubjects: [
+      createJambSubject("English Language"),
+      createJambSubject(),
+      createJambSubject(),
+      createJambSubject(),
+    ],
     passport: null,
     waecResult: null,
-    birthCert: null,
+    attestationAccepted: false,
+    activationAccepted: false,
   })
 
   const progress = Math.round(((step - 1) / (formStepLabels.length - 1)) * 100)
   const activeSittings = form.sittings.slice(0, Number(form.sittingCount))
   const stateOptions = Object.keys(nigeriaStatesAndLgas)
   const lgaOptions = form.stateOfOrigin ? nigeriaStatesAndLgas[form.stateOfOrigin] ?? [] : []
+  const totalJambScore = form.jambSubjects.reduce((total, subject) => total + (Number(subject.score) || 0), 0)
+  const canSubmit = form.attestationAccepted && form.activationAccepted
 
   const handleChange = (key) => (event) => {
     const value = event.target.value
@@ -201,9 +214,28 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
     setForm((current) => ({
       ...current,
       jambSubjects: current.jambSubjects.map((subject, index) =>
-        index === subjectIndex ? { ...subject, [key]: value } : subject
+        index === subjectIndex
+          ? {
+              ...subject,
+              [key]: key === "score" ? value.replace(/[^\d]/g, "") : value,
+            }
+          : subject
       ),
     }))
+  }
+
+  const handleToggleCheckbox = (key) => (event) => {
+    const checked = event.target.checked
+    setForm((current) => ({ ...current, [key]: checked }))
+  }
+
+  const getAvailableSubjectOptions = (subjects, currentIndex) => {
+    const currentValue = subjects[currentIndex]?.subject
+    const selectedSubjects = subjects
+      .map((subject, index) => (index === currentIndex ? null : subject.subject))
+      .filter(Boolean)
+
+    return subjectOptions.filter((subject) => subject === currentValue || !selectedSubjects.includes(subject))
   }
 
   useEffect(() => {
@@ -223,7 +255,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
     <div ref={formRef} className="mx-auto w-full max-w-6xl">
       <FormProgress step={step} progress={progress} />
 
-      <div className="rounded-2xl border border-border bg-background p-6 shadow-sm md:p-8">
+      <div className="rounded-3xl border border-border bg-gradient-to-b from-background via-background to-secondary/20 p-6 shadow-sm md:p-8">
         {step === 1 && (
           <PersonalInformationStep
             form={form}
@@ -242,18 +274,24 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
             handleSittingFieldChange={handleSittingFieldChange}
             handleSittingSubjectChange={handleSittingSubjectChange}
             handleJambChange={handleJambChange}
+            getAvailableSubjectOptions={getAvailableSubjectOptions}
+            totalJambScore={totalJambScore}
           />
         )}
 
         {step === 3 && <DocumentUploadStep form={form} handleFile={handleFile} />}
 
-        {step === 4 && <ReviewSubmitStep form={form} activeSittings={activeSittings} />}
+        {step === 4 && (
+          <ReviewSubmitStep
+            form={form}
+            activeSittings={activeSittings}
+            totalJambScore={totalJambScore}
+            handleToggleCheckbox={handleToggleCheckbox}
+          />
+        )}
 
-        <div className="mt-8 flex justify-between border-t border-border pt-6">
-          <div className="flex gap-3">
-            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground">
-              Save as Draft
-            </Button>
+        <div className="mt-8 flex items-center justify-between border-t border-border/80 pt-6">
+          <div>
             {step > 1 && (
               <Button variant="outline" size="sm" className="rounded-full" onClick={() => setStep((current) => current - 1)}>
                 <ChevronLeft className="mr-1 h-4 w-4" /> Back
@@ -261,9 +299,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
             )}
           </div>
           <div className="flex gap-3">
-            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground" onClick={onClose}>
-              Cancel
-            </Button>
+   
             {step < formStepLabels.length ? (
               <Button size="sm" className="rounded-full" onClick={() => setStep((current) => current + 1)}>
                 Next Step <ChevronRight className="ml-1 h-4 w-4" />
@@ -272,6 +308,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
               <Button
                 size="sm"
                 className="rounded-full bg-emerald-600 text-white hover:bg-emerald-700"
+                disabled={!canSubmit}
                 onClick={() => setSubmitted(true)}
               >
                 Submit Application <CheckCircle className="ml-1 h-4 w-4" />

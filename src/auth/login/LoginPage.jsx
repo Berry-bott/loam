@@ -1,11 +1,15 @@
 import { useState } from "react"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Eye, EyeOff } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { loginIdentityOptions } from "../../lib/portal-data"
 import { getDefaultRouteForRole, setPortalSession } from "../../lib/portal-auth"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalInput } from "../../components/portal/PortalInput"
+import { loginAdmin } from "../../store/admin/authStore"
+
+const STUDENT_LOGIN_EMAIL = "loampoly@gmail.com"
+const STUDENT_LOGIN_PASSWORD = "loam123"
 
 const identityContent = {
   student: {
@@ -27,29 +31,74 @@ export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [keepLoggedIn, setKeepLoggedIn] = useState(true)
+  const [errorMessage, setErrorMessage] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const activeContent = identityContent[identity]
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
+    setErrorMessage("")
+    setIsSubmitting(true)
 
-    const session = {
-      role: identity,
-      email,
-      keepLoggedIn,
-      name:
-        identity === "admin"
-          ? "Registry Administrator"
-          : identity === "admission"
-            ? "Prospective Student"
-            : "Adewale John",
+    const normalizedEmail = email.trim().toLowerCase()
+
+    try {
+      if (identity === "admin") {
+        const { payload, accessToken } = await loginAdmin({
+          email: normalizedEmail,
+          password,
+        })
+
+        const session = {
+          role: identity,
+          email: normalizedEmail,
+          keepLoggedIn,
+          accessToken,
+          name:
+            payload?.data?.name ||
+            payload?.data?.admin?.name ||
+            payload?.name ||
+            payload?.admin?.name ||
+            "Registry Administrator",
+        }
+
+        setPortalSession(session)
+
+        const fallbackRoute = getDefaultRouteForRole(identity)
+        const redirectRoute = location.state?.from && identity !== "admission" ? location.state.from : fallbackRoute
+        navigate(redirectRoute)
+        return
+      }
+
+      if (normalizedEmail !== STUDENT_LOGIN_EMAIL || password !== STUDENT_LOGIN_PASSWORD) {
+        setErrorMessage("Invalid student email or password.")
+        return
+      }
+
+      const session = {
+        role: identity,
+        email: normalizedEmail,
+        keepLoggedIn,
+        name:
+          identity === "admin"
+            ? "Registry Administrator"
+            : identity === "admission"
+              ? "Prospective Student"
+              : "Adewale John",
+      }
+
+      setPortalSession(session)
+
+      const fallbackRoute = getDefaultRouteForRole(identity)
+      const redirectRoute = location.state?.from && identity !== "admission" ? location.state.from : fallbackRoute
+      navigate(redirectRoute)
+    } catch (error) {
+      setErrorMessage(error.message || "Unable to sign in right now.")
+    } finally {
+      setIsSubmitting(false)
     }
-
-    setPortalSession(session)
-
-    const fallbackRoute = getDefaultRouteForRole(identity)
-    const redirectRoute = location.state?.from && identity !== "admission" ? location.state.from : fallbackRoute
-    navigate(redirectRoute)
   }
 
   return (
@@ -84,6 +133,7 @@ export default function LoginPage() {
                     key={option.value}
                     type="button"
                     onClick={() => setIdentity(option.value)}
+                    disabled={isSubmitting}
                     className={`rounded-[3px] px-2 py-3 text-[12px] font-semibold transition-colors ${
                       identity === option.value
                         ? "bg-white text-[#7d1711] shadow-sm"
@@ -103,19 +153,37 @@ export default function LoginPage() {
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder={activeContent.placeholder}
                 autoComplete="email"
+                disabled={isSubmitting}
                 required
               />
 
               <PortalInput
                 label="Password"
                 rightLabel="Forgot Password?"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder="********"
                 autoComplete="current-password"
+                disabled={isSubmitting}
+                trailingElement={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((value) => !value)}
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[#8f7a68] transition-colors hover:bg-[#f5eee4] hover:text-[#61100c]"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                }
                 required
               />
+
+              {errorMessage ? (
+                <p className="rounded-[4px] border border-[#e6beb8] bg-[#fff2f0] px-3 py-2 text-sm text-[#9f1f18]">
+                  {errorMessage}
+                </p>
+              ) : null}
 
 
               <label className="flex items-center gap-3 text-sm text-[#78685a]">
@@ -123,13 +191,14 @@ export default function LoginPage() {
                   type="checkbox"
                   className="h-4 w-4 rounded-[2px] border border-[#d9ccbc] text-[#8f120d] focus:ring-[#e8d4ac]"
                   checked={keepLoggedIn}
+                  disabled={isSubmitting}
                   onChange={(event) => setKeepLoggedIn(event.target.checked)}
                 />
                 Keep me logged in on this terminal
               </label>
 
-              <PortalButton className="w-full" size="lg" type="submit">
-                Access Portal
+              <PortalButton className="w-full" size="lg" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? "Signing In..." : "Access Portal"}
                 <ArrowRight className="h-4 w-4" />
               </PortalButton>
             </form>
@@ -156,4 +225,3 @@ export default function LoginPage() {
     </div>
   )
 }
-

@@ -43,6 +43,33 @@ export const stats = [
 export const formStepLabels = ["Personal Information", "Academic History", "Document Upload", "Review & Submit"]
 export const examTypeOptions = ["WAEC", "NECO", "NABTEB", "GCE"]
 export const gradeOptions = ["A1", "B2", "B3", "C4", "C5", "C6", "D7", "E8", "F9", "AR"]
+export const subjectOptions = [
+  "Agricultural Science",
+  "Biology",
+  "Chemistry",
+  "Christian Religious Studies",
+  "Civic Education",
+  "Commerce",
+  "Computer Studies",
+  "Data Processing",
+  "Economics",
+  "English Language",
+  "Financial Accounting",
+  "Further Mathematics",
+  "Geography",
+  "Government",
+  "Hausa",
+  "History",
+  "Igbo",
+  "Islamic Religious Studies",
+  "Literature in English",
+  "Marketing",
+  "Mathematics",
+  "Physics",
+  "Technical Drawing",
+  "Yoruba",
+]
+export const jambYearOptions = Array.from({ length: 11 }, (_, index) => String(new Date().getFullYear() - index))
 
 export const createSitting = () => ({
   examType: "",
@@ -51,7 +78,7 @@ export const createSitting = () => ({
   subjects: Array.from({ length: 9 }, () => ({ subject: "", grade: "" })),
 })
 
-export const createJambSubject = () => ({
-  subject: "",
+export const createJambSubject = (subject = "") => ({
+  subject,
   score: "",
 })
