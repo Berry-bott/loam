@@ -1,4 +1,5 @@
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").trim()
+const DEFAULT_API_BASE_URL = "https://loam-polytechnic-backend.onrender.com"
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || DEFAULT_API_BASE_URL).trim()
 
 const AUTH_ROUTE_GROUPS = {
   admin: "/api/v1/auth/admin",
@@ -50,7 +51,7 @@ export const authStore = {
 
 export function buildApiUrl(path) {
   if (!authStore.baseUrl) {
-    throw new Error("VITE_API_BASE_URL is not configured.")
+    throw new Error("API base URL is not configured.")
   }
 
   return joinUrl(authStore.baseUrl, path)
