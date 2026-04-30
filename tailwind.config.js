@@ -14,6 +14,7 @@ module.exports = {
         "popover-foreground": "var(--popover-foreground)",
 
         primary: "var(--primary)",
+        footer: "var(--footer)",
         "primary-foreground": "var(--primary-foreground)",
 
         secondary: "var(--secondary)",

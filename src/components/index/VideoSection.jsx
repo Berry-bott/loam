@@ -44,7 +44,7 @@ export function VideoSection({ videoUrl, posterUrl, title, description }) {
           <img
             src={posterUrl || "/placeholder.svg"}
             alt={title || "Video thumbnail"}
-            className="w-full  h-[500px]  object-contain transition-transform duration-700 group-hover:scale-105"
+            className="w-full  h-[550px]  object-contain transition-transform duration-700 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-foreground/30 flex items-center justify-center transition-colors group-hover:bg-foreground/40">
             <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-background/90 flex items-center justify-center transition-transform group-hover:scale-110">
@@ -60,7 +60,7 @@ export function VideoSection({ videoUrl, posterUrl, title, description }) {
         </div>
       ) : (
         <div className="relative aspect-video">
-          <video autoPlay controls className="w-full h-full object-cover">
+          <video autoPlay controls className="w-full h-[500px] border object-cover">
             <source src={videoUrl} type="video/mp4" />
           </video>
           <Button

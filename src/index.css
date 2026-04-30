@@ -20,7 +20,8 @@
   --popover: rgb(255, 255, 255);
   --popover-foreground: rgb(37, 37, 37);
 
-  --primary: rgb(23, 24, 25);
+  --primary: #8f120d;
+  --footer: rgb(23, 24, 25);
   --primary-foreground: rgb(251, 251, 251);
 
   --secondary: rgb(247, 247, 247);
@@ -164,4 +165,15 @@ h1, h2, h3, h4, h5, h6 {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
+}
+
+
+/* Hide scrollbar for all browsers */
+* {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+*::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

@@ -15,13 +15,13 @@ const values = [
     icon: Target,
     title: "Mission",
     description:
-      "To acquire, preserve and promote inclusive access to a wide range of information resources and services that support educational, cultural, and recreational activities of our clientele",
+      "To acquire, preserve, and promote inclusive access to a wide range of information resources and services that support the educational, cultural, and recreational activities of our community.",
   },
   {
     icon: Eye,
     title: "Vision",
     description:
-      "To be the best library and information center that equip and promote was information search, retrieval, and utilization skills  for the 21st century learning activities",
+      "To be the best library and information center that equips and promotes world-class information search, retrieval, and utilization skills for 21st-century learning activitie",
   },
   {
     icon: Heart,
@@ -49,22 +49,22 @@ const leadership = [
     image: "/loam (30).jpeg",
   },
   {
-    name: "Dr. Emily Roberts",
-    role: "Dean of Academics",
+    name: "Hon. Jerry Otu",
+    role: "State House of Assembly Member with HODs",
     image: "/Loam-members.jpeg",
   },
   {
-    name: "Mr. Michael Thompson",
-    role: "Director of Athletics",
+    name: "Resourc Person",
+    role: "Entrepreneurship Development Centre",
     image: "/loam (23).jpeg",
   },
 ]
 
 const timeline = [
-  { year: "2003", event: "Loam Polytechnic founded with 50 students" },
-  { year: "2004", event: "New campus expansion and first graduating class of 100" },
+  { year: "2023", event: "Loam Polytechnic founded with 50 students" },
+  { year: "2024", event: "New campus expansion and first graduating class of 100" },
   { year: "2025", event: "Introduction of international exchange program" },
-  { year: "2005", event: "Innovation lab established" },
+  { year: "2025", event: "Innovation lab established" },
   // { year: "2015", event: "Awarded National School of Excellence" },
   // { year: "2025", event: "Celebrating 50 years of educational excellence" },
 ]

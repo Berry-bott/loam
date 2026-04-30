@@ -69,7 +69,7 @@ export const subjectOptions = [
   "Technical Drawing",
   "Yoruba",
 ]
-export const jambYearOptions = Array.from({ length: 11 }, (_, index) => String(new Date().getFullYear() - index))
+export const jambYearOptions = Array.from({ length: 27 }, (_, index) => String(new Date().getFullYear() - index))
 
 export const createSitting = () => ({
   examType: "",

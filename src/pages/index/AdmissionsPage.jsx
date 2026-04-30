@@ -171,7 +171,7 @@ export default function AdmissionsPage() {
             </ScrollReveal>
 
             <ScrollReveal>
-              <div className="rounded-[28px] border border-border bg-background px-6 py-10 text-center shadow-sm md:px-10">
+              <div className="rounded-[28px] shadow-2xl border border-border bg-background px-6 py-10 text-center md:px-10">
                 <div className="mx-auto max-w-2xl">
                   <h3 className="mb-3 font-serif text-2xl font-semibold md:text-3xl">Ready to start your application?</h3>
                   <p className="mb-8 text-muted-foreground">

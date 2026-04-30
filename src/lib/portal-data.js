@@ -47,7 +47,7 @@ export const adminTopbarLinks = ["Directory", "Archives", "Faculty Portal"]
 
 export const loginIdentityOptions = [
   { label: "Student", value: "student" },
-  { label: "AdmissionOfficerLogin", value: "admin" },
+  { label: "StaffLogin", value: "admin" },
   // { label: "Admission", value: "admission" },
 ]
 

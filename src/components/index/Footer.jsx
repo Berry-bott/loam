@@ -28,8 +28,8 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+    <footer className="bg-footer text-primary-foreground">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -46,7 +46,7 @@ export function Footer() {
 
           <div>
             <h4 className="font-semibold mb-4">Navigation</h4>
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {footerLinks.navigation.map((link) => (
                 <li key={link.href}>
                   <Link
@@ -88,7 +88,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/20 mt-12 pt-8 text-center text-sm text-primary-foreground/50">
+        <div className="border-t border-primary-foreground/20 mt-12 pt-4 text-center text-sm text-primary-foreground/50">
           © {new Date().getFullYear()} Loam Polytechnic. All rights reserved.
         </div>
       </div>

@@ -29,7 +29,7 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  // ← pull from zustand store
+
   const { loginAdmin, isLoading, error, clearError } = useAuthStore()
 
   const [identity, setIdentity] = useState("student")

@@ -41,10 +41,10 @@ const activities = [
 ]
 
 const facilities = [
-  { icon: Utensils, title: "Dining Hall", description: "Farm-to-table cuisine with diverse menu options" },
-  { icon: Home, title: "Residence Halls", description: "Modern dormitories with study spaces and lounges" },
-  { icon: Heart, title: "Wellness Center", description: "Health services and counseling support" },
-  { icon: Globe, title: "International Programs", description: "Study abroad and exchange opportunities" },
+  { icon: Utensils, title: "Cafeteria", description: "Delicious and hygienic meals with a variety of food options" },
+  { icon: Home, title: "Modern Hostel", description: "Comfortable accommodation with well-equipped study areas and relaxation spaces" },
+  { icon: Heart, title: "Wellness Centre ", description: "Comprehensive health services and professional counseling support" },
+  { icon: Globe, title: "International Skill Centre ", description: "Global training programs and opportunities for skill development and exchange" },
 ]
 
 const testimonials = [
@@ -105,34 +105,28 @@ export default function StudentLifePage() {
       <main className="min-h-screen pt-16 overflow-hidden">
         <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
+            <img
+              src="/IMG_PIX 2.jpg"
+              alt="Students enjoying campus life"
               className="w-full h-full object-cover"
-              poster="/students-campus-life-activities.jpg"
-            >
-              <source
-                src="/loam-video.mp4"
-                type="video/mp4"
-              />
-            </video>
+            />
             <div className="absolute inset-0 bg-foreground/50" />
           </div>
 
-          <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-            <ScrollReveal>
-              <p className="text-background/70 text-sm uppercase tracking-[0.3em] font-medium mb-4">Student Life</p>
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-background mb-6 text-balance">
-                More Than <span className="italic">Education</span>
-              </h1>
-              <p className="text-background/80 text-lg md:text-xl max-w-2xl mx-auto">
-                Discover a vibrant community where students thrive through sports, arts, clubs, and lifelong
-                friendships.
-              </p>
-            </ScrollReveal>
-          </div>
+<div className="relative shadow-xl z-10 text-center px-4 max-w-5xl mx-auto">
+  <ScrollReveal>
+    <p className="text-primary text-sm uppercase tracking-[0.3em] font-bold -mt-16 drop-shadow-lg">
+      Student Life
+    </p>
+    <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-background mb-4 text-balance drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+      More Than <span className="italic">Education</span>
+    </h1>
+    <p className="text-background text-lg md:text-xl max-w-2xl mx-auto drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
+      Discover a vibrant community where students thrive through sports, arts, clubs, and lifelong
+      friendships.
+    </p>
+  </ScrollReveal>
+</div>
         </section>
 
         <section className="py-8 bg-accent text-accent-foreground overflow-hidden">
@@ -149,8 +143,6 @@ export default function StudentLifePage() {
                 <span className="text-2xl">•</span>
                 <span className="text-lg font-medium">Debate</span>
                 <span className="text-2xl">•</span>
-                <span className="text-lg font-medium">Robotics</span>
-                <span className="text-2xl">•</span>
                 <span className="text-lg font-medium">Community Service</span>
                 <span className="text-2xl">•</span>
               </div>
@@ -158,11 +150,11 @@ export default function StudentLifePage() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 px-4">
+        <section className="py-24 md:py-16 px-4">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal className="text-center mb-16">
               <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Get Involved</p>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4">Activities & Programs</h2>
+              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4">Activities & Programmes</h2>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
                 From competitive sports to creative arts, find your passion and make memories that last a lifetime.
               </p>
@@ -201,9 +193,9 @@ export default function StudentLifePage() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 px-4 bg-secondary/30">
+        <section className="md:pt-16   px-4 bg-secondary/30">
           <div className="max-w-7xl mx-auto">
-            <ScrollReveal className="text-center mb-16">
+            <ScrollReveal className="text-center md:mb-24">
               <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Day in the Life</p>
               <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4">Experience Student Life</h2>
             </ScrollReveal>
@@ -212,18 +204,18 @@ export default function StudentLifePage() {
               videoUrl="/loam-video.mp4"
               posterUrl="/loam (20).jpeg"
               title="A Day at Loam Polytechnic"
-              description="Follow our students through a typical day on campus"
-              className="h-[700px] border-4"
+              // description="Follow our students through a typical day on campus"
+              className="h-[300px] border-8"
             />
           </div>
         </section>
 
-        <section className="py-24 md:py-32 px-4">
+        <section className=" md:pt-4 md:pb-16 px-4 ">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <ScrollReveal animation="slideRight">
-                <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Campus Life</p>
-                <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">World-Class Facilities</h2>
+                <p className="text-lg text-center md:text-left md:text-sm font-medium text-accent mb-4 uppercase tracking-wider">Campus Life</p>
+                <h2 className="font-serif text-center md:text-left text-4xl md:text-5xl font-bold mb-6">World-Class Facilities</h2>
                 <p className="text-muted-foreground text-lg mb-8">
                   Our Polytechnic is designed to support every aspect of student life, from academic pursuits to relaxation
                   and recreation.
@@ -256,7 +248,7 @@ export default function StudentLifePage() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 px-4 bg-primary text-primary-foreground">
+        <section className="py-24 mt-16 md:mt-0  md:py-16 px-4 bg-primary text-primary-foreground">
           <div className="max-w-7xl mx-auto">
             <ScrollReveal className="text-center mb-16">
               <p className="text-sm font-medium text-primary-foreground/70 mb-4 uppercase tracking-wider">
@@ -293,10 +285,7 @@ export default function StudentLifePage() {
         <section className="py-24 md:py-32 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <ScrollReveal>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-6">Ready to Join Our Community?</h2>
-              <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
-                Experience the Loam Polytechnic difference and become part of something extraordinary.
-              </p>
+              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-8">Ready to Join Our Community?</h2>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <MagneticButton>
                   <Link to="/admissions">
