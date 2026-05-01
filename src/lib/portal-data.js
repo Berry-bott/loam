@@ -30,6 +30,7 @@ export const studentSidebarItems = [
 export const adminSidebarItems = [
   { label: "Dashboard Overview", to: "/admin-dashboard", icon: LayoutGrid },
   { label: "Manage Courses", to: "/admin-dashboard/courses", icon: BookOpenCheck },
+  { label: "Upload Results", to: "/admin-dashboard/results", icon: Newspaper },
   { label: "Manage Applications", to: "/admin-dashboard/applications", icon: FileText },
   { label: "Manage Students", to: "/admin-dashboard/students", icon: GraduationCap },
   { label: "Payment Monitoring", to: "/admin-dashboard/payments", icon: CreditCard },

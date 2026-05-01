@@ -145,3 +145,11 @@
     box-shadow: none !important;
   }
 }
+input::placeholder {
+  color: #9ca3af;         /* text color */
+  font-size: 14px;        /* font size */
+  font-style: italic;     /* style */
+  font-weight: 400;       /* weight */
+  opacity: 0.7;           /* transparency */
+  letter-spacing: 0.05em; /* spacing */
+}

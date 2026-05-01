@@ -2,7 +2,8 @@ import { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { PortalSidebar } from "./PortalSidebar"
 import { PortalTopbar } from "./PortalTopbar"
-import { clearPortalSession } from "../../lib/portal-auth"
+import { clearPortalSession, getPortalSession } from "../../lib/portal-auth"
+import { useAuthStore } from "../../store/admin/authStore"
 
 export function PortalShell({
   title,
@@ -18,6 +19,7 @@ export function PortalShell({
   searchPlaceholder = "",
 }) {
   const navigate = useNavigate()
+  const { logoutAdmin } = useAuthStore()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
 
@@ -32,9 +34,19 @@ export function PortalShell({
   const panelClassName = darkMode ? "bg-[#211917] border-[#372723]" : "bg-[#fbfaf6] border-[#e8ddd0]"
   const contentClassName = darkMode ? "bg-[#261e1b]" : "bg-[#fffdfa]"
 
-  const handleLogout = () => {
-    clearPortalSession()
-    navigate("/auth/login")
+  const handleLogout = async () => {
+    const session = getPortalSession()
+
+    try {
+      if (session?.role === "admin") {
+        await logoutAdmin()
+      }
+    } catch {
+      // Always clear local session and continue to login screen.
+    } finally {
+      clearPortalSession()
+      navigate("/auth/login")
+    }
   }
 
   return (
@@ -80,7 +92,7 @@ export function PortalShell({
 
 
     
-    <div className={`h-screen w-full ${shellClassName}`}>
+<div className={`h-screen w-full ${shellClassName}`}>
   <div className="h-full w-full">
     <div  className={`h-full w-full overflow-hidden border shadow-[0_30px_70px_rgba(75,21,12,0.12)] sm:rounded-[16px] ${panelClassName}`}
     >
@@ -115,7 +127,13 @@ export function PortalShell({
 
           {footer ? (
             <footer className="border-t border-[#efe5db] px-3 py-3 text-[10px] uppercase tracking-[0.12em] text-[#a18f80] sm:px-5 lg:px-6">
-              {footer}
+              {typeof footer === "string" ? (
+                footer
+              ) : (
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  {footer}
+                </div>
+              )}
             </footer>
           ) : null}
         </div>

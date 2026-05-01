@@ -11,7 +11,8 @@ export function PortalSidebar({
   isOpen = false,
   onClose,
   onLogout,
-}) {
+}) 
+{
   return (
     <>
       <div
@@ -49,7 +50,7 @@ export function PortalSidebar({
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-hidden px-3 py-4">
+        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {items.map((item) => (
             <NavLink
               key={item.to}

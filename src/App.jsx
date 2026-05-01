@@ -28,6 +28,7 @@ import AdminDashboardPage  from "./pages/admin-dashboard/AdminDashboardPage"
 import AdminFacultyPage from "./pages/admin-dashboard/AdminFacultyPage"
 import AdminNewsPage from "./pages/admin-dashboard/AdminNewsPage"
 import AdminPaymentsPage from "./pages/admin-dashboard/AdminPaymentsPage"
+import AdminResultsPage from "./pages/admin-dashboard/AdminResultsPage"
 import AdminSettingsPage from "./pages/admin-dashboard/AdminSettingsPage"
 import AdminManageStudentsPage from "./pages/admin-dashboard/AdminManageStudentsPage"
 import AdminStudentsPage from "./pages/admin-dashboard/AdminStudentsPage"
@@ -77,6 +78,7 @@ function App() {
         >
           <Route index element={<AdminDashboardPage />} />
           <Route path="courses" element={<AdminCoursesPage />} />
+          <Route path="results" element={<AdminResultsPage />} />
           <Route path="applications" element={<AdminApplicationsPage />} />
           <Route path="students" element={<AdminStudentsPage />} />
           <Route path="students/manage" element={<AdminManageStudentsPage />} />

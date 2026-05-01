@@ -26,51 +26,6 @@ function errBorder(hasError) {
 
 // ─── Custom Dropdown ───────────────────────────────────────────────────────
 
-// function CustomSelect({ value, onChange, options, placeholder = "Select", error, disabled = false }) {
-//   const [open, setOpen] = useState(false)
-
-//   return (
-//     <div className="relative">
-//       <button
-//         type="button"
-//         onClick={() => !disabled && setOpen((prev) => !prev)}
-//         className={`flex w-full items-center justify-between rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring ${
-//           error ? "border-red-400 focus:ring-red-300" : "border-input"
-//         } ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
-//       >
-//         <span className={value ? "text-foreground" : "text-muted-foreground"}>
-//           {value || placeholder}
-//         </span>
-//         <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
-//       </button>
-
-//       {open && !disabled && (
-//         <>
-//           <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-//           <ul className="absolute z-20 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-input bg-background shadow-lg">
-//             <li
-//               onClick={() => { onChange(""); setOpen(false) }}
-//               className="cursor-pointer px-3 py-2 text-sm text-muted-foreground hover:bg-muted"
-//             >
-//               {placeholder}
-//             </li>
-//             {options.map((option) => (
-//               <li
-//                 key={option}
-//                 onClick={() => { onChange(option); setOpen(false) }}
-//                 className={`cursor-pointer px-3 py-2 text-sm hover:bg-muted ${
-//                   value === String(option) ? "bg-accent/10 font-medium text-accent" : ""
-//                 }`}
-//               >
-//                 {option}
-//               </li>
-//             ))}
-//           </ul>
-//         </>
-//       )}
-//     </div>
-//   )
-// }
 function CustomSelect({ value, onChange, options, placeholder = "Select", error, disabled = false }) {
   const [open, setOpen] = useState(false)
   const containerRef = useRef(null)
@@ -91,13 +46,16 @@ function CustomSelect({ value, onChange, options, placeholder = "Select", error,
       <button
         type="button"
         onClick={() => !disabled && setOpen((prev) => !prev)}
-        className={`flex w-full items-center justify-between rounded-lg border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring ${
+        className={`flex w-full items-center justify-between rounded-lg border bg-background px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring ${
           error ? "border-red-400 focus:ring-red-300" : "border-input"
         } ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
       >
-        <span className={value ? "text-foreground" : "text-muted-foreground"}>
-          {value || placeholder}
-        </span>
+      <span className={value 
+        ? "text-foreground text-[10px]" 
+        : "text-muted-foreground text-[10px]"  
+      }>
+        {value || placeholder}
+      </span>
         <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
       </button>
 
@@ -131,11 +89,14 @@ function CustomSelect({ value, onChange, options, placeholder = "Select", error,
 export function PersonalInformationStep({
   form,
   handleChange,
+  handleNationalityChange,
   handleStateChange,
   stateOptions,
   lgaOptions,
   errors = {},
 }) {
+  const isNigerian = form.nationality === "Nigerian"
+
   return (
     <div>
       <SectionHeading title="Personal Details" />
@@ -143,24 +104,29 @@ export function PersonalInformationStep({
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">First Name</label>
-          <Input placeholder="e.g Esther" value={form.firstName} onChange={handleChange("firstName")} className={`rounded-lg ${errBorder(errors.firstName)}`} />
+          <Input placeholder="e.g esther" value={form.firstName} onChange={handleChange("firstName")}
+           className={`rounded-lg ${errBorder(errors.firstName)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.firstName} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Middle Name</label>
-          <Input placeholder="e.g Thomas" value={form.middleName} onChange={handleChange("middleName")} className="rounded-lg" />
+          <Input placeholder="e.g thomas" value={form.middleName} onChange={handleChange("middleName")} 
+          className={`rounded-lg ${errBorder(errors.middleName)} placeholder:text-gray-300 placeholder:text-sm`} />
+          <FieldError message={errors.middleName} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Last Name</label>
-          <Input placeholder="e.g Udo" value={form.lastName} onChange={handleChange("lastName")} className={`rounded-lg ${errBorder(errors.lastName)}`} />
+          <Input placeholder="e.g udo" value={form.lastName} onChange={handleChange("lastName")} 
+          className={`rounded-lg ${errBorder(errors.lastName)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.lastName} />
         </div>
 
         <div>
-          <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Date of Birth (Optional)</label>
-          <Input type="date" value={form.dateOfBirth} onChange={handleChange("dateOfBirth")} className="rounded-lg" />
+          <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Date of Birth</label>
+          <Input type="date" value={form.dateOfBirth} onChange={handleChange("dateOfBirth")} className={`rounded-lg ${errBorder(errors.dateOfBirth)}`} />
+          <FieldError message={errors.dateOfBirth} />
         </div>
 
         <div>
@@ -189,13 +155,15 @@ export function PersonalInformationStep({
 
         <div className="md:col-span-2">
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Email Address</label>
-          <Input type="email" placeholder="example@domain.com" value={form.email} onChange={handleChange("email")} className={`rounded-lg ${errBorder(errors.email)}`} />
+          <Input type="email" placeholder="example@domain.com" value={form.email} onChange={handleChange("email")}
+           className={`rounded-lg ${errBorder(errors.email)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.email} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Phone Number</label>
-          <Input placeholder="08000000000" value={form.phone} onChange={handleChange("phone")} className={`rounded-lg ${errBorder(errors.phone)}`} />
+          <Input placeholder="08000000000" value={form.phone} onChange={handleChange("phone")} 
+          className={`rounded-lg ${errBorder(errors.phone)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.phone} />
         </div>
 
@@ -203,64 +171,94 @@ export function PersonalInformationStep({
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Nationality</label>
           <CustomSelect
             value={form.nationality}
-            onChange={(val) => handleChange("nationality")({ target: { value: val } })}
-            options={["Nigeria", "Ghana", "Other"]}
+            onChange={(val) => handleNationalityChange({ target: { value: val } })}
+            options={["Nigerian", "None-Nigerian"]}
             placeholder="Select nationality"
           />
         </div>
 
-        <div>
-          <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">State of Origin</label>
-          <CustomSelect
-            value={form.stateOfOrigin}
-            onChange={(val) => handleStateChange({ target: { value: val } })}
-            options={stateOptions}
-            placeholder="Select state"
-            error={errors.stateOfOrigin}
-          />
-          <FieldError message={errors.stateOfOrigin} />
-        </div>
+        {isNigerian ? (
+          <>
+            <div>
+              <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">State of Origin</label>
+              <CustomSelect
+                value={form.stateOfOrigin}
+                onChange={(val) => handleStateChange({ target: { value: val } })}
+                options={stateOptions}
+                placeholder="Select state"
+                error={errors.stateOfOrigin}
+              />
+              <FieldError message={errors.stateOfOrigin} />
+            </div>
 
-        <div>
-          <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">LGA</label>
-          <CustomSelect
-            value={form.lga}
-            onChange={(val) => handleChange("lga")({ target: { value: val } })}
-            options={lgaOptions}
-            placeholder={form.stateOfOrigin ? "Select LGA" : "Select state first"}
-            error={errors.lga}
-            disabled={!form.stateOfOrigin}
-          />
-          <FieldError message={errors.lga} />
-        </div>
+            <div>
+              <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">LGA</label>
+              <CustomSelect
+                value={form.lga}
+                onChange={(val) => handleChange("lga")({ target: { value: val } })}
+                options={lgaOptions}
+                placeholder={form.stateOfOrigin ? "Select LGA" : "Select state first"}
+                error={errors.lga}
+                disabled={!form.stateOfOrigin}
+              />
+              <FieldError message={errors.lga} />
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">State / Province</label>
+              <Input
+                placeholder="Enter state or province"
+                value={form.stateOfOrigin}
+                onChange={handleChange("stateOfOrigin")}
+                className={`rounded-lg ${errBorder(errors.stateOfOrigin)} placeholder:text-gray-300 placeholder:text-sm`}
+              />
+              <FieldError message={errors.stateOfOrigin} />
+            </div>
+
+            <div>
+              <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">City / Region</label>
+              <Input
+                placeholder="Enter city or region"
+                value={form.lga}
+                onChange={handleChange("lga")}
+                className={`rounded-lg ${errBorder(errors.lga)} placeholder:text-gray-300 placeholder:text-sm`}
+              />
+              <FieldError message={errors.lga} />
+            </div>
+          </>
+        )}
 
         <div className="md:col-span-2">
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Residential Address</label>
-          <Input placeholder="No. 1, Example Street, City" value={form.residentialAddress} onChange={handleChange("residentialAddress")} className={`rounded-lg ${errBorder(errors.residentialAddress)}`} />
+          <Input placeholder="No. 1, Example Street, City" value={form.residentialAddress} onChange={handleChange("residentialAddress")}
+           className={`rounded-lg ${errBorder(errors.residentialAddress)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.residentialAddress} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Sponsor Name</label>
-          <Input placeholder="Full name of sponsor" value={form.sponsorName} onChange={handleChange("sponsorName")} className={`rounded-lg ${errBorder(errors.sponsorName)}`} />
+          <Input placeholder="Full name of sponsor" value={form.sponsorName} onChange={handleChange("sponsorName")}
+           className={`rounded-lg ${errBorder(errors.sponsorName)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.sponsorName} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Sponsor Phone</label>
-          <Input placeholder="08000000000" value={form.sponsorPhone} onChange={handleChange("sponsorPhone")} className={`rounded-lg ${errBorder(errors.sponsorPhone)}`} />
+          <Input placeholder="08000000000" value={form.sponsorPhone} onChange={handleChange("sponsorPhone")} className={`rounded-lg ${errBorder(errors.sponsorPhone)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.sponsorPhone} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Emergency Contact Name</label>
-          <Input placeholder="Full name of emergency contact" value={form.emergencyContactName} onChange={handleChange("emergencyContactName")} className={`rounded-lg ${errBorder(errors.emergencyContactName)}`} />
+          <Input placeholder="Full name of emergency contact" value={form.emergencyContactName} onChange={handleChange("emergencyContactName")} className={`rounded-lg ${errBorder(errors.emergencyContactName)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.emergencyContactName} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Emergency Contact Phone</label>
-          <Input placeholder="08000000000" value={form.emergencyContactPhone} onChange={handleChange("emergencyContactPhone")} className={`rounded-lg ${errBorder(errors.emergencyContactPhone)}`} />
+          <Input placeholder="08000000000" value={form.emergencyContactPhone} onChange={handleChange("emergencyContactPhone")} className={`rounded-lg ${errBorder(errors.emergencyContactPhone)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.emergencyContactPhone} />
         </div>
 
@@ -286,11 +284,12 @@ export function AcademicHistoryStep({
     <div>
       <SectionHeading title="Academic History" />
 
-      <div className="rounded-2xl border border-border bg-accent/5 p-4 md:p-5">
+      <div className="rounded-2xl border border-border bg-accent/5 p-4 ">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Last School Attended</label>
-            <Input placeholder="Name of your secondary school" value={form.lastSchool} onChange={handleChange("lastSchool")} className={`rounded-lg ${errBorder(errors.lastSchool)}`} />
+            <Input placeholder="Name of your secondary school" value={form.lastSchool} onChange={handleChange("lastSchool")} 
+            className={`rounded-lg ${errBorder(errors.lastSchool)} placeholder:text-gray-300 placeholder:text-[12px]`} />
             <FieldError message={errors.lastSchool} />
           </div>
           <div>
@@ -305,15 +304,16 @@ export function AcademicHistoryStep({
         </div>
       </div>
 
-      <div className={`mt-8 grid grid-cols-1 gap-6 ${Number(form.sittingCount) === 2 ? "lg:grid-cols-2" : ""}`}>
+      <div className={`mt-4 grid grid-cols-1 gap-4 ${Number(form.sittingCount) === 2 ? "lg:grid-cols-2" : ""}`}>
         {activeSittings.map((sitting, sittingIndex) => (
           <div
             key={`sitting-${sittingIndex}`}
-            className={`rounded-2xl border p-5 lg:p-6 ${sittingIndex === 0 ? "border-accent/30 bg-gradient-to-b from-accent/10 to-background" : "border-emerald-200 bg-gradient-to-b from-emerald-50 to-background"}`}
+            className={`rounded-2xl border p-4  ${sittingIndex === 0 ? "border-accent/30 bg-gradient-to-b from-accent/10 to-background" : "border-emerald-200 bg-gradient-to-b from-emerald-50 to-background"}`}
           >
             <div className="mb-5">
               <h4 className="font-serif text-lg font-semibold">Sitting {sittingIndex === 0 ? "A" : "B"}</h4>
               <p className="text-xs text-muted-foreground">Add exam type, candidate number, and 9 subjects with grades.</p>
+              <FieldError message={errors[`sitting_${sittingIndex}_minimumSubjects`]} />
             </div>
 
             <div className="mb-5 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -350,7 +350,7 @@ export function AcademicHistoryStep({
 
             <div className="space-y-3">
               {sitting.subjects.map((subject, subjectIndex) => (
-                <div key={`sitting-${sittingIndex}-subject-${subjectIndex}`} className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_160px]">
+                <div key={`sitting-${sittingIndex}-subject-${subjectIndex}`} className="grid grid-cols-1 gap-2 md:grid-cols-[minmax(0,1fr)_100px]">
                   <div>
                     <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Subject {subjectIndex + 1}</label>
                     <CustomSelect
@@ -390,7 +390,8 @@ export function AcademicHistoryStep({
         <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Registration Number</label>
-            <Input placeholder="Enter JAMB registration number" value={form.jambRegistrationNumber} onChange={handleChange("jambRegistrationNumber")} className={`rounded-lg ${errBorder(errors.jambRegistrationNumber)}`} />
+            <Input placeholder="Enter JAMB registration number" value={form.jambRegistrationNumber} onChange={handleChange("jambRegistrationNumber")}
+             className={`rounded-lg ${errBorder(errors.jambRegistrationNumber)} placeholder:text-gray-300 placeholder:text-[12px]`} />
             <FieldError message={errors.jambRegistrationNumber} />
           </div>
           <div>
