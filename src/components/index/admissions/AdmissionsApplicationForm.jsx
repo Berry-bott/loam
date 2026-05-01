@@ -585,7 +585,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
     <div ref={formRef} className="mx-auto w-full max-w-6xl">
       <FormProgress step={step} progress={progress} />
 
-      <div className="rounded-3xl border border-border bg-gradient-to-b from-background via-background to-secondary/20 p-6 shadow-sm md:p-8">
+      <div className="rounded-3xl border border-border bg-gradient-to-b from-background via-background to-secondary/20 p-4 shadow-sm sm:p-6 md:p-8">
         {step === 1 && (
           <PersonalInformationStep
             form={form}
@@ -627,22 +627,23 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
         )}
 
         {/* ─── Navigation Buttons ─────────────────────────────────────── */}
-        <div className="mt-8 flex items-center justify-between border-t border-border/80 pt-6">
-          <div>
-            {step > 1 && (
-              <Button variant="outline" size="sm" className="rounded-full" onClick={handleBack}>
-                <ChevronLeft className="mr-1 h-4 w-4" /> Back
-              </Button>
-            )}
-          </div>
+        <div className="sticky bottom-0 mt-8 -mx-4 border-t border-border/80 bg-background/95 px-4 pb-1 pt-4 backdrop-blur sm:-mx-6 sm:px-6 md:-mx-8 md:px-8">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex w-full sm:w-auto">
+              {step > 1 && (
+                <Button variant="outline" size="sm" className="w-full rounded-full sm:w-auto" onClick={handleBack}>
+                  <ChevronLeft className="mr-1 h-4 w-4" /> Back
+                </Button>
+              )}
+            </div>
 
-          <div className="flex items-center gap-3">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
             {/* Cancel — only on last step */}
             {step === formStepLabels.length && (
               <Button
                 variant="outline"
                 size="sm"
-                className="rounded-full border-red-200 text-red-500 hover:bg-red-50"
+                className="w-full rounded-full border-red-200 text-red-500 hover:bg-red-50 sm:w-auto"
                 onClick={handleCancel}
               >
                 <X className="mr-1 h-4 w-4" /> Cancel Application
@@ -650,18 +651,19 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
             )}
 
             {step < formStepLabels.length ? (
-              <Button size="sm" className="rounded-full" onClick={handleNext}>
+              <Button size="sm" className="w-full rounded-full sm:w-auto" onClick={handleNext}>
                 Next Step <ChevronRight className="ml-1 h-4 w-4" />
               </Button>
             ) : (
               <Button
                 size="sm"
-                className="rounded-full bg-emerald-600 text-white hover:bg-emerald-700"
+                className="w-full rounded-full bg-emerald-600 text-white hover:bg-emerald-700 sm:w-auto"
                 onClick={handleSubmit}
               >
                 Submit Application <CheckCircle className="ml-1 h-4 w-4" />
               </Button>
             )}
+            </div>
           </div>
         </div>
       </div>

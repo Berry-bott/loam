@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -113,17 +111,17 @@ export default function AboutPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen pt-16">
-        <section className="relative py-24 md:py-32 overflow-hidden">
+      <main className="min-h-screen pt-1 border-4">
+        <section className="relative py-16 overflow-hidden">
           <div className="max-w-7xl mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <p className="text-sm font-medium text-muted-foreground mb-4">About Loam Polytechnic</p>
                 <h1
                   ref={heroTitleRef}
-                  className="font-serif text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-balance"
+                  className="font-serif text-4xl md:text-5xl  font-bold mb-6 text-balance"
                 >
-                  Four year of continuous building and shaping of future leader 
+                  Four year of continuous building and shaping of future leaders 
                 </h1>
                 <p className="text-muted-foreground text-lg">
                   Since 2002, Loam Polytechnic’s e-Library has stood out as the leading CBT Centre in Akwa Ibom State.
@@ -145,7 +143,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 bg-secondary">
+        <section className="py-16 bg-secondary">
           <div className="max-w-7xl mx-auto px-4">
             <ScrollReveal>
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-center mb-16">Our Foundation</h2>
@@ -165,7 +163,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 px-4">
+        <section className="py-16 px-4">
           <div className="max-w-4xl mx-auto">
             <ScrollReveal>
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-center mb-16">Our Journey</h2>
@@ -193,7 +191,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 bg-primary text-primary-foreground">
+        <section className="py-16  bg-primary text-primary-foreground">
           <div className="max-w-7xl mx-auto px-4">
             <ScrollReveal>
               <h2 className="font-serif text-3xl md:text-4xl font-bold text-center mb-4">Leadership Team</h2>
@@ -222,7 +220,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 px-4">
+        <section className="py-16 px-4">
           <div className="max-w-7xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <ScrollReveal animation="slideRight">

@@ -210,7 +210,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="py-24 md:py-32 bg-primary text-primary-foreground overflow-hidden">
+        <section className="py-16 md:mt-0 mt-8 bg-primary text-primary-foreground overflow-hidden">
           <div className="max-w-7xl mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <ScrollReveal animation="slideRight">
