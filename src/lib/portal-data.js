@@ -29,13 +29,13 @@ export const studentSidebarItems = [
 
 export const adminSidebarItems = [
   { label: "Dashboard Overview", to: "/admin-dashboard", icon: LayoutGrid },
+  { label: "General Management", to: "/admin-dashboard/general-management", icon: Users },
   { label: "Manage Courses", to: "/admin-dashboard/courses", icon: BookOpenCheck },
   { label: "Upload Results", to: "/admin-dashboard/results", icon: Newspaper },
   { label: "Manage Applications", to: "/admin-dashboard/applications", icon: FileText },
   { label: "Manage Students", to: "/admin-dashboard/students", icon: GraduationCap },
   { label: "Payment Monitoring", to: "/admin-dashboard/payments", icon: CreditCard },
   { label: "News Management", to: "/admin-dashboard/news", icon: Newspaper },
-  { label: "Faculty Management", to: "/admin-dashboard/faculty", icon: Users },
   { label: "Analytics", to: "/admin-dashboard/analytics", icon: BarChart3 },
   { label: "Settings", to: "/admin-dashboard/settings", icon: Settings },
 ]
@@ -48,7 +48,6 @@ export const adminTopbarLinks = ["Directory", "Archives", "Faculty Portal"]
 
 export const loginIdentityOptions = [
   { label: "Student", value: "student" },
-  { label: "StaffLogin", value: "admin" },
   // { label: "Admission", value: "admission" },
 ]
 

@@ -7,6 +7,20 @@ const ADMIN_LOGIN_URL = `${AUTH_BASE_URL}/login`
 const ADMIN_REFRESH_URL = `${AUTH_BASE_URL}/refresh-token`
 const ADMIN_LOGOUT_URL = `${AUTH_BASE_URL}/logout`
 
+const CLEARED_AUTH_STATE = {
+  accessToken: null,
+  user: null,
+  isAuthenticated: false,
+  isLoading: false,
+  error: null,
+}
+
+function getJsonHeaders() {
+  return {
+    "Content-Type": "application/json",
+  }
+}
+
 async function parseJsonResponse(response) {
   const contentType = response.headers.get("content-type") || ""
   if (!contentType.includes("application/json")) return null
@@ -32,29 +46,44 @@ function resolveUser(payload) {
 }
 
 function resolveAccessToken(payload) {
-  return payload?.data?.accessToken || payload?.accessToken || null
+  return (
+    payload?.data?.accessToken ||
+    payload?.data?.token ||
+    payload?.accessToken ||
+    payload?.token ||
+    null
+  )
 }
 
-function resolveRefreshToken(payload) {
-  return payload?.data?.refreshToken || payload?.refreshToken || null
+function isMissingRouteResponse(response, payload) {
+  if (response.status === 404) return true
+
+  const message = getErrorMessage(payload, "").toLowerCase()
+  return message.includes("route") && message.includes("not found")
 }
 
 export const useAuthStore = create(
   persist(
     (set, get) => ({
-      accessToken: null,
-      refreshToken: null,
-      user: null,
-      isAuthenticated: false,
-      isLoading: false,
-      error: null,
+      ...CLEARED_AUTH_STATE,
+      refreshRouteAvailable: true,
 
       getAuthHeaders: () => {
         const { accessToken } = get()
-        return {
-          "Content-Type": "application/json",
-          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-        }
+        return accessToken
+          ? {
+              Authorization: `Bearer ${accessToken}`,
+            }
+          : {}
+      },
+
+      clearSession: () => {
+        sessionStorage.removeItem("auth-storage")
+        set({
+          ...CLEARED_AUTH_STATE,
+          refreshRouteAvailable: get().refreshRouteAvailable,
+        })
+        window.location.replace("/superadmin")
       },
 
       loginAdmin: async (credentials) => {
@@ -63,83 +92,100 @@ export const useAuthStore = create(
         try {
           const response = await fetch(ADMIN_LOGIN_URL, {
             method: "POST",
-            headers: get().getAuthHeaders(),
+            headers: getJsonHeaders(),
             credentials: "include",
             body: JSON.stringify(credentials),
           })
 
           const payload = await parseJsonResponse(response)
-
           if (!response.ok) {
             throw new Error(
               getErrorMessage(
                 payload,
-                "Admin login failed. Please check your credentials and try again."
-              )
+                "Admin login failed. Please check your credentials and try again.",
+              ),
             )
           }
 
+          const accessToken = resolveAccessToken(payload)
+          const user = resolveUser(payload)
+
           set({
-            accessToken: resolveAccessToken(payload),
-            refreshToken: resolveRefreshToken(payload),
-            user: resolveUser(payload),
-            isAuthenticated: true,
+            accessToken,
+            user,
+            isAuthenticated: Boolean(accessToken || user),
             isLoading: false,
             error: null,
+            refreshRouteAvailable: true,
           })
 
           return payload
         } catch (error) {
           set({
-            accessToken: null,
-            refreshToken: null,
-            user: null,
-            isAuthenticated: false,
-            isLoading: false,
+            ...CLEARED_AUTH_STATE,
             error: error.message,
+            refreshRouteAvailable: get().refreshRouteAvailable,
           })
           throw error
         }
       },
 
-      refreshAdminToken: async () => {
+      refreshAdminToken: async (options = {}) => {
+        const force = Boolean(options?.force)
+
+        if (!force && !get().refreshRouteAvailable) {
+          const routeError = new Error("Refresh route unavailable.")
+          routeError.code = "AUTH_REFRESH_UNAVAILABLE"
+          throw routeError
+        }
+
         set({ isLoading: true, error: null })
 
         try {
           const response = await fetch(ADMIN_REFRESH_URL, {
             method: "POST",
-            headers: get().getAuthHeaders(),
+            headers: getJsonHeaders(),
             credentials: "include",
           })
 
           const payload = await parseJsonResponse(response)
 
+          if (isMissingRouteResponse(response, payload)) {
+            set((current) => ({
+              ...current,
+              isLoading: false,
+              error: null,
+              refreshRouteAvailable: false,
+            }))
+
+            const routeError = new Error("Refresh route unavailable.")
+            routeError.code = "AUTH_REFRESH_UNAVAILABLE"
+            throw routeError
+          }
+
           if (!response.ok) {
             throw new Error(
-              getErrorMessage(payload, "Unable to refresh admin session.")
+              getErrorMessage(payload, "Unable to refresh admin session."),
             )
           }
 
           set((current) => ({
             ...current,
             accessToken: resolveAccessToken(payload) || current.accessToken,
-            refreshToken: resolveRefreshToken(payload) || current.refreshToken,
             user: resolveUser(payload) || current.user,
             isAuthenticated: true,
             isLoading: false,
             error: null,
+            refreshRouteAvailable: true,
           }))
 
           return payload
         } catch (error) {
-          set({
-            accessToken: null,
-            refreshToken: null,
-            user: null,
-            isAuthenticated: false,
-            isLoading: false,
-            error: error.message,
-          })
+          if (error.code === "AUTH_REFRESH_UNAVAILABLE") {
+            throw error
+          }
+
+          get().clearSession()
           throw error
         }
       },
@@ -150,44 +196,31 @@ export const useAuthStore = create(
         try {
           const response = await fetch(ADMIN_LOGOUT_URL, {
             method: "POST",
-            headers: get().getAuthHeaders(),
+            headers: {
+              ...getJsonHeaders(),
+              ...get().getAuthHeaders(),
+            },
             credentials: "include",
           })
 
           const payload = await parseJsonResponse(response)
-
           if (!response.ok) {
             throw new Error(
-              getErrorMessage(payload, "Unable to log out admin session.")
+              getErrorMessage(payload, "Unable to log out admin session."),
             )
           }
 
-          set({
-            accessToken: null,
-            refreshToken: null,
-            user: null,
-            isAuthenticated: false,
-            isLoading: false,
-            error: null,
-          })
-
+          get().clearSession()
           return payload
         } catch (error) {
-          set({
-            accessToken: null,
-            refreshToken: null,
-            user: null,
-            isAuthenticated: false,
-            isLoading: false,
-            error: error.message,
-          })
+          get().clearSession()
           throw error
         }
       },
 
       clearError: () => set({ error: null }),
     }),
-    { 
+    {
       name: "auth-storage",
       storage: {
         getItem: (key) => {
@@ -197,8 +230,10 @@ export const useAuthStore = create(
         setItem: (key, value) => {
           sessionStorage.setItem(key, JSON.stringify(value))
         },
-        removeItem: (key) => sessionStorage.removeItem(key),
+        removeItem: (key) => {
+          sessionStorage.removeItem(key)
+        },
       },
-    }
-  )
+    },
+  ),
 )

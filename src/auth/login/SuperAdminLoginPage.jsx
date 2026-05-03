@@ -1,66 +1,63 @@
 import { useState } from "react"
-import { ArrowRight, Eye, EyeOff } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { ArrowRight, Eye, EyeOff, ShieldCheck } from "lucide-react"
+import { useLocation, useNavigate } from "react-router-dom"
 import { getDefaultRouteForRole, setPortalSession } from "../../lib/portal-auth"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalInput } from "../../components/portal/PortalInput"
+import { useAuthStore } from "../../store/admin/authStore"
 
-const STUDENT_LOGIN_EMAIL = "loampoly@gmail.com"
-const STUDENT_LOGIN_PASSWORD = "loam123"
-
-export default function LoginPage() {
+export default function SuperAdminLoginPage() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const { loginAdmin, isLoading, error, clearError } = useAuthStore()
+
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [keepLoggedIn, setKeepLoggedIn] = useState(true)
-  const [localError, setLocalError] = useState("")
   const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    setLocalError("")
-    setIsLoading(true)
+    clearError()
+
+    const normalizedEmail = email.trim().toLowerCase()
 
     try {
-      const normalizedEmail = email.trim().toLowerCase()
-
-      if (
-        normalizedEmail !== STUDENT_LOGIN_EMAIL ||
-        password !== STUDENT_LOGIN_PASSWORD
-      ) {
-        setLocalError("Invalid student email or password.")
-        return
-      }
-
-      setPortalSession({
-        role: "student",
+      const payload = await loginAdmin({
         email: normalizedEmail,
-        keepLoggedIn,
-        name: "Adewale John",
+        password,
       })
 
-      navigate(getDefaultRouteForRole("student"))
-    } finally {
-      setIsLoading(false)
+      setPortalSession({
+        role: "admin",
+        email: normalizedEmail,
+        keepLoggedIn,
+        name:
+          payload?.data?.user?.name ||
+          payload?.data?.name ||
+          "Super Administrator",
+      })
+
+      const redirectRoute = location.state?.from || getDefaultRouteForRole("admin")
+      navigate(redirectRoute)
+    } catch {
+      // Store already owns the visible error state.
     }
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle,_rgba(137,110,86,0.18)_1.2px,_transparent_1.2px)] [background-size:28px_28px] bg-[#f5f2ec] px-4 py-8 sm:px-6">
-      <div className="mx-auto max-w-[400px]">
+    <div className="min-h-screen bg-[radial-gradient(circle,_rgba(92,24,16,0.16)_1.2px,_transparent_1.2px)] [background-size:28px_28px] bg-[#f4efe8] px-4 py-8 sm:px-6">
+      <div className="mx-auto max-w-[420px]">
         <div className="mb-8 text-center">
-          <img
-            src="/school-logo.jpeg"
-            alt="Loam Poly"
-            className="mx-auto mb-3 h-14 w-14 rounded-full border border-[#decfb8] object-cover shadow-sm"
-          />
-          <h1 className="text-[34px] font-bold uppercase tracking-tight text-[#be2a22]">
-            LOAM POLYTECHNIC
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-[#decfb8] bg-white shadow-sm">
+            <ShieldCheck className="h-8 w-8 text-[#8f120d]" />
+          </div>
+          <h1 className="text-[34px] font-bold uppercase tracking-tight text-[#7d1711]">
+            SUPER ADMIN
           </h1>
           <p className="text-sm font-medium uppercase tracking-[0.08em] text-[#a79a8f]">
-            The Prestigious Ledger
+            Restricted Registry Access
           </p>
         </div>
 
@@ -68,19 +65,19 @@ export default function LoginPage() {
           <div className="space-y-6">
             <div>
               <h2 className="text-[28px] font-bold tracking-tight text-[#402119]">
-                Student Access
+                Administrative Login
               </h2>
-              <p className="mt-2 max-w-[300px] text-[15px] leading-7 text-[#958575]">
-                Login with student credentials
+              <p className="mt-2 max-w-[320px] text-[15px] leading-7 text-[#958575]">
+                Login with your admin credentials to access dashboard. 
               </p>
             </div>
 
             <form className="space-y-5" onSubmit={handleSubmit}>
               <PortalInput
-                label="Institutional ID / Email"
+                label="Institutional Email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                placeholder="e.g. academic.registry@loampoly.edu"
+                placeholder="e.g. registry.office@loampoly.edu"
                 autoComplete="email"
                 disabled={isLoading}
                 required
@@ -88,7 +85,6 @@ export default function LoginPage() {
 
               <PortalInput
                 label="Password"
-                rightLabel="Forgot Password?"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
@@ -112,9 +108,9 @@ export default function LoginPage() {
                 required
               />
 
-              {localError ? (
+              {error ? (
                 <p className="rounded-[4px] border border-[#e6beb8] bg-[#fff2f0] px-3 py-2 text-sm text-[#9f1f18]">
-                  {localError}
+                  {error}
                 </p>
               ) : null}
 
@@ -126,7 +122,7 @@ export default function LoginPage() {
                   disabled={isLoading}
                   onChange={(event) => setKeepLoggedIn(event.target.checked)}
                 />
-                Keep me logged in on this terminal
+                Keep this admin session active on this terminal
               </label>
 
               <PortalButton
@@ -135,31 +131,12 @@ export default function LoginPage() {
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? "Signing In..." : "Access Portal"}
+                {isLoading ? "Signing In..." : "Access Super Admin"}
                 <ArrowRight className="h-4 w-4" />
               </PortalButton>
             </form>
-
-            <div className="border-t border-[#f0e7dc] pt-6 text-center">
-              <p className="mb-4 text-sm text-[#978677]">
-                Prospective member of the community?
-              </p>
-              <PortalButton
-                variant="outline"
-                className="w-full border-[#d8c7ac] text-[#b08b2d]"
-                onClick={() => navigate("/admissions")}
-              >
-                New Student? Start Application
-              </PortalButton>
-            </div>
           </div>
         </PortalCard>
-
-        <div className="mt-5 flex items-center justify-center gap-5 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#aca093]">
-          <span>Secure Login</span>
-          <span className="h-1 w-1 rounded-full bg-[#cabcae]" />
-          <span>AES-256 Bit</span>
-        </div>
       </div>
     </div>
   )

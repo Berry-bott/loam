@@ -8,6 +8,7 @@ import GalleryPage from "./pages/index/GalleryPage"
 import EventsPage from "./pages/index/EventsPage"
 import ContactPage from "./pages/index/ContactPage"
 import LoginPage from "./auth/login/LoginPage"
+import SuperAdminLoginPage from "./auth/login/SuperAdminLoginPage"
 
 // students routes
 import StudentPortalLayout from "./pages/student-dashboard/StudentPortalLayout"
@@ -26,10 +27,12 @@ import AdminApplicationsPage from "./pages/admin-dashboard/AdminApplicationsPage
 import AdminCoursesPage from "./pages/admin-dashboard/AdminCoursesPage"
 import AdminDashboardPage  from "./pages/admin-dashboard/AdminDashboardPage"
 import AdminFacultyPage from "./pages/admin-dashboard/AdminFacultyPage"
+import AdminDepartmentManagementPage from "./pages/admin-dashboard/AdminDepartmentManagementPage"
 import AdminNewsPage from "./pages/admin-dashboard/AdminNewsPage"
 import AdminPaymentsPage from "./pages/admin-dashboard/AdminPaymentsPage"
 import AdminResultsPage from "./pages/admin-dashboard/AdminResultsPage"
 import AdminSettingsPage from "./pages/admin-dashboard/AdminSettingsPage"
+import AdminStaffManagementPage from "./pages/admin-dashboard/AdminStaffManagementPage"
 import AdminManageStudentsPage from "./pages/admin-dashboard/AdminManageStudentsPage"
 import AdminStudentsPage from "./pages/admin-dashboard/AdminStudentsPage"
 import { RequirePortalRole } from "./app/RequirePortalRole"
@@ -49,6 +52,7 @@ function App() {
         <Route path="/events" element={<EventsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/superadmin" element={<SuperAdminLoginPage />} />
 
         <Route
           path="/student-dashboard"
@@ -84,6 +88,9 @@ function App() {
           <Route path="students/manage" element={<AdminManageStudentsPage />} />
           <Route path="payments" element={<AdminPaymentsPage />} />
           <Route path="news" element={<AdminNewsPage />} />
+          <Route path="general-management" element={<AdminFacultyPage />} />
+          <Route path="general-management/departments" element={<AdminDepartmentManagementPage />} />
+          <Route path="general-management/staff" element={<AdminStaffManagementPage />} />
           <Route path="faculty" element={<AdminFacultyPage />} />
           <Route path="analytics" element={<AdminAnalyticsPage />} />
           <Route path="settings" element={<AdminSettingsPage />} />

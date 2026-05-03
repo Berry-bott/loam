@@ -1,17 +1,14 @@
 import { API_CONFIG } from "../../config/api"
-import { useAuthStore } from "./admin/authStore" 
+import { useAuthStore } from "./authStore"
 
-// ─── URLs ──────────────────────────────────────────────────────────────────
 const ADMIN_URL = `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.admin}`
 
-// ─── Helpers ───────────────────────────────────────────────────────────────
-function getAuthHeaders() {
-  return useAuthStore.getState().getAuthHeaders()
-}
+let refreshRequest = null
 
 async function parseJsonResponse(response) {
   const contentType = response.headers.get("content-type") || ""
   if (!contentType.includes("application/json")) return null
+
   try {
     return await response.json()
   } catch {
@@ -19,101 +16,169 @@ async function parseJsonResponse(response) {
   }
 }
 
-async function handleResponse(response) {
-  const payload = await parseJsonResponse(response)
-  console.log("API Response:", payload)
-  if (!response.ok) {
-    const errorMessage =
-      (payload?.message || payload?.error || payload?.detail)?.trim() ||
-      "Something went wrong. Please try again."
-    throw new Error(errorMessage)
+function getErrorMessage(payload, fallbackMessage) {
+  return (
+    payload?.message ||
+    payload?.error ||
+    payload?.detail ||
+    fallbackMessage
+  )?.trim()
+}
+
+function isUnauthorizedResponse(response, payload) {
+  if (response.status === 401) return true
+
+  const message = getErrorMessage(payload, "").toLowerCase()
+  return (
+    message.includes("unauthorized") ||
+    message.includes("invalid or expired access token") ||
+    message.includes("expired access token") ||
+    message.includes("invalid access token")
+  )
+}
+
+async function refreshAdminSession() {
+  const authState = useAuthStore.getState()
+  if (!authState.refreshRouteAvailable) {
+    const routeError = new Error("Refresh route unavailable.")
+    routeError.code = "AUTH_REFRESH_UNAVAILABLE"
+    throw routeError
   }
-  return payload
+
+  if (!refreshRequest) {
+    refreshRequest = authState.refreshAdminToken().finally(() => {
+      refreshRequest = null
+    })
+  }
+
+  return refreshRequest
 }
 
-// ─── Overview ──────────────────────────────────────────────────────────────
+async function executeAdminFetch(path, options = {}) {
+  const headers = {
+    ...useAuthStore.getState().getAuthHeaders(),
+    ...(options.headers || {}),
+  }
+
+  if (!options.body) {
+    delete headers["Content-Type"]
+  }
+
+  return fetch(`${ADMIN_URL}${path}`, {
+    ...options,
+    headers,
+  })
+}
+
+async function handleResponse(response, payload = null) {
+  const resolvedPayload = payload ?? await parseJsonResponse(response)
+
+  if (!response.ok) {
+    throw new Error(
+      getErrorMessage(resolvedPayload, "Something went wrong. Please try again.")
+    )
+  }
+
+  return resolvedPayload
+}
+
+async function adminRequest(path, options = {}, hasRetried = false) {
+  const response = await executeAdminFetch(path, options)
+  const payload = await parseJsonResponse(response)
+
+  if (!response.ok && isUnauthorizedResponse(response, payload)) {
+    if (!hasRetried) {
+      try {
+        await refreshAdminSession()
+        return adminRequest(path, options, true)
+      } catch (error) {
+        if (error.code === "AUTH_REFRESH_UNAVAILABLE") {
+          useAuthStore.getState().clearSession()
+          throw new Error("Session expired. Please log in again.")
+        }
+
+        throw error
+      }
+    }
+
+    useAuthStore.getState().clearSession()
+    throw new Error("Session expired. Please log in again.")
+  }
+
+  return handleResponse(response, payload)
+}
+
 export async function getOverview() {
-  const response = await fetch(`${ADMIN_URL}/overview`, {
-    method: "GET",
-    headers: getAuthHeaders(),
-  })
-  return handleResponse(response)
+  return adminRequest("/overview", { method: "GET" })
 }
 
-// ─── Staff ─────────────────────────────────────────────────────────────────
 export async function createStaff({ email, role, departmentId }) {
-  const response = await fetch(`${ADMIN_URL}/staff`, {
+  return adminRequest("/staff", {
     method: "POST",
-    headers: getAuthHeaders(),
-    body: JSON.stringify({ email, role, ...(departmentId ? { departmentId } : {}) }),
+    body: JSON.stringify({
+      email,
+      role,
+      ...(departmentId ? { departmentId } : {}),
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
-  return handleResponse(response)
 }
 
 export async function getAllStaff() {
-  const response = await fetch(`${ADMIN_URL}/staff`, {
-    method: "GET",
-    headers: getAuthHeaders(),
-  })
-  return handleResponse(response)
+  return adminRequest("/staff", { method: "GET" })
 }
 
 export async function getStaffById(id) {
-  const response = await fetch(`${ADMIN_URL}/staff/${id}`, {
-    method: "GET",
-    headers: getAuthHeaders(),
-  })
-  return handleResponse(response)
+  if (!id) throw new Error("Staff ID is required.")
+  return adminRequest(`/staff/${id}`, { method: "GET" })
 }
 
 export async function toggleStaffStatus(id) {
-  const response = await fetch(`${ADMIN_URL}/staff/${id}/toggle-status`, {
+  if (!id) throw new Error("Staff ID is required.")
+  return adminRequest(`/staff/${id}/toggle-status`, {
     method: "PATCH",
-    headers: getAuthHeaders(),
   })
-  return handleResponse(response)
 }
 
 export async function resetStaffPassword(id) {
-  const response = await fetch(`${ADMIN_URL}/staff/${id}/reset-password`, {
+  if (!id) throw new Error("Staff ID is required.")
+  return adminRequest(`/staff/${id}/reset-password`, {
     method: "PATCH",
-    headers: getAuthHeaders(),
   })
-  return handleResponse(response)
 }
 
-// ─── HOD ───────────────────────────────────────────────────────────────────
 export async function assignHod({ departmentId, newHodUserId }) {
-  const response = await fetch(`${ADMIN_URL}/assign-hod`, {
+  if (!departmentId) throw new Error("Department ID is required.")
+  if (!newHodUserId) throw new Error("HOD user ID is required.")
+
+  return adminRequest("/assign-hod", {
     method: "POST",
-    headers: getAuthHeaders(),
     body: JSON.stringify({ departmentId, newHodUserId }),
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
-  return handleResponse(response)
 }
 
-// ─── Departments ───────────────────────────────────────────────────────────
 export async function createDepartment({ name }) {
-  const response = await fetch(`${ADMIN_URL}/departments`, {
+  if (!name?.trim()) throw new Error("Department name is required.")
+
+  return adminRequest("/departments", {
     method: "POST",
-    headers: getAuthHeaders(),
-    body: JSON.stringify({ name }),
+    body: JSON.stringify({ name: name.trim() }),
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
-  return handleResponse(response)
 }
 
 export async function getAllDepartments() {
-  const response = await fetch(`${ADMIN_URL}/departments`, {
-    method: "GET",
-    headers: getAuthHeaders(),
-  })
-  return handleResponse(response)
+  return adminRequest("/departments", { method: "GET" })
 }
 
 export async function getDepartmentById(id) {
-  const response = await fetch(`${ADMIN_URL}/departments/${id}`, {
-    method: "GET",
-    headers: getAuthHeaders(),
-  })
-  return handleResponse(response)
+  if (!id) throw new Error("Department ID is required.")
+  return adminRequest(`/departments/${id}`, { method: "GET" })
 }

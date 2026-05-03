@@ -1096,20 +1096,100 @@
 
 
 // AdminDashboardPage.jsx
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Download, Plus } from "lucide-react"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalToast } from "../../components/portal/PortalToast"
-import { adminActivityRows, adminOverviewStats } from "../../lib/portal-data"
+import { adminActivityRows } from "../../lib/portal-data"
+import { getOverview } from "../../store/admin/adminApi"
 import {
   PageEyebrow, PageTitle, MetricCard, ChartCard,
   ResponsiveTable, StatusPill, StandardActionModal,
 } from "../../components/admin-shared/Shared"
 
+const overviewCardTemplate = [
+  { label: "Total Students", note: "Registered student records", accent: "red" },
+  { label: "Total Staff", note: "Active administrative staff", accent: "gold" },
+  { label: "Departments", note: "Academic departments configured", accent: "red" },
+  { label: "Courses", note: "Course registry entries", accent: "gold" },
+  { label: "Applications", note: "Admission applications received", accent: "red" },
+]
+
+let overviewCache = null
+let overviewRequest = null
+
+function formatMetricValue(value) {
+  if (value === undefined || value === null || value === "") return "0"
+  return typeof value === "number" ? value.toLocaleString() : String(value)
+}
+
+async function loadOverviewOnce() {
+  if (overviewCache) return overviewCache
+  if (overviewRequest) return overviewRequest
+
+  overviewRequest = getOverview()
+    .then((payload) => {
+      overviewCache = payload
+      return payload
+    })
+    .finally(() => {
+      overviewRequest = null
+    })
+
+  return overviewRequest
+}
+
 export default function AdminDashboardPage() {
   const [modalOpen, setModalOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState("")
+  const [overviewStats, setOverviewStats] = useState(
+    overviewCardTemplate.map((item) => ({ ...item, value: "0" })),
+  )
+
+  useEffect(() => {
+    let ignore = false
+
+    const loadOverview = async () => {
+      try {
+        const payload = await loadOverviewOnce()
+        if (ignore) return
+
+        const totals = payload?.data?.totals || {}
+        setOverviewStats([
+          {
+            ...overviewCardTemplate[0],
+            value: formatMetricValue(totals.students),
+          },
+          {
+            ...overviewCardTemplate[1],
+            value: formatMetricValue(totals.staff),
+          },
+          {
+            ...overviewCardTemplate[2],
+            value: formatMetricValue(totals.departments),
+          },
+          {
+            ...overviewCardTemplate[3],
+            value: formatMetricValue(totals.courses),
+          },
+          {
+            ...overviewCardTemplate[4],
+            value: formatMetricValue(totals.applications),
+          },
+        ])
+      } catch (error) {
+        if (!ignore) {
+          setToastMessage(error.message || "Unable to load dashboard overview right now.")
+        }
+      }
+    }
+
+    loadOverview()
+    return () => {
+      ignore = true
+    }
+  }, [])
 
   return (
     <>
@@ -1132,8 +1212,8 @@ export default function AdminDashboardPage() {
           }
         />
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {adminOverviewStats.map((item, index) => (
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          {overviewStats.map((item, index) => (
             <MetricCard
               key={item.label}
               label={item.label}

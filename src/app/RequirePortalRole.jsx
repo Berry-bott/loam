@@ -11,18 +11,29 @@ import { useAuthStore } from "../store/admin/authStore"
 export function RequirePortalRole({ allowedRoles, children }) {
   const location = useLocation()
   const session = getPortalSession()
-  const { isAuthenticated, refreshAdminToken } = useAuthStore()
+  const { accessToken, isAuthenticated, refreshAdminToken, refreshRouteAvailable } = useAuthStore()
+  const unauthorizedRoute = allowedRoles.includes("admin") ? "/superadmin" : "/auth/login"
   const needsAdminRefresh = Boolean(
     session?.role === "admin" && allowedRoles.includes("admin")
   )
+  const shouldForceAdminRefresh =
+    needsAdminRefresh &&
+    refreshRouteAvailable &&
+    location.key === "default"
   const [status, setStatus] = useState(
-    needsAdminRefresh && !isAuthenticated ? "checking" : "ready"
+    shouldForceAdminRefresh || (needsAdminRefresh && !isAuthenticated && !accessToken && refreshRouteAvailable)
+      ? "checking"
+      : "ready"
   )
 
   useEffect(() => {
     let isActive = true
 
-    if (!needsAdminRefresh || isAuthenticated) {
+    if (
+      !needsAdminRefresh ||
+      !refreshRouteAvailable ||
+      (!shouldForceAdminRefresh && (isAuthenticated || accessToken))
+    ) {
       setStatus("ready")
       return () => {
         isActive = false
@@ -31,7 +42,7 @@ export function RequirePortalRole({ allowedRoles, children }) {
 
     setStatus("checking")
 
-    refreshAdminToken()
+    refreshAdminToken({ force: shouldForceAdminRefresh })
       .then((payload) => {
         if (!isActive) return
 
@@ -54,10 +65,18 @@ export function RequirePortalRole({ allowedRoles, children }) {
     return () => {
       isActive = false
     }
-  }, [isAuthenticated, needsAdminRefresh, refreshAdminToken, session])
+  }, [
+    accessToken,
+    isAuthenticated,
+    needsAdminRefresh,
+    refreshAdminToken,
+    refreshRouteAvailable,
+    session,
+    shouldForceAdminRefresh,
+  ])
 
   if (!session) {
-    return <Navigate to="/auth/login" replace state={{ from: location.pathname }} />
+    return <Navigate to={unauthorizedRoute} replace state={{ from: location.pathname }} />
   }
 
   if (status === "checking") {
@@ -69,7 +88,7 @@ export function RequirePortalRole({ allowedRoles, children }) {
   }
 
   if (status === "failed") {
-    return <Navigate to="/auth/login" replace state={{ from: location.pathname }} />
+    return <Navigate to={unauthorizedRoute} replace state={{ from: location.pathname }} />
   }
 
   if (!allowedRoles.includes(session.role)) {
