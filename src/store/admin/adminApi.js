@@ -162,12 +162,36 @@ export async function assignHod({ departmentId, newHodUserId }) {
   })
 }
 
-export async function createDepartment({ name }) {
+export async function createFaculty({ name, code }) {
+  if (!name?.trim()) throw new Error("Faculty name is required.")
+  if (!code?.trim()) throw new Error("Faculty code is required.")
+
+  return adminRequest("/faculties", {
+    method: "POST",
+    body: JSON.stringify({
+      name: name.trim(),
+      code: code.trim().toUpperCase(),
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+}
+
+export async function getAllFaculties() {
+  return adminRequest("/faculties", { method: "GET" })
+}
+
+export async function createDepartment({ name, facultyId }) {
   if (!name?.trim()) throw new Error("Department name is required.")
+  if (!facultyId) throw new Error("Faculty ID is required before creating a department.")
 
   return adminRequest("/departments", {
     method: "POST",
-    body: JSON.stringify({ name: name.trim() }),
+    body: JSON.stringify({
+      name: name.trim(),
+      facultyId,
+    }),
     headers: {
       "Content-Type": "application/json",
     },

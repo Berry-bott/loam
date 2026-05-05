@@ -14,7 +14,7 @@ import {
   getHodName,
   getStaffStatus,
   resolveArray,
-} from "./adminManagementUtils"
+} from "../../components/admin-shared/adminManagementUtils"
 
 export default function AdminFacultyPage() {
   const [departments, setDepartments] = useState([])

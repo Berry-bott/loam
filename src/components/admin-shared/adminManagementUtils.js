@@ -1,32 +1,27 @@
 export const roleOptions = [
-  "Super Admin",
-  "Admin",
-  "HOD",
-  "Registrar",
-  "Bursary Officer",
-  "Staff",
-]
-
-export const facultyOptions = [
-  "School of Applied Sciences",
-  "School of Engineering",
-  "School of Management Sciences",
-  "School of General Studies",
-  "Institutional Departments",
+  { label: "Lecturer", value: "LECTURER" },
+  { label: "HOD", value: "HOD" },
+  { label: "Registrar", value: "REGISTRAR" },
+  { label: "Bursary Officer", value: "BURSARY_OFFICER" },
+  { label: "Admin", value: "ADMIN" },
+  { label: "Staff", value: "STAFF" },
+  { label: "Super Admin", value: "SUPER_ADMIN" },
 ]
 
 export function resolveArray(payload) {
   if (Array.isArray(payload)) return payload
   if (Array.isArray(payload?.data)) return payload.data
+  if (Array.isArray(payload?.data?.faculties)) return payload.data.faculties
   if (Array.isArray(payload?.data?.departments)) return payload.data.departments
   if (Array.isArray(payload?.data?.staff)) return payload.data.staff
+  if (Array.isArray(payload?.faculties)) return payload.faculties
   if (Array.isArray(payload?.departments)) return payload.departments
   if (Array.isArray(payload?.staff)) return payload.staff
   return []
 }
 
 export function getEntityId(item) {
-  return item?.id || item?._id || item?.userId || item?.departmentId || item?.staffId || ""
+  return item?.id || item?._id || item?.userId || item?.departmentId || item?.staffId || item?.facultyId || ""
 }
 
 export function getDepartmentName(item) {
@@ -37,10 +32,15 @@ export function getFacultyName(item) {
   return (
     item?.faculty?.name ||
     item?.facultyName ||
+    item?.name ||
     item?.school?.name ||
     item?.schoolName ||
     "Institutional Departments"
   )
+}
+
+export function getFacultyCode(item) {
+  return item?.faculty?.code || item?.code || item?.facultyCode || item?.schoolCode || ""
 }
 
 export function getHodName(item) {

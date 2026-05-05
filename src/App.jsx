@@ -52,7 +52,7 @@ function App() {
         <Route path="/events" element={<EventsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/auth/login" element={<LoginPage />} />
-        <Route path="/superadmin" element={<SuperAdminLoginPage />} />
+        <Route path="/superadminlogin" element={<SuperAdminLoginPage />} />
 
         <Route
           path="/student-dashboard"
