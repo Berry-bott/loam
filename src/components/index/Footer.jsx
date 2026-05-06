@@ -4,7 +4,6 @@ const footerLinks = {
   navigation: [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
-    { href: "/academics", label: "Academics" },
     { href: "/admissions", label: "Admissions" },
     { href: "/student-life", label: "Student Life" },
     { href: "/gallery", label: "Gallery" },

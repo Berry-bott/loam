@@ -98,7 +98,7 @@ const upcomingEvents = [
     title: "Examinations",
     date: "October, 2026 ",
     location: "Main Campus",
-    description: "Examination Update: First Semester 2025/2026",
+    description: "Examination Update: First Semester 2025/2026 Academic Session",
     fullDescription: `The management of Loam Polytechnic is pleased to announce the successful conclusion of the First Semester Examinations for the 2025/2026 academic session, which ended on 6th May, 2026.
 
       The examination period went smoothly across all departments, with students demonstrating commitment, discipline, and academic focus throughout the process. The institution appreciates the efforts of both staff and students in ensuring a hitch-free exercise.

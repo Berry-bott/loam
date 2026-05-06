@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/index/HomePage"
 import AboutPage from "./pages/index/AboutPage"
-import AcademicsPage from "./pages/index/AcademicsPage"
 import AdmissionsPage from "./pages/index/AdmissionsPage"
 import StudentLifePage from "./pages/index/StudentLifePage"
 import GalleryPage from "./pages/index/GalleryPage"
@@ -46,7 +45,6 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/academics" element={<AcademicsPage />} />
         <Route path="/admissions" element={<AdmissionsPage />} />
         <Route path="/student-life" element={<StudentLifePage />} />
         <Route path="/gallery" element={<GalleryPage />} />
