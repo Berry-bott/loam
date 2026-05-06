@@ -71,7 +71,7 @@ function ResultSelect({ value, onChange, options, className = "" }) {
     <select
       value={value}
       onChange={onChange}
-      className={`h-10 w-full rounded-[4px] border border-[#efe5d8] bg-white px-3 text-[12px] text-[#4d2017] outline-none focus:border-[#c7a98a] focus:ring-2 focus:ring-[#efe0c1] ${className}`}
+      className={`h-10 w-full rounded-[4px] border border-admin-field-border bg-white px-3 text-[12px] text-admin-field-text outline-none focus:border-[#c7a98a] focus:ring-2 focus:ring-[#efe0c1] ${className}`}
     >
       {options.map((option) => (
         <option key={option} value={option}>
@@ -114,14 +114,14 @@ export default function AdminResultsPage() {
     <>
       <div className="space-y-5">
         <div className="rounded-[8px] border border-[#e5dccf] bg-[#fdfbf7] px-4 py-3">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-[#9b1810]">
+          <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-portal-brand-soft">
             Result Management & Upload
           </p>
         </div>
 
         <div className="space-y-5">
             <PortalCard className="p-0">
-              <div className="rounded-[6px] border border-[#ede3d8] bg-[#fffdfa] p-5">
+              <div className="rounded-[6px] border border-[#ede3d8] bg-portal-surface p-5">
                 <div className="mb-5 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a58d78]">
                   <AlertCircle className="h-4 w-4 text-[#c7a146]" />
                   Academic Context
@@ -175,19 +175,19 @@ export default function AdminResultsPage() {
               </div>
             </PortalCard>
 
-            <PortalCard accent="none" className="border-dashed bg-[#fffdfa] p-0 shadow-none">
-              <div className="rounded-[6px] border border-dashed border-[#eadfd2] bg-[#fffdfa] px-5 py-10 text-center">
+            <PortalCard accent="none" className="border-dashed bg-portal-surface p-0 shadow-none">
+              <div className="rounded-[6px] border border-dashed border-[#eadfd2] bg-portal-surface px-5 py-10 text-center">
                 <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-[10px] border border-[#efe4d8] bg-white shadow-[0_8px_18px_rgba(70,22,13,0.06)]">
-                  <UploadCloud className="h-5 w-5 text-[#9b1810]" />
+                  <UploadCloud className="h-5 w-5 text-portal-brand-soft" />
                 </div>
-                <p className="mt-5 text-[20px] font-bold text-[#4f1d14]">Bulk Upload Results</p>
+                <p className="mt-5 text-[20px] font-bold text-portal-text-strong">Bulk Upload Results</p>
                 <p className="mx-auto mt-2 max-w-[440px] text-[12px] leading-5 text-[#9b8a7d]">
                   Drag and drop your Excel or CSV files here to process scores instantly.
                   Ensure student matric numbers match the ledger exactly.
                 </p>
                 <PortalButton
                   variant="outline"
-                  className="mt-6 border-[#c78379] px-6 text-[#9b1810]"
+                  className="mt-6 border-[#c78379] px-6 text-portal-brand-soft"
                   onClick={() => setToastMessage("File browser opened for bulk result upload.")}
                 >
                   Browse Files
@@ -198,7 +198,7 @@ export default function AdminResultsPage() {
             <section className="space-y-4">
               <div className="sticky top-[84px] z-40 md:top-[78px] lg:top-[72px]">
                 <PortalCard className="relative isolate overflow-visible p-0">
-                  <div className="border-b border-[#e7d7c9] bg-[#fffdfa] px-5 pb-4 pt-5 shadow-[0_16px_28px_rgba(72,23,15,0.12)]">
+                  <div className="border-b border-[#e7d7c9] bg-portal-surface px-5 pb-4 pt-5 shadow-[0_16px_28px_rgba(72,23,15,0.12)]">
                     <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                       <div>
                         <p className="text-[18px] font-bold text-[#7c1610]">Manual Entry Ledger</p>
@@ -211,7 +211,7 @@ export default function AdminResultsPage() {
                           <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#a58d78]">
                             Total Entries
                           </p>
-                          <p className="mt-1 text-[24px] font-bold leading-none text-[#8f120d]">
+                          <p className="mt-1 text-[24px] font-bold leading-none text-primary">
                             {totalRecords}
                           </p>
                         </div>
@@ -229,7 +229,7 @@ export default function AdminResultsPage() {
                   </div>
 
                   <div className="px-3 pb-4 pt-2">
-                    <div className="relative isolate max-h-[560px] overflow-auto rounded-[8px] border border-[#dcc6b5] bg-[#fffdfa] shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_16px_36px_rgba(72,23,15,0.08)]">
+                    <div className="relative isolate max-h-[560px] overflow-auto rounded-[8px] border border-[#dcc6b5] bg-portal-surface shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_16px_36px_rgba(72,23,15,0.08)]">
                     <table className="min-w-[1540px] border-separate border-spacing-0 text-left">
                       <thead>
                         <tr className="text-[11px] font-semibold text-[#67180f]">
@@ -277,7 +277,7 @@ export default function AdminResultsPage() {
                 </PortalCard>
               </div>
 
-              <div className="rounded-[10px] border border-[#d9c8bb] bg-[#fffdfa] px-4 py-3 text-[10px] uppercase tracking-[0.12em] text-[#a08f80] shadow-[0_12px_32px_rgba(63,20,12,0.06)]">
+              <div className="rounded-[10px] border border-[#d9c8bb] bg-portal-surface px-4 py-3 text-[10px] uppercase tracking-[0.12em] text-[#a08f80] shadow-[0_12px_32px_rgba(63,20,12,0.06)]">
                 <span>Last Synchronized: Just now</span>
               </div>
             </section>
@@ -301,14 +301,14 @@ function FragmentCell({ score, grade, onScoreChange, onGradeChange }) {
           value={score}
           onChange={(event) => onScoreChange(event.target.value.replace(/[^\d]/g, ""))}
           placeholder="-"
-          className="h-9 w-[56px] rounded-[4px] border border-[#efe5d8] bg-[#fffdf9] px-2 text-[11px] text-[#4d2017] outline-none focus:border-[#c7a98a] focus:ring-2 focus:ring-[#efe0c1]"
+          className="h-9 w-[56px] rounded-[4px] border border-admin-field-border bg-admin-field-bg px-2 text-[11px] text-admin-field-text outline-none focus:border-[#c7a98a] focus:ring-2 focus:ring-[#efe0c1]"
         />
       </td>
       <td className="border border-[#e8ddd0] bg-white px-1 py-1.5">
         <select
           value={grade}
           onChange={(event) => onGradeChange(event.target.value)}
-          className="h-9 w-[54px] rounded-[4px] border border-[#efe5d8] bg-[#fffdf9] px-1 text-[11px] text-[#4d2017] outline-none focus:border-[#c7a98a] focus:ring-2 focus:ring-[#efe0c1]"
+          className="h-9 w-[54px] rounded-[4px] border border-admin-field-border bg-admin-field-bg px-1 text-[11px] text-admin-field-text outline-none focus:border-[#c7a98a] focus:ring-2 focus:ring-[#efe0c1]"
         >
           <option value="">-</option>
           {gradeOptions.map((option) => (
@@ -321,3 +321,4 @@ function FragmentCell({ score, grade, onScoreChange, onGradeChange }) {
     </>
   )
 }
+

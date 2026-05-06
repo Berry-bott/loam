@@ -35,14 +35,14 @@ const defaultDepartmentForm = {
 function SelectField({ label, value, onChange, options, placeholder = "Select option", disabled = false }) {
   return (
     <label className="block">
-      <span className="mb-2 block text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#8d7969]">
+      <span className="mb-2 block text-[12px] font-extrabold uppercase tracking-[0.14em] text-admin-field-label">
         {label}
       </span>
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
         disabled={disabled}
-        className="h-12 w-full rounded-[3px] border border-[#efe5d8] bg-[#fffdf9] px-4 text-sm text-[#4d2017] outline-none transition focus:border-[#ccb08e] focus:ring-2 focus:ring-[#ecdcb8] disabled:cursor-not-allowed disabled:bg-[#f5f0ea] disabled:text-[#a39082]"
+        className="h-12 w-full rounded-[3px] border border-admin-field-border bg-admin-field-bg px-4 text-sm text-admin-field-text outline-none transition focus:border-admin-field-focus-border focus:ring-2 focus:ring-admin-field-focus-ring disabled:cursor-not-allowed disabled:bg-admin-field-disabled-bg disabled:text-admin-field-disabled-text"
       >
         <option value="">{placeholder}</option>
         {options.map((option) => (
@@ -323,10 +323,10 @@ export default function AdminDepartmentManagementPage() {
         <div className="grid gap-24">
           <PortalCard>
             <div className="flex items-center gap-3">
-              <Building2 className="h-5 w-5 text-[#8f120d]" />
+              <Building2 className="h-5 w-5 text-portal-brand" />
               <div>
-                <p className="text-[22px] font-bold text-[#4f1d14]">Faculty Then Department</p>
-                <p className="mt-1 text-sm text-[#8b7969]">
+                <p className="text-[22px] font-bold text-shared-heading">Faculty Then Department</p>
+                <p className="mt-1 text-sm text-admin-registry-text">
                   Follow these steps: 1. create a new faculty or select an existing faculty, 2. choose whether you want a new department or an existing department, 3. enter the department name or select the department record, 4. save the department setup.
                 </p>
               </div>
@@ -334,10 +334,10 @@ export default function AdminDepartmentManagementPage() {
 
             <div className="mt-6 grid gap-5">
               <label className="block">
-                <span className="mb-2 block text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#8d7969]">
+                <span className="mb-2 block text-[12px] font-extrabold uppercase tracking-[0.14em] text-admin-field-label">
                   Faculty Source
                 </span>
-                <div className="grid grid-cols-2 rounded-[4px] bg-[#f2eeea] p-1">
+                <div className="grid grid-cols-2 rounded-[4px] bg-admin-tab-bg p-1">
                   {[
                     { label: "Choose Existing", value: "existing" },
                     { label: "Create Faculty", value: "new" },
@@ -348,8 +348,8 @@ export default function AdminDepartmentManagementPage() {
                       onClick={() => handleDepartmentChange("facultyMode", option.value)}
                       className={`rounded-[3px] px-2 py-3 text-[12px] font-semibold transition-colors ${
                         departmentForm.facultyMode === option.value
-                          ? "bg-white text-[#7d1711] shadow-sm"
-                          : "text-[#7e6d5e]"
+                          ? "bg-white text-admin-tab-active-text shadow-sm"
+                          : "text-admin-tab-inactive-text"
                       }`}
                     >
                       {option.label}
@@ -388,66 +388,24 @@ export default function AdminDepartmentManagementPage() {
               </div>
 
               {facultyLoadError ? (
-                <p className="rounded-[8px] border border-[#ead0cb] bg-[#fff5f4] px-4 py-3 text-sm text-[#9a211b]">
+                <p className="rounded-[8px] border border-admin-error-border bg-admin-error-bg px-4 py-3 text-sm text-admin-error-text">
                   {facultyLoadError}
                 </p>
               ) : null}
 
               <div className="grid gap-5">
-                <label className="block">
-                  <span className="mb-2 block text-[12px] font-extrabold uppercase tracking-[0.14em] text-[#8d7969]">
-                    Department Source
-                  </span>
-                  <div className="grid grid-cols-2 rounded-[4px] bg-[#f2eeea] p-1">
-                    {[
-                      { label: "New Department", value: "new" },
-                      { label: "Existing Department", value: "existing" },
-                    ].map((option) => (
-                      <button
-                        key={option.value}
-                        type="button"
-                        onClick={() => handleDepartmentChange("mode", option.value)}
-                        className={`rounded-[3px] px-2 py-3 text-[12px] font-semibold transition-colors ${
-                          departmentForm.mode === option.value
-                            ? "bg-white text-[#7d1711] shadow-sm"
-                            : "text-[#7e6d5e]"
-                        }`}
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                </label>
-
-                {departmentForm.mode === "new" ? (
-                  <div className="md:max-w-[50%]">
-                    <PortalInput
-                      label="Department Name"
-                      value={departmentForm.name}
-                      placeholder="e.g. Computer Science"
-                      onChange={(event) => handleDepartmentChange("name", event.target.value)}
-                    />
-                  </div>
-                ) : (
-                  <div className="md:max-w-[50%]">
-                    <SelectField
-                      label="Existing Department"
-                      value={departmentForm.existingDepartmentId}
-                      onChange={(value) => handleDepartmentChange("existingDepartmentId", value)}
-                      options={filteredDepartmentOptions}
-                      placeholder={
-                        activeFacultyId
-                          ? "Select an existing department"
-                          : "Select a faculty first"
-                      }
-                      disabled={!activeFacultyId}
-                    />
-                  </div>
-                )}
+                <div className="md:max-w-[50%]">
+                  <PortalInput
+                    label="Department Name"
+                    value={departmentForm.name}
+                    placeholder="e.g. Computer Science"
+                    onChange={(event) => handleDepartmentChange("name", event.target.value)}
+                  />
+                </div>
               </div>
 
               {departmentLoadError ? (
-                <p className="rounded-[8px] border border-[#ead0cb] bg-[#fff5f4] px-4 py-3 text-sm text-[#9a211b]">
+                <p className="rounded-[8px] border border-admin-error-border bg-admin-error-bg px-4 py-3 text-sm text-admin-error-text">
                   {departmentLoadError}
                 </p>
               ) : null}
@@ -456,6 +414,11 @@ export default function AdminDepartmentManagementPage() {
                 <PortalButton onClick={handleSubmit} disabled={isSubmitting}>
                   {isSubmitting ? "Saving..." : "Save Department"}
                 </PortalButton>
+                <Link to="/admin-dashboard/general-management/staff">
+                  <PortalButton variant="gold">
+                    Manage Staff
+                  </PortalButton>
+                </Link>
                 <PortalButton variant="outline" onClick={() => resetForm()}>
                   Reset Form
                 </PortalButton>
@@ -466,8 +429,8 @@ export default function AdminDepartmentManagementPage() {
           <PortalCard>
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-[22px] font-bold text-[#4f1d14]">Department Registry</p>
-                <p className="mt-1 text-sm text-[#8b7969]">
+                <p className="text-[22px] font-bold text-shared-heading">Department Registry</p>
+                <p className="mt-1 text-sm text-admin-registry-text">
                   Departments are grouped by faculty so admins can load the right record back into the form.
                 </p>
               </div>
@@ -475,17 +438,17 @@ export default function AdminDepartmentManagementPage() {
 
             <div className="mt-5 space-y-4">
               {isLoading ? (
-                <div className="rounded-[10px] border border-dashed border-[#ddcdb8] bg-[#fffdfa] px-6 py-10 text-center text-sm text-[#8b7969]">
+                <div className="rounded-[10px] border border-dashed border-portal-border-muted bg-admin-registry-bg px-6 py-10 text-center text-sm text-admin-registry-text">
                   Loading faculties and departments...
                 </div>
               ) : groupedDepartments.length ? (
                 groupedDepartments.map((group) => (
-                  <div key={group.facultyName} className="rounded-[10px] border border-[#efe4d6] bg-[#fffdfa] p-4">
+                  <div key={group.facultyName} className="rounded-[10px] border border-admin-registry-border bg-admin-registry-bg p-4">
                     <div className="flex items-center justify-between gap-3">
-                      <div className="inline-flex rounded-[8px] bg-[#fbebe7] px-3 py-2 text-sm font-semibold text-[#9b1810]">
+                      <div className="inline-flex rounded-[8px] bg-admin-registry-chip-bg px-3 py-2 text-sm font-semibold text-admin-registry-chip-text">
                         {group.facultyName}
                       </div>
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#a18f80]">
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-admin-registry-count">
                         {group.records.length} department{group.records.length === 1 ? "" : "s"}
                       </span>
                     </div>
@@ -494,16 +457,16 @@ export default function AdminDepartmentManagementPage() {
                       {group.records.map((department) => (
                         <div
                           key={getEntityId(department) || getDepartmentName(department)}
-                          className="rounded-[8px] border border-[#f0e5d8] bg-white px-4 py-3"
+                          className="rounded-[8px] border border-admin-registry-border-alt bg-white px-4 py-3"
                         >
                           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                             <div>
-                              <p className="text-sm font-semibold text-[#551f16]">
+                              <p className="text-sm font-semibold text-admin-registry-title">
                                 {getDepartmentName(department)}
                               </p>
-                              <p className="mt-1 text-xs text-[#8d7969]">
+                              <p className="mt-1 text-xs text-admin-registry-text">
                                 HOD:{" "}
-                                <span className="font-semibold text-[#5b2318]">
+                                <span className="font-semibold text-admin-registry-strong">
                                   {getHodName(department)}
                                 </span>
                               </p>
@@ -536,7 +499,7 @@ export default function AdminDepartmentManagementPage() {
                   </div>
                 ))
               ) : (
-                <div className="rounded-[10px] border border-dashed border-[#ddcdb8] bg-[#fffdfa] px-6 py-10 text-center text-sm text-[#8b7969]">
+                <div className="rounded-[10px] border border-dashed border-portal-border-muted bg-admin-registry-bg px-6 py-10 text-center text-sm text-admin-registry-text">
                   No departments loaded yet.
                 </div>
               )}

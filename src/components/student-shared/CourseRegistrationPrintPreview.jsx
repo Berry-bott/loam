@@ -4,7 +4,7 @@ function PreviewTable({ title, rows, emptyMessage }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-3">
-        <span className="rounded-[2px] bg-[#8f120d] px-2 py-1 text-[8px] font-semibold uppercase tracking-[0.12em] text-white">
+        <span className="rounded-[2px] bg-primary px-2 py-1 text-[8px] font-semibold uppercase tracking-[0.12em] text-white">
           Section
         </span>
         <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4e1c13]">
@@ -26,12 +26,12 @@ function PreviewTable({ title, rows, emptyMessage }) {
             {rows.length ? (
               rows.map((course) => (
                 <tr key={`${title}-${course.code}`} className="text-[11px] text-[#4b2419]">
-                  <td className="border-b border-[#f0e7dc] px-3 py-2">{course.code}</td>
-                  <td className="border-b border-[#f0e7dc] px-3 py-2">{course.title}</td>
-                  <td className="border-b border-[#f0e7dc] px-3 py-2">
+                  <td className="border-b border-portal-border-soft px-3 py-2">{course.code}</td>
+                  <td className="border-b border-portal-border-soft px-3 py-2">{course.title}</td>
+                  <td className="border-b border-portal-border-soft px-3 py-2">
                     {"units" in course ? course.units.toFixed(1) : "2.0"}
                   </td>
-                  <td className="border-b border-[#f0e7dc] px-3 py-2">1st Semester</td>
+                  <td className="border-b border-portal-border-soft px-3 py-2">1st Semester</td>
                 </tr>
               ))
             ) : (
@@ -82,7 +82,7 @@ export default function CourseRegistrationPrintPreview({
   ]
 
   return (
-    <div className="course-registration-print-sheet relative mx-auto w-full max-w-[820px] overflow-hidden rounded-[8px] bg-[#fffdfa] p-5 shadow-[0_24px_50px_rgba(50,16,10,0.08)] sm:p-8">
+    <div className="course-registration-print-sheet relative mx-auto w-full max-w-[820px] overflow-hidden rounded-[8px] bg-portal-surface p-5 shadow-[0_24px_50px_rgba(50,16,10,0.08)] sm:p-8">
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
         <span className="rotate-[-33deg] text-[70px] font-bold tracking-[0.2em] text-[#7a1d14]/[0.06] sm:text-[110px]">
           LOAMPOLY
@@ -96,7 +96,7 @@ export default function CourseRegistrationPrintPreview({
               <School className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-[26px] font-bold tracking-tight text-[#8f120d]">LOAMPOLY</p>
+              <p className="text-[26px] font-bold tracking-tight text-primary">LOAMPOLY</p>
               <p className="text-[9px] font-semibold uppercase tracking-[0.28em] text-[#b99855]">
                 Official Course Registration Form
               </p>
@@ -109,13 +109,13 @@ export default function CourseRegistrationPrintPreview({
 
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#b09d88]">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-shared-table-head">
               Department
             </p>
             <p className="mt-1 text-[15px] font-bold text-[#3c1e16]">{department}</p>
           </div>
           <div>
-            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#b09d88]">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-shared-table-head">
               Student Name
             </p>
             <p className="mt-1 text-[15px] font-bold uppercase text-[#3c1e16]">{studentName}</p>
@@ -124,7 +124,7 @@ export default function CourseRegistrationPrintPreview({
 
         <div className="grid gap-4 border-b border-[#ebdfd2] pb-4 sm:grid-cols-2">
           <div>
-            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#b09d88]">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-shared-table-head">
               Programme / Level
             </p>
             <p className="mt-1 text-[14px] font-semibold text-[#3c1e16]">
@@ -132,7 +132,7 @@ export default function CourseRegistrationPrintPreview({
             </p>
           </div>
           <div>
-            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#b09d88]">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-shared-table-head">
               Matric / Reg No.
             </p>
             <p className="mt-1 text-[14px] font-semibold text-[#3c1e16]">
@@ -152,15 +152,15 @@ export default function CourseRegistrationPrintPreview({
 
         <div className="grid gap-4 pt-4 sm:grid-cols-3 sm:items-end">
           <div>
-            <p className="text-[8px] font-semibold uppercase tracking-[0.14em] text-[#b09d88]">
+            <p className="text-[8px] font-semibold uppercase tracking-[0.14em] text-shared-table-head">
               Total Credit Units
             </p>
-            <p className="mt-1 text-[30px] font-bold leading-none text-[#8f120d]">
+            <p className="mt-1 text-[30px] font-bold leading-none text-primary">
               {currentUnits.toFixed(1)} Units
             </p>
           </div>
           <div>
-            <p className="text-[8px] font-semibold uppercase tracking-[0.14em] text-[#b09d88]">
+            <p className="text-[8px] font-semibold uppercase tracking-[0.14em] text-shared-table-head">
               Date Of Registration
             </p>
             <p className="mt-1 text-[14px] font-bold text-[#3c1e16]">{registrationDate}</p>
@@ -195,3 +195,4 @@ export default function CourseRegistrationPrintPreview({
     </div>
   )
 }
+

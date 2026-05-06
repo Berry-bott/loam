@@ -39,12 +39,12 @@ const leadership = [
   {
     name: "Otuekong Eddie Etim",
     role: "Rector with NBTE Officials",
-    image: "/loam (45).jpeg",
+    image: "/rector-nbte-officials.jpeg",
   },
   {
     name: "Dcns Helen Ekong ",
     role: "Chairperson with the Rector",
-    image: "/loam (30).jpeg",
+    image: "/chairperson-rector.jpeg",
   },
   {
     name: "Hon. Jerry Otu",
@@ -54,7 +54,7 @@ const leadership = [
   {
     name: "Resourc Person",
     role: "Entrepreneurship Development Centre",
-    image: "/loam (23).jpeg",
+    image: "/skills-centre.jpeg",
   },
 ]
 
@@ -124,7 +124,7 @@ export default function AboutPage() {
                   Four year of continuous building and shaping of future leaders 
                 </h1>
                 <p className="text-muted-foreground text-lg">
-                  Since 2002, Loam Polytechnic’s e-Library has stood out as the leading CBT Centre in Akwa Ibom State.
+                  Since 2022, Loam Polytechnic’s e-Library has stood out as the leading CBT Centre in Akwa Ibom State.
                    As the first private polytechnic in the state to provide such extensive facilities and learning space, 
                    the institution has remained at the forefront of educational excellence—blending strong traditional values with innovative approaches to prepare students for a rapidly evolving world.  
                 </p>
@@ -133,7 +133,7 @@ export default function AboutPage() {
               <ScrollReveal animation="slideLeft">
                 <div className="relative aspect-square rounded-2xl overflow-hidden">
                   <img
-                    src="/loam (41).jpeg"
+                    src="/digital-library.jpeg"
                     alt="Loam Polytechnic campus"
                     className="w-full h-full object-contain"
                   />
@@ -183,7 +183,7 @@ export default function AboutPage() {
                     <span className="font-serif text-4xl font-bold text-accent">{item.year}</span>
                     <p className="text-muted-foreground mt-2">{item.event}</p>
                   </div>
-                  <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background" />
+                  <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-accent border-4 border-background" />
                   <div className="w-1/2" />
                 </div>
               ))}
@@ -225,7 +225,7 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <ScrollReveal animation="slideRight">
                 <ParallaxImage
-                  src="/loam (40).jpeg"
+                  src="/print-library.jpeg"
                   alt="Students in lab"
                   className="h-[400px] rounded-xl"
                 />

@@ -46,7 +46,7 @@ const profileFields = [
 function DashboardPanel({ children, className = "" }) {
   return (
     <section className={`rounded-[6px] border border-[#ebe1d5] bg-white shadow-[0_14px_30px_rgba(74,25,16,0.06)] ${className}`}>
-      <div className="h-[3px] w-full bg-[#8f120d]" />
+      <div className="h-[3px] w-full bg-primary" />
       <div className="p-5 sm:p-6">{children}</div>
     </section>
   )
@@ -63,13 +63,13 @@ export default function StudentDashboardPage() {
       <div className="space-y-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#b59a58]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-shared-eyebrow">
               Academic Session 2024-2025
             </p>
             <h1 className="mt-2 text-[30px] font-bold tracking-tight text-[#111f2f] sm:text-[44px]">
               Welcome back, <span className="text-[#7c160f]">{studentName}</span>.
             </h1>
-            <p className="max-w-[760px] text-sm text-[#8b7969] sm:text-[15px]">
+            <p className="max-w-[760px] text-sm text-portal-text-muted sm:text-[15px]">
               Ensure all portal registration requirements are met for the current semester.
             </p>
           </div>
@@ -91,7 +91,7 @@ export default function StudentDashboardPage() {
                   <p className="mt-4 text-[34px] font-bold leading-none text-[#551c14]">{card.value}</p>
                   <p className="mt-3 text-[11px] text-[#8f7d6d]">{card.note}</p>
                 </div>
-                <div className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#faf2ef] text-[#8f120d]">
+                <div className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#faf2ef] text-primary">
                   <card.icon className="h-4 w-4" />
                 </div>
               </div>
@@ -100,7 +100,7 @@ export default function StudentDashboardPage() {
         </div>
 
         <DashboardPanel className="p-0">
-          <div className="border-b border-[#efe4d6] px-5 pb-3 sm:px-6">
+          <div className="border-b border-portal-border px-5 pb-3 sm:px-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex  gap-4">
                 <img
@@ -110,10 +110,10 @@ export default function StudentDashboardPage() {
                 />
                 <div>
                   <div className="flex items-center gap-2">
-                    <UserRound className="h-4 w-4 text-[#8f120d]" />
-                    <p className="text-[24px] font-bold text-[#4f1d14]">Student Profile</p>
+                    <UserRound className="h-4 w-4 text-primary" />
+                    <p className="text-[24px] font-bold text-portal-text-strong">Student Profile</p>
                   </div>
-                  <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#b59a58]">
+                  <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-shared-eyebrow">
                     Official University Record
                   </p>
                 </div>
@@ -131,22 +131,22 @@ export default function StudentDashboardPage() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#b19d89]">
                   {field.label}
                 </p>
-                <p className="mt-2 text-[13px] font-semibold uppercase leading-6 text-[#4f1d14]">
+                <p className="mt-2 text-[13px] font-semibold uppercase leading-6 text-portal-text-strong">
                   {field.value}
                 </p>
               </div>
             ))}
           </div>
 
-          <div className="px-5 pb-5 text-right text-[10px] text-[#b09d88] sm:px-6">
+          <div className="px-5 pb-5 text-right text-[10px] text-shared-table-head sm:px-6">
             Profile details are synced. Contact the registrar for amendments.
           </div>
         </DashboardPanel>
 
         <DashboardPanel>
           <div className="flex items-center justify-between">
-            <p className="flex items-center gap-2 text-[24px] font-bold text-[#4f1d14]">
-              <CalendarDays className="h-5 w-5 text-[#8f120d]" />
+            <p className="flex items-center gap-2 text-[24px] font-bold text-portal-text-strong">
+              <CalendarDays className="h-5 w-5 text-primary" />
               Academic Calendar Preview
             </p>
             <button
@@ -159,16 +159,16 @@ export default function StudentDashboardPage() {
 
           <div className="mt-5 grid gap-4 lg:grid-cols-3">
             {studentCalendarItems.map((item) => (
-              <div key={item.title} className="rounded-[6px] border border-[#efe4d6] bg-[#fffdfa] p-4">
+              <div key={item.title} className="rounded-[6px] border border-portal-border bg-portal-surface p-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-12 rounded-[4px] bg-[#8f120d] px-2 py-2 text-center text-white">
+                  <div className="w-12 rounded-[4px] bg-primary px-2 py-2 text-center text-white">
                     <p className="text-[8px] font-semibold uppercase tracking-[0.12em]">
                       {item.date.split(" ")[0]}
                     </p>
                     <p className="text-[18px] font-bold">{item.date.split(" ")[1]}</p>
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[14px] font-semibold text-[#4f1d14]">{item.title}</p>
+                    <p className="text-[14px] font-semibold text-portal-text-strong">{item.title}</p>
                     <p className="mt-1 text-[11px] leading-5 text-[#9b8979]">{item.meta}</p>
                   </div>
                 </div>
@@ -194,7 +194,7 @@ export default function StudentDashboardPage() {
       >
         <div className="space-y-4">
           <div className="rounded-[12px] bg-[#faf3ea] p-4">
-            <p className="text-sm leading-6 text-[#7f6d5f]">
+            <p className="text-sm leading-6 text-shared-helper-text">
               Your active profile is eligible for a digital ID card. Printed card requests can be routed to the registry after validation.
             </p>
           </div>
@@ -222,8 +222,8 @@ export default function StudentDashboardPage() {
       >
         <div className="space-y-3">
           {studentCalendarItems.map((item) => (
-            <div key={item.title} className="rounded-[10px] border border-[#efe4d6] bg-[#fffdfa] p-4">
-              <p className="text-sm font-semibold text-[#4f1d14]">{item.title}</p>
+            <div key={item.title} className="rounded-[10px] border border-portal-border bg-portal-surface p-4">
+              <p className="text-sm font-semibold text-portal-text-strong">{item.title}</p>
               <p className="mt-1 text-sm text-[#8d7a68]">{item.date}</p>
               <p className="mt-2 text-sm text-[#8d7a68]">{item.meta}</p>
             </div>
@@ -235,3 +235,4 @@ export default function StudentDashboardPage() {
     </>
   )
 }
+

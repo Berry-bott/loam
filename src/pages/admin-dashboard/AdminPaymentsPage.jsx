@@ -55,21 +55,21 @@ export default function AdminPaymentsPage() {
             headers={["ID", "Student / Payer", "Description", "Amount", "Status"]}
             rows={adminPaymentRows}
             renderRow={(row) => (
-              <tr key={row[0]} className="bg-[#fffdfa] text-sm text-[#5c2418]">
-                <td className="rounded-l-[6px] border-y border-l border-[#efe4d6] px-4 py-4 font-semibold">{row[0]}</td>
-                <td className="border-y border-[#efe4d6] px-4 py-4">{row[1]}</td>
-                <td className="border-y border-[#efe4d6] px-4 py-4">{row[2]}</td>
-                <td className="border-y border-[#efe4d6] px-4 py-4 font-semibold">{row[3]}</td>
-                <td className="rounded-r-[6px] border-y border-r border-[#efe4d6] px-4 py-4">
+              <tr key={row[0]} className="bg-portal-surface text-sm text-portal-text">
+                <td className="rounded-l-[6px] border-y border-l border-portal-border px-4 py-4 font-semibold">{row[0]}</td>
+                <td className="border-y border-portal-border px-4 py-4">{row[1]}</td>
+                <td className="border-y border-portal-border px-4 py-4">{row[2]}</td>
+                <td className="border-y border-portal-border px-4 py-4 font-semibold">{row[3]}</td>
+                <td className="rounded-r-[6px] border-y border-r border-portal-border px-4 py-4">
                   <StatusPill>{row[4]}</StatusPill>
                 </td>
               </tr>
             )}
             mobileRender={(row) => (
               <div className="space-y-2">
-                <p className="text-sm font-semibold text-[#5c2418]">{row[1]}</p>
-                <p className="text-sm text-[#8b7969]">{row[2]}</p>
-                <p className="text-lg font-bold text-[#5c2418]">{row[3]}</p>
+                <p className="text-sm font-semibold text-portal-text">{row[1]}</p>
+                <p className="text-sm text-portal-text-muted">{row[2]}</p>
+                <p className="text-lg font-bold text-portal-text">{row[3]}</p>
                 <StatusPill>{row[4]}</StatusPill>
               </div>
             )}
@@ -78,12 +78,12 @@ export default function AdminPaymentsPage() {
 
         <div className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_320px]">
           <ChartCard title="Revenue Trend" accent="gold">
-            <div className="mt-6 flex h-[220px] items-end gap-4 rounded-[8px] bg-[#fffdfa] p-4">
+            <div className="mt-6 flex h-[220px] items-end gap-4 rounded-[8px] bg-portal-surface p-4">
               {[70, 95, 88, 120, 104, 138].map((bar, index) => (
                 <div key={bar} className="flex flex-1 flex-col items-center gap-2">
                   <div className="relative flex h-full w-full items-end rounded-[4px] bg-[#f4eee6]">
                     <div
-                      className={`w-full rounded-[4px] ${index === 5 ? "bg-[#75110d]" : "bg-[#ebe1d6]"}`}
+                      className={`w-full rounded-[4px] ${index === 5 ? "bg-analytics-series-primary" : "bg-[#ebe1d6]"}`}
                       style={{ height: `${bar}px` }}
                     />
                   </div>

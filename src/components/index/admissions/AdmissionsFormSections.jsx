@@ -24,6 +24,51 @@ function errBorder(hasError) {
   return hasError ? "border-red-400 focus:ring-red-300" : ""
 }
 
+function FilePreview({ file, label, emptyLabel }) {
+  const [previewUrl, setPreviewUrl] = useState("")
+
+  useEffect(() => {
+    if (!(file instanceof File) || !file.type.startsWith("image/")) {
+      setPreviewUrl("")
+      return undefined
+    }
+
+    const objectUrl = URL.createObjectURL(file)
+    setPreviewUrl(objectUrl)
+
+    return () => URL.revokeObjectURL(objectUrl)
+  }, [file])
+
+  if (!(file instanceof File)) {
+    return (
+      <div className="rounded-sm border border-dashed border-border bg-secondary/10 px-4 py-6 text-sm text-muted-foreground">
+        {emptyLabel}
+      </div>
+    )
+  }
+
+  if (previewUrl) {
+    return (
+      <div className="rounded-sm border border-border bg-background px-3 py-3">
+        <div className="mb-2 text-sm font-medium">{label}</div>
+        <div className="flex items-center gap-3">
+          <img src={previewUrl} alt={label} className="h-[100px] w-[100px] rounded-sm object-cover" />
+          <div className="min-w-0 text-sm text-muted-foreground">
+            <p className="truncate">{file.name}</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="rounded-sm border border-border bg-background px-4 py-4">
+      <p className="mb-1 text-sm font-medium">{label}</p>
+      <p className="text-sm text-muted-foreground">{file.name}</p>
+    </div>
+  )
+}
+
 // ─── Custom Dropdown ───────────────────────────────────────────────────────
 
 function CustomSelect({ value, onChange, options, placeholder = "Select", error, disabled = false }) {
@@ -46,13 +91,13 @@ function CustomSelect({ value, onChange, options, placeholder = "Select", error,
       <button
         type="button"
         onClick={() => !disabled && setOpen((prev) => !prev)}
-        className={`flex w-full items-center justify-between rounded-lg border bg-background px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring ${
+        className={`flex w-full items-center justify-between rounded-sm border bg-background px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring ${
           error ? "border-red-400 focus:ring-red-300" : "border-input"
         } ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
       >
       <span className={value 
-        ? "text-foreground text-[10px]" 
-        : "text-muted-foreground text-[10px]"  
+        ? "text-foreground text-[12px]" 
+        : "text-muted-foreground text-[11px]"  
       }>
         {value || placeholder}
       </span>
@@ -60,7 +105,7 @@ function CustomSelect({ value, onChange, options, placeholder = "Select", error,
       </button>
 
       {open && !disabled && (
-        <ul className="absolute z-20 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-input bg-background shadow-lg">
+        <ul className="absolute z-20 mt-1 max-h-48 w-full overflow-y-auto rounded-sm border border-input bg-background shadow-lg">
           <li
             onClick={() => { onChange(""); setOpen(false) }}
             className="cursor-pointer px-3 py-2 text-sm text-muted-foreground hover:bg-muted"
@@ -105,27 +150,27 @@ export function PersonalInformationStep({
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">First Name</label>
           <Input placeholder="e.g esther" value={form.firstName} onChange={handleChange("firstName")}
-           className={`rounded-lg ${errBorder(errors.firstName)} placeholder:text-gray-300 placeholder:text-sm`} />
+           className={`rounded-sm ${errBorder(errors.firstName)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.firstName} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Middle Name</label>
           <Input placeholder="e.g thomas" value={form.middleName} onChange={handleChange("middleName")} 
-          className={`rounded-lg ${errBorder(errors.middleName)} placeholder:text-gray-300 placeholder:text-sm`} />
+          className={`rounded-sm ${errBorder(errors.middleName)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.middleName} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Last Name</label>
           <Input placeholder="e.g udo" value={form.lastName} onChange={handleChange("lastName")} 
-          className={`rounded-lg ${errBorder(errors.lastName)} placeholder:text-gray-300 placeholder:text-sm`} />
+          className={`rounded-sm ${errBorder(errors.lastName)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.lastName} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Date of Birth</label>
-          <Input type="date" value={form.dateOfBirth} onChange={handleChange("dateOfBirth")} className={`rounded-lg ${errBorder(errors.dateOfBirth)}`} />
+          <Input type="date" value={form.dateOfBirth} onChange={handleChange("dateOfBirth")} className={`rounded-sm ${errBorder(errors.dateOfBirth)}`} />
           <FieldError message={errors.dateOfBirth} />
         </div>
 
@@ -156,14 +201,14 @@ export function PersonalInformationStep({
         <div className="md:col-span-2">
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Email Address</label>
           <Input type="email" placeholder="example@domain.com" value={form.email} onChange={handleChange("email")}
-           className={`rounded-lg ${errBorder(errors.email)} placeholder:text-gray-300 placeholder:text-sm`} />
+           className={`rounded-sm ${errBorder(errors.email)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.email} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Phone Number</label>
           <Input placeholder="08000000000" value={form.phone} onChange={handleChange("phone")} 
-          className={`rounded-lg ${errBorder(errors.phone)} placeholder:text-gray-300 placeholder:text-sm`} />
+          className={`rounded-sm ${errBorder(errors.phone)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.phone} />
         </div>
 
@@ -212,7 +257,7 @@ export function PersonalInformationStep({
                 placeholder="Enter state or province"
                 value={form.stateOfOrigin}
                 onChange={handleChange("stateOfOrigin")}
-                className={`rounded-lg ${errBorder(errors.stateOfOrigin)} placeholder:text-gray-300 placeholder:text-sm`}
+                className={`rounded-sm ${errBorder(errors.stateOfOrigin)} placeholder:text-gray-300 placeholder:text-sm`}
               />
               <FieldError message={errors.stateOfOrigin} />
             </div>
@@ -223,7 +268,7 @@ export function PersonalInformationStep({
                 placeholder="Enter city or region"
                 value={form.lga}
                 onChange={handleChange("lga")}
-                className={`rounded-lg ${errBorder(errors.lga)} placeholder:text-gray-300 placeholder:text-sm`}
+                className={`rounded-sm ${errBorder(errors.lga)} placeholder:text-gray-300 placeholder:text-sm`}
               />
               <FieldError message={errors.lga} />
             </div>
@@ -233,32 +278,32 @@ export function PersonalInformationStep({
         <div className="md:col-span-2">
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Residential Address</label>
           <Input placeholder="No. 1, Example Street, City" value={form.residentialAddress} onChange={handleChange("residentialAddress")}
-           className={`rounded-lg ${errBorder(errors.residentialAddress)} placeholder:text-gray-300 placeholder:text-sm`} />
+           className={`rounded-sm ${errBorder(errors.residentialAddress)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.residentialAddress} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Sponsor Name</label>
           <Input placeholder="Full name of sponsor" value={form.sponsorName} onChange={handleChange("sponsorName")}
-           className={`rounded-lg ${errBorder(errors.sponsorName)} placeholder:text-gray-300 placeholder:text-sm`} />
+           className={`rounded-sm ${errBorder(errors.sponsorName)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.sponsorName} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Sponsor Phone</label>
-          <Input placeholder="08000000000" value={form.sponsorPhone} onChange={handleChange("sponsorPhone")} className={`rounded-lg ${errBorder(errors.sponsorPhone)} placeholder:text-gray-300 placeholder:text-sm`} />
+          <Input placeholder="08000000000" value={form.sponsorPhone} onChange={handleChange("sponsorPhone")} className={`rounded-sm ${errBorder(errors.sponsorPhone)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.sponsorPhone} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Emergency Contact Name</label>
-          <Input placeholder="Full name of emergency contact" value={form.emergencyContactName} onChange={handleChange("emergencyContactName")} className={`rounded-lg ${errBorder(errors.emergencyContactName)} placeholder:text-gray-300 placeholder:text-sm`} />
+          <Input placeholder="Full name of emergency contact" value={form.emergencyContactName} onChange={handleChange("emergencyContactName")} className={`rounded-sm ${errBorder(errors.emergencyContactName)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.emergencyContactName} />
         </div>
 
         <div>
           <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Emergency Contact Phone</label>
-          <Input placeholder="08000000000" value={form.emergencyContactPhone} onChange={handleChange("emergencyContactPhone")} className={`rounded-lg ${errBorder(errors.emergencyContactPhone)} placeholder:text-gray-300 placeholder:text-sm`} />
+          <Input placeholder="08000000000" value={form.emergencyContactPhone} onChange={handleChange("emergencyContactPhone")} className={`rounded-sm ${errBorder(errors.emergencyContactPhone)} placeholder:text-gray-300 placeholder:text-sm`} />
           <FieldError message={errors.emergencyContactPhone} />
         </div>
 
@@ -284,12 +329,12 @@ export function AcademicHistoryStep({
     <div>
       <SectionHeading title="Academic History" />
 
-      <div className="rounded-2xl border border-border bg-accent/5 p-4 ">
+      <div className="rounded-sm border border-border bg-accent/5 p-4 ">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Last School Attended</label>
             <Input placeholder="Name of your secondary school" value={form.lastSchool} onChange={handleChange("lastSchool")} 
-            className={`rounded-lg ${errBorder(errors.lastSchool)} placeholder:text-gray-300 placeholder:text-[12px]`} />
+            className={`rounded-sm ${errBorder(errors.lastSchool)} placeholder:text-gray-300 placeholder:text-[12px]`} />
             <FieldError message={errors.lastSchool} />
           </div>
           <div>
@@ -308,7 +353,7 @@ export function AcademicHistoryStep({
         {activeSittings.map((sitting, sittingIndex) => (
           <div
             key={`sitting-${sittingIndex}`}
-            className={`rounded-2xl border p-4  ${sittingIndex === 0 ? "border-accent/30 bg-gradient-to-b from-accent/10 to-background" : "border-emerald-200 bg-gradient-to-b from-emerald-50 to-background"}`}
+            className={`rounded-sm border p-4 ${sittingIndex === 0 ? "border-accent/30 bg-gradient-to-b from-accent/10 to-background" : "border-emerald-200 bg-gradient-to-b from-emerald-50 to-background"}`}
           >
             <div className="mb-5">
               <h4 className="font-serif text-lg font-semibold">Sitting {sittingIndex === 0 ? "A" : "B"}</h4>
@@ -343,14 +388,17 @@ export function AcademicHistoryStep({
 
               <div className="md:col-span-2">
                 <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Candidate Number</label>
-                <Input placeholder="Exams Registration Number" value={sitting.candidateNumber} onChange={handleSittingFieldChange(sittingIndex, "candidateNumber")} className={`rounded-lg ${errBorder(errors[`sitting_${sittingIndex}_candidateNumber`])}`} />
+                <Input placeholder="Exams Registration Number" value={sitting.candidateNumber} onChange={handleSittingFieldChange(sittingIndex, "candidateNumber")} className={`rounded-sm ${errBorder(errors[`sitting_${sittingIndex}_candidateNumber`])}`} />
                 <FieldError message={errors[`sitting_${sittingIndex}_candidateNumber`]} />
               </div>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-9 md:space-y-3">
               {sitting.subjects.map((subject, subjectIndex) => (
-                <div key={`sitting-${sittingIndex}-subject-${subjectIndex}`} className="grid grid-cols-1 gap-2 md:grid-cols-[minmax(0,1fr)_100px]">
+                <div
+                  key={`sitting-${sittingIndex}-subject-${subjectIndex}`}
+                  className={`grid grid-cols-1 ${Number(form.sittingCount) === 1 ? "gap-2 md:gap-16 md:grid-cols-[minmax(0,1fr)_220px]" : "gap-4 md:grid-cols-[minmax(0,1fr)_100px]"}`}
+                >
                   <div>
                     <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Subject {subjectIndex + 1}</label>
                     <CustomSelect
@@ -381,7 +429,7 @@ export function AcademicHistoryStep({
       </div>
 
       {/* JAMB Details */}
-      <div className="mt-8 rounded-2xl border border-accent/20 bg-gradient-to-b from-secondary/30 to-background p-5">
+      <div className="mt-8 rounded-sm border border-accent/20 bg-gradient-to-b from-secondary/30 to-background p-5">
         <div className="mb-5">
           <h4 className="font-serif text-lg font-semibold">JAMB Details</h4>
           <p className="text-xs text-muted-foreground">Add registration number, exam year, and 4 subjects. English Language is fixed as the first subject.</p>
@@ -391,7 +439,7 @@ export function AcademicHistoryStep({
           <div>
             <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Registration Number</label>
             <Input placeholder="Enter JAMB registration number" value={form.jambRegistrationNumber} onChange={handleChange("jambRegistrationNumber")}
-             className={`rounded-lg ${errBorder(errors.jambRegistrationNumber)} placeholder:text-gray-300 placeholder:text-[12px]`} />
+             className={`rounded-sm ${errBorder(errors.jambRegistrationNumber)} placeholder:text-gray-300 placeholder:text-[12px]`} />
             <FieldError message={errors.jambRegistrationNumber} />
           </div>
           <div>
@@ -409,7 +457,7 @@ export function AcademicHistoryStep({
 
         <div className="grid grid-cols-1 gap-4">
           {form.jambSubjects.map((subject, subjectIndex) => (
-            <div key={`jamb-${subjectIndex}`} className="grid grid-cols-1 gap-3 sm:grid-cols-[minmax(0,1fr)_220px]">
+            <div key={`jamb-${subjectIndex}`} className="grid grid-cols-[minmax(0,1fr)_60px] gap-3 md:gap-16 sm:grid-cols-[minmax(0,1fr)_220px]">
               <div>
                 <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Subject {subjectIndex + 1}</label>
                 <CustomSelect
@@ -424,14 +472,14 @@ export function AcademicHistoryStep({
               </div>
               <div>
                 <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Score</label>
-                <Input type="number" min="0" placeholder="0" value={subject.score} onChange={handleJambChange(subjectIndex, "score")} className={`rounded-lg ${errBorder(errors[`jambScore_${subjectIndex}`])}`} />
+                <Input type="number" min="0" placeholder="0" value={subject.score} onChange={handleJambChange(subjectIndex, "score")} className={`rounded-sm ${errBorder(errors[`jambScore_${subjectIndex}`])}`} />
                 <FieldError message={errors[`jambScore_${subjectIndex}`]} />
               </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-5 rounded-xl border border-accent/20 bg-accent/5 px-4 py-3">
+        <div className="mt-5 rounded-sm border border-accent/20 bg-accent/5 px-4 py-3">
           <div className="flex items-center justify-between gap-3">
             <span className="text-sm text-muted-foreground">Total JAMB Score</span>
             <span className="text-lg font-semibold text-foreground">{totalJambScore}</span>
@@ -458,7 +506,7 @@ export function DocumentUploadStep({ form, handleFile, errors = {} }) {
           <div key={key}>
             <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">{label}</label>
             <p className="mb-2 text-xs text-muted-foreground">{desc}</p>
-            <label className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed p-4 transition-colors ${
+            <label className={`flex cursor-pointer items-center gap-3 rounded-sm border-2 border-dashed p-4 transition-colors ${
               form[key] ? "border-accent bg-accent/10" : errors[key] ? "border-red-400 bg-red-50" : "border-border bg-secondary/10 hover:border-accent/50"
             }`}>
               <Upload className={`h-5 w-5 shrink-0 ${form[key] ? "text-accent" : errors[key] ? "text-red-400" : "text-muted-foreground"}`} />
@@ -483,7 +531,14 @@ export function DocumentUploadStep({ form, handleFile, errors = {} }) {
 
 // ─── Step 4: Review & Submit ───────────────────────────────────────────────
 
-export function ReviewSubmitStep({ form, activeSittings, totalJambScore, handleToggleCheckbox, errors = {} }) {
+export function ReviewSubmitStep({
+  form,
+  activeSittings,
+  totalJambScore,
+  handleToggleCheckbox,
+  errors = {},
+  showConfirmationSection = true,
+}) {
   return (
     <div>
       <SectionHeading title="Review & Submit" />
@@ -516,15 +571,8 @@ export function ReviewSubmitStep({ form, activeSittings, totalJambScore, handleT
             ["JAMB Total Score", String(totalJambScore)],
           ],
         },
-        {
-          title: "Documents",
-          rows: [
-            ["Passport", form.passport?.name ?? "Not uploaded"],
-            ["WAEC Result", form.waecResult?.name ?? "Optional"],
-          ],
-        },
       ].map((section) => (
-        <div key={section.title} className="mb-6 overflow-hidden rounded-xl border border-border bg-background/70">
+        <div key={section.title} className="mb-6 overflow-hidden rounded-sm border border-border bg-background/70">
           <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">{section.title}</div>
           {section.rows.map(([label, value]) => (
             <div key={label} className="grid grid-cols-2 border-t border-border px-4 py-2 text-sm">
@@ -535,11 +583,19 @@ export function ReviewSubmitStep({ form, activeSittings, totalJambScore, handleT
         </div>
       ))}
 
-      <div className="mb-6 overflow-hidden rounded-xl border border-border bg-background/70">
+      <div className="mb-6 overflow-hidden rounded-sm border border-border bg-background/70">
+        <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">Documents</div>
+        <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2">
+          <FilePreview file={form.passport} label="Passport Photograph" emptyLabel="Passport not uploaded" />
+          <FilePreview file={form.waecResult} label="WAEC Result" emptyLabel="WAEC result not uploaded" />
+        </div>
+      </div>
+
+      <div className="mb-6 overflow-hidden rounded-sm border border-border bg-background/70">
         <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">O&apos;Level Sittings</div>
         <div className={`grid grid-cols-1 gap-4 p-4 ${Number(form.sittingCount) === 2 ? "lg:grid-cols-2" : ""}`}>
           {activeSittings.map((sitting, sittingIndex) => (
-            <div key={`review-sitting-${sittingIndex}`} className={`rounded-xl border p-4 ${sittingIndex === 0 ? "border-accent/30 bg-accent/5" : "border-emerald-200 bg-emerald-50/60"}`}>
+            <div key={`review-sitting-${sittingIndex}`} className={`rounded-sm border p-4 ${sittingIndex === 0 ? "border-accent/30 bg-accent/5" : "border-emerald-200 bg-emerald-50/60"}`}>
               <div className="mb-3 flex items-center justify-between">
                 <h4 className="text-sm font-semibold">Sitting {sittingIndex === 0 ? "A" : "B"}</h4>
                 <span className="text-xs text-muted-foreground">{sitting.examType || "Exam type not set"}</span>
@@ -563,7 +619,7 @@ export function ReviewSubmitStep({ form, activeSittings, totalJambScore, handleT
         </div>
       </div>
 
-      <div className="mb-6 overflow-hidden rounded-xl border border-border bg-background/70">
+      <div className="mb-6 overflow-hidden rounded-sm border border-border bg-background/70">
         <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">JAMB Details</div>
         <div className="space-y-2 p-4">
           <div className="grid grid-cols-2 gap-3 border-b border-border pb-3 text-sm">
@@ -587,22 +643,24 @@ export function ReviewSubmitStep({ form, activeSittings, totalJambScore, handleT
         </div>
       </div>
 
-      <div className="space-y-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
-        <div>
-          <label className="flex items-start gap-3">
-            <input type="checkbox" checked={form.attestationAccepted} onChange={handleToggleCheckbox("attestationAccepted")} className="mt-1 h-4 w-4 rounded border-amber-300 text-amber-700 focus:ring-amber-500" />
-            <span>I attest that all the information provided in this application is accurate and complete.</span>
-          </label>
-          <FieldError message={errors.attestationAccepted} />
+      {showConfirmationSection ? (
+        <div className="space-y-4 rounded-sm border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          <div>
+            <label className="flex items-start gap-3">
+              <input type="checkbox" checked={form.attestationAccepted} onChange={handleToggleCheckbox("attestationAccepted")} className="mt-1 h-4 w-4 rounded border-amber-300 text-amber-700 focus:ring-amber-500" />
+              <span>I attest that all the information provided in this application is accurate and complete.</span>
+            </label>
+            <FieldError message={errors.attestationAccepted} />
+          </div>
+          <div>
+            <label className="flex items-start gap-3">
+              <input type="checkbox" checked={form.activationAccepted} onChange={handleToggleCheckbox("activationAccepted")} className="mt-1 h-4 w-4 rounded border-amber-300 text-amber-700 focus:ring-amber-500" />
+              <span>I authorize the school to process this application and contact my sponsor or emergency contact if needed.</span>
+            </label>
+            <FieldError message={errors.activationAccepted} />
+          </div>
         </div>
-        <div>
-          <label className="flex items-start gap-3">
-            <input type="checkbox" checked={form.activationAccepted} onChange={handleToggleCheckbox("activationAccepted")} className="mt-1 h-4 w-4 rounded border-amber-300 text-amber-700 focus:ring-amber-500" />
-            <span>I authorize the school to process this application and contact my sponsor or emergency contact if needed.</span>
-          </label>
-          <FieldError message={errors.activationAccepted} />
-        </div>
-      </div>
+      ) : null}
     </div>
   )
 }

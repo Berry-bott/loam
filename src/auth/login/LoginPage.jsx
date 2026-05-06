@@ -48,13 +48,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle,_rgba(137,110,86,0.18)_1.2px,_transparent_1.2px)] [background-size:28px_28px] bg-[#f5f2ec] px-4 py-8 sm:px-6">
+    <div className="min-h-screen bg-[radial-gradient(circle,_rgba(137,110,86,0.18)_1.2px,_transparent_1.2px)] [background-size:28px_28px] bg-secondary px-4 py-8 sm:px-6">
       <div className="mx-auto max-w-[400px]">
         <div className="mb-8 text-center">
           <img
             src="/school-logo.jpeg"
             alt="Loam Poly"
-            className="mx-auto mb-3 h-14 w-14 rounded-full border border-[#decfb8] object-cover shadow-sm"
+            className="mx-auto mb-3 h-14 w-14 rounded-full border border-portal-border-strong object-cover shadow-sm"
           />
           <h1 className="text-[34px] font-bold uppercase tracking-tight text-[#be2a22]">
             LOAM POLYTECHNIC
@@ -67,10 +67,10 @@ export default function LoginPage() {
         <PortalCard className="px-6 py-7 sm:px-7" accent="red">
           <div className="space-y-6">
             <div>
-              <h2 className="text-[28px] font-bold tracking-tight text-[#402119]">
+              <h2 className="text-[28px] font-bold tracking-tight text-portal-brand-strong">
                 Student Access
               </h2>
-              <p className="mt-2 max-w-[300px] text-[15px] leading-7 text-[#958575]">
+              <p className="mt-2 max-w-[300px] text-[15px] leading-7 text-portal-text-body">
                 Login with student credentials
               </p>
             </div>
@@ -99,7 +99,7 @@ export default function LoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword((value) => !value)}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[#8f7a68] transition-colors hover:bg-[#f5eee4] hover:text-[#61100c]"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full text-portal-text-muted transition-colors hover:bg-portal-surface-soft hover:text-portal-brand-strong"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? (
@@ -113,15 +113,15 @@ export default function LoginPage() {
               />
 
               {localError ? (
-                <p className="rounded-[4px] border border-[#e6beb8] bg-[#fff2f0] px-3 py-2 text-sm text-[#9f1f18]">
+                <p className="rounded-[4px] border border-admin-error-border bg-admin-error-bg px-3 py-2 text-sm text-admin-error-text">
                   {localError}
                 </p>
               ) : null}
 
-              <label className="flex items-center gap-3 text-sm text-[#78685a]">
+              <label className="flex items-center gap-3 text-sm text-topbar-button-text">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 rounded-[2px] border border-[#d9ccbc] text-[#8f120d] focus:ring-[#e8d4ac]"
+                  className="h-4 w-4 rounded-[2px] border border-portal-border-strong text-primary focus:ring-portal-border-strong"
                   checked={keepLoggedIn}
                   disabled={isLoading}
                   onChange={(event) => setKeepLoggedIn(event.target.checked)}
@@ -140,13 +140,13 @@ export default function LoginPage() {
               </PortalButton>
             </form>
 
-            <div className="border-t border-[#f0e7dc] pt-6 text-center">
-              <p className="mb-4 text-sm text-[#978677]">
+            <div className="border-t border-portal-border-soft pt-6 text-center">
+              <p className="mb-4 text-sm text-portal-text-muted">
                 Prospective member of the community?
               </p>
               <PortalButton
                 variant="outline"
-                className="w-full border-[#d8c7ac] text-[#b08b2d]"
+                className="w-full border-portal-border-strong text-[#b08b2d]"
                 onClick={() => navigate("/admissions")}
               >
                 New Student? Start Application
@@ -155,12 +155,13 @@ export default function LoginPage() {
           </div>
         </PortalCard>
 
-        <div className="mt-5 flex items-center justify-center gap-5 text-[10px] font-semibold uppercase tracking-[0.15em] text-[#aca093]">
+        <div className="mt-5 flex items-center justify-center gap-5 text-[10px] font-semibold uppercase tracking-[0.15em] text-portal-text-soft">
           <span>Secure Login</span>
-          <span className="h-1 w-1 rounded-full bg-[#cabcae]" />
+          <span className="h-1 w-1 rounded-full bg-admin-field-disabled-text" />
           <span>AES-256 Bit</span>
         </div>
       </div>
     </div>
   )
 }
+

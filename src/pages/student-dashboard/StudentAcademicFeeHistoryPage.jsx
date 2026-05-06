@@ -22,14 +22,14 @@ export default function StudentAcademicFeeHistoryPage() {
       <div className="space-y-6">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b59a58]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-shared-eyebrow">
               Academic Fees / Payment History
             </p>
-            <h1 className="mt-2 flex items-center gap-3 text-[28px] font-bold tracking-tight text-[#531b14] sm:text-[40px]">
-              <History className="h-7 w-7 text-[#8f120d]" />
+            <h1 className="mt-2 flex items-center gap-3 text-[28px] font-bold tracking-tight text-student-title sm:text-[40px]">
+              <History className="h-7 w-7 text-primary" />
               Payment History
             </h1>
-            <p className="mt-2 max-w-[760px] text-sm leading-6 text-[#8b7969]">
+            <p className="mt-2 max-w-[760px] text-sm leading-6 text-portal-text-muted">
               Review the full bursary record for all academic fee payments, including receipt number, RRR, invoice
               reference, and verification details.
             </p>
@@ -53,3 +53,4 @@ export default function StudentAcademicFeeHistoryPage() {
     </>
   )
 }
+

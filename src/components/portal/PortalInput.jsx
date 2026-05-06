@@ -21,7 +21,7 @@ export function PortalInput({
       <div className={cn("relative", inputWrapperClassName)}>
         <input
           className={cn(
-            "h-12 w-full rounded-[3px] border border-[#efe5d8] bg-[#fffdf9] px-4 text-sm text-[#4d2017] placeholder:text-[#d0c5b7] outline-none transition focus:border-[#ccb08e] focus:ring-2 focus:ring-[#ecdcb8]",
+            "h-12 w-full rounded-[3px] border border-admin-field-border bg-admin-field-bg px-4 text-sm text-admin-field-text placeholder:text-[#d0c5b7] outline-none transition focus:border-admin-field-focus-border focus:ring-2 focus:ring-admin-field-focus-ring",
             trailingElement ? "pr-14" : "",
             inputClassName,
           )}
@@ -37,3 +37,4 @@ export function PortalInput({
     </label>
   )
 }
+

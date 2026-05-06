@@ -32,7 +32,7 @@ export function PortalShell({
   )
 
   const panelClassName = darkMode ? "bg-[#211917] border-[#372723]" : "bg-[#fbfaf6] border-[#e8ddd0]"
-  const contentClassName = darkMode ? "bg-[#261e1b]" : "bg-[#fffdfa]"
+  const contentClassName = darkMode ? "bg-[#261e1b]" : "bg-portal-surface"
 
   const handleLogout = async () => {
     const session = getPortalSession()
@@ -101,3 +101,4 @@ export function PortalShell({
 </div>
   )
 }
+

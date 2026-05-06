@@ -47,13 +47,13 @@ export default function SuperAdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle,_rgba(92,24,16,0.16)_1.2px,_transparent_1.2px)] [background-size:28px_28px] bg-[#f4efe8] px-4 py-8 sm:px-6">
+    <div className="min-h-screen bg-[radial-gradient(circle,_rgba(92,24,16,0.16)_1.2px,_transparent_1.2px)] [background-size:28px_28px] bg-secondary px-4 py-8 sm:px-6">
       <div className="mx-auto max-w-[420px]">
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-[#decfb8] bg-white shadow-sm">
-            <ShieldCheck className="h-8 w-8 text-[#8f120d]" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full border border-portal-border-strong bg-white shadow-sm">
+            <ShieldCheck className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-[34px] font-bold uppercase tracking-tight text-[#7d1711]">
+          <h1 className="text-[34px] font-bold uppercase tracking-tight text-admin-tab-active-text">
             SUPER ADMIN
           </h1>
           <p className="text-sm font-medium uppercase tracking-[0.08em] text-[#a79a8f]">
@@ -64,10 +64,10 @@ export default function SuperAdminLoginPage() {
         <PortalCard className="px-6 py-7 sm:px-7" accent="red">
           <div className="space-y-6">
             <div>
-              <h2 className="text-[28px] font-bold tracking-tight text-[#402119]">
+              <h2 className="text-[28px] font-bold tracking-tight text-portal-brand-strong">
                 Administrative Login
               </h2>
-              <p className="mt-2 max-w-[320px] text-[15px] leading-7 text-[#958575]">
+              <p className="mt-2 max-w-[320px] text-[15px] leading-7 text-portal-text-body">
                 Login with your admin credentials to access dashboard. 
               </p>
             </div>
@@ -95,7 +95,7 @@ export default function SuperAdminLoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword((value) => !value)}
-                    className="inline-flex h-8 w-8 items-center justify-center rounded-full text-[#8f7a68] transition-colors hover:bg-[#f5eee4] hover:text-[#61100c]"
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full text-portal-text-muted transition-colors hover:bg-portal-surface-soft hover:text-portal-brand-strong"
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
                     {showPassword ? (
@@ -109,15 +109,15 @@ export default function SuperAdminLoginPage() {
               />
 
               {error ? (
-                <p className="rounded-[4px] border border-[#e6beb8] bg-[#fff2f0] px-3 py-2 text-sm text-[#9f1f18]">
+                <p className="rounded-[4px] border border-admin-error-border bg-admin-error-bg px-3 py-2 text-sm text-admin-error-text">
                   {error}
                 </p>
               ) : null}
 
-              <label className="flex items-center gap-3 text-sm text-[#78685a]">
+              <label className="flex items-center gap-3 text-sm text-topbar-button-text">
                 <input
                   type="checkbox"
-                  className="h-4 w-4 rounded-[2px] border border-[#d9ccbc] text-[#8f120d] focus:ring-[#e8d4ac]"
+                  className="h-4 w-4 rounded-[2px] border border-portal-border-strong text-primary focus:ring-portal-border-strong"
                   checked={keepLoggedIn}
                   disabled={isLoading}
                   onChange={(event) => setKeepLoggedIn(event.target.checked)}
@@ -141,3 +141,4 @@ export default function SuperAdminLoginPage() {
     </div>
   )
 }
+

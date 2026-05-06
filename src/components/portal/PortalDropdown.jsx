@@ -30,7 +30,7 @@ export function PortalDropdown({
         type="button"
         onClick={() => setOpen((value) => !value)}
         className={cn(
-          "inline-flex h-11 items-center gap-2 rounded-[6px] border border-[#eadfce] bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#7e6c5e]",
+          "inline-flex h-11 items-center gap-2 rounded-[6px] border border-portal-border-soft bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#7e6c5e]",
           triggerClassName,
         )}
       >
@@ -40,7 +40,7 @@ export function PortalDropdown({
       {open ? (
         <div
           className={cn(
-            "absolute top-[calc(100%+8px)] z-30 min-w-[200px] rounded-[10px] border border-[#eadfce] bg-[#fffdfa] p-2 shadow-[0_18px_40px_rgba(44,16,10,0.14)]",
+            "absolute top-[calc(100%+8px)] z-30 min-w-[200px] rounded-[10px] border border-portal-border-soft bg-portal-surface p-2 shadow-[0_18px_40px_rgba(44,16,10,0.14)]",
             align === "left" ? "left-0" : "right-0",
             menuClassName,
           )}
@@ -56,7 +56,7 @@ export function PortalDropdown({
               className="flex w-full items-center justify-between rounded-[6px] px-3 py-2.5 text-left text-sm text-[#5e2619] transition-colors hover:bg-[#faf3ea]"
             >
               <span>{item.label}</span>
-              {item.meta ? <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#b59a58]">{item.meta}</span> : null}
+              {item.meta ? <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-shared-eyebrow">{item.meta}</span> : null}
             </button>
           ))}
         </div>
@@ -64,3 +64,4 @@ export function PortalDropdown({
     </div>
   )
 }
+

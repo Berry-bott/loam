@@ -61,13 +61,13 @@ export default function AdminStudentsPage() {
             headers={["Student Identity", "Matriculation", "Department", "Level", "Status", "Actions"]}
             rows={adminStudents}
             renderRow={(row) => (
-              <tr key={row[1]} className="bg-[#fffdfa] text-sm text-[#5c2418]">
-                <td className="rounded-l-[6px] border-y border-l border-[#efe4d6] px-4 py-4 font-semibold">{row[0]}</td>
-                <td className="border-y border-[#efe4d6] px-4 py-4">{row[1]}</td>
-                <td className="border-y border-[#efe4d6] px-4 py-4">{row[2]}</td>
-                <td className="border-y border-[#efe4d6] px-4 py-4">{row[3]}</td>
-                <td className="border-y border-[#efe4d6] px-4 py-4"><StatusPill>{row[4]}</StatusPill></td>
-                <td className="rounded-r-[6px] border-y border-r border-[#efe4d6] px-4 py-4 text-[#9b1810]">
+              <tr key={row[1]} className="bg-portal-surface text-sm text-portal-text">
+                <td className="rounded-l-[6px] border-y border-l border-portal-border px-4 py-4 font-semibold">{row[0]}</td>
+                <td className="border-y border-portal-border px-4 py-4">{row[1]}</td>
+                <td className="border-y border-portal-border px-4 py-4">{row[2]}</td>
+                <td className="border-y border-portal-border px-4 py-4">{row[3]}</td>
+                <td className="border-y border-portal-border px-4 py-4"><StatusPill>{row[4]}</StatusPill></td>
+                <td className="rounded-r-[6px] border-y border-r border-portal-border px-4 py-4 text-portal-brand-soft">
                   <button
                     onClick={() => navigate("/admin-dashboard/students/manage", { state: { regNumber: row[1] } })}
                   >
@@ -78,12 +78,12 @@ export default function AdminStudentsPage() {
             )}
             mobileRender={(row) => (
               <div className="space-y-2">
-                <p className="text-sm font-semibold text-[#5c2418]">{row[0]}</p>
-                <p className="text-sm text-[#8b7969]">{row[2]} · {row[3]}</p>
+                <p className="text-sm font-semibold text-portal-text">{row[0]}</p>
+                <p className="text-sm text-portal-text-muted">{row[2]} · {row[3]}</p>
                 <div className="flex items-center justify-between">
                   <StatusPill>{row[4]}</StatusPill>
                   <button
-                    className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9b1810]"
+                    className="text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft"
                     onClick={() => navigate("/admin-dashboard/students/manage", { state: { regNumber: row[1] } })}
                   >
                     View
@@ -110,3 +110,4 @@ export default function AdminStudentsPage() {
     </>
   )
 }
+

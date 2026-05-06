@@ -6,6 +6,7 @@ import { nigeriaStatesAndLgas } from "../../../lib/portal-data"
 import { createJambSubject, createSitting, formStepLabels, subjectOptions } from "./admissionsData"
 import { AcademicHistoryStep, DocumentUploadStep, PersonalInformationStep, ReviewSubmitStep } from "./AdmissionsFormSections"
 import { getStepErrors } from "./admissionsValidation"
+import { useAdmissionsStore } from "../../../store/index"
 
 // ─── Initial Form State ────────────────────────────────────────────────────
 
@@ -82,9 +83,49 @@ function SubmissionSuccess({ trackingId, onViewGuide }) {
         ))}
       </div>
 
-      <Button size="lg" variant="outline" className="rounded-full" onClick={onViewGuide}>
+      <Button size="lg" variant="outline" className="rounded-sm" onClick={onViewGuide}>
         View Admission Guide
       </Button>
+    </div>
+  )
+}
+
+function resolveTrackingId(payload, fallbackTrackingId) {
+  return (
+    payload?.data?.trackingId ||
+    payload?.data?.applicationId ||
+    payload?.data?.reference ||
+    payload?.trackingId ||
+    payload?.applicationId ||
+    payload?.reference ||
+    fallbackTrackingId
+  )
+}
+
+function CancelConfirmationModal({ isOpen, onConfirm, onDismiss }) {
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 z-[130] flex items-center justify-center bg-black/55 px-4 backdrop-blur-sm">
+      <div className="w-full max-w-md rounded-sm border border-border bg-background p-5 shadow-2xl">
+        <h3 className="mb-2 font-serif text-xl font-semibold">Cancel Application?</h3>
+        <p className="mb-5 text-sm text-muted-foreground">
+          Are you sure you want to cancel? All your progress will be lost.
+        </p>
+
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+          <Button variant="outline" className="rounded-sm" onClick={onDismiss}>
+            Keep Editing
+          </Button>
+          <Button
+            variant="outline"
+            className="rounded-sm border-red-200 text-red-500 hover:bg-red-50"
+            onClick={onConfirm}
+          >
+            Yes, Cancel
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }
@@ -94,7 +135,7 @@ function SubmissionSuccess({ trackingId, onViewGuide }) {
 // ─── Form Progress ─────────────────────────────────────────────────────────
 function FormProgress({ step, progress }) {
   return (
-    <div className="sticky -top-6 z-20 mb-4 rounded-b-[28px] border-b border-border bg-gradient-to-r from-accent/10 via-background/95 to-secondary/60 px-5 pb-6 pt-2 backdrop-blur md:-mx-6 md:px-6">
+    <div className="sticky -top-6 z-20 mb-4 rounded-b-sm border-b border-border bg-gradient-to-r from-accent/10 via-background/95 to-secondary/60 px-5 pb-6 pt-2 backdrop-blur md:-mx-6 md:px-6">
       <div className="mb-2">
         <div className="mb-2 flex justify-between text-[13px] text-foreground">
           <span>APPLICATION PROGRESS: {progress}%</span>
@@ -134,8 +175,17 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
   const [step, setStep] = useState(1)
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState({})
-  const [trackingId] = useState(`LP-${new Date().getFullYear()}-${String(Math.floor(1000 + Math.random() * 9000))}`)
+  const [showCancelModal, setShowCancelModal] = useState(false)
+  const [fallbackTrackingId] = useState(`LP-${new Date().getFullYear()}-${String(Math.floor(1000 + Math.random() * 9000))}`)
+  const [trackingId, setTrackingId] = useState(fallbackTrackingId)
   const [form, setForm] = useState(INITIAL_FORM)
+  const {
+    isSubmitting,
+    submitError,
+    submitApplication,
+    clearSubmitError,
+    resetSubmissionState,
+  } = useAdmissionsStore()
 
   const progress = Math.round(((step - 1) / (formStepLabels.length - 1)) * 100)
   const activeSittings = form.sittings.slice(0, Number(form.sittingCount))
@@ -147,12 +197,14 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
     setForm((current) => ({ ...current, [key]: event.target.value }))
     // clear error for this field as user types
     if (errors[key]) setErrors((current) => ({ ...current, [key]: undefined }))
+    if (submitError) clearSubmitError()
   }
 
   const handleFile = (key) => (event) => {
     const file = event.target.files?.[0] ?? null
     setForm((current) => ({ ...current, [key]: file }))
     if (errors[key]) setErrors((current) => ({ ...current, [key]: undefined }))
+    if (submitError) clearSubmitError()
   }
 
   const handleStateChange = (event) => {
@@ -163,6 +215,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
       stateOfOrigin: undefined,
       lga: undefined,
     }))
+    if (submitError) clearSubmitError()
   }
 
   const handleNationalityChange = (event) => {
@@ -179,6 +232,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
       stateOfOrigin: undefined,
       lga: undefined,
     }))
+    if (submitError) clearSubmitError()
   }
 
   const handleSittingFieldChange = (sittingIndex, key) => (event) => {
@@ -194,6 +248,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
       [`sitting_${sittingIndex}_${key}`]: undefined,
       [`sitting_${sittingIndex}_minimumSubjects`]: undefined,
     }))
+    if (submitError) clearSubmitError()
   }
 
   const handleSittingSubjectChange = (sittingIndex, subjectIndex, key) => (event) => {
@@ -212,6 +267,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
       [`sitting_${sittingIndex}_grade_${subjectIndex}`]: undefined,
       [`sitting_${sittingIndex}_minimumSubjects`]: undefined,
     }))
+    if (submitError) clearSubmitError()
   }
 
   const handleJambChange = (subjectIndex, key) => (event) => {
@@ -222,11 +278,13 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
         index === subjectIndex ? { ...subject, [key]: key === "score" ? value.replace(/[^\d]/g, "") : value } : subject
       ),
     }))
+    if (submitError) clearSubmitError()
   }
 
   const handleToggleCheckbox = (key) => (event) => {
     setForm((current) => ({ ...current, [key]: event.target.checked }))
     if (errors[key]) setErrors((current) => ({ ...current, [key]: undefined }))
+    if (submitError) clearSubmitError()
   }
 
   const getAvailableSubjectOptions = (subjects, currentIndex) => {
@@ -252,23 +310,37 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
     setStep((current) => current - 1)
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const stepErrors = getStepErrors(step, form, activeSittings)
     if (Object.keys(stepErrors).length > 0) {
       setErrors(stepErrors)
       return
     }
-    setSubmitted(true)
+
+    setErrors({})
+
+    try {
+      const payload = await submitApplication(form)
+      setTrackingId(resolveTrackingId(payload, fallbackTrackingId))
+      setSubmitted(true)
+    } catch {
+      formRef.current?.closest('[data-application-scroll-container="true"]')?.scrollTo({ top: 0, behavior: "smooth" })
+    }
   }
 
   const handleCancel = () => {
-    const confirmed = window.confirm("Are you sure you want to cancel? All your progress will be lost.")
-    if (confirmed) {
-      setForm(INITIAL_FORM)
-      setStep(1)
-      setErrors({})
-      onClose()
-    }
+    setShowCancelModal(true)
+  }
+
+  const confirmCancel = () => {
+    setForm(INITIAL_FORM)
+    setStep(1)
+    setErrors({})
+    setSubmitted(false)
+    setTrackingId(fallbackTrackingId)
+    setShowCancelModal(false)
+    resetSubmissionState()
+    onClose()
   }
 
   useEffect(() => {
@@ -282,9 +354,21 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
 
   return (
     <div ref={formRef} className="mx-auto w-full max-w-6xl">
+      <CancelConfirmationModal
+        isOpen={showCancelModal}
+        onConfirm={confirmCancel}
+        onDismiss={() => setShowCancelModal(false)}
+      />
+
       <FormProgress step={step} progress={progress} />
 
-      <div className="rounded-3xl border border-border bg-gradient-to-b from-background via-background to-secondary/20 p-2 shadow-sm ">
+      <div className="rounded-sm border border-border bg-gradient-to-b from-background via-background to-secondary/20 p-2 shadow-sm ">
+        {submitError ? (
+          <div className="mx-4 mt-4 rounded-sm border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+            {submitError}
+          </div>
+        ) : null}
+
         {step === 1 && (
           <PersonalInformationStep
             form={form}
@@ -331,7 +415,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex w-full sm:w-auto">
               {step > 1 && (
-                <Button variant="outline" size="sm" className="w-full rounded-full sm:w-auto" onClick={handleBack}>
+                <Button variant="outline" size="sm" className="w-full rounded-sm sm:w-auto" onClick={handleBack}>
                   <ChevronLeft className="mr-1 h-4 w-4" /> Back
                 </Button>
               )}
@@ -343,7 +427,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full rounded-full border-red-200 text-red-500 hover:bg-red-50 sm:w-auto"
+                className="w-full rounded-sm border-red-200 text-red-500 hover:bg-red-50 sm:w-auto"
                 onClick={handleCancel}
               >
                 <X className="mr-1 h-4 w-4" /> Cancel Application
@@ -351,16 +435,17 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
             )}
 
             {step < formStepLabels.length ? (
-              <Button size="sm" className="w-full rounded-full sm:w-auto" onClick={handleNext}>
+              <Button size="sm" className="w-full rounded-sm sm:w-auto" onClick={handleNext}>
                 Next Step <ChevronRight className="ml-1 h-4 w-4" />
               </Button>
             ) : (
               <Button
                 size="sm"
-                className="w-full rounded-full bg-emerald-600 text-white hover:bg-emerald-700 sm:w-auto"
+                className="w-full rounded-sm bg-emerald-600 text-white hover:bg-emerald-700 sm:w-auto"
                 onClick={handleSubmit}
+                disabled={isSubmitting}
               >
-                Submit Application <CheckCircle className="ml-1 h-4 w-4" />
+                {isSubmitting ? "Submitting..." : "Submit Application"} <CheckCircle className="ml-1 h-4 w-4" />
               </Button>
             )}
             </div>

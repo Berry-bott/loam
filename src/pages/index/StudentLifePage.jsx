@@ -202,7 +202,7 @@ export default function StudentLifePage() {
 
             <VideoSection
               videoUrl="/loam-video.mp4"
-              posterUrl="/loam (20).jpeg"
+              posterUrl="/student-life-video-poster.jpeg"
               title="A Day at Loam Polytechnic"
               // description="Follow our students through a typical day on campus"
               className="h-[300px] border-8"
@@ -238,7 +238,7 @@ export default function StudentLifePage() {
               <ScrollReveal animation="slideLeft">
                 <div className="relative aspect-square rounded-2xl overflow-hidden">
                   <img
-                    src="/loam (35).jpeg"
+                    src="/campus-facility-block.jpeg"
                     alt="Campus facilities"
                     className="w-full h-full object-cover"
                   />

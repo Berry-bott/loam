@@ -33,13 +33,13 @@
 
 //         <div className="grid gap-5 xl:grid-cols-[minmax(0,1.6fr)_320px]">
 //           <PortalCard>
-//             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#ab987f]">Active Enrollments</p>
-//             <p className="mt-4 text-[48px] font-bold text-[#4f1d14]">14,208</p>
-//             <span className="mt-3 inline-flex rounded-full bg-[#f8f2e2] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#b08a2b]">
+//             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Active Enrollments</p>
+//             <p className="mt-4 text-[48px] font-bold text-portal-text-strong">14,208</p>
+//             <span className="mt-3 inline-flex rounded-full bg-[#f8f2e2] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-value">
 //               + 12% from last semester
 //             </span>
 //           </PortalCard>
-//           <PortalCard className="bg-[#75110d] text-white before:bg-[#75110d]">
+//           <PortalCard className="bg-analytics-series-primary text-white before:bg-analytics-series-primary">
 //             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">Total Faculties</p>
 //             <p className="mt-4 text-[48px] font-bold">12</p>
 //             <p className="mt-2 text-sm text-white/70">Accredited Departments</p>
@@ -48,7 +48,7 @@
 
 //         <PortalCard>
 //           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-//             <p className="text-[22px] font-bold text-[#4f1d14]">Department Course List</p>
+//             <p className="text-[22px] font-bold text-portal-text-strong">Department Course List</p>
 //             <div className="flex gap-3">
 //               <PortalDropdown
 //                 label="Filter"
@@ -71,25 +71,25 @@
 //               headers={["Course Code", "Title", "Department", "Credits", "Status", "Actions"]}
 //               rows={adminCourses}
 //               renderRow={(row) => (
-//                 <tr key={row[0]} className="bg-[#fffdfa] text-sm text-[#5c2418]">
-//                   <td className="rounded-l-[6px] border-y border-l border-[#efe4d6] px-4 py-4 font-semibold">{row[0]}</td>
-//                   <td className="border-y border-[#efe4d6] px-4 py-4">{row[1]}</td>
-//                   <td className="border-y border-[#efe4d6] px-4 py-4">{row[2]}</td>
-//                   <td className="border-y border-[#efe4d6] px-4 py-4">{row[3]}</td>
-//                   <td className="border-y border-[#efe4d6] px-4 py-4"><StatusPill>{row[4]}</StatusPill></td>
-//                   <td className="rounded-r-[6px] border-y border-r border-[#efe4d6] px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9b1810]">
+//                 <tr key={row[0]} className="bg-portal-surface text-sm text-portal-text">
+//                   <td className="rounded-l-[6px] border-y border-l border-portal-border px-4 py-4 font-semibold">{row[0]}</td>
+//                   <td className="border-y border-portal-border px-4 py-4">{row[1]}</td>
+//                   <td className="border-y border-portal-border px-4 py-4">{row[2]}</td>
+//                   <td className="border-y border-portal-border px-4 py-4">{row[3]}</td>
+//                   <td className="border-y border-portal-border px-4 py-4"><StatusPill>{row[4]}</StatusPill></td>
+//                   <td className="rounded-r-[6px] border-y border-r border-portal-border px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft">
 //                     <button onClick={() => setToastMessage(`Course ${row[0]} opened for review.`)}>View</button>
 //                   </td>
 //                 </tr>
 //               )}
 //               mobileRender={(row) => (
 //                 <div className="space-y-2">
-//                   <p className="text-sm font-semibold text-[#5c2418]">{row[0]} · {row[1]}</p>
-//                   <p className="text-sm text-[#8b7969]">{row[2]} · {row[3]} credits</p>
+//                   <p className="text-sm font-semibold text-portal-text">{row[0]} · {row[1]}</p>
+//                   <p className="text-sm text-portal-text-muted">{row[2]} · {row[3]} credits</p>
 //                   <div className="flex items-center justify-between">
 //                     <StatusPill>{row[4]}</StatusPill>
 //                     <button
-//                       className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9b1810]"
+//                       className="text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft"
 //                       onClick={() => setToastMessage(`Course ${row[0]} opened for review.`)}
 //                     >
 //                       View
@@ -169,13 +169,13 @@ export default function AdminCoursesPage() {
 
         <div className="grid gap-5 xl:grid-cols-[minmax(0,1.6fr)_320px]">
           <PortalCard>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#ab987f]">Active Enrollments</p>
-            <p className="mt-4 text-[48px] font-bold text-[#4f1d14]">14,208</p>
-            <span className="mt-3 inline-flex rounded-full bg-[#f8f2e2] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#b08a2b]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Active Enrollments</p>
+            <p className="mt-4 text-[48px] font-bold text-portal-text-strong">14,208</p>
+            <span className="mt-3 inline-flex rounded-full bg-[#f8f2e2] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-value">
               + 12% from last semester
             </span>
           </PortalCard>
-          <PortalCard className="bg-[#75110d] text-white before:bg-[#75110d]">
+          <PortalCard className="bg-analytics-series-primary text-white before:bg-analytics-series-primary">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">Total Faculties</p>
             <p className="mt-4 text-[48px] font-bold">12</p>
             <p className="mt-2 text-sm text-white/70">Accredited Departments</p>
@@ -184,7 +184,7 @@ export default function AdminCoursesPage() {
 
         <PortalCard>
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-[22px] font-bold text-[#4f1d14]">Department Course List</p>
+            <p className="text-[22px] font-bold text-portal-text-strong">Department Course List</p>
             <div className="flex gap-3">
               <PortalDropdown
                 label="Filter"
@@ -207,25 +207,25 @@ export default function AdminCoursesPage() {
               headers={["Course Code", "Title", "Department", "Credits", "Status", "Actions"]}
               rows={courses}
               renderRow={(row) => (
-                <tr key={row[0]} className="bg-[#fffdfa] text-sm text-[#5c2418]">
-                  <td className="rounded-l-[6px] border-y border-l border-[#efe4d6] px-4 py-4 font-semibold">{row[0]}</td>
-                  <td className="border-y border-[#efe4d6] px-4 py-4">{row[1]}</td>
-                  <td className="border-y border-[#efe4d6] px-4 py-4">{row[2]}</td>
-                  <td className="border-y border-[#efe4d6] px-4 py-4">{row[3]}</td>
-                  <td className="border-y border-[#efe4d6] px-4 py-4"><StatusPill>{row[4]}</StatusPill></td>
-                  <td className="rounded-r-[6px] border-y border-r border-[#efe4d6] px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9b1810]">
+                <tr key={row[0]} className="bg-portal-surface text-sm text-portal-text">
+                  <td className="rounded-l-[6px] border-y border-l border-portal-border px-4 py-4 font-semibold">{row[0]}</td>
+                  <td className="border-y border-portal-border px-4 py-4">{row[1]}</td>
+                  <td className="border-y border-portal-border px-4 py-4">{row[2]}</td>
+                  <td className="border-y border-portal-border px-4 py-4">{row[3]}</td>
+                  <td className="border-y border-portal-border px-4 py-4"><StatusPill>{row[4]}</StatusPill></td>
+                  <td className="rounded-r-[6px] border-y border-r border-portal-border px-4 py-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft">
                     <button onClick={() => setToastMessage(`Course ${row[0]} opened for review.`)}>View</button>
                   </td>
                 </tr>
               )}
               mobileRender={(row) => (
                 <div className="space-y-2">
-                  <p className="text-sm font-semibold text-[#5c2418]">{row[0]} · {row[1]}</p>
-                  <p className="text-sm text-[#8b7969]">{row[2]} · {row[3]} credits</p>
+                  <p className="text-sm font-semibold text-portal-text">{row[0]} · {row[1]}</p>
+                  <p className="text-sm text-portal-text-muted">{row[2]} · {row[3]} credits</p>
                   <div className="flex items-center justify-between">
                     <StatusPill>{row[4]}</StatusPill>
                     <button
-                      className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9b1810]"
+                      className="text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft"
                       onClick={() => setToastMessage(`Course ${row[0]} opened for review.`)}
                     >
                       View

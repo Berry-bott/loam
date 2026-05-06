@@ -11,7 +11,7 @@ export function PortalToast({ open, message, onClose }) {
   if (!open) return null
 
   return (
-    <div className="fixed bottom-4 right-4 z-[130] w-[calc(100vw-2rem)] max-w-sm rounded-[14px] border border-[#eadfce] bg-[#fffdfa] p-4 shadow-[0_18px_45px_rgba(44,16,10,0.18)]">
+    <div className="fixed bottom-4 right-4 z-[130] w-[calc(100vw-2rem)] max-w-sm rounded-[14px] border border-portal-border-soft bg-portal-surface p-4 shadow-[0_18px_45px_rgba(44,16,10,0.18)]">
       <div className="flex items-start gap-3">
         <div className="mt-0.5 rounded-full bg-[#eaf7ec] p-1 text-[#2f8a44]">
           <CheckCircle2 className="h-4 w-4" />
@@ -24,3 +24,4 @@ export function PortalToast({ open, message, onClose }) {
     </div>
   )
 }
+

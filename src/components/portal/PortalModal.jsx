@@ -33,7 +33,7 @@ export function PortalModal({
       <div className="absolute inset-0" onClick={onClose} />
       <div
         className={cn(
-          "relative z-10 w-full max-w-[560px] overflow-hidden rounded-[16px] border border-[#eadfce] bg-[#fffdfa] shadow-[0_25px_60px_rgba(50,16,10,0.26)]",
+          "relative z-10 w-full max-w-[560px] overflow-hidden rounded-[16px] border border-portal-border-soft bg-portal-surface shadow-[0_25px_60px_rgba(50,16,10,0.26)]",
           className,
         )}
       >
@@ -45,7 +45,7 @@ export function PortalModal({
             </div>
             <button
               onClick={onClose}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[#eadfce] bg-white text-[#7a6554]"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-portal-border-soft bg-white text-[#7a6554]"
               aria-label="Close modal"
             >
               <X className="h-4 w-4" />
@@ -57,4 +57,5 @@ export function PortalModal({
     </div>
   )
 }
+
 

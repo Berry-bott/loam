@@ -69,19 +69,19 @@ const programs = [
     title: "Elementary School",
     grades: "K-5",
     description: "Building strong foundations through play-based and inquiry-driven learning",
-    image: "/loam (35).jpeg",
+    image: "/campus-facility-block.jpeg",
   },
   {
     title: "Middle School",
     grades: "6-8",
     description: "Developing critical thinking and preparing for academic challenges",
-    image: "/loam (37).jpeg",
+    image: "/electronics-workshop.jpeg",
   },
   {
     title: "High School",
     grades: "9-12",
     description: "Advanced coursework preparing students for top universities worldwide",
-    image: "/loam (38).jpeg",
+    image: "/networking-lab.jpeg",
   },
 ]
 
@@ -116,10 +116,8 @@ export default function AcademicsPage() {
   return (
     <>
       <Navbar />
-      <div className="h-screen flex justify-center items-center">
-    <h1 className="text-4xl text-foreground ">Work in Progress</h1>
-      </div>
-      {/* <main className="min-h-screen pt-16">
+
+      <main className="min-h-screen pt-16">
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0">
             <video
@@ -128,7 +126,7 @@ export default function AcademicsPage() {
               muted
               playsInline
               className="w-full h-full object-cover"
-              poster="/loam (19).jpeg"
+              poster="/campus-video-poster.jpeg"
             >
               <source
                 src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
@@ -201,7 +199,7 @@ export default function AcademicsPage() {
 
             <VideoSection
               videoUrl="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
-              posterUrl="/loam (19).jpeg"
+              posterUrl="/campus-video-poster.jpeg"
               title="Innovation in Education"
               description="See how our teachers create engaging learning experiences"
             />
@@ -254,7 +252,7 @@ export default function AcademicsPage() {
             </ScrollReveal>
           </div>
         </section>
-      </main> */}
+      </main>
       <Footer />
     </>
   )

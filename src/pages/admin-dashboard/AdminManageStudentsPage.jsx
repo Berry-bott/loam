@@ -130,36 +130,36 @@ export default function AdminManageStudentsPage() {
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div>
                   <div className="flex items-center gap-3">
-                    <UserRoundCog className="h-5 w-5 text-[#8f120d]" />
-                    <p className="text-[24px] font-bold text-[#4f1d14]">{formData.fullName}</p>
+                    <UserRoundCog className="h-5 w-5 text-primary" />
+                    <p className="text-[24px] font-bold text-portal-text-strong">{formData.fullName}</p>
                   </div>
-                  <p className="mt-2 text-sm text-[#8b7969]">
-                    Registration No: <span className="font-semibold text-[#5c2418]">{formData.regNumber}</span>
+                  <p className="mt-2 text-sm text-portal-text-muted">
+                    Registration No: <span className="font-semibold text-portal-text">{formData.regNumber}</span>
                   </p>
                 </div>
                 <StatusPill>{formData.status}</StatusPill>
               </div>
 
               <div className="mt-5 grid gap-4 md:grid-cols-3">
-                <div className="rounded-[10px] border border-[#efe4d6] bg-[#fffdfa] p-4">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a88f7d]">Department</p>
-                  <p className="mt-2 text-lg font-bold text-[#531b14]">{formData.department}</p>
+                <div className="rounded-[10px] border border-portal-border bg-portal-surface p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-label">Department</p>
+                  <p className="mt-2 text-lg font-bold text-student-title">{formData.department}</p>
                 </div>
-                <div className="rounded-[10px] border border-[#efe4d6] bg-[#fffdfa] p-4">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a88f7d]">Programme</p>
-                  <p className="mt-2 text-lg font-bold text-[#531b14]">{formData.programme}</p>
+                <div className="rounded-[10px] border border-portal-border bg-portal-surface p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-label">Programme</p>
+                  <p className="mt-2 text-lg font-bold text-student-title">{formData.programme}</p>
                 </div>
-                <div className="rounded-[10px] border border-[#efe4d6] bg-[#fffdfa] p-4">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a88f7d]">Current Level</p>
-                  <p className="mt-2 text-lg font-bold text-[#531b14]">{formData.level}</p>
+                <div className="rounded-[10px] border border-portal-border bg-portal-surface p-4">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-label">Current Level</p>
+                  <p className="mt-2 text-lg font-bold text-student-title">{formData.level}</p>
                 </div>
               </div>
             </PortalCard>
 
             <div className="grid gap-5 xl:grid-cols-[minmax(0,1.6fr)_320px]">
               <PortalCard>
-                <p className="text-[24px] font-bold text-[#4f1d14]">Editable Student Information</p>
-                <p className="mt-2 text-sm leading-6 text-[#8b7969]">
+                <p className="text-[24px] font-bold text-portal-text-strong">Editable Student Information</p>
+                <p className="mt-2 text-sm leading-6 text-portal-text-muted">
                   Update the student record below. Changes here represent the official registry version of the student profile.
                 </p>
 
@@ -189,7 +189,7 @@ export default function AdminManageStudentsPage() {
                   <textarea
                     value={formData.address}
                     onChange={(event) => handleFieldChange("address", event.target.value)}
-                    className="min-h-[130px] w-full rounded-[3px] border border-[#efe5d8] bg-[#fffdf9] px-4 py-3 text-sm text-[#4d2017] outline-none transition focus:border-[#ccb08e] focus:ring-2 focus:ring-[#ecdcb8]"
+                    className="min-h-[130px] w-full rounded-[3px] border border-admin-field-border bg-admin-field-bg px-4 py-3 text-sm text-admin-field-text outline-none transition focus:border-admin-field-focus-border focus:ring-2 focus:ring-admin-field-focus-ring"
                     placeholder="Student residential address"
                   />
                 </label>
@@ -214,7 +214,7 @@ export default function AdminManageStudentsPage() {
 
               <div className="space-y-5">
                 <PortalCard className="text-center">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#b59a58]">Student Profile Photo</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-shared-eyebrow">Student Profile Photo</p>
                   <div className="mt-5 flex justify-center">
                     <img
                       src="/IMG_3175.jpeg"
@@ -233,19 +233,19 @@ export default function AdminManageStudentsPage() {
                 </PortalCard>
 
                 <PortalCard accent="gold">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#b59a58]">Loaded Record</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-shared-eyebrow">Loaded Record</p>
                   <div className="mt-4 space-y-4 text-sm text-[#6f5b4a]">
                     <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a88f7d]">Registration Number</p>
-                      <p className="mt-1 font-semibold text-[#4f1d14]">{formData.regNumber}</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-label">Registration Number</p>
+                      <p className="mt-1 font-semibold text-portal-text-strong">{formData.regNumber}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a88f7d]">Current Session</p>
-                      <p className="mt-1 font-semibold text-[#4f1d14]">{formData.session}</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-label">Current Session</p>
+                      <p className="mt-1 font-semibold text-portal-text-strong">{formData.session}</p>
                     </div>
                     <div>
-                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a88f7d]">Record Owner</p>
-                      <p className="mt-1 font-semibold text-[#4f1d14]">{formData.fullName}</p>
+                      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-label">Record Owner</p>
+                      <p className="mt-1 font-semibold text-portal-text-strong">{formData.fullName}</p>
                     </div>
                   </div>
                 </PortalCard>
@@ -254,9 +254,9 @@ export default function AdminManageStudentsPage() {
           </>
         ) : (
           <PortalCard>
-            <div className="rounded-[12px] border border-dashed border-[#ddcdb8] bg-[#fffdfa] px-6 py-12 text-center">
-              <p className="text-[24px] font-bold text-[#531b14]">No Student Record Loaded</p>
-              <p className="mt-3 text-sm leading-6 text-[#8b7969]">
+            <div className="rounded-[12px] border border-dashed border-[#ddcdb8] bg-portal-surface px-6 py-12 text-center">
+              <p className="text-[24px] font-bold text-student-title">No Student Record Loaded</p>
+              <p className="mt-3 text-sm leading-6 text-portal-text-muted">
                 Search with a valid registration number to open a student file for administrative editing.
               </p>
             </div>
@@ -268,3 +268,4 @@ export default function AdminManageStudentsPage() {
     </>
   )
 }
+

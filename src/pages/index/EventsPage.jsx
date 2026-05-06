@@ -9,8 +9,23 @@ import { Footer } from "../../components/index/Footer"
 import { ScrollReveal } from "../../components/index/ScrollReveal"
 
 const upcomingEvents = [
-  {
+    {
     id: 1,
+    title: "Maiden Matriculation Ceremony",
+    date: "May 25, 2026",
+    location: "Main Auditorium",
+    description: "The matriculation of 2023/2024 and 2024/2025 Students of Loam Polytechnic, Ikono.",
+    fullDescription: `Loam Polytechnic Holds Maiden Matriculation Ceremony for 2023/2024 and 2024/2025 Academic Sessions
+    Loam Polytechnic, Ikono, marked a historic milestone with the successful hosting of its maiden matriculation ceremony for the 2023/2024 and 2024/2025 academic sessions. The event, held on Friday, March 28, 2025, at the school playground, brought together dignitaries, academic leaders, students, and invited guests in a celebration of growth, vision, and academic excellence.
+
+    The ceremony officially welcomed newly admitted students into the Polytechnic community, symbolizing their formal induction into higher education and their commitment to academic pursuit and discipline.
+
+    The event was graced by the presence of distinguished personalities, including the Honourable Member representing Ikot Ekpene/Obot Akara State Constituency, Hon. Jerry Otu, alongside the institution’s leadership team led by the Rector, Otuekong Eddie Etim.`,
+    image: "/event-img2.jpeg",
+    featured: true,
+  },
+    {
+    id: 2,
     title: "Resource Inspection",
     date: "February, 2023",
     location: "Main Campus",
@@ -24,11 +39,12 @@ const upcomingEvents = [
       Computer Engineering Technology
       Electrical/Electronics Engineering Technology
       Statistics`,
-    image: "/loam (13).jpeg",
+    image: "/resource-inspection.jpeg",
     featured: true,
   },
-  {
-    id: 2,
+
+    {
+    id: 3,
     title: "Akpabio Extends Scholarship ",
     date: "March, 2025",
     location: "Performing Arts Center",
@@ -46,33 +62,64 @@ const upcomingEvents = [
     featured: true,
   },
   {
-    id: 3,
-    title: "Maiden Matriculation Ceremony",
-    date: "May 25, 2026",
-    location: "Main Auditorium",
-    description: "The matriculation of 2023/2024 and 2024/2025 Students of Loam Polytechnic, Ikono.",
-    fullDescription: `Loam Polytechnic Holds Maiden Matriculation Ceremony for 2023/2024 and 2024/2025 Academic Sessions
-    Loam Polytechnic, Ikono, marked a historic milestone with the successful hosting of its maiden matriculation ceremony for the 2023/2024 and 2024/2025 academic sessions. The event, held on Friday, March 28, 2025, at the school playground, brought together dignitaries, academic leaders, students, and invited guests in a celebration of growth, vision, and academic excellence.
+    id: 4,
+    title: "Project Defense",
+    date: "October, 2025 ",
+    location: "Main Campus",
+    description: "Loam Polytechnic Students Hold Seminar Presentations, 2024/2025 Session",
+    fullDescription: `Students of Loam Polytechnic, Ikono, successfully conducted their seminar presentations in October 2025 as part of their academic activities for the session. The event, which brought together students, lecturers, and academic supervisors, served as an important platform for showcasing research, innovation, and practical knowledge across various disciplines.
+      The seminar presentations featured students from different departments who presented well-researched topics addressing current trends, challenges, and developments within their respective fields of study. The exercise demonstrated the institution’s commitment to academic excellence and its focus on equipping students with critical thinking, communication, and problem-solving skills.
 
-    The ceremony officially welcomed newly admitted students into the Polytechnic community, symbolizing their formal induction into higher education and their commitment to academic pursuit and discipline.
+      Speaking during the sessions, members of the academic staff, Engr. Sam Aniekan commended the students for their dedication, depth of research, and confidence in delivery. Mr. Akan Nduonofit who was an external supervisor emphasized the importance of seminars as a vital component of higher education, helping students bridge the gap between theoretical learning and real-world application.
 
-    The event was graced by the presence of distinguished personalities, including the Executive Governor, Pastor Umo Eno, who was ably represented. Also in attendance was the Honourable Member representing Ikot Ekpene/Obot Akara State Constituency, Hon. Jerry Otu, alongside the institution’s leadership team led by the Rector, Otuekong Eddie Etim.`,
-    image: "/event-img2.jpeg",
+      The Admission Officer on behalf of the Management of the Polytechnic also expressed satisfaction with the overall performance of the students, noting that such academic engagements are essential in preparing graduates for professional and entrepreneurial success.`,
+    image: "/project-defense.png",
     featured: true,
   },
+  {
+    id: 5,
+    title: "Examinations",
+    date: "October, 2024 ",
+    location: "Main Campus",
+    description: "Loam Polytechnic Students Conclude Final Examinations for 2023/2024 Academic Session",
+    fullDescription: `Students of Loam Polytechnic, Ikono, under the 2023/2024 Academic Session, successfully commenced and completed their final examinations in October 2025. The examinations were held at the institution’s Accountancy Block 102, where candidates gathered to demonstrate the knowledge and skills acquired throughout their course of study.
+      The examination period marked a significant academic milestone for the students, reflecting months of dedication, preparation, and academic engagement. The environment at the Accountancy Block was well-organized, ensuring a smooth and coordinated process for both students and invigilators.
 
+      Speaking on the exercise, school authorities expressed satisfaction with the orderly conduct of the examinations and commended students for their discipline and commitment. They also appreciated the efforts of the academic and administrative staff who contributed to the success of the examination process.
 
-    {
-    id: 4,
+      As the examinations conclude, students now look forward to the next phase of their academic journey, with anticipation of favorable results and future opportunities beyond the institution.
+
+      The management of Loam Polytechnic continues to reaffirm its commitment to academic excellence and the development of competent graduates ready to contribute meaningfully to society.`,
+    image: "/loampoly-exam1.png",
+    featured: true,
+  },
+  {
+    id: 6,
+    title: "Examinations",
+    date: "October, 2026 ",
+    location: "Main Campus",
+    description: "Examination Update: First Semester 2025/2026",
+    fullDescription: `The management of Loam Polytechnic is pleased to announce the successful conclusion of the First Semester Examinations for the 2025/2026 academic session, which ended on 6th May, 2026.
+
+      The examination period went smoothly across all departments, with students demonstrating commitment, discipline, and academic focus throughout the process. The institution appreciates the efforts of both staff and students in ensuring a hitch-free exercise.
+
+      Students are advised to remain calm and patient as marking and result processing commence. Further updates regarding results and the next phase of the academic calendar will be communicated in due course through our website, www.loampolytechnic.edu.ng.
+
+      Once again, congratulations to all students for completing the semester, and we wish everyone success in their results.`,
+    image: "/loam-poly-exam.png",
+    featured: true,
+  },
+  {
+    id: 7,
     title: "Convocation Comming",
     date: "Nov, 2026",
     location: "Science Building",
     description: "The convocation ceremony for the graduating class of 2025, celebrating their academic achievements and contributions to the Polytechnic community.",
-    image: "/loam (28).jpeg",
+    image: "/graduation-celebration.jpeg",
     featured: false,
   },
-    {
-    id: 5,
+  {
+    id: 8,
     title: "Project Defence",
     date: "April 18, 2026",
     location: "Athletic Complex",
@@ -80,8 +127,8 @@ const upcomingEvents = [
     image: "/track-field-athletics.jpg",
     featured: false,
   },
-   {
-    id: 6,
+  {
+    id: 9,
     title: "Parent-Teacher Conference",
     date: "April 3-4, 2026",
     location: "Various Classrooms",
@@ -245,7 +292,7 @@ export default function EventsPage() {
                       <img
                         src={event.image || "/placeholder.svg"}
                         alt={event.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                     <div className="p-6">

@@ -206,3 +206,45 @@ export async function getDepartmentById(id) {
   if (!id) throw new Error("Department ID is required.")
   return adminRequest(`/departments/${id}`, { method: "GET" })
 }
+
+export async function createSession({ name, startDate, endDate }) {
+  if (!name?.trim()) throw new Error("Session name is required.")
+  if (!startDate) throw new Error("Session start date is required.")
+  if (!endDate) throw new Error("Session end date is required.")
+
+  return adminRequest("/sessions", {
+    method: "POST",
+    body: JSON.stringify({
+      name: name.trim(),
+      startDate,
+      endDate,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+}
+
+export async function getAllSessions() {
+  return adminRequest("/sessions", { method: "GET" })
+}
+
+export async function createSemester({ sessionId, type, startDate, endDate }) {
+  if (!sessionId) throw new Error("Session is required before creating a semester.")
+  if (!type) throw new Error("Semester type is required.")
+  if (!startDate) throw new Error("Semester start date is required.")
+  if (!endDate) throw new Error("Semester end date is required.")
+
+  return adminRequest("/semesters", {
+    method: "POST",
+    body: JSON.stringify({
+      sessionId,
+      type,
+      startDate,
+      endDate,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+}

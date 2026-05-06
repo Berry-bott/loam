@@ -8,10 +8,10 @@ function formatNaira(value) {
 function KeyValueRow({ label, value, emphasized = false }) {
   return (
     <div className="flex items-start justify-between gap-4 border-b border-[#f2e9df] py-3 last:border-b-0 last:pb-0 first:pt-0">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#ab987f]">{label}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">{label}</p>
       <p
         className={`max-w-[60%] text-right text-sm leading-6 ${
-          emphasized ? "font-bold text-[#531b14]" : "font-semibold text-[#6c5848]"
+          emphasized ? "font-bold text-student-title" : "font-semibold text-[#6c5848]"
         }`}
       >
         {value}
@@ -22,9 +22,9 @@ function KeyValueRow({ label, value, emphasized = false }) {
 
 function SummaryCard({ label, value, note }) {
   return (
-    <div className="rounded-[10px] border border-[#eadfce] bg-white px-4 py-4 shadow-[0_10px_20px_rgba(74,25,16,0.04)]">
-      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#ab987f]">{label}</p>
-      <p className="mt-3 text-[28px] font-bold text-[#531b14]">{value}</p>
+    <div className="rounded-[10px] border border-portal-border-soft bg-white px-4 py-4 shadow-[0_10px_20px_rgba(74,25,16,0.04)]">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">{label}</p>
+      <p className="mt-3 text-[28px] font-bold text-student-title">{value}</p>
       <p className="mt-2 text-sm leading-6 text-[#8a7767]">{note}</p>
     </div>
   )
@@ -32,16 +32,16 @@ function SummaryCard({ label, value, note }) {
 
 function SectionCard({ title, children }) {
   return (
-    <section className="rounded-[10px] border border-[#efe4d6] bg-[#fffdfa] p-4">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8f120d]">{title}</p>
+    <section className="rounded-[10px] border border-portal-border bg-portal-surface p-4">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-primary">{title}</p>
       <div className="mt-3">{children}</div>
     </section>
   )
 }
 
 const statusClasses = {
-  Verified: "bg-[#e6f6e7] text-[#2d8a45]",
-  "Pending Confirmation": "bg-[#fff1d3] text-[#aa7b11]",
+  Verified: "bg-portal-status-success-soft-bg text-portal-status-success-soft-text",
+  "Pending Confirmation": "bg-[#fff1d3] text-portal-status-warning-text",
 }
 
 export function AcademicFeePaymentHistory({
@@ -73,10 +73,10 @@ export function AcademicFeePaymentHistory({
       <section className="rounded-[14px] border border-[#e7d8cb] bg-[linear-gradient(135deg,#fffdfa_0%,#f8efe7_100%)] p-5">
         <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
           <div className="max-w-[520px]">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b59a58]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-shared-eyebrow">
               Academic Payment File
             </p>
-            <h2 className="mt-2 text-[26px] font-bold tracking-tight text-[#531b14]">
+            <h2 className="mt-2 text-[26px] font-bold tracking-tight text-student-title">
               {profile.school} Fee History Ledger
             </h2>
 
@@ -84,10 +84,10 @@ export function AcademicFeePaymentHistory({
 
         </div>
 
-        <div className="mt-5 rounded-[12px] border border-[#eadfce] bg-white p-5">
+        <div className="mt-5 rounded-[12px] border border-portal-border-soft bg-white p-5">
           <div className="flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-[#8f120d]" />
-            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[#8f120d]">
+            <ShieldCheck className="h-4 w-4 text-primary" />
+            <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-primary">
               Student Payment Identity
             </p>
           </div>
@@ -134,9 +134,9 @@ export function AcademicFeePaymentHistory({
 
       <div className={scrollable ? "max-h-[58vh] space-y-4 overflow-y-auto pr-1" : "space-y-4"}>
         {records.length === 0 ? (
-          <div className="rounded-[12px] border border-dashed border-[#ddcdb8] bg-[#fffdfa] px-6 py-10 text-center">
-            <p className="text-lg font-bold text-[#531b14]">No payment history found</p>
-            <p className="mt-2 text-sm text-[#8b7969]">
+          <div className="rounded-[12px] border border-dashed border-[#ddcdb8] bg-portal-surface px-6 py-10 text-center">
+            <p className="text-lg font-bold text-student-title">No payment history found</p>
+            <p className="mt-2 text-sm text-portal-text-muted">
               Academic fee receipts will appear here once the bursary posts them to the portal.
             </p>
           </div>
@@ -145,12 +145,12 @@ export function AcademicFeePaymentHistory({
         {records.map((record) => (
           <article
             key={record.id}
-            className="rounded-[12px] border border-[#eadfce] bg-white p-5 shadow-[0_12px_24px_rgba(74,25,16,0.05)]"
+            className="rounded-[12px] border border-portal-border-soft bg-white p-5 shadow-[0_12px_24px_rgba(74,25,16,0.05)]"
           >
-            <div className="flex flex-col gap-4 border-b border-[#efe4d6] pb-4 lg:flex-row lg:items-start lg:justify-between">
+            <div className="flex flex-col gap-4 border-b border-portal-border pb-4 lg:flex-row lg:items-start lg:justify-between">
               <div>
                 <div className="flex flex-wrap items-center gap-3">
-                  <p className="text-[22px] font-bold text-[#4f1d14]">{record.feeTitle}</p>
+                  <p className="text-[22px] font-bold text-portal-text-strong">{record.feeTitle}</p>
                   <span
                     className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
                       statusClasses[record.status] || "bg-[#f4f0eb] text-[#866f5d]"
@@ -162,11 +162,11 @@ export function AcademicFeePaymentHistory({
 
                 <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-[#7e6b5b]">
                   <span className="inline-flex items-center gap-2">
-                    <ReceiptText className="h-4 w-4 text-[#9b1810]" />
-                    Amount: <strong className="text-[#531b14]">{formatNaira(record.amount)}</strong>
+                    <ReceiptText className="h-4 w-4 text-portal-brand-soft" />
+                    Amount: <strong className="text-student-title">{formatNaira(record.amount)}</strong>
                   </span>
                   <span className="inline-flex items-center gap-2">
-                    <CalendarDays className="h-4 w-4 text-[#9b1810]" />
+                    <CalendarDays className="h-4 w-4 text-portal-brand-soft" />
                     Paid on {record.paidOn}
                   </span>
                 </div>
@@ -205,7 +205,7 @@ export function AcademicFeePaymentHistory({
             </div>
 
             <div className="mt-4 rounded-[10px] bg-[#faf3ea] p-4 text-sm leading-6 text-[#6f5c4c]">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#ab987f]">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">
                 Clearance Note
               </p>
               <p className="mt-2">
@@ -219,3 +219,4 @@ export function AcademicFeePaymentHistory({
     </div>
   )
 }
+

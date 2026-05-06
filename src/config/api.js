@@ -5,5 +5,6 @@ export const API_CONFIG = {
   endpoints: {
     auth: "/api/v1/auth",
     admin: "/api/v1/admin",
+    applications: "/api/v1/applications",
   },
 }

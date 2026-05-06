@@ -92,6 +92,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
   { href: "/admissions", label: "Admissions" },
+  { href: "/academics", label: "Academics" },
   { href: "/student-life", label: "Student Life" },
   { href: "/gallery", label: "Gallery" },
   { href: "/events", label: "Events" },

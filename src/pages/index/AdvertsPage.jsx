@@ -13,7 +13,7 @@ const programs = [
   {
     title: "Summer Academic Camp",
     description: "Intensive learning programs in STEM, Arts, and Languages for students aged 10-17.",
-    image: "/loam (51).jpeg",
+    image: "/summer-academic-camp.jpeg",
     dates: "June 15 - August 15, 2026",
     price: "From $2,500",
     features: ["Small class sizes", "Expert instructors", "Hands-on projects", "Certificate upon completion"],
@@ -34,7 +34,7 @@ const programs = [
   {
     title: "Music & Arts Academy",
     description: "Comprehensive training in classical music, contemporary arts, and performing arts.",
-    image: "/loam (45).jpeg",
+    image: "/rector-nbte-officials.jpeg",
     dates: "September 2026 intake",
     price: "From $2,000/semester",
     features: ["Private lessons available", "Ensemble opportunities", "Annual performances", "Guest masterclasses"],
@@ -152,7 +152,7 @@ export default function AdvertsPage() {
                             className="w-10 h-10 rounded-full bg-background border-4 border-background overflow-hidden"
                           >
                             <img
-                              src={`/loam (52).jpeg?height=40&width=40&query=student portrait ${i}`}
+                              src={`/student-portrait.jpeg?height=40&width=40&query=student portrait ${i}`}
                               alt="Student"
                               className="w-full h-full object-cover"
                             />

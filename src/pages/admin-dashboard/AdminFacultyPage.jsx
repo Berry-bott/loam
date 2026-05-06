@@ -111,8 +111,8 @@ export default function AdminFacultyPage() {
           <PortalCard>
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-[22px] font-bold text-[#4f1d14]">Departments Overview</p>
-                <p className="mt-1 text-sm text-[#8b7969]">
+                <p className="text-[22px] font-bold text-portal-text-strong">Departments Overview</p>
+                <p className="mt-1 text-sm text-portal-text-muted">
                   {isLoading
                     ? "Refreshing department overview..."
                     : `${departments.length} departments created, ${hodAssignedCount} with assigned HODs.`}
@@ -126,19 +126,19 @@ export default function AdminFacultyPage() {
                 recentDepartments.map((department) => (
                   <div
                     key={getEntityId(department) || getDepartmentName(department)}
-                    className="rounded-[10px] border border-[#efe4d6] bg-[#fffdfa] px-4 py-4"
+                    className="rounded-[10px] border border-portal-border bg-portal-surface px-4 py-4"
                   >
-                    <p className="text-sm font-semibold text-[#5c2418]">
+                    <p className="text-sm font-semibold text-portal-text">
                       {getDepartmentName(department)}
                     </p>
                     <p className="mt-1 text-xs uppercase tracking-[0.12em] text-[#a18f80]">
                       HOD
                     </p>
-                    <p className="mt-1 text-sm text-[#8b7969]">{getHodName(department)}</p>
+                    <p className="mt-1 text-sm text-portal-text-muted">{getHodName(department)}</p>
                   </div>
                 ))
               ) : (
-                <div className="rounded-[10px] border border-dashed border-[#ddcdb8] bg-[#fffdfa] px-6 py-10 text-center text-sm text-[#8b7969]">
+                <div className="rounded-[10px] border border-dashed border-[#ddcdb8] bg-portal-surface px-6 py-10 text-center text-sm text-portal-text-muted">
                   No departments created yet.
                 </div>
               )}
@@ -148,8 +148,8 @@ export default function AdminFacultyPage() {
           <PortalCard accent="gold">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-[22px] font-bold text-[#4f1d14]">Staff Overview</p>
-                <p className="mt-1 text-sm text-[#8b7969]">
+                <p className="text-[22px] font-bold text-portal-text-strong">Staff Overview</p>
+                <p className="mt-1 text-sm text-portal-text-muted">
                   {isLoading
                     ? "Refreshing staff overview..."
                     : `${staff.length} staff records loaded, ${activeStaffCount} currently active.`}
@@ -163,21 +163,21 @@ export default function AdminFacultyPage() {
                 recentStaff.map((member) => (
                   <div
                     key={getEntityId(member) || getStaffEmail(member)}
-                    className="rounded-[10px] border border-[#efe4d6] bg-[#fffdfa] px-4 py-4"
+                    className="rounded-[10px] border border-portal-border bg-portal-surface px-4 py-4"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="text-sm font-semibold text-[#5c2418]">
+                        <p className="text-sm font-semibold text-portal-text">
                           {getStaffName(member)}
                         </p>
-                        <p className="mt-1 text-sm text-[#8b7969]">{getStaffEmail(member)}</p>
+                        <p className="mt-1 text-sm text-portal-text-muted">{getStaffEmail(member)}</p>
                       </div>
                       <StatusPill>{getStaffStatus(member)}</StatusPill>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="rounded-[10px] border border-dashed border-[#ddcdb8] bg-[#fffdfa] px-6 py-10 text-center text-sm text-[#8b7969]">
+                <div className="rounded-[10px] border border-dashed border-[#ddcdb8] bg-portal-surface px-6 py-10 text-center text-sm text-portal-text-muted">
                   No staff created yet.
                 </div>
               )}
@@ -194,3 +194,4 @@ export default function AdminFacultyPage() {
     </>
   )
 }
+

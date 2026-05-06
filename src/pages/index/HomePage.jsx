@@ -18,12 +18,12 @@ import video from "../../assets/video/loam-mega.mp4"
 
 const heroSlides = [
   {
-    image: "/loam (24).jpeg",
+    image: "/welcome-campus.jpeg",
     title: "Loamy soil for academic excellence",
     subtitle: "Welcome to Loam Polytechnic",
   },
   {
-    image: "/loam (37).jpeg",
+    image: "/electronics-workshop.jpeg",
     subtitle: "This is Loam Polytechnic",
     title: "Modern Practical workshops and labs",
   },
@@ -33,12 +33,12 @@ const heroSlides = [
     subtitle: "Loam Polytechnic",
   },
   {
-    image: "/loam (40).jpeg",
+    image: "/print-library.jpeg",
     title:"Print library with wide range of printed learning materials",
     subtitle: "Loam Polytechnic",
   },
   {
-    image: "/loam (41).jpeg",
+    image: "/digital-library.jpeg",
     title: " State-of-the-art digital library",
     subtitle: "Loam Polytechnic",
   },
@@ -134,7 +134,7 @@ export default function HomePage() {
                 <Link to="/auth/login">
                   <Button
                     size="lg"
-                    className="rounded-full bg-[#8f120d] px-8 text-background shadow-xl hover:bg-[#7d0f0b]"
+                    className="rounded-full bg-primary px-8 text-background shadow-xl hover:bg-[#7d0f0b]"
                   >
                     Portal Login
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -201,7 +201,7 @@ export default function HomePage() {
               <div className="-mb-32">
             <VideoSection
               videoUrl={video}
-              posterUrl="/loam (19).jpeg"
+              posterUrl="/campus-video-poster.jpeg"
               title="A Day at loam Academy"
               description="Experience the vibrant learning environment that shapes future leaders"
             />
@@ -245,7 +245,7 @@ export default function HomePage() {
               <ScrollReveal animation="slideLeft">
                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
                   <img
-                    src="/loam (30).jpeg"
+                    src="/chairperson-rector.jpeg"
                     alt="Students in classroom"
                     className="w-full h-full object-cover"
                   />
@@ -283,7 +283,7 @@ export default function HomePage() {
             <ScrollReveal animation="scale">
               <div className="relative rounded-3xl overflow-hidden">
                 <ParallaxImage
-                  src="/loam (28).jpeg"
+                  src="/graduation-celebration.jpeg"
                   alt="Graduation celebration"
                   className="h-[500px]"
                 />
@@ -314,3 +314,4 @@ export default function HomePage() {
     </>
   )
 }
+

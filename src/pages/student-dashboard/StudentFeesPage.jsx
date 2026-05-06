@@ -34,7 +34,7 @@ function SelectField({ label, value, onChange, options }) {
         <select
           value={value}
           onChange={onChange}
-          className="h-10 w-full appearance-none rounded-[4px] border border-[#eadfce] bg-white px-3 pr-10 text-sm font-medium text-[#5f2419] outline-none transition-colors focus:border-[#c39d48]"
+          className="h-10 w-full appearance-none rounded-[4px] border border-portal-border-soft bg-white px-3 pr-10 text-sm font-medium text-[#5f2419] outline-none transition-colors focus:border-[#c39d48]"
         >
           {options.map((option) => (
             <option key={option} value={option}>
@@ -65,10 +65,10 @@ export default function StudentFeesPage() {
       <div className="space-y-6">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b59a58]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-shared-eyebrow">
               Academic Records & Payment Ledger
             </p>
-            <h1 className="mt-2 text-[28px] font-bold tracking-tight text-[#531b14] sm:text-[40px]">
+            <h1 className="mt-2 text-[28px] font-bold tracking-tight text-student-title sm:text-[40px]">
               Academic Fees
             </h1>
           </div>
@@ -83,7 +83,7 @@ export default function StudentFeesPage() {
               <History className="h-4 w-4" />
               Financial statement
             </PortalButton>
-            <div className="inline-flex h-9 items-center gap-2 rounded-[6px] border border-[#eadfce] bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6f170f]">
+            <div className="inline-flex h-9 items-center gap-2 rounded-[6px] border border-portal-border-soft bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6f170f]">
               <Wallet className="h-4 w-4" />
               Wallet: N0.00
             </div>
@@ -95,7 +95,7 @@ export default function StudentFeesPage() {
             <PortalCard>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-[22px] font-bold text-[#4f1d14]">School Fees Calculator</p>
+                  <p className="text-[22px] font-bold text-portal-text-strong">School Fees Calculator</p>
                   <p className="mt-1 text-sm text-[#9f8d7d]">
                     Select your parameters to calculate session fees.
                   </p>
@@ -119,8 +119,8 @@ export default function StudentFeesPage() {
               </div>
 
               <div className="mt-5 grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
-                <div className="rounded-[8px] border border-[#efe4d6] bg-[#fffdfa] p-2">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#ab987f]">
+                <div className="rounded-[8px] border border-portal-border bg-portal-surface p-2">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">
                    Amount To pay
                   </p>
                   <div className="mt-3 flex flex-wrap items-end gap-3">
@@ -148,8 +148,8 @@ export default function StudentFeesPage() {
 
             <PortalCard>
               <div className="flex items-center justify-between">
-                <p className="text-[22px] font-bold text-[#4f1d14]">Statutory & Administrative Fees</p>
-                <div className="rounded-[6px] border border-[#eadfce] bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8b7765]">
+                <p className="text-[22px] font-bold text-portal-text-strong">Statutory & Administrative Fees</p>
+                <div className="rounded-[6px] border border-portal-border-soft bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8b7765]">
                   All
                 </div>
               </div>
@@ -158,9 +158,9 @@ export default function StudentFeesPage() {
                 {statutoryFees.map((fee) => (
                   <div
                     key={fee.title}
-                    className="flex items-center justify-between rounded-[6px] border border-[#efe4d6] bg-[#fffdfa] px-4 py-4"
+                    className="flex items-center justify-between rounded-[6px] border border-portal-border bg-portal-surface px-4 py-4"
                   >
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#4f1d14]">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-text-strong">
                       {fee.title}
                     </p>
                     <div className="flex items-center gap-3">
@@ -183,28 +183,28 @@ export default function StudentFeesPage() {
 
           <div className="space-y-5">
             <PortalCard accent="gold">
-              <p className="text-[22px] font-bold text-[#4f1d14]">Cart Summary</p>
+              <p className="text-[22px] font-bold text-portal-text-strong">Cart Summary</p>
 
-              <div className="mt-5 space-y-4 text-sm text-[#7f6d5f]">
+              <div className="mt-5 space-y-4 text-sm text-shared-helper-text">
                 <div className="flex items-center justify-between">
                   <span>Session Fees (Full)</span>
-                  <span className="font-semibold text-[#4f1d14]">{formatNaira(calculatedFee)}</span>
+                  <span className="font-semibold text-portal-text-strong">{formatNaira(calculatedFee)}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Acceptance Fee</span>
-                  <span className="font-semibold text-[#4f1d14]">{formatNaira(acceptanceFee)}</span>
+                  <span className="font-semibold text-portal-text-strong">{formatNaira(acceptanceFee)}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span>Processing Charge</span>
-                  <span className="font-semibold text-[#4f1d14]">{formatNaira(processingCharge)}</span>
+                  <span className="font-semibold text-portal-text-strong">{formatNaira(processingCharge)}</span>
                 </div>
               </div>
 
               <div className="mt-5 rounded-[8px] bg-[#faf3ea] p-4">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#ab987f]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">
                   Total Payable
                 </p>
-                <p className="mt-2 text-[30px] font-bold text-[#8f120d]">{formatNaira(totalPayable)}</p>
+                <p className="mt-2 text-[30px] font-bold text-primary">{formatNaira(totalPayable)}</p>
               </div>
 
               <div className="mt-5 space-y-3">
@@ -221,14 +221,14 @@ export default function StudentFeesPage() {
                 </PortalButton>
               </div>
 
-              <div className="mt-5 rounded-[8px] border border-[#efe4d6] bg-[#fffdfa] p-4 text-center">
-                <p className="text-[11px] uppercase tracking-[0.12em] text-[#ab987f]">
+              <div className="mt-5 rounded-[8px] border border-portal-border bg-portal-surface p-4 text-center">
+                <p className="text-[11px] uppercase tracking-[0.12em] text-analytics-gold-label">
                   Payment status updates after successful verification.
                 </p>
               </div>
             </PortalCard>
 
-            <PortalCard className="bg-[#8f120d] text-white before:bg-[#8f120d]">
+            <PortalCard className="bg-primary text-white before:bg-primary">
               <p className="text-[22px] font-bold">Need Help?</p>
               <p className="mt-3 text-sm leading-6 text-white/75">
                 Contact the bursary support desk for payment issues and invoice resolution.
@@ -252,7 +252,7 @@ export default function StudentFeesPage() {
         description="Support tickets are routed to the finance office for billing or payment issues."
       >
         <div className="space-y-4">
-          <div className="rounded-[12px] bg-[#faf3ea] p-4 text-sm leading-6 text-[#7f6d5f]">
+          <div className="rounded-[12px] bg-[#faf3ea] p-4 text-sm leading-6 text-shared-helper-text">
             Office hours are Monday to Friday, 8:00 AM to 4:00 PM. Response time is usually within one business day.
           </div>
           <PortalButton
@@ -271,3 +271,4 @@ export default function StudentFeesPage() {
     </>
   )
 }
+

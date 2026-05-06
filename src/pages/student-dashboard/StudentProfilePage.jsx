@@ -8,8 +8,8 @@ import { PortalToast } from "../../components/portal/PortalToast"
 function InfoRow({ label, value }) {
   return (
     <div>
-      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#ae9b87]">{label}</p>
-      <p className="mt-2 text-[15px] font-semibold text-[#512017]">{value}</p>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-portal-text-faded">{label}</p>
+      <p className="mt-2 text-[15px] font-semibold text-student-value">{value}</p>
     </div>
   )
 }
@@ -25,13 +25,13 @@ export default function StudentProfilePage() {
       <div className="flex justify-between">
         <span>
 
-        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#b59a58]">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-shared-eyebrow">
           Student Account
         </p>
-        <h1 className="mt-2 text-[28px] font-bold tracking-tight text-[#531b14] sm:text-[40px]">
+        <h1 className="mt-2 text-[28px] font-bold tracking-tight text-student-title sm:text-[40px]">
           Profile Settings
         </h1>
-        <p className="max-w-[760px] text-sm text-[#8b7969] sm:text-[15px]">
+        <p className="max-w-[760px] text-sm text-portal-text-muted sm:text-[15px]">
           Manage your personal information, and secure your account <br /> through the
           centralized institutional portal.
         </p>
@@ -51,7 +51,7 @@ export default function StudentProfilePage() {
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1.8fr)_280px]">
         <PortalCard>
           <div className="flex items-center justify-between gap-4">
-            <p className="text-[24px] font-bold text-[#4f1d14]">Personal Information</p>
+            <p className="text-[24px] font-bold text-portal-text-strong">Personal Information</p>
           </div>
 
           <div className="mt-6 grid gap-6 sm:grid-cols-2">
@@ -69,21 +69,21 @@ export default function StudentProfilePage() {
         </PortalCard>
 
         <PortalCard accent="gold" className="bg-[#f3f1ed]">
-          <p className="text-[24px] font-bold text-[#4f1d14]">Academic Standing</p>
+          <p className="text-[24px] font-bold text-portal-text-strong">Academic Standing</p>
           <div className="mt-5 space-y-4">
-            <div className="rounded-[6px] border border-[#e8dbc8] bg-white px-4 py-4">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#ae9b87]">
+            <div className="rounded-[6px] border border-portal-border-strong bg-white px-4 py-4">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-portal-text-faded">
                 Current Level
               </p>
-              <p className="mt-2 text-[32px] font-bold text-[#b48b26]">300 Level</p>
+              <p className="mt-2 text-[32px] font-bold text-portal-gold-chip-text">300 Level</p>
             </div>
             <InfoRow label="Faculty" value="Engineering and Applied Sciences" />
             <InfoRow label="Department" value="Mechanical Engineering" />
-            <div className="rounded-[6px] border border-[#e8dbc8] bg-white px-4 py-4">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#ae9b87]">
+            <div className="rounded-[6px] border border-portal-border-strong bg-white px-4 py-4">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-portal-text-faded">
                 Full-Time Academic
               </p>
-              <p className="mt-2 text-[14px] font-semibold text-[#512017]">Status: Active</p>
+              <p className="mt-2 text-[14px] font-semibold text-student-value">Status: Active</p>
             </div>
           </div>
         </PortalCard>
@@ -91,10 +91,10 @@ export default function StudentProfilePage() {
 
       <PortalCard accent="gold">
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#fbf2dd] text-[#b48b26]">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-portal-gold-chip-bg text-portal-gold-chip-text">
             <ShieldCheck className="h-5 w-5" />
           </div>
-          <p className="text-[24px] font-bold text-[#4f1d14]">Security and Authentication</p>
+          <p className="text-[24px] font-bold text-portal-text-strong">Security and Authentication</p>
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
@@ -104,14 +104,14 @@ export default function StudentProfilePage() {
             <PortalButton variant="outline" onClick={() => setActiveModal("credentials")}>Update Credentials</PortalButton>
           </div>
 
-          <div className="space-y-5 rounded-[6px] border border-[#ece2d4] bg-[#fffdfa] p-5">
+          <div className="space-y-5 rounded-[6px] border border-[#ece2d4] bg-portal-surface p-5">
             <div className="flex items-center justify-between gap-4">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#ae9b87]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-portal-text-faded">
                   Multi-Factor Access
                 </p>
-                <p className="mt-2 text-[15px] font-semibold text-[#512017]">SMS Authentication</p>
-                <p className="mt-1 text-sm text-[#8b7969]">
+                <p className="mt-2 text-[15px] font-semibold text-student-value">SMS Authentication</p>
+                <p className="mt-1 text-sm text-portal-text-muted">
                   Receive a one-time passcode next time you sign in.
                 </p>
               </div>
@@ -126,11 +126,11 @@ export default function StudentProfilePage() {
               </button>
             </div>
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#ae9b87]">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-portal-text-faded">
                 Last Login Activity
               </p>
-              <p className="mt-2 text-[15px] font-semibold text-[#512017]">Currently Active</p>
-              <p className="mt-1 text-sm text-[#8b7969]">Lagos, Nigeria - this device</p>
+              <p className="mt-2 text-[15px] font-semibold text-student-value">Currently Active</p>
+              <p className="mt-1 text-sm text-portal-text-muted">Lagos, Nigeria - this device</p>
             </div>
           </div>
         </div>
@@ -145,10 +145,10 @@ export default function StudentProfilePage() {
       >
         <div className="space-y-4">
           <div className="grid gap-3 sm:grid-cols-2">
-            <input className="h-11 rounded-[6px] border border-[#eadfce] px-4 text-sm outline-none" placeholder="Full legal name" />
-            <input className="h-11 rounded-[6px] border border-[#eadfce] px-4 text-sm outline-none" placeholder="Primary phone" />
+            <input className="h-11 rounded-[6px] border border-portal-border-soft px-4 text-sm outline-none" placeholder="Full legal name" />
+            <input className="h-11 rounded-[6px] border border-portal-border-soft px-4 text-sm outline-none" placeholder="Primary phone" />
           </div>
-          <textarea className="min-h-[120px] w-full rounded-[6px] border border-[#eadfce] px-4 py-3 text-sm outline-none" placeholder="Residential address" />
+          <textarea className="min-h-[120px] w-full rounded-[6px] border border-portal-border-soft px-4 py-3 text-sm outline-none" placeholder="Residential address" />
           <PortalButton
             className="w-full"
             onClick={() => {
@@ -168,9 +168,9 @@ export default function StudentProfilePage() {
         description="Change your portal password and recovery options."
       >
         <div className="space-y-3">
-          <input className="h-11 w-full rounded-[6px] border border-[#eadfce] px-4 text-sm outline-none" type="password" placeholder="Current password" />
-          <input className="h-11 w-full rounded-[6px] border border-[#eadfce] px-4 text-sm outline-none" type="password" placeholder="New password" />
-          <input className="h-11 w-full rounded-[6px] border border-[#eadfce] px-4 text-sm outline-none" type="email" placeholder="Recovery email" />
+          <input className="h-11 w-full rounded-[6px] border border-portal-border-soft px-4 text-sm outline-none" type="password" placeholder="Current password" />
+          <input className="h-11 w-full rounded-[6px] border border-portal-border-soft px-4 text-sm outline-none" type="password" placeholder="New password" />
+          <input className="h-11 w-full rounded-[6px] border border-portal-border-soft px-4 text-sm outline-none" type="email" placeholder="Recovery email" />
           <PortalButton
             className="w-full"
             onClick={() => {
@@ -187,3 +187,4 @@ export default function StudentProfilePage() {
     </>
   )
 }
+

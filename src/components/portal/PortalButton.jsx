@@ -2,11 +2,11 @@ import { cn } from "../../lib/utils"
 
 const variants = {
   primary:
-    "bg-[#8f120d] text-white shadow-[0_10px_18px_rgba(109,15,13,0.18)] hover:bg-[#7d0f0b]",
+    "bg-primary text-white shadow-[0_10px_18px_rgba(109,15,13,0.18)] hover:bg-[#7d0f0b]",
   outline:
     "border border-[#d8cdbf] bg-white text-[#6f170f] hover:bg-[#faf5ef]",
   ghost:
-    "bg-transparent text-[#6f170f] hover:bg-[#f5eee4]",
+    "bg-transparent text-[#6f170f] hover:bg-portal-surface-soft",
   gold:
     "bg-[#f3c95f] text-[#5c1c10] hover:bg-[#e8bd51]",
   soft:
@@ -41,4 +41,5 @@ export function PortalButton({
     </button>
   )
 }
+
 

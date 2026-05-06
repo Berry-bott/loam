@@ -17,7 +17,7 @@ function InlineSelect({ value, onChange, options, className = "" }) {
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full appearance-none rounded-[6px] border border-[#e8d9c8] bg-[#fdfaf6] px-3 py-2 pr-7 text-[11px] font-semibold uppercase tracking-[0.1em] text-[#5c2418] focus:border-[#9b1810] focus:outline-none focus:ring-1 focus:ring-[#9b1810]/30 cursor-pointer"
+        className="w-full appearance-none rounded-[6px] border border-[#e8d9c8] bg-[#fdfaf6] px-3 py-2 pr-7 text-[11px] font-semibold uppercase tracking-[0.1em] text-portal-text focus:border-[#9b1810] focus:outline-none focus:ring-1 focus:ring-[#9b1810]/30 cursor-pointer"
       >
         {options.map((opt) => (
           <option key={opt} value={opt}>{opt}</option>
@@ -43,7 +43,7 @@ function CourseRow({ row, onChange, onDelete }) {
           value={row.code}
           onChange={(e) => onChange({ ...row, code: e.target.value.toUpperCase() })}
           placeholder={isNew ? "NEW CODE..." : ""}
-          className={`w-full rounded-[6px] border bg-[#fdfaf6] px-3 py-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-[#4f1d14] placeholder:text-[#c5b09a] focus:outline-none focus:ring-1 focus:ring-[#9b1810]/40 ${
+          className={`w-full rounded-[6px] border bg-[#fdfaf6] px-3 py-2 text-[12px] font-semibold uppercase tracking-[0.08em] text-portal-text-strong placeholder:text-[#c5b09a] focus:outline-none focus:ring-1 focus:ring-[#9b1810]/40 ${
             isNew ? "border-dashed border-[#d4bc9a]" : "border-[#e8d9c8] focus:border-[#9b1810]"
           }`}
         />
@@ -53,7 +53,7 @@ function CourseRow({ row, onChange, onDelete }) {
           value={row.name}
           onChange={(e) => onChange({ ...row, name: e.target.value })}
           placeholder={isNew ? "ENTER NEW COURSE NAME..." : ""}
-          className={`w-full rounded-[6px] border bg-[#fdfaf6] px-3 py-2 text-[12px] text-[#5c2418] placeholder:text-[#c5b09a] focus:outline-none focus:ring-1 focus:ring-[#9b1810]/40 ${
+          className={`w-full rounded-[6px] border bg-[#fdfaf6] px-3 py-2 text-[12px] text-portal-text placeholder:text-[#c5b09a] focus:outline-none focus:ring-1 focus:ring-[#9b1810]/40 ${
             isNew ? "border-dashed border-[#d4bc9a]" : "border-[#e8d9c8] focus:border-[#9b1810]"
           }`}
         />
@@ -81,7 +81,7 @@ function CourseRow({ row, onChange, onDelete }) {
                 })
             }}
             placeholder="3.0"
-            className="w-full rounded-[6px] border border-[#e8d9c8] bg-[#fdfaf6] px-3 py-2 text-center text-[12px] font-semibold text-[#5c2418] focus:border-[#9b1810] focus:outline-none focus:ring-1 focus:ring-[#9b1810]/30"
+            className="w-full rounded-[6px] border border-[#e8d9c8] bg-[#fdfaf6] px-3 py-2 text-center text-[12px] font-semibold text-portal-text focus:border-[#9b1810] focus:outline-none focus:ring-1 focus:ring-[#9b1810]/30"
             />
         )}
       </td>
@@ -96,7 +96,7 @@ function CourseRow({ row, onChange, onDelete }) {
         {!isNew && (
           <button
             onClick={onDelete}
-            className="flex h-7 w-7 items-center justify-center rounded-[6px] text-[#d4bc9a] transition-colors hover:bg-[#fde8e4] hover:text-[#9b1810]"
+            className="flex h-7 w-7 items-center justify-center rounded-[6px] text-[#d4bc9a] transition-colors hover:bg-[#fde8e4] hover:text-portal-brand-soft"
           >
             <Trash2 className="h-3.5 w-3.5" />
           </button>
@@ -175,7 +175,7 @@ export default function AcademicProgressionModal({ open, onClose, onSave }) {
       <div className="relative z-10 w-full max-w-[740px] overflow-hidden rounded-[16px] bg-white shadow-2xl shadow-black/30">
 
         {/* Header */}
-        <div className="flex items-center justify-between bg-[#75110d] px-6 py-5">
+        <div className="flex items-center justify-between bg-analytics-series-primary px-6 py-5">
           <div className="flex items-center gap-4">
             <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-white/20">
               <BookOpen className="h-5 w-5 text-white" />
@@ -216,7 +216,7 @@ export default function AcademicProgressionModal({ open, onClose, onSave }) {
 
             {/* Department input */}
             <div>
-              <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.14em] text-[#b59a58]">
+              <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-eyebrow">
                 Institutional Department
               </label>
               <div className={`flex items-center gap-2 rounded-[8px] border bg-white px-3 py-2 transition ${
@@ -231,7 +231,7 @@ export default function AcademicProgressionModal({ open, onClose, onSave }) {
                   value={department}
                   onChange={(e) => { setDepartment(e.target.value); setErrors((p) => ({ ...p, department: false })) }}
                   placeholder="e.g. Computer Science"
-                  className="w-full bg-transparent text-[13px] font-semibold text-[#4f1d14] placeholder:font-normal placeholder:text-[#c5b09a] focus:outline-none"
+                  className="w-full bg-transparent text-[13px] font-semibold text-portal-text-strong placeholder:font-normal placeholder:text-[#c5b09a] focus:outline-none"
                 />
               </div>
               {errors.department && (
@@ -241,7 +241,7 @@ export default function AcademicProgressionModal({ open, onClose, onSave }) {
 
             {/* Level dropdown */}
             <div>
-              <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.14em] text-[#b59a58]">
+              <label className="mb-1.5 block text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-eyebrow">
                 Academic Level / Section
               </label>
               <div className="relative">
@@ -254,7 +254,7 @@ export default function AcademicProgressionModal({ open, onClose, onSave }) {
                 <select
                   value={level}
                   onChange={(e) => setLevel(e.target.value)}
-                  className="w-full appearance-none rounded-[8px] border border-[#e8d9c8] bg-white py-[10px] pl-9 pr-8 text-[13px] font-bold uppercase tracking-[0.1em] text-[#4f1d14] focus:border-[#9b1810] focus:outline-none focus:ring-1 focus:ring-[#9b1810]/20 cursor-pointer"
+                  className="w-full appearance-none rounded-[8px] border border-[#e8d9c8] bg-white py-[10px] pl-9 pr-8 text-[13px] font-bold uppercase tracking-[0.1em] text-portal-text-strong focus:border-[#9b1810] focus:outline-none focus:ring-1 focus:ring-[#9b1810]/20 cursor-pointer"
                 >
                   {LEVEL_OPTIONS.map((opt) => (
                     <option key={opt} value={opt}>{opt}</option>
@@ -272,7 +272,7 @@ export default function AcademicProgressionModal({ open, onClose, onSave }) {
           {/* Course entries */}
           <div className="mt-5">
             <div className="flex items-center justify-between">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#b59a58]">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-eyebrow">
                 Course Entries for {level}
               </p>
               <button
@@ -299,7 +299,7 @@ export default function AcademicProgressionModal({ open, onClose, onSave }) {
                   <col className="w-[36px]" />
                 </colgroup>
                 <thead>
-                  <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-[#b09d88]">
+                  <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-table-head">
                     <th className="pb-2 pr-3">Course Code</th>
                     <th className="pb-2 pr-3">Course Name</th>
                     <th className="pb-2 pr-3">Semester</th>
@@ -326,13 +326,13 @@ export default function AcademicProgressionModal({ open, onClose, onSave }) {
           <div className="mt-6 flex justify-end gap-3">
             <button
               onClick={onClose}
-              className="rounded-[8px] border border-[#e8d9c8] bg-white px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-[#8b7969] transition hover:border-[#c9b49a] hover:text-[#5c2418]"
+              className="rounded-[8px] border border-[#e8d9c8] bg-white px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-portal-text-muted transition hover:border-[#c9b49a] hover:text-portal-text"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
-              className="flex items-center gap-2 rounded-[8px] bg-[#75110d] px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-[#9b1810] active:scale-[0.98]"
+              className="flex items-center gap-2 rounded-[8px] bg-analytics-series-primary px-5 py-2.5 text-[12px] font-semibold uppercase tracking-[0.1em] text-white transition hover:bg-[#9b1810] active:scale-[0.98]"
             >
               <Save className="h-3.5 w-3.5" />
               Save Courses

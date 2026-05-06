@@ -11,9 +11,13 @@ export const roleOptions = [
 export function resolveArray(payload) {
   if (Array.isArray(payload)) return payload
   if (Array.isArray(payload?.data)) return payload.data
+  if (Array.isArray(payload?.data?.sessions)) return payload.data.sessions
+  if (Array.isArray(payload?.data?.semesters)) return payload.data.semesters
   if (Array.isArray(payload?.data?.faculties)) return payload.data.faculties
   if (Array.isArray(payload?.data?.departments)) return payload.data.departments
   if (Array.isArray(payload?.data?.staff)) return payload.data.staff
+  if (Array.isArray(payload?.sessions)) return payload.sessions
+  if (Array.isArray(payload?.semesters)) return payload.semesters
   if (Array.isArray(payload?.faculties)) return payload.faculties
   if (Array.isArray(payload?.departments)) return payload.departments
   if (Array.isArray(payload?.staff)) return payload.staff

@@ -40,8 +40,8 @@ export default function AdminNewsPage() {
 
         <PortalCard>
           <div className="flex items-center justify-between">
-            <p className="text-[22px] font-bold text-[#4f1d14]">Recent Uploads / News</p>
-            <div className="flex gap-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9b1810]">
+            <p className="text-[22px] font-bold text-portal-text-strong">Recent Uploads / News</p>
+            <div className="flex gap-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft">
               <button onClick={() => setToastMessage("Faculty filter options opened.")}>Filter by Faculty</button>
               <button onClick={() => setToastMessage("News list sorted by date.")}>Sort by Date</button>
             </div>
@@ -50,19 +50,19 @@ export default function AdminNewsPage() {
             {adminNewsItems.map((item) => (
               <div
                 key={item[1]}
-                className="flex flex-col gap-4 rounded-[6px] border border-[#efe4d6] bg-[#fffdfa] px-4 py-4 sm:flex-row sm:items-center"
+                className="flex flex-col gap-4 rounded-[6px] border border-portal-border bg-portal-surface px-4 py-4 sm:flex-row sm:items-center"
               >
-                <div className="w-14 rounded-[4px] border border-[#efe4d6] bg-[#faf5ed] px-2 py-2 text-center">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#ab987f]">
+                <div className="w-14 rounded-[4px] border border-portal-border bg-[#faf5ed] px-2 py-2 text-center">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-label">
                     {item[0].split(" ")[1]}
                   </p>
                   <p className="text-[20px] font-bold text-[#5c1a12]">{item[0].split(" ")[0]}</p>
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[15px] font-semibold text-[#4f1d14]">{item[1]}</p>
+                  <p className="text-[15px] font-semibold text-portal-text-strong">{item[1]}</p>
                   <p className="text-sm text-[#a18f7d]">{item[2]}</p>
                 </div>
-                <div className="flex gap-3 text-[#9b1810]">
+                <div className="flex gap-3 text-portal-brand-soft">
                   <button onClick={() => setToastMessage(`Preview opened for "${item[1]}".`)}>
                     <Eye className="h-4 w-4" />
                   </button>

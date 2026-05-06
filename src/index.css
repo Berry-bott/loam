@@ -1,11 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* ===============================
-   FONTS
-================================ */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap");
 
 /* ===============================
    THEME VARIABLES
@@ -56,6 +53,118 @@
   --sidebar-accent-foreground: rgb(52, 105, 166);
   --sidebar-border: rgb(235, 235, 235);
   --sidebar-ring: rgb(181, 181, 181);
+
+  --portal-brand: #8f120d;
+  --portal-brand-strong: #61100c;
+  --portal-brand-soft: #9b1810;
+  --portal-gold: #b49851;
+  --portal-gold-strong: #a87715;
+  --portal-surface: #fffdfa;
+  --portal-surface-soft: #fff8ec;
+  --portal-surface-muted: #fbefea;
+  --portal-surface-gold: #fcf4e6;
+  --portal-border: #efe4d6;
+  --portal-border-soft: #eadfce;
+  --portal-border-strong: #ecdcb8;
+  --portal-border-muted: #ddcdb8;
+  --portal-text: #5c2418;
+  --portal-text-strong: #4f1d14;
+  --portal-text-body: #7f6d5f;
+  --portal-text-muted: #8b7969;
+  --portal-text-soft: #a18f80;
+  --portal-text-placeholder: #9ca3af;
+  --portal-status-success-bg: #eaf7ec;
+  --portal-status-success-text: #2f8a44;
+  --portal-status-danger-bg: #fde8e4;
+  --portal-status-danger-text: #b81d13;
+  --portal-status-info-bg: #ebf3fe;
+  --portal-status-info-text: #3c78b4;
+  --portal-status-warning-bg: #fff3d8;
+  --portal-status-warning-text: #aa7b11;
+
+  --shared-eyebrow: #b59a58;
+  --shared-title: #651d13;
+  --shared-description: #8d7a68;
+  --shared-label: #a88f7d;
+  --shared-value: #541b13;
+  --shared-heading: #4f1d14;
+  --shared-table-head: #b09d88;
+  --shared-helper-bg: #faf3ea;
+  --shared-helper-text: #7f6d5f;
+
+  --topbar-border: #ede5db;
+  --topbar-accent: #b49851;
+  --topbar-link: #8b7765;
+  --topbar-button-text: #7a6554;
+  --topbar-input-text: #5b2117;
+  --topbar-placeholder: #b3a292;
+
+  --admin-field-label: #8d7969;
+  --admin-field-border: #efe5d8;
+  --admin-field-bg: #fffdf9;
+  --admin-field-text: #4d2017;
+  --admin-field-focus-border: #ccb08e;
+  --admin-field-focus-ring: #ecdcb8;
+  --admin-field-disabled-bg: #f5f0ea;
+  --admin-field-disabled-text: #a39082;
+
+  --admin-tab-bg: #f2eeea;
+  --admin-tab-active-text: #7d1711;
+  --admin-tab-inactive-text: #7e6d5e;
+
+  --admin-error-border: #ead0cb;
+  --admin-error-bg: #fff5f4;
+  --admin-error-text: #9a211b;
+
+  --admin-registry-border: #efe4d6;
+  --admin-registry-border-alt: #f0e5d8;
+  --admin-registry-bg: #fffdfa;
+  --admin-registry-chip-bg: #fbebe7;
+  --admin-registry-chip-text: #9b1810;
+  --admin-registry-count: #a18f80;
+  --admin-registry-title: #551f16;
+  --admin-registry-text: #8b7969;
+  --admin-registry-strong: #5b2318;
+
+  --staff-frame-red-border: #ead9cf;
+  --staff-frame-gold-border: #ecdcb8;
+  --staff-frame-base: #fffdfa;
+  --staff-frame-red-end: #fbefea;
+  --staff-frame-gold-end: #fcf4e6;
+  --staff-payload-border: #eadfce;
+  --staff-payload-text: #7f6d5f;
+  --staff-payload-heading: #5b2117;
+  --staff-payload-code: #7b6554;
+  --staff-list-border: #eadfce;
+  --staff-list-label: #9f8a78;
+  --staff-empty-border: #ddcdb8;
+  --staff-empty-text: #8b7969;
+  --staff-selected-border: #c9a86c;
+  --staff-selected-bg: #fff8ec;
+  --staff-hover-border: #dcc2b6;
+  --staff-name: #5c2418;
+  --staff-meta: #8b7969;
+  --staff-meta-soft: #a18f80;
+  --staff-selected-icon: #a87715;
+  --staff-detail-border: #e9dcc8;
+
+  --analytics-series-primary: #75110d;
+  --analytics-series-secondary: #d4c7b8;
+  --analytics-chart-bg: #fffdfa;
+  --analytics-chart-bar-bg: #f3ede4;
+  --analytics-revenue-card: #8f120d;
+  --analytics-gold-label: #ab987f;
+  --analytics-gold-value: #b08a2b;
+  --portal-text-faded: #a38e7c;
+  --student-title: #531b14;
+  --student-value: #512017;
+  --portal-gold-chip-bg: #fbf2dd;
+  --portal-gold-chip-text: #b48b26;
+  --portal-status-success-soft-bg: #e6f6e7;
+  --portal-status-success-soft-text: #2d8a45;
+  --portal-surface-warm: #fffcf9;
+  --portal-panel: #fffdf9;
+  --admin-audit-card: #2e4357;
 }
 
 /* ===============================
@@ -176,4 +285,47 @@ h1, h2, h3, h4, h5, h6 {
 
 *::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--portal-text-placeholder);
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 400;
+  opacity: 0.7;
+  letter-spacing: 0.05em;
+}
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+
+  body * {
+    visibility: hidden !important;
+  }
+
+  #course-registration-print-root,
+  #course-registration-print-root * {
+    visibility: visible !important;
+  }
+
+  #course-registration-print-root {
+    display: block !important;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    padding: 0;
+    background: #fff;
+  }
+
+  .course-registration-print-sheet {
+    max-width: 210mm !important;
+    min-height: 297mm;
+    margin: 0 auto !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
 }

@@ -24,8 +24,8 @@ export function ApplicationModal({ isOpen, onClose, onReadGuideline }) {
     <div className="fixed inset-0 z-[120] flex items-start justify-center bg-black/60 p-2 backdrop-blur-sm ">
       <div
         data-application-scroll-container="true"
-        className="relative max-h-[100dvh] w-full max-w-3xl overflow-y-auto rounded-[10px] bg-background  shadow-2xl [scrollbar-width:none] 
-        [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:max-h-[95vh] sm:rounded-[18px] sm:p-4 md:p-4"
+        className="relative max-h-[100dvh] w-full max-w-4xl overflow-y-auto bg-background shadow-2xl [scrollbar-width:none] 
+        [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden sm:max-h-[95vh] rounded-lg sm:p-4 md:p-4"
       >
         <button
           onClick={onClose}

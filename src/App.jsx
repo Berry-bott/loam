@@ -35,6 +35,7 @@ import AdminSettingsPage from "./pages/admin-dashboard/AdminSettingsPage"
 import AdminStaffManagementPage from "./pages/admin-dashboard/AdminStaffManagementPage"
 import AdminManageStudentsPage from "./pages/admin-dashboard/AdminManageStudentsPage"
 import AdminStudentsPage from "./pages/admin-dashboard/AdminStudentsPage"
+import AdminPortalManagementPage from "./pages/admin-dashboard/AdminPortalManagementPage"
 import { RequirePortalRole } from "./app/RequirePortalRole"
 import { ScrollToTop } from "./app/ScrollToTop"
 
@@ -84,6 +85,7 @@ function App() {
           <Route path="courses" element={<AdminCoursesPage />} />
           <Route path="results" element={<AdminResultsPage />} />
           <Route path="applications" element={<AdminApplicationsPage />} />
+          <Route path="portal-management" element={<AdminPortalManagementPage />} />
           <Route path="students" element={<AdminStudentsPage />} />
           <Route path="students/manage" element={<AdminManageStudentsPage />} />
           <Route path="payments" element={<AdminPaymentsPage />} />

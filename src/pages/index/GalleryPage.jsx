@@ -9,33 +9,33 @@ import { ScrollReveal } from "../../components/index/ScrollReveal"
 const categories = ["All", "Campus", "Library", "Sports", "Hall", "Computer Science"]
 
 const galleryImages = [
-  { id: 1, src: "/loam (39).jpeg", category: "Library", title: "Loam Polytechnic E-Library" },
+  { id: 1, src: "/e-library.jpeg", category: "Library", title: "Loam Polytechnic E-Library" },
   {
     id: 2,
-    src: "/loam (14).jpeg",
+    src: "/sports-facility.jpeg",
     category: "Sports",
     title: "Sports Facility",
   },
   {
     id: 3,
-    src: "/loam (8).jpeg",
+    src: "/reference-library.jpeg",
     category: "Library",
     title: "Reference Library",
   },
   {
     id: 4,
-    src: "/loam (50).jpeg",
+    src: "/accountancy-laboratory.jpeg",
     category: "Lab",
     title: "Accountancy Laborary",
   },
-  { id: 5, src: "/loam (37).jpeg", category: "Workshop", title: "Electronics   Workshop" },
-  { id: 6, src: "/loam (15).jpeg", category: "Hall", title:"Conference Hall" },
+  { id: 5, src: "/electronics-workshop.jpeg", category: "Workshop", title: "Electronics   Workshop" },
+  { id: 6, src: "/conference-hall.jpeg", category: "Hall", title:"Conference Hall" },
   { id: 7, src: "IMG_4730.JPG", category: "Sports", title: "BasketBall Court" },
-  { id: 8, src: "/loam (47).jpeg", category: "Arts", title: "Computer Science Lab" },
-  { id: 9, src: "/loam (23).jpeg", category: "Enterprenue", title: "Skills Center" },
-  { id: 10, src: "/loam (5).jpeg", category: "Conference", title: "NBTE Meeting " },
-  { id: 11, src: "/loam (6).jpeg", category: "Computer Science", title: "NBTE Accreditation" },
-  { id: 12, src: "/loam (38).jpeg", category: "Computer Science", title: "Networing Lab" },
+  { id: 8, src: "/computer-science-lab.jpeg", category: "Arts", title: "Computer Science Lab" },
+  { id: 9, src: "/skills-centre.jpeg", category: "Enterprenue", title: "Skills Center" },
+  { id: 10, src: "/nbte-meeting.jpeg", category: "Conference", title: "NBTE Meeting " },
+  { id: 11, src: "/nbte-accreditation.jpeg", category: "Computer Science", title: "NBTE Accreditation" },
+  { id: 12, src: "/networking-lab.jpeg", category: "Computer Science", title: "Networing Lab" },
 ]
 
 export default function GalleryPage() {

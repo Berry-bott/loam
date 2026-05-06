@@ -98,7 +98,7 @@ function SelectField({ label, value, onChange, options }) {
         <select
           value={value}
           onChange={onChange}
-          className="h-10 w-full appearance-none rounded-[4px] border border-[#eadfce] bg-white px-3 pr-10 text-sm font-medium text-[#5f2419] outline-none transition-colors focus:border-[#c39d48]"
+          className="h-10 w-full appearance-none rounded-[4px] border border-portal-border-soft bg-white px-3 pr-10 text-sm font-medium text-[#5f2419] outline-none transition-colors focus:border-[#c39d48]"
         >
           {options.map((option) => (
             <option key={option} value={option}>
@@ -116,7 +116,7 @@ function SectionTitle({ title, subtitle, right }) {
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <h2 className="text-[24px] font-bold tracking-tight text-[#531b14]">{title}</h2>
+        <h2 className="text-[24px] font-bold tracking-tight text-student-title">{title}</h2>
         <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c5b19d]">
           {subtitle}
         </p>
@@ -265,7 +265,7 @@ export default function CourseRegistrationPage() {
                   <span
                     className={`rounded-full px-2.5 py-1 text-[8px] font-semibold uppercase tracking-[0.12em] ${
                       course.track === "Core"
-                        ? "bg-[#fce8e6] text-[#9b1810]"
+                        ? "bg-[#fce8e6] text-portal-brand-soft"
                         : "bg-[#f1f4fb] text-[#52719c]"
                     }`}
                   >
@@ -282,7 +282,7 @@ export default function CourseRegistrationPage() {
                   <PortalButton className="min-w-[100px]" onClick={() => handleAcceptCourse(course)}>
                     Accept Now
                   </PortalButton>
-                  <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-[6px] border border-[#eadfce] bg-[#fcfaf7] px-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8c7768]">
+                  <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-[6px] border border-portal-border-soft bg-[#fcfaf7] px-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8c7768]">
                     {course.units.toFixed(1)}
                   </span>
                 </div>
@@ -315,22 +315,22 @@ export default function CourseRegistrationPage() {
                 </thead>
                 <tbody>
                   {selectedCourses.map((course) => (
-                    <tr key={course.code} className="bg-[#fffdfa] text-sm text-[#5c2418]">
-                      <td className="rounded-l-[6px] border-y border-l border-[#efe4d6] px-4 py-4">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9b1810]">
+                    <tr key={course.code} className="bg-portal-surface text-sm text-portal-text">
+                      <td className="rounded-l-[6px] border-y border-l border-portal-border px-4 py-4">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft">
                           {course.code}
                         </p>
-                        <p className="mt-2 text-sm font-semibold text-[#4f1d14]">{course.title}</p>
+                        <p className="mt-2 text-sm font-semibold text-portal-text-strong">{course.title}</p>
                       </td>
-                      <td className="border-y border-[#efe4d6] px-4 py-4 text-[#a18e7f]">
+                      <td className="border-y border-portal-border px-4 py-4 text-[#a18e7f]">
                         {course.lecturer}
                       </td>
-                      <td className="border-y border-[#efe4d6] px-4 py-4 text-right text-[20px] font-bold text-[#163049]">
+                      <td className="border-y border-portal-border px-4 py-4 text-right text-[20px] font-bold text-[#163049]">
                         {course.units.toFixed(1)}
                       </td>
-                      <td className="rounded-r-[6px] border-y border-r border-[#efe4d6] px-4 py-4 text-right">
+                      <td className="rounded-r-[6px] border-y border-r border-portal-border px-4 py-4 text-right">
                         <button
-                          className="inline-flex h-10 w-10 items-center justify-center rounded-[6px] border border-[#eadfce] text-[#bca897] transition-colors hover:bg-[#faf5ef] hover:text-[#8f120d]"
+                          className="inline-flex h-10 w-10 items-center justify-center rounded-[6px] border border-portal-border-soft text-[#bca897] transition-colors hover:bg-[#faf5ef] hover:text-primary"
                           onClick={() => handleRemoveCourse(course)}
                           aria-label={`Remove ${course.code}`}
                         >
@@ -345,19 +345,19 @@ export default function CourseRegistrationPage() {
 
             <div className="space-y-3 md:hidden">
               {selectedCourses.map((course) => (
-                <div key={course.code} className="rounded-[8px] border border-[#efe4d6] bg-[#fffdfa] p-4">
+                <div key={course.code} className="rounded-[8px] border border-portal-border bg-portal-surface p-4">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9b1810]">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft">
                         {course.code}
                       </p>
-                      <p className="mt-2 text-sm font-semibold text-[#4f1d14]">{course.title}</p>
+                      <p className="mt-2 text-sm font-semibold text-portal-text-strong">{course.title}</p>
                       <p className="mt-1 text-sm text-[#a18e7f]">{course.lecturer}</p>
                     </div>
                     <span className="text-lg font-bold text-[#163049]">{course.units.toFixed(1)}</span>
                   </div>
                   <button
-                    className="mt-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#9b1810]"
+                    className="mt-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft"
                     onClick={() => handleRemoveCourse(course)}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -394,28 +394,28 @@ export default function CourseRegistrationPage() {
                 </thead>
                 <tbody>
                   {repeatCourseSeed.map((course) => (
-                    <tr key={course.code} className="bg-[#fffdfa] text-sm text-[#5c2418]">
-                      <td className="rounded-l-[6px] border-y border-l border-[#efe4d6] px-4 py-4">
+                    <tr key={course.code} className="bg-portal-surface text-sm text-portal-text">
+                      <td className="rounded-l-[6px] border-y border-l border-portal-border px-4 py-4">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#b7a391]">
                           {course.code}
                         </p>
-                        <p className="mt-2 text-sm font-semibold text-[#4f1d14]">{course.title}</p>
+                        <p className="mt-2 text-sm font-semibold text-portal-text-strong">{course.title}</p>
                       </td>
-                      <td className="border-y border-[#efe4d6] px-4 py-4 font-semibold text-[#4f1d14]">
+                      <td className="border-y border-portal-border px-4 py-4 font-semibold text-portal-text-strong">
                         {course.level}
                       </td>
-                      <td className="border-y border-[#efe4d6] px-4 py-4">
+                      <td className="border-y border-portal-border px-4 py-4">
                         <span
                           className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
                             course.status === "Matured"
                               ? "bg-[#fde8e4] text-[#b81d13]"
-                              : "bg-[#fff3d8] text-[#aa7b11]"
+                              : "bg-portal-status-warning-bg text-portal-status-warning-text"
                           }`}
                         >
                           {course.status}
                         </span>
                       </td>
-                      <td className="rounded-r-[6px] border-y border-r border-[#efe4d6] px-4 py-4 text-right">
+                      <td className="rounded-r-[6px] border-y border-r border-portal-border px-4 py-4 text-right">
                         <PortalButton
                           size="sm"
                           className="min-w-[126px]"
@@ -432,11 +432,11 @@ export default function CourseRegistrationPage() {
 
             <div className="space-y-3 md:hidden">
               {repeatCourseSeed.map((course) => (
-                <div key={course.code} className="rounded-[8px] border border-[#efe4d6] bg-[#fffdfa] p-4">
+                <div key={course.code} className="rounded-[8px] border border-portal-border bg-portal-surface p-4">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#b7a391]">
                     {course.code}
                   </p>
-                  <p className="mt-2 text-sm font-semibold text-[#4f1d14]">{course.title}</p>
+                  <p className="mt-2 text-sm font-semibold text-portal-text-strong">{course.title}</p>
                   <div className="mt-3 flex items-center justify-between gap-3">
                     <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#8f8173]">
                       {course.level}
@@ -445,7 +445,7 @@ export default function CourseRegistrationPage() {
                       className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
                         course.status === "Matured"
                           ? "bg-[#fde8e4] text-[#b81d13]"
-                          : "bg-[#fff3d8] text-[#aa7b11]"
+                          : "bg-portal-status-warning-bg text-portal-status-warning-text"
                       }`}
                     >
                       {course.status}
@@ -484,7 +484,7 @@ export default function CourseRegistrationPage() {
         className="max-w-[1080px]"
       >
         <div className="space-y-5">
-          <div className="max-h-[72vh] overflow-y-auto rounded-[14px] border border-[#eadfce] bg-[#f6f1e8] p-4 sm:p-6">
+          <div className="max-h-[72vh] overflow-y-auto rounded-[14px] border border-portal-border-soft bg-[#f6f1e8] p-4 sm:p-6">
             <CourseRegistrationPrintPreview
               studentName={studentName}
               department={department}
@@ -524,3 +524,4 @@ export default function CourseRegistrationPage() {
     </>
   )
 }
+
