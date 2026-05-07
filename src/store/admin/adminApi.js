@@ -112,14 +112,13 @@ export async function getOverview() {
   return adminRequest("/overview", { method: "GET" })
 }
 
-export async function createStaff({ email, role, departmentId }) {
+export async function createStaff(staffPayload) {
+  if (!staffPayload?.email?.trim()) throw new Error("Staff email is required.")
+  if (!staffPayload?.role?.trim()) throw new Error("Staff role is required.")
+
   return adminRequest("/staff", {
     method: "POST",
-    body: JSON.stringify({
-      email,
-      role,
-      ...(departmentId ? { departmentId } : {}),
-    }),
+    body: JSON.stringify(staffPayload),
     headers: {
       "Content-Type": "application/json",
     },
@@ -135,10 +134,15 @@ export async function getStaffById(id) {
   return adminRequest(`/staff/${id}`, { method: "GET" })
 }
 
-export async function toggleStaffStatus(id) {
+export async function toggleStaffStatus(id, isActive) {
   if (!id) throw new Error("Staff ID is required.")
+
   return adminRequest(`/staff/${id}/toggle-status`, {
     method: "PATCH",
+    body: JSON.stringify({ isActive }),
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
 }
 
@@ -149,13 +153,13 @@ export async function resetStaffPassword(id) {
   })
 }
 
-export async function assignHod({ departmentId, newHodUserId }) {
+export async function assignHod({ departmentId, userId }) {
   if (!departmentId) throw new Error("Department ID is required.")
-  if (!newHodUserId) throw new Error("HOD user ID is required.")
+  if (!userId) throw new Error("HOD user ID is required.")
 
-  return adminRequest("/assign-hod", {
+  return adminRequest(`/departments/${departmentId}/assign-hod`, {
     method: "POST",
-    body: JSON.stringify({ departmentId, newHodUserId }),
+    body: JSON.stringify({ userId }),
     headers: {
       "Content-Type": "application/json",
     },

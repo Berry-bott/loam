@@ -16,20 +16,50 @@ const academicsMenu = [
   {
     title: "Admissions",
     items: [
-      { label: "National Diploma", to: "/admissions" },
-      { label: "Higher National Diploma", to: "/admissions" },
-      { label: "Application Process", to: "/admissions" },
-      { label: "Entry Requirements", to: "/admissions" },
+      { label: "Pre-National Diploma (Pre-ND)", to: "/admissions" },
+      { label: "National Diploma (ND)", to: "/admissions" },
+      { label: "Higher National Diploma (HND)", to: "/admissions" },
+      { label: "National Diploma (Part-Time)", to: "/admissions" },
+      { label: "Higher National Diploma (Part-Time)", to: "/admissions" },
+    ],
+  },
+  {
+    title: "Scholarship Schemes",
+    items: [
+      { label: "One-year Tuition Free Scholarship", to: "/admissions" },
+      { label: "Victory Idewele Scholarship", to: "/admissions" },
+      { label: "Prince Akpabio Scholarship", to: "/admissions" },
+      { label: "Hon Jerry Otu Scholarship", to: "/admissions" },
+      { label: "Father John (Jnr) Scholarship", to: "/admissions" },
     ],
   },
   {
     title: "Departments",
     items: [
-      { label: "Computer Science" },
-      { label: "Computer Engineering" },
-      { label: "Electrical Electronics Engineering" },
       { label: "Accountancy" },
       { label: "Statistics" },
+      { label: "Mass Communication" },
+      { label: "Computer Science" },
+      { label: "Electrical Electronics Enginneringn" },
+      { label: "Science Laboratory Technology" },
+      { label: "Computer Engineering Technology" },
+      { label: "Estate Management" },
+      { label: "Hospitality Management" },
+    ],
+  },
+  {
+    title: "PRINCIPAL OFFICDRS",
+    items: [
+      { label: "BoT Chairperson" },
+      { label: "Rector" },
+      { label: "Deputy Rector Administration" },
+      { label: "Deputy Rector Academics" },
+      { label: "Registrar" },
+      { label: "Bursar" },
+      { label: "Librarian" },
+      { label: "Director of Programme" },
+      { label: "Director of Institution of Continuing Education" },
+      { label: "Admission Officer" },
     ],
   },
   {
@@ -49,22 +79,28 @@ function MenuItem({ item, onClick }) {
       <Link
         to={item.to}
         onClick={onClick}
-        className="block text-sm text-primary-foreground/85 transition-colors hover:text-portal-gold"
+        className="block text-[15px] leading-6 text-primary-foreground/85 transition-colors hover:text-portal-gold"
       >
         {item.label}
       </Link>
     )
   }
 
-  return <span className="block text-sm text-primary-foreground/85">{item.label}</span>
+  return <span className="block text-[15px] leading-6 text-primary-foreground/85">{item.label}</span>
 }
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isAcademicsOpen, setIsAcademicsOpen] = useState(false)
+  const [isAcademicsHovered, setIsAcademicsHovered] = useState(false)
 
   const activeClass = "text-primary border-b-2 border-primary"
   const normalClass = "text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+  const admissionsSection = academicsMenu[0]
+  const scholarshipSection = academicsMenu[1]
+  const departmentsSection = academicsMenu[2]
+  const principalOfficersSection = academicsMenu[3]
+  const resourcesSection = academicsMenu[4]
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background backdrop-blur-md border-b border-border">
@@ -94,29 +130,56 @@ export function Navbar() {
               <NavLink
                 key={link.href}
                 to={link.href}
-                className={({ isActive }) => `${normalClass} ${isActive ? activeClass : ""}`}
+                className={({ isActive }) =>
+                  `${normalClass} ${isActive && !isAcademicsHovered ? activeClass : ""}`
+                }
               >
                 {link.label}
               </NavLink>
             ))}
 
-            <div className="group static">
+            <div
+              className="group static"
+              onMouseEnter={() => setIsAcademicsHovered(true)}
+              onMouseLeave={() => setIsAcademicsHovered(false)}
+            >
               <button
                 type="button"
-                className="flex items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="flex items-center gap-1 border-b-2 border-transparent pb-1 text-sm font-medium text-muted-foreground transition-colors group-hover:border-primary group-hover:text-primary hover:text-foreground"
               >
                 Academics
                 <ChevronDown className="h-4 w-4" />
               </button>
 
-              <div className="invisible absolute left-0 right-0 top-full z-50 border-t border-primary/10 bg-primary opacity-0 shadow-[0_24px_60px_rgba(34,12,8,0.28)] transition-all duration-200 group-hover:visible group-hover:opacity-100">
-                <div className="mx-auto grid max-w-7xl gap-10 px-8 py-8 text-primary-foreground md:grid-cols-3">
-                  {academicsMenu.map((section) => (
+              <div className="invisible absolute left-0 right-0 top-full z-50 border-t border-primary/10 bg-primary opacity-0 shadow-[0_18px_42px_rgba(34,12,8,0.22)] transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                <div className="absolute left-1/2 top-0 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rotate-45 border-l border-t border-primary/10 bg-primary" />
+                <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-5 px-10 py-5 text-primary-foreground md:grid-cols-2 xl:grid-cols-4">
+                  <div>
+                    <h3 className="border-b border-primary-foreground/25 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-portal-gold">
+                      {admissionsSection.title}
+                    </h3>
+                    <div className="mt-3 space-y-2.5">
+                      {admissionsSection.items.map((item) => (
+                        <MenuItem key={item.label} item={item} />
+                      ))}
+                    </div>
+
+                    <h3 className="mt-5 border-b border-primary-foreground/25 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-portal-gold">
+                      {scholarshipSection.title}
+                    </h3>
+                    <div className="mt-3 space-y-2.5">
+                      {scholarshipSection.items.map((item) => (
+                        <MenuItem key={item.label} item={item} />
+                      ))}
+                    </div>
+                  </div>
+
+                  {[departmentsSection, principalOfficersSection, resourcesSection].map((section) => (
                     <div key={section.title}>
-                      <h3 className="border-b border-primary-foreground/25 pb-3 text-xs font-semibold uppercase tracking-[0.2em] text-portal-gold">
+                      <h3 className="border-b border-primary-foreground/25 pb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-portal-gold">
                         {section.title}
                       </h3>
-                      <div className="mt-5 space-y-4">
+                      <div className="mt-3 space-y-2.5">
                         {section.items.map((item) => (
                           <MenuItem key={item.label} item={item} />
                         ))}
@@ -131,7 +194,9 @@ export function Navbar() {
               <NavLink
                 key={link.href}
                 to={link.href}
-                className={({ isActive }) => `${normalClass} ${isActive ? activeClass : ""}`}
+                className={({ isActive }) =>
+                  `${normalClass} ${isActive && !isAcademicsHovered ? activeClass : ""}`
+                }
               >
                 {link.label}
               </NavLink>

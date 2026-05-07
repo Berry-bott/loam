@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react"
 import { CalendarDays, Layers3, PlusCircle, RefreshCcw } from "lucide-react"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
+import { PortalCardSkeleton } from "../../components/portal/PortalSkeleton"
 import { PortalToast } from "../../components/portal/PortalToast"
 import { Input } from "../../components/ui/input"
 import { PageEyebrow, PageTitle, StatusPill } from "../../components/admin-shared/Shared"
@@ -297,9 +298,9 @@ export default function AdminPortalManagementPage() {
 
           <div className="mt-5 space-y-3">
             {isLoadingSessions ? (
-              <div className="rounded-[10px] border border-dashed border-portal-border-muted bg-portal-surface px-6 py-10 text-center text-sm text-portal-text-muted">
-                Loading sessions...
-              </div>
+              Array.from({ length: 3 }).map((_, index) => (
+                <PortalCardSkeleton key={index} lines={2} showBadge />
+              ))
             ) : sortedSessions.length ? (
               sortedSessions.map((session) => (
                 <div

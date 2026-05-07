@@ -297,6 +297,27 @@ textarea::placeholder {
   letter-spacing: 0.05em;
 }
 
+@keyframes spotify-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.spotify-skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(239, 228, 214, 0.65) 0%,
+    rgba(251, 245, 235, 0.95) 35%,
+    rgba(239, 228, 214, 0.65) 70%
+  );
+  background-size: 200% 100%;
+  animation: spotify-shimmer 1.6s linear infinite;
+}
+
 @media print {
   body {
     background: #fff !important;

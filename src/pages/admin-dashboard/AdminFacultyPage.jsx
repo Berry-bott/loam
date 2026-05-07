@@ -3,6 +3,7 @@ import { Building2, RefreshCcw, UserCog } from "lucide-react"
 import { Link } from "react-router-dom"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
+import { PortalCardSkeleton } from "../../components/portal/PortalSkeleton"
 import { PortalToast } from "../../components/portal/PortalToast"
 import { PageEyebrow, PageTitle, StatusPill } from "../../components/admin-shared/Shared"
 import { getAllDepartments, getAllStaff } from "../../store/admin/adminApi"
@@ -32,8 +33,8 @@ export default function AdminFacultyPage() {
     [staff],
   )
 
-  const recentDepartments = useMemo(() => departments.slice(0, 6), [departments])
-  const recentStaff = useMemo(() => staff.slice(0, 6), [staff])
+  const recentDepartments = useMemo(() => departments, [departments])
+  const recentStaff = useMemo(() => staff, [staff])
 
   const loadOverview = async () => {
     setIsLoading(true)
@@ -88,7 +89,7 @@ export default function AdminFacultyPage() {
 
         <div className="grid gap-4 md:grid-cols-2">
           <Link to="/admin-dashboard/general-management/departments">
-            <PortalButton className="h-14 w-full justify-between px-6 text-[12px] tracking-[0.16em]">
+            <PortalButton className="h-12 w-full justify-between px-4 text-[11px] tracking-[0.14em]">
               <span className="flex items-center gap-3">
                 <Building2 className="h-4 w-4" />
                 Department Management
@@ -97,7 +98,7 @@ export default function AdminFacultyPage() {
             </PortalButton>
           </Link>
           <Link to="/admin-dashboard/general-management/staff">
-            <PortalButton variant="gold" className="h-14 w-full justify-between px-6 text-[12px] tracking-[0.16em]">
+            <PortalButton variant="gold" className="h-12 w-full justify-between px-4 text-[11px] tracking-[0.14em]">
               <span className="flex items-center gap-3">
                 <UserCog className="h-4 w-4" />
                 Staff Management
@@ -121,12 +122,16 @@ export default function AdminFacultyPage() {
               <StatusPill>{`${departments.length} Total`}</StatusPill>
             </div>
 
-            <div className="mt-5 space-y-3">
-              {recentDepartments.length ? (
+            <div className="mt-5 max-h-[520px] space-y-3 overflow-y-auto pr-1">
+              {isLoading ? (
+                Array.from({ length: 3 }).map((_, index) => (
+                  <PortalCardSkeleton key={index} lines={2} />
+                ))
+              ) : recentDepartments.length ? (
                 recentDepartments.map((department) => (
                   <div
                     key={getEntityId(department) || getDepartmentName(department)}
-                    className="rounded-[10px] border border-portal-border bg-portal-surface px-4 py-4"
+                    className="rounded-[8px] border border-portal-border bg-portal-surface px-3 py-3"
                   >
                     <p className="text-sm font-semibold text-portal-text">
                       {getDepartmentName(department)}
@@ -138,7 +143,7 @@ export default function AdminFacultyPage() {
                   </div>
                 ))
               ) : (
-                <div className="rounded-[10px] border border-dashed border-[#ddcdb8] bg-portal-surface px-6 py-10 text-center text-sm text-portal-text-muted">
+                <div className="rounded-[8px] border border-dashed border-[#ddcdb8] bg-portal-surface px-4 py-8 text-center text-sm text-portal-text-muted">
                   No departments created yet.
                 </div>
               )}
@@ -158,12 +163,16 @@ export default function AdminFacultyPage() {
               <StatusPill>{`${staff.length} Total`}</StatusPill>
             </div>
 
-            <div className="mt-5 space-y-3">
-              {recentStaff.length ? (
+            <div className="mt-5 max-h-[520px] space-y-3 overflow-y-auto pr-1">
+              {isLoading ? (
+                Array.from({ length: 3 }).map((_, index) => (
+                  <PortalCardSkeleton key={index} lines={2} showBadge />
+                ))
+              ) : recentStaff.length ? (
                 recentStaff.map((member) => (
                   <div
                     key={getEntityId(member) || getStaffEmail(member)}
-                    className="rounded-[10px] border border-portal-border bg-portal-surface px-4 py-4"
+                    className="rounded-[8px] border border-portal-border bg-portal-surface px-3 py-3"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
@@ -177,7 +186,7 @@ export default function AdminFacultyPage() {
                   </div>
                 ))
               ) : (
-                <div className="rounded-[10px] border border-dashed border-[#ddcdb8] bg-portal-surface px-6 py-10 text-center text-sm text-portal-text-muted">
+                <div className="rounded-[8px] border border-dashed border-[#ddcdb8] bg-portal-surface px-4 py-8 text-center text-sm text-portal-text-muted">
                   No staff created yet.
                 </div>
               )}

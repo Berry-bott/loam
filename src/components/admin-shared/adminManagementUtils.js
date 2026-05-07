@@ -8,6 +8,12 @@ export const roleOptions = [
   { label: "Super Admin", value: "SUPER_ADMIN" },
 ]
 
+function toTitleCase(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase())
+}
+
 export function resolveArray(payload) {
   if (Array.isArray(payload)) return payload
   if (Array.isArray(payload?.data)) return payload.data
@@ -48,17 +54,40 @@ export function getFacultyCode(item) {
 }
 
 export function getHodName(item) {
+  const hodProfile = item?.hod?.user?.staffProfile || item?.headOfDepartment?.user?.staffProfile || {}
+  const composedHodName = [
+    toTitleCase(hodProfile?.title),
+    toTitleCase(hodProfile?.firstName),
+    toTitleCase(hodProfile?.lastName),
+  ]
+    .filter(Boolean)
+    .join(" ")
+
   return (
+    composedHodName ||
     item?.hod?.name ||
+    item?.hod?.user?.name ||
+    item?.hod?.user?.email ||
     item?.hodName ||
     item?.headOfDepartment?.name ||
+    item?.headOfDepartment?.user?.name ||
+    item?.headOfDepartment?.user?.email ||
     item?.headOfDepartmentName ||
     "Unassigned"
   )
 }
 
 export function getStaffName(item) {
-  return item?.name || item?.fullName || item?.profile?.name || item?.email || "Unnamed Staff"
+  const profile = item?.staffProfile || item?.profile || item?.user?.staffProfile || {}
+  const composedName = [
+    toTitleCase(profile?.title),
+    toTitleCase(profile?.firstName),
+    toTitleCase(profile?.lastName),
+  ]
+    .filter(Boolean)
+    .join(" ")
+
+  return composedName || item?.name || item?.fullName || item?.profile?.name || item?.email || "Unnamed Staff"
 }
 
 export function getStaffEmail(item) {

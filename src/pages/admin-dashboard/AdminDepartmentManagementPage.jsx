@@ -3,15 +3,19 @@ import { ArrowLeft, Building2, RefreshCcw } from "lucide-react"
 import { Link } from "react-router-dom"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
-import { PortalDropdown } from "../../components/portal/PortalDropdown"
 import { PortalInput } from "../../components/portal/PortalInput"
+import { PortalModal } from "../../components/portal/PortalModal"
+import { PortalCardSkeleton, PortalSkeleton } from "../../components/portal/PortalSkeleton"
 import { PortalToast } from "../../components/portal/PortalToast"
 import { PageEyebrow, PageTitle } from "../../components/admin-shared/Shared"
 import {
+  assignHod,
   createDepartment,
   createFaculty,
   getAllDepartments,
   getAllFaculties,
+  getAllStaff,
+  getStaffById,
 } from "../../store/admin/adminApi"
 import {
   getDepartmentName,
@@ -19,6 +23,9 @@ import {
   getFacultyCode,
   getFacultyName,
   getHodName,
+  getStaffEmail,
+  getStaffName,
+  getStaffRole,
   resolveArray,
 } from "../../components/admin-shared/adminManagementUtils"
 
@@ -59,11 +66,19 @@ export default function AdminDepartmentManagementPage() {
   const [toastMessage, setToastMessage] = useState("")
   const [faculties, setFaculties] = useState([])
   const [departments, setDepartments] = useState([])
+  const [staff, setStaff] = useState([])
   const [facultyLoadError, setFacultyLoadError] = useState("")
   const [departmentLoadError, setDepartmentLoadError] = useState("")
+  const [staffLoadError, setStaffLoadError] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isAssigningHod, setIsAssigningHod] = useState(false)
+  const [isLoadingDepartmentStaff, setIsLoadingDepartmentStaff] = useState(false)
   const [departmentForm, setDepartmentForm] = useState(defaultDepartmentForm)
+  const [selectedDepartment, setSelectedDepartment] = useState(null)
+  const [selectedLecturer, setSelectedLecturer] = useState(null)
+  const [confirmCandidate, setConfirmCandidate] = useState(null)
+  const [departmentStaff, setDepartmentStaff] = useState([])
 
   const facultyOptions = useMemo(
     () =>
@@ -132,11 +147,13 @@ export default function AdminDepartmentManagementPage() {
     setIsLoading(true)
     setFacultyLoadError("")
     setDepartmentLoadError("")
+    setStaffLoadError("")
 
     try {
-      const [facultyResult, departmentResult] = await Promise.allSettled([
+      const [facultyResult, departmentResult, staffResult] = await Promise.allSettled([
         getAllFaculties(),
         getAllDepartments(),
+        getAllStaff(),
       ])
 
       if (facultyResult.status === "fulfilled") {
@@ -156,6 +173,15 @@ export default function AdminDepartmentManagementPage() {
           departmentResult.reason?.message || "Unable to load departments right now.",
         )
       }
+
+      if (staffResult.status === "fulfilled") {
+        setStaff(resolveArray(staffResult.value))
+      } else {
+        setStaff([])
+        setStaffLoadError(
+          staffResult.reason?.message || "Unable to load staff right now.",
+        )
+      }
     } finally {
       setIsLoading(false)
     }
@@ -167,6 +193,94 @@ export default function AdminDepartmentManagementPage() {
 
   const resetForm = (overrides = {}) => {
     setDepartmentForm({ ...defaultDepartmentForm, ...overrides })
+  }
+
+  const handleOpenAssignHod = async (department) => {
+    setSelectedDepartment(department)
+    setSelectedLecturer(null)
+    setConfirmCandidate(null)
+    setDepartmentStaff([])
+    setIsLoadingDepartmentStaff(true)
+
+    try {
+      const staffPayload = await getAllStaff()
+      const allStaff = resolveArray(staffPayload)
+      const selectedDepartmentId = String(getEntityId(department))
+      const selectedDepartmentName = String(getDepartmentName(department)).toLowerCase()
+
+      const matchedStaff = allStaff.filter((member) => {
+        const staffDepartmentId = String(
+          member?.departmentId ||
+          member?.department?.id ||
+          member?.department?._id ||
+          member?.lecturer?.departmentId ||
+          member?.hod?.departmentId ||
+          member?.lecturer?.department?.id ||
+          member?.hod?.department?.id ||
+          member?.profile?.departmentId ||
+          member?.staffProfile?.departmentId ||
+          "",
+        )
+
+        const staffDepartmentName = String(
+          member?.department?.name ||
+          member?.departmentName ||
+          member?.lecturer?.department?.name ||
+          member?.hod?.department?.name ||
+          member?.profile?.departmentName ||
+          member?.staffProfile?.departmentName ||
+          "",
+        ).toLowerCase()
+
+        return (
+          (staffDepartmentId && staffDepartmentId === selectedDepartmentId) ||
+          (staffDepartmentName && staffDepartmentName === selectedDepartmentName)
+        )
+      })
+
+      const uniqueStaffIds = Array.from(
+        new Set(matchedStaff.map((member) => getEntityId(member)).filter(Boolean)),
+      )
+
+      if (!uniqueStaffIds.length) {
+        setDepartmentStaff([])
+        return
+      }
+
+      const results = await Promise.allSettled(
+        uniqueStaffIds.map((staffId) => getStaffById(staffId)),
+      )
+
+      const resolvedStaff = results
+        .filter((result) => result.status === "fulfilled")
+        .map((result) => result.value?.data || result.value)
+        .filter(Boolean)
+
+      setDepartmentStaff(resolvedStaff)
+    } catch (error) {
+      setDepartmentStaff([])
+      setToastMessage(error.message || "Unable to load department staff right now.")
+    } finally {
+      setIsLoadingDepartmentStaff(false)
+    }
+  }
+
+  const handleCloseAssignHod = () => {
+    setSelectedDepartment(null)
+    setSelectedLecturer(null)
+    setConfirmCandidate(null)
+    setDepartmentStaff([])
+    setIsAssigningHod(false)
+    setIsLoadingDepartmentStaff(false)
+  }
+
+  const handleOpenConfirmAssign = (member) => {
+    setSelectedLecturer(member)
+    setConfirmCandidate(member)
+  }
+
+  const handleCloseConfirmAssign = () => {
+    setConfirmCandidate(null)
   }
 
   const handleDepartmentChange = (field, value) => {
@@ -297,6 +411,28 @@ export default function AdminDepartmentManagementPage() {
     }
   }
 
+  const handleAssignHod = async () => {
+    const departmentId = getEntityId(selectedDepartment)
+    const userId = getEntityId(selectedLecturer)
+
+    if (!departmentId || !userId) {
+      setToastMessage("Choose a lecturer before continuing.")
+      return
+    }
+
+    setIsAssigningHod(true)
+
+    try {
+      await assignHod({ departmentId, userId })
+      await loadManagementData()
+      setToastMessage("HOD assigned successfully.")
+      handleCloseAssignHod()
+    } catch (error) {
+      setToastMessage(error.message || "Unable to assign HOD right now.")
+      setIsAssigningHod(false)
+    }
+  }
+
   return (
     <>
       <div className="space-y-6">
@@ -320,7 +456,7 @@ export default function AdminDepartmentManagementPage() {
           }
         />
 
-        <div className="grid gap-24">
+        <div className="grid gap-16">
           <PortalCard>
             <div className="flex items-center gap-3">
               <Building2 className="h-5 w-5 text-portal-brand" />
@@ -337,7 +473,7 @@ export default function AdminDepartmentManagementPage() {
                 <span className="mb-2 block text-[12px] font-extrabold uppercase tracking-[0.14em] text-admin-field-label">
                   Faculty Source
                 </span>
-                <div className="grid grid-cols-2 rounded-[4px] bg-admin-tab-bg p-1">
+                <div className="grid grid-cols-2 rounded-[3px] bg-admin-tab-bg p-1">
                   {[
                     { label: "Choose Existing", value: "existing" },
                     { label: "Create Faculty", value: "new" },
@@ -346,10 +482,10 @@ export default function AdminDepartmentManagementPage() {
                       key={option.value}
                       type="button"
                       onClick={() => handleDepartmentChange("facultyMode", option.value)}
-                      className={`rounded-[3px] px-2 py-3 text-[12px] font-semibold transition-colors ${
-                        departmentForm.facultyMode === option.value
-                          ? "bg-white text-admin-tab-active-text shadow-sm"
-                          : "text-admin-tab-inactive-text"
+                        className={`rounded-[3px] px-2 py-2.5 text-[12px] font-semibold transition-colors ${
+                          departmentForm.facultyMode === option.value
+                            ? "bg-white text-admin-tab-active-text shadow-sm"
+                            : "text-admin-tab-inactive-text"
                       }`}
                     >
                       {option.label}
@@ -388,7 +524,7 @@ export default function AdminDepartmentManagementPage() {
               </div>
 
               {facultyLoadError ? (
-                <p className="rounded-[8px] border border-admin-error-border bg-admin-error-bg px-4 py-3 text-sm text-admin-error-text">
+                <p className="rounded-[6px] border border-admin-error-border bg-admin-error-bg px-3 py-2.5 text-sm text-admin-error-text">
                   {facultyLoadError}
                 </p>
               ) : null}
@@ -405,8 +541,14 @@ export default function AdminDepartmentManagementPage() {
               </div>
 
               {departmentLoadError ? (
-                <p className="rounded-[8px] border border-admin-error-border bg-admin-error-bg px-4 py-3 text-sm text-admin-error-text">
+                <p className="rounded-[6px] border border-admin-error-border bg-admin-error-bg px-3 py-2.5 text-sm text-admin-error-text">
                   {departmentLoadError}
+                </p>
+              ) : null}
+
+              {staffLoadError ? (
+                <p className="rounded-[6px] border border-admin-error-border bg-admin-error-bg px-3 py-2.5 text-sm text-admin-error-text">
+                  {staffLoadError}
                 </p>
               ) : null}
 
@@ -438,17 +580,29 @@ export default function AdminDepartmentManagementPage() {
 
             <div className="mt-5 space-y-4">
               {isLoading ? (
-                <div className="rounded-[10px] border border-dashed border-portal-border-muted bg-admin-registry-bg px-6 py-10 text-center text-sm text-admin-registry-text">
-                  Loading faculties and departments...
-                </div>
+                Array.from({ length: 3 }).map((_, index) => (
+                  <div key={index} className="rounded-[10px] border border-admin-registry-border bg-gradient-to-b from-white to-admin-registry-bg p-4 shadow-[0_18px_35px_rgba(74,25,16,0.05)]">
+                    <div className="flex items-center justify-between gap-3">
+                      <PortalSkeleton className="h-9 w-44" />
+                      <PortalSkeleton className="h-4 w-20" />
+                    </div>
+                    <div className="mt-4 grid gap-3">
+                      <PortalCardSkeleton lines={2} />
+                      <PortalCardSkeleton lines={2} />
+                    </div>
+                  </div>
+                ))
               ) : groupedDepartments.length ? (
                 groupedDepartments.map((group) => (
-                  <div key={group.facultyName} className="rounded-[10px] border border-admin-registry-border bg-admin-registry-bg p-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <div className="inline-flex rounded-[8px] bg-admin-registry-chip-bg px-3 py-2 text-sm font-semibold text-admin-registry-chip-text">
-                        {group.facultyName}
+                  <div
+                    key={group.facultyName}
+                    className="rounded-[10px] border border-admin-registry-border bg-gradient-to-b from-white via-[#fffdfa] to-admin-registry-bg p-4 shadow-[0_18px_40px_rgba(74,25,16,0.06)]"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-admin-registry-border/70 pb-3">
+                      <div className="inline-flex px-1 py-1 text-base font-semibold text-admin-registry-chip-text">
+                        {toTitleCase(group.facultyName)}
                       </div>
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-admin-registry-count">
+                      <span className="rounded-full bg-white px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-admin-registry-count shadow-sm">
                         {group.records.length} department{group.records.length === 1 ? "" : "s"}
                       </span>
                     </div>
@@ -457,41 +611,30 @@ export default function AdminDepartmentManagementPage() {
                       {group.records.map((department) => (
                         <div
                           key={getEntityId(department) || getDepartmentName(department)}
-                          className="rounded-[8px] border border-admin-registry-border-alt bg-white px-4 py-3"
+                          className="rounded-[8px] border border-admin-registry-border-alt bg-white px-4 py-3 shadow-[0_10px_24px_rgba(74,25,16,0.04)] transition-colors hover:border-[#d9c0a7]"
                         >
                           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                             <div>
                               <p className="text-sm font-semibold text-admin-registry-title">
-                                {getDepartmentName(department)}
+                                {`Department of ${getDepartmentName(department)}`}
                               </p>
-                              <p className="mt-1 text-xs text-admin-registry-text">
-                                HOD:{" "}
-                                <span className="font-semibold text-admin-registry-strong">
+                              <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#fff7ee] px-2.5 py-1">
+                                <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-admin-registry-count">
+                                  HOD
+                                </span>
+                                <span className="text-sm font-semibold text-admin-registry-strong">
                                   {getHodName(department)}
                                 </span>
-                              </p>
+                              </div>
                             </div>
 
-                            <PortalDropdown
-                              label="Department Actions"
-                              triggerClassName="h-9 px-3 text-[10px]"
-                              items={[
-                                {
-                                  label: "Load Into Form",
-                                  onClick: () =>
-                                    resetForm({
-                                      facultyMode: "existing",
-                                      selectedFacultyId:
-                                        department?.faculty?.id ||
-                                        department?.faculty?._id ||
-                                        department?.facultyId ||
-                                        "",
-                                      mode: "existing",
-                                      existingDepartmentId: getEntityId(department),
-                                    }),
-                                },
-                              ]}
-                            />
+                            <PortalButton
+                              variant="outline"
+                              className="h-9 rounded-full px-3 text-[10px] shadow-sm"
+                              onClick={() => handleOpenAssignHod(department)}
+                            >
+                              All Staff
+                            </PortalButton>
                           </div>
                         </div>
                       ))}
@@ -499,7 +642,7 @@ export default function AdminDepartmentManagementPage() {
                   </div>
                 ))
               ) : (
-                <div className="rounded-[10px] border border-dashed border-portal-border-muted bg-admin-registry-bg px-6 py-10 text-center text-sm text-admin-registry-text">
+                <div className="rounded-[8px] border border-dashed border-portal-border-muted bg-admin-registry-bg px-4 py-8 text-center text-sm text-admin-registry-text">
                   No departments loaded yet.
                 </div>
               )}
@@ -513,6 +656,111 @@ export default function AdminDepartmentManagementPage() {
         message={toastMessage}
         onClose={() => setToastMessage("")}
       />
+
+      <PortalModal
+        open={Boolean(selectedDepartment)}
+        onClose={handleCloseAssignHod}
+        title={selectedDepartment ? `All Staff: ${getDepartmentName(selectedDepartment)}` : "All Staff"}
+        description="Select one staff record from this department, then continue to assign the head of department role."
+        className="max-w-3xl"
+      >
+        <div className="space-y-4">
+          {isLoadingDepartmentStaff ? (
+            <div className="max-h-[50vh] space-y-3 overflow-y-auto pr-1">
+              {Array.from({ length: 4 }).map((_, index) => (
+                <PortalCardSkeleton key={index} lines={2} />
+              ))}
+            </div>
+          ) : departmentStaff.length ? (
+            <div className="max-h-[50vh] space-y-3 overflow-y-auto pr-1">
+              {departmentStaff.map((member) => {
+                const memberId = getEntityId(member)
+                const isSelected = String(getEntityId(selectedLecturer)) === String(memberId)
+
+                return (
+                  <div
+                    key={memberId || getStaffEmail(member)}
+                    className={`group w-full rounded-[10px] border px-4 py-4 text-left transition-colors ${
+                      isSelected
+                        ? "border-portal-brand bg-[#fff8f0]"
+                        : "border-admin-registry-border bg-admin-registry-bg hover:border-[#c9b39f]"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold text-admin-registry-title">
+                          {getStaffName(member)}
+                        </p>
+                        <p className="mt-1 text-sm text-admin-registry-text">{getStaffEmail(member)}</p>
+                        <p className="mt-1 text-xs uppercase tracking-[0.12em] text-admin-registry-count">
+                          {getStaffRole(member)}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleOpenConfirmAssign(member)}
+                        className="inline-flex items-center gap-2 rounded-full border border-portal-brand/70 bg-white px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-portal-brand opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 hover:bg-[#fff1e4]"
+                      >
+                        <span className="relative inline-flex h-4 w-7 items-center rounded-full bg-[#f3dfc8] p-[2px]">
+                          <span className="h-3 w-3 rounded-full bg-portal-brand shadow-sm" />
+                        </span>
+                        Make HOD
+                      </button>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          ) : (
+            <div className="rounded-[8px] border border-dashed border-portal-border-muted bg-admin-registry-bg px-4 py-8 text-center text-sm text-admin-registry-text">
+              No staff were found for this department yet.
+            </div>
+          )}
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <PortalButton variant="outline" onClick={handleCloseAssignHod}>
+              Close
+            </PortalButton>
+          </div>
+        </div>
+      </PortalModal>
+
+      <PortalModal
+        open={Boolean(confirmCandidate)}
+        onClose={handleCloseConfirmAssign}
+        title="Confirm HOD Assignment"
+        description="Review this action before continuing."
+        className="max-w-xl"
+      >
+        <div className="space-y-5">
+          <div className="rounded-[8px] border border-[#efd7b2] bg-[#fff7e8] px-4 py-3">
+            <p className="text-sm font-semibold text-admin-registry-title">
+              You are about to make {getStaffName(confirmCandidate)} HOD of {selectedDepartment ? getDepartmentName(selectedDepartment) : "-"}.
+            </p>
+            <p className="mt-1 text-sm text-admin-registry-text">
+              Click continue if you want to assign this staff to the department.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <PortalButton
+              onClick={handleAssignHod}
+              disabled={!selectedLecturer || isAssigningHod}
+            >
+              {isAssigningHod ? "Assigning..." : "Continue"}
+            </PortalButton>
+            <PortalButton variant="outline" onClick={handleCloseConfirmAssign}>
+              Cancel
+            </PortalButton>
+          </div>
+        </div>
+      </PortalModal>
     </>
   )
+}
+
+function toTitleCase(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/\b\w/g, (letter) => letter.toUpperCase())
 }
