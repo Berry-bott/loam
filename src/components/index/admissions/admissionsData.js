@@ -43,6 +43,16 @@ export const stats = [
 export const formStepLabels = ["Personal Information", "Academic History", "Document Upload", "Review & Submit"]
 export const examTypeOptions = ["WAEC", "NECO", "NABTEB", "GCE"]
 export const gradeOptions = ["A1", "B2", "B3", "C4", "C5", "C6", "D7", "E8", "F9", "AR"]
+export const courseOptions = [
+  "Computer Science",
+  "Software and Web Development",
+  "Mechanical Engineering",
+  "Electrical / Electronics Engineering",
+  "Computer Engineering",
+  "Civil Engineering",
+  "Statistics",
+  "Accountancy",
+]
 export const subjectOptions = [
   "Agricultural Science",
   "Biology",

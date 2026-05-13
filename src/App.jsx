@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom"
 import HomePage from "./pages/index/HomePage"
 import AboutPage from "./pages/index/AboutPage"
 import AdmissionsPage from "./pages/index/AdmissionsPage"
+import PortalPage from "./pages/index/PortalPage"
 import StudentLifePage from "./pages/index/StudentLifePage"
 import GalleryPage from "./pages/index/GalleryPage"
 import EventsPage from "./pages/index/EventsPage"
@@ -46,12 +47,28 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/admissions" element={<AdmissionsPage />} />
+        <Route path="/portal" element={<PortalPage />} />
         <Route path="/student-life" element={<StudentLifePage />} />
         <Route path="/gallery" element={<GalleryPage />} />
         <Route path="/events" element={<EventsPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/portal/studentslogin" element={<LoginPage />} />
         <Route path="/superadminlogin" element={<SuperAdminLoginPage />} />
+        <Route
+          path="/admissionofficerlogin"
+          element={
+            <SuperAdminLoginPage
+              fallbackRole="admission_officer"
+              allowedRoles={["admission_officer", "bursary_officer"]}
+              title="ADMISSION & BURSARY"
+              subtitle="Authorized Officer Access"
+              heading="Officer Login"
+              description="Login with your admission or bursary officer credentials to access the dashboard."
+              submitLabel="Access Officer Dashboard"
+            />
+          }
+        />
 
         <Route
           path="/student-dashboard"
@@ -74,7 +91,7 @@ function App() {
         <Route
           path="/admin-dashboard"
           element={
-            <RequirePortalRole allowedRoles={["admin"]}>
+            <RequirePortalRole allowedRoles={["superadmin", "admission_officer", "bursary_officer"]}>
               <AdminPortalLayout />
             </RequirePortalRole>
           }

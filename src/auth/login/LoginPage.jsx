@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { ArrowRight, Eye, EyeOff } from "lucide-react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { getDefaultRouteForRole, setPortalSession } from "../../lib/portal-auth"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
@@ -144,13 +144,21 @@ export default function LoginPage() {
               <p className="mb-4 text-sm text-portal-text-muted">
                 Prospective member of the community?
               </p>
-              <PortalButton
-                variant="outline"
-                className="w-full border-portal-border-strong text-[#b08b2d]"
-                onClick={() => navigate("/admissions")}
-              >
-                New Student? Start Application
-              </PortalButton>
+              <div className="space-y-3">
+                <PortalButton
+                  variant="outline"
+                  className="w-full border-portal-border-strong text-[#b08b2d]"
+                  onClick={() => navigate("/admissions")}
+                >
+                  New Student? Start Application
+                </PortalButton>
+                <Link
+                  to="/portal"
+                  className="block text-center text-sm font-medium text-portal-brand-strong transition-colors hover:text-primary"
+                >
+                  Back to Portal
+                </Link>
+              </div>
             </div>
           </div>
         </PortalCard>

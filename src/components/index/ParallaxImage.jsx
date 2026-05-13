@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { LazyImage } from "./LazyMedia"
 
 export function ParallaxImage({ src, alt, className = "", speed = 0.3 }) {
   const containerRef = useRef(null)
@@ -31,7 +32,7 @@ export function ParallaxImage({ src, alt, className = "", speed = 0.3 }) {
   return (
     <div ref={containerRef} className={`overflow-hidden ${className}`}>
       <div ref={imageRef} className="relative w-full h-[120%] -top-[10%]">
-        <img src={src || "/placeholder.svg"} alt={alt} className="w-full h-full object-cover" />
+        <LazyImage src={src} alt={alt} className="w-full h-full object-cover" />
       </div>
     </div>
   )

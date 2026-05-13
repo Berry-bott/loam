@@ -217,7 +217,7 @@ export default function AdminManageStudentsPage() {
                   <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-shared-eyebrow">Student Profile Photo</p>
                   <div className="mt-5 flex justify-center">
                     <img
-                      src="/IMG_3175.jpeg"
+                      src="/student-avatar.jpeg"
                       alt={formData.fullName}
                       className="h-[190px] w-[290px] rounded-[12px] object-cover shadow-[0_18px_32px_rgba(74,25,16,0.12)]"
                     />

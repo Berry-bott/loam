@@ -21,6 +21,8 @@ export function validateStep1(form) {
 export function validateStep2(form, activeSittings) {
   const errors = {}
   if (!form.lastSchool?.trim()) errors.lastSchool = "Last school attended is required"
+  if (!form.yearOfGraduation?.trim()) errors.yearOfGraduation = "Year of graduation is required"
+  if (!form.chosenCourse?.trim()) errors.chosenCourse = "Chosen course is required"
 
   activeSittings.forEach((sitting, sittingIndex) => {
     const label = sittingIndex === 0 ? "A" : "B"

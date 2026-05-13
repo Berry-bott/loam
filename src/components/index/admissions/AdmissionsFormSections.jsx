@@ -323,6 +323,7 @@ export function AcademicHistoryStep({
   handleJambChange,
   getAvailableSubjectOptions,
   totalJambScore,
+  courseOptions,
   errors = {},
 }) {
   return (
@@ -336,6 +337,19 @@ export function AcademicHistoryStep({
             <Input placeholder="Name of your secondary school" value={form.lastSchool} onChange={handleChange("lastSchool")} 
             className={`rounded-sm ${errBorder(errors.lastSchool)} placeholder:text-gray-300 placeholder:text-[12px]`} />
             <FieldError message={errors.lastSchool} />
+          </div>
+          <div>
+            <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Year of Graduation</label>
+            <Input
+              type="number"
+              min="1980"
+              max="2100"
+              placeholder="e.g 2021"
+              value={form.yearOfGraduation}
+              onChange={handleChange("yearOfGraduation")}
+              className={`rounded-sm ${errBorder(errors.yearOfGraduation)} placeholder:text-gray-300 placeholder:text-[12px]`}
+            />
+            <FieldError message={errors.yearOfGraduation} />
           </div>
           <div>
             <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Number of Sittings</label>
@@ -485,6 +499,20 @@ export function AcademicHistoryStep({
             <span className="text-lg font-semibold text-foreground">{totalJambScore}</span>
           </div>
         </div>
+
+        <div className="mt-5 grid grid-cols-1 gap-4 sm:max-w-md">
+          <div>
+            <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Chosen Course</label>
+            <CustomSelect
+              value={form.chosenCourse}
+              onChange={(val) => handleChange("chosenCourse")({ target: { value: val } })}
+              options={courseOptions}
+              placeholder="Select course"
+              error={errors.chosenCourse}
+            />
+            <FieldError message={errors.chosenCourse} />
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -565,6 +593,8 @@ export function ReviewSubmitStep({
           title: "Academic History",
           rows: [
             ["Last School", form.lastSchool],
+            ["Year of Graduation", form.yearOfGraduation],
+            ["Chosen Course", form.chosenCourse],
             ["Number of Sittings", form.sittingCount],
             ["JAMB Registration Number", form.jambRegistrationNumber],
             ["JAMB Year", form.jambYear],

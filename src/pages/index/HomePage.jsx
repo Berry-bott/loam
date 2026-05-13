@@ -13,6 +13,7 @@ import { MagneticButton } from "../../components/index/MagneticButton"
 import { FloatingCard } from "../../components/index/FloatingCard"
 import { HeroSlider } from "../../components/index/HeroSlider"
 import VideoSection from "../../components/index/VideoSection"
+import { LazyImage } from "../../components/index/LazyMedia"
 import video from "../../assets/video/loam-mega.mp4"
 
 
@@ -131,12 +132,12 @@ export default function HomePage() {
                 </Link>
               </MagneticButton>
               <MagneticButton>
-                <Link to="/auth/login">
+                <Link to="/portal">
                   <Button
                     size="lg"
                     className="rounded-full bg-primary px-8 text-background shadow-xl hover:bg-[#7d0f0b]"
                   >
-                    Portal Login
+                    Portal
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
@@ -244,7 +245,7 @@ export default function HomePage() {
 
               <ScrollReveal animation="slideLeft">
                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
-                  <img
+                  <LazyImage
                     src="/chairperson-rector.jpeg"
                     alt="Students in classroom"
                     className="w-full h-full object-cover"

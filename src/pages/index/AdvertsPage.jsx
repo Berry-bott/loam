@@ -8,6 +8,7 @@ import { Button } from "../../components/ui/button"
 import { Navbar } from "../../components/index/Navbar"
 import { Footer } from "../../components/index/Footer"
 import { ScrollReveal } from "../../components/index/ScrollReveal"
+import { LazyImage } from "../../components/index/LazyMedia"
 
 const programs = [
   {
@@ -21,7 +22,7 @@ const programs = [
   {
     title: "Sports Excellence Program",
     description: "Elite training programs for aspiring athletes in basketball, soccer, swimming, and track.",
-    image: "/IMG_4724.JPG",
+    image: "/sports-excellence-program.jpg",
     dates: "Year-round enrollment",
     price: "From $3,000/semester",
     features: [
@@ -137,9 +138,10 @@ export default function AdvertsPage() {
               <ScrollReveal animation="slideLeft">
                 <div className="relative">
                   <div className="aspect-[4/3] rounded-2xl overflow-hidden">
-                    <img
-                      src="/IMG_PIX 2.jpg"
+                    <LazyImage
+                      src="/student-life-hero.jpg"
                       alt="Students at Loam Polytechnic"
+                      eager
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -151,7 +153,7 @@ export default function AdvertsPage() {
                             key={i}
                             className="w-10 h-10 rounded-full bg-background border-4 border-background overflow-hidden"
                           >
-                            <img
+                            <LazyImage
                               src={`/student-portrait.jpeg?height=40&width=40&query=student portrait ${i}`}
                               alt="Student"
                               className="w-full h-full object-cover"
@@ -203,8 +205,8 @@ export default function AdvertsPage() {
                   >
                     <div className={index % 2 === 1 ? "lg:order-2" : ""}>
                       <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
-                        <img
-                          src={program.image || "/placeholder.svg"}
+                        <LazyImage
+                          src={program.image}
                           alt={program.title}
                           className="w-full h-full object-cover"
                         />
@@ -250,8 +252,8 @@ export default function AdvertsPage() {
                     <p className="text-lg mb-6 flex-grow">"{testimonial.quote}"</p>
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 rounded-full overflow-hidden">
-                        <img
-                          src={testimonial.image || "/placeholder.svg"}
+                        <LazyImage
+                          src={testimonial.image}
                           alt={testimonial.author}
                           className="w-full h-full object-cover"
                         />
@@ -269,7 +271,7 @@ export default function AdvertsPage() {
           <div className="max-w-7xl mx-auto">
             <ScrollReveal animation="scale">
               <div className="relative rounded-2xl overflow-hidden">
-                <img
+                <LazyImage
                   src="/school-campus-beautiful.jpg"
                   alt="Loam Polytechnic Campus"
                   className="w-full h-[400px] object-cover"

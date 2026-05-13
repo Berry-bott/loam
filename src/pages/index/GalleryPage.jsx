@@ -5,6 +5,7 @@ import { X } from "lucide-react"
 import { Navbar } from "../../components/index/Navbar"
 import { Footer } from "../../components/index/Footer"
 import { ScrollReveal } from "../../components/index/ScrollReveal"
+import { LazyImage } from "../../components/index/LazyMedia"
 
 const categories = ["All", "Campus", "Library", "Sports", "Hall", "Computer Science"]
 
@@ -30,7 +31,7 @@ const galleryImages = [
   },
   { id: 5, src: "/electronics-workshop.jpeg", category: "Workshop", title: "Electronics   Workshop" },
   { id: 6, src: "/conference-hall.jpeg", category: "Hall", title:"Conference Hall" },
-  { id: 7, src: "IMG_4730.JPG", category: "Sports", title: "BasketBall Court" },
+  { id: 7, src: "/basketball-court.jpg", category: "Sports", title: "BasketBall Court" },
   { id: 8, src: "/computer-science-lab.jpeg", category: "Arts", title: "Computer Science Lab" },
   { id: 9, src: "/skills-centre.jpeg", category: "Enterprenue", title: "Skills Center" },
   { id: 10, src: "/nbte-meeting.jpeg", category: "Conference", title: "NBTE Meeting " },
@@ -133,8 +134,8 @@ export default function GalleryPage() {
                   onClick={() => setLightboxImage(image)}
                 >
                   <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
-                    <img
-                      src={image.src || "/placeholder.svg"}
+                    <LazyImage
+                      src={image.src}
                       alt={image.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
@@ -163,9 +164,10 @@ export default function GalleryPage() {
               <X className="h-8 w-8" />
             </button>
             <div className="relative max-w-5xl max-h-[80vh] aspect-video">
-              <img
-                src={lightboxImage.src || "/placeholder.svg"}
+              <LazyImage
+                src={lightboxImage.src}
                 alt={lightboxImage.title}
+                eager
                 className="w-full h-full object-contain"
               />
             </div>

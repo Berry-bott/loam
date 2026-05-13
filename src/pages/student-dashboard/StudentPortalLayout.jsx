@@ -17,7 +17,7 @@ export default function StudentPortalLayout() {
       user={{
         name: session?.name || "Udo Thompson",
         role: "Student",
-        avatar: "/IMG_3175.jpeg",
+        avatar: "/student-avatar.jpeg",
       }}
       footer="Loam Polytechnic. Academic user access only."
     >

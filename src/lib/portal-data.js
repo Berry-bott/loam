@@ -41,7 +41,7 @@ export const adminSidebarItems = [
   { label: "Settings", to: "/admin-dashboard/settings", icon: Settings },
 ]
 
-export const logoutItem = { label: "Logout", to: "/auth/login", icon: LogOut }
+export const logoutItem = { label: "Logout", to: "/portal", icon: LogOut }
 
 export const studentTopbarLinks = ["Help", "Directory", "Support"]
 

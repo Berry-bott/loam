@@ -7,6 +7,7 @@ import { Button } from "../../components/ui/button"
 import { Navbar } from "../../components/index/Navbar"
 import { Footer } from "../../components/index/Footer"
 import { ScrollReveal } from "../../components/index/ScrollReveal"
+import { LazyImage } from "../../components/index/LazyMedia"
 
 const upcomingEvents = [
     {
@@ -157,9 +158,10 @@ function EventModal({ event, onClose }) {
         
         {/* Image */}
         <div className="relative aspect-[16/7] overflow-hidden rounded-t-2xl">
-          <img
-            src={event.image || "/placeholder.svg"}
+          <LazyImage
+            src={event.image}
             alt={event.title}
+            eager
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -289,8 +291,8 @@ export default function EventsPage() {
                 <ScrollReveal key={event.id} delay={index * 0.1}>
                   <div className="group bg-card rounded-xl overflow-hidden border border-border hover:border-accent transition-colors duration-300">
                     <div className="relative aspect-[3/2] overflow-hidden">
-                      <img
-                        src={event.image || "/placeholder.svg"}
+                      <LazyImage
+                        src={event.image}
                         alt={event.title}
                         className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                       />

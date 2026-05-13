@@ -180,6 +180,7 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 import { gsap } from "gsap"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import { LazyImage } from "./LazyMedia"
 
 export function HeroSlider({ slides, autoPlayInterval = 5000 }) {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -294,7 +295,12 @@ export function HeroSlider({ slides, autoPlayInterval = 5000 }) {
           }}
           className={`absolute inset-0 ${index === 0 ? "opacity-100" : "opacity-0"}`}
         >
-          <img src={slide.image || "/placeholder.svg"} alt={slide.title} className="w-full h-full object-cover" />
+          <LazyImage
+            src={slide.image}
+            alt={slide.title}
+            eager={index === 0}
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-foreground via-foreground/80 to-foreground/100" />
         </div>
       ))}

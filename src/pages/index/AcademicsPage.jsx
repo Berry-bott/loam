@@ -12,6 +12,7 @@ import { ScrollReveal } from "../../components/index/ScrollReveal"
 import { VideoSection } from "../../components/index/VideoSection"
 import { FloatingCard } from "../../components/index/FloatingCard"
 import { MagneticButton } from "../../components/index/MagneticButton"
+import { LazyImage, LazyVideo } from "../../components/index/LazyMedia"
 
 const departments = [
   {
@@ -120,19 +121,18 @@ export default function AcademicsPage() {
       <main className="min-h-screen pt-16">
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0">
-            <video
+            <LazyVideo
+              src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
               autoPlay
               loop
               muted
               playsInline
+              lazy={false}
+              preload="metadata"
               className="w-full h-full object-cover"
               poster="/campus-video-poster.jpeg"
             >
-              <source
-                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
-                type="video/mp4"
-              />
-            </video>
+            </LazyVideo>
             <div className="absolute inset-0 bg-foreground/60" />
           </div>
 
@@ -164,8 +164,8 @@ export default function AcademicsPage() {
                 <FloatingCard key={program.title} index={index}>
                   <div className="group bg-background border border-border rounded-2xl overflow-hidden hover:border-accent transition-all duration-500">
                     <div className="relative aspect-[3/2] overflow-hidden">
-                      <img
-                        src={program.image || "/placeholder.svg"}
+                      <LazyImage
+                        src={program.image}
                         alt={program.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />

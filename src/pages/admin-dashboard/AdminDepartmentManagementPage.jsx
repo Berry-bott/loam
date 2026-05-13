@@ -13,6 +13,7 @@ import {
   createDepartment,
   createFaculty,
   getAllDepartments,
+  getDepartmentsByFaculty,
   getAllFaculties,
   getAllStaff,
   getStaffById,
@@ -66,14 +67,14 @@ export default function AdminDepartmentManagementPage() {
   const [toastMessage, setToastMessage] = useState("")
   const [faculties, setFaculties] = useState([])
   const [departments, setDepartments] = useState([])
-  const [staff, setStaff] = useState([])
+  const [facultyDepartments, setFacultyDepartments] = useState([])
   const [facultyLoadError, setFacultyLoadError] = useState("")
   const [departmentLoadError, setDepartmentLoadError] = useState("")
-  const [staffLoadError, setStaffLoadError] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isAssigningHod, setIsAssigningHod] = useState(false)
   const [isLoadingDepartmentStaff, setIsLoadingDepartmentStaff] = useState(false)
+  const [departmentStaffLoadError, setDepartmentStaffLoadError] = useState("")
   const [departmentForm, setDepartmentForm] = useState(defaultDepartmentForm)
   const [selectedDepartment, setSelectedDepartment] = useState(null)
   const [selectedLecturer, setSelectedLecturer] = useState(null)
@@ -96,8 +97,10 @@ export default function AdminDepartmentManagementPage() {
 
   const activeFacultyId = departmentForm.selectedFacultyId
 
+  const filteredDepartmentSource = facultyDepartments.length ? facultyDepartments : departments
+
   const filteredDepartmentOptions = useMemo(() => {
-    return departments
+    return filteredDepartmentSource
       .filter((department) => {
         if (!activeFacultyId) return false
 
@@ -122,7 +125,7 @@ export default function AdminDepartmentManagementPage() {
         value: getEntityId(department),
         label: getDepartmentName(department),
       }))
-  }, [activeFacultyId, departments, faculties])
+  }, [activeFacultyId, filteredDepartmentSource, faculties])
 
   const groupedDepartments = useMemo(() => {
     const grouped = departments.reduce((accumulator, department) => {
@@ -147,13 +150,11 @@ export default function AdminDepartmentManagementPage() {
     setIsLoading(true)
     setFacultyLoadError("")
     setDepartmentLoadError("")
-    setStaffLoadError("")
 
     try {
-      const [facultyResult, departmentResult, staffResult] = await Promise.allSettled([
+      const [facultyResult, departmentResult] = await Promise.allSettled([
         getAllFaculties(),
         getAllDepartments(),
-        getAllStaff(),
       ])
 
       if (facultyResult.status === "fulfilled") {
@@ -173,15 +174,6 @@ export default function AdminDepartmentManagementPage() {
           departmentResult.reason?.message || "Unable to load departments right now.",
         )
       }
-
-      if (staffResult.status === "fulfilled") {
-        setStaff(resolveArray(staffResult.value))
-      } else {
-        setStaff([])
-        setStaffLoadError(
-          staffResult.reason?.message || "Unable to load staff right now.",
-        )
-      }
     } finally {
       setIsLoading(false)
     }
@@ -190,6 +182,31 @@ export default function AdminDepartmentManagementPage() {
   useEffect(() => {
     loadManagementData()
   }, [])
+
+  useEffect(() => {
+    let isActive = true
+
+    if (!activeFacultyId) {
+      setFacultyDepartments([])
+      return () => {
+        isActive = false
+      }
+    }
+
+    getDepartmentsByFaculty(activeFacultyId)
+      .then((payload) => {
+        if (!isActive) return
+        setFacultyDepartments(resolveArray(payload))
+      })
+      .catch(() => {
+        if (!isActive) return
+        setFacultyDepartments([])
+      })
+
+    return () => {
+      isActive = false
+    }
+  }, [activeFacultyId])
 
   const resetForm = (overrides = {}) => {
     setDepartmentForm({ ...defaultDepartmentForm, ...overrides })
@@ -200,6 +217,7 @@ export default function AdminDepartmentManagementPage() {
     setSelectedLecturer(null)
     setConfirmCandidate(null)
     setDepartmentStaff([])
+    setDepartmentStaffLoadError("")
     setIsLoadingDepartmentStaff(true)
 
     try {
@@ -259,7 +277,7 @@ export default function AdminDepartmentManagementPage() {
       setDepartmentStaff(resolvedStaff)
     } catch (error) {
       setDepartmentStaff([])
-      setToastMessage(error.message || "Unable to load department staff right now.")
+      setDepartmentStaffLoadError(error.message || "Unable to load department staff right now.")
     } finally {
       setIsLoadingDepartmentStaff(false)
     }
@@ -270,6 +288,7 @@ export default function AdminDepartmentManagementPage() {
     setSelectedLecturer(null)
     setConfirmCandidate(null)
     setDepartmentStaff([])
+    setDepartmentStaffLoadError("")
     setIsAssigningHod(false)
     setIsLoadingDepartmentStaff(false)
   }
@@ -546,12 +565,6 @@ export default function AdminDepartmentManagementPage() {
                 </p>
               ) : null}
 
-              {staffLoadError ? (
-                <p className="rounded-[6px] border border-admin-error-border bg-admin-error-bg px-3 py-2.5 text-sm text-admin-error-text">
-                  {staffLoadError}
-                </p>
-              ) : null}
-
               <div className="flex flex-wrap gap-3">
                 <PortalButton onClick={handleSubmit} disabled={isSubmitting}>
                   {isSubmitting ? "Saving..." : "Save Department"}
@@ -665,6 +678,12 @@ export default function AdminDepartmentManagementPage() {
         className="max-w-3xl"
       >
         <div className="space-y-4">
+          {departmentStaffLoadError ? (
+            <p className="rounded-[8px] border border-admin-error-border bg-admin-error-bg px-4 py-3 text-sm text-admin-error-text">
+              {departmentStaffLoadError}
+            </p>
+          ) : null}
+
           {isLoadingDepartmentStaff ? (
             <div className="max-h-[50vh] space-y-3 overflow-y-auto pr-1">
               {Array.from({ length: 4 }).map((_, index) => (

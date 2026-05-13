@@ -12,25 +12,26 @@ import { ScrollReveal } from "../../components/index/ScrollReveal"
 import { VideoSection } from "../../components/index/VideoSection"
 import { FloatingCard } from "../../components/index/FloatingCard"
 import { MagneticButton } from "../../components/index/MagneticButton"
+import { LazyImage } from "../../components/index/LazyMedia"
 
 const activities = [
   {
     icon: Trophy,
     title: "Sports",
     description: "15+ varsity sports teams competing at the highest level",
-    image: "/IMG_4724.JPG",
+    image: "/sports-excellence-program.jpg",
   },
   {
     icon: Music,
     title: "Performing Arts",
     description: "Theater productions, orchestra, choir, and band programs",
-    image: "/IMG_20230808_144440_479.jpg",
+    image: "/performing-arts-students.jpg",
   },
   {
     icon: Palette,
     title: "Visual Arts",
     description: "Sewing, Painting, sculpture, photography, and digital arts",
-    image: "/IMG_20230515_101814_799.jpg",
+    image: "/visual-arts-students.jpg",
   },
   {
     icon: Users,
@@ -105,28 +106,29 @@ export default function StudentLifePage() {
       <main className="min-h-screen pt-16 overflow-hidden">
         <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0">
-            <img
-              src="/IMG_PIX 2.jpg"
+            <LazyImage
+              src="/student-life-hero.jpg"
               alt="Students enjoying campus life"
+              eager
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-foreground/50" />
           </div>
 
-<div className="relative shadow-xl z-10 text-center px-4 max-w-5xl mx-auto">
-  <ScrollReveal>
-    <p className="text-primary text-sm uppercase tracking-[0.3em] font-bold -mt-16 drop-shadow-lg">
-      Student Life
-    </p>
-    <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-background mb-4 text-balance drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
-      More Than <span className="italic">Education</span>
-    </h1>
-    <p className="text-background text-lg md:text-xl max-w-2xl mx-auto drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
-      Discover a vibrant community where students thrive through sports, arts, clubs, and lifelong
-      friendships.
-    </p>
-  </ScrollReveal>
-</div>
+        <div className="relative shadow-xl z-10 text-center px-4 max-w-5xl mx-auto">
+          <ScrollReveal>
+            <p className="text-primary text-sm uppercase tracking-[0.3em] font-bold -mt-16 drop-shadow-lg">
+              Student Life
+            </p>
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl font-bold text-background mb-4 text-balance drop-shadow-[0_4px_8px_rgba(0,0,0,0.8)]">
+              More Than <span className="italic">Education</span>
+            </h1>
+            <p className="text-background text-lg md:text-xl max-w-2xl mx-auto drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
+              Discover a vibrant community where students thrive through sports, arts, clubs, and lifelong
+              friendships.
+            </p>
+          </ScrollReveal>
+        </div>
         </section>
 
         <section className="py-8 bg-accent text-accent-foreground overflow-hidden">
@@ -166,8 +168,8 @@ export default function StudentLifePage() {
                   <div className="group relative bg-background border border-border rounded-2xl overflow-hidden hover:border-accent transition-all duration-500">
                     <div className="grid grid-cols-1 md:grid-cols-2">
                       <div className="relative aspect-square md:aspect-auto">
-                        <img
-                          src={activity.image || "/placeholder.svg"}
+                        <LazyImage
+                          src={activity.image}
                           alt={activity.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                         />
@@ -237,7 +239,7 @@ export default function StudentLifePage() {
 
               <ScrollReveal animation="slideLeft">
                 <div className="relative aspect-square rounded-2xl overflow-hidden">
-                  <img
+                  <LazyImage
                     src="/campus-facility-block.jpeg"
                     alt="Campus facilities"
                     className="w-full h-full object-cover"

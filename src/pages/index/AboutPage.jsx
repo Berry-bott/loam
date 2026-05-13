@@ -7,6 +7,7 @@ import { Footer } from "../../components/index/Footer"
 import { ScrollReveal } from "../../components/index/ScrollReveal"
 import { ParallaxImage } from "../../components/index/ParallaxImage"
 import { CounterAnimation } from "../../components/index/CounterAnimation"
+import { LazyImage } from "../../components/index/LazyMedia"
 
 const values = [
   {
@@ -132,9 +133,10 @@ export default function AboutPage() {
 
               <ScrollReveal animation="slideLeft">
                 <div className="relative aspect-square rounded-2xl overflow-hidden">
-                  <img
+                  <LazyImage
                     src="/digital-library.jpeg"
                     alt="Loam Polytechnic campus"
+                    eager
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -205,8 +207,8 @@ export default function AboutPage() {
                 <ScrollReveal key={person.name} delay={index * 0.1} animation="fadeUp">
                   <div className="text-center group">
                     <div className="relative aspect-square rounded-xl overflow-hidden mb-4">
-                      <img
-                        src={person.image || "/placeholder.svg"}
+                      <LazyImage
+                        src={person.image}
                         alt={person.name}
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                       />

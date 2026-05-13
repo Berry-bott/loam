@@ -5,12 +5,18 @@ import { CounterAnimation } from "../CounterAnimation"
 import { MagneticButton } from "../MagneticButton"
 import { ScrollReveal } from "../ScrollReveal"
 import { admissionSteps, deadlines, stats } from "./admissionsData"
+import { LazyImage } from "../LazyMedia"
 
 export function AdmissionsHeroSection({ heroRef, onOpenApplication }) {
   return (
     <section className="relative flex h-[80vh] items-center overflow-hidden">
       <div ref={heroRef} className="absolute inset-0 z-0">
-        <img src="/IMG_5161.jpg" alt="Loam Polytechnic" className="h-full w-screen object-cover" />
+        <LazyImage
+          src="/admissions-hero-campus.jpg"
+          alt="Loam Polytechnic"
+          eager
+          className="h-full w-screen object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-foreground via-foreground/20 to-transparent" />
       </div>
 

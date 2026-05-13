@@ -206,6 +206,13 @@ export async function getAllDepartments() {
   return adminRequest("/departments", { method: "GET" })
 }
 
+export async function getDepartmentsByFaculty(facultyId) {
+  if (!facultyId) throw new Error("Faculty ID is required.")
+  return adminRequest(`/departments?facultyId=${encodeURIComponent(facultyId)}`, {
+    method: "GET",
+  })
+}
+
 export async function getDepartmentById(id) {
   if (!id) throw new Error("Department ID is required.")
   return adminRequest(`/departments/${id}`, { method: "GET" })
@@ -233,6 +240,28 @@ export async function getAllSessions() {
   return adminRequest("/sessions", { method: "GET" })
 }
 
+export async function getSessionById(id) {
+  if (!id) throw new Error("Session ID is required.")
+  return adminRequest(`/sessions/${id}`, { method: "GET" })
+}
+
+export async function updateSession(id, { startDate, endDate }) {
+  if (!id) throw new Error("Session ID is required.")
+  if (!startDate) throw new Error("Session start date is required.")
+  if (!endDate) throw new Error("Session end date is required.")
+
+  return adminRequest(`/sessions/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      startDate,
+      endDate,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+}
+
 export async function createSemester({ sessionId, type, startDate, endDate }) {
   if (!sessionId) throw new Error("Session is required before creating a semester.")
   if (!type) throw new Error("Semester type is required.")
@@ -247,6 +276,51 @@ export async function createSemester({ sessionId, type, startDate, endDate }) {
       startDate,
       endDate,
     }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+}
+
+export async function updateSemester(id, { startDate, endDate }) {
+  if (!id) throw new Error("Semester ID is required.")
+  if (!startDate) throw new Error("Semester start date is required.")
+  if (!endDate) throw new Error("Semester end date is required.")
+
+  return adminRequest(`/semesters/${id}`, {
+    method: "PATCH",
+    body: JSON.stringify({
+      startDate,
+      endDate,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+}
+
+export async function getPortalStatus() {
+  return adminRequest("/portal/status", { method: "GET" })
+}
+
+export async function openPortal(portalType) {
+  if (!portalType?.trim()) throw new Error("Portal type is required.")
+
+  return adminRequest("/portal/open", {
+    method: "POST",
+    body: JSON.stringify({ portalType: portalType.trim().toUpperCase() }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+}
+
+export async function closePortal(portalType) {
+  if (!portalType?.trim()) throw new Error("Portal type is required.")
+
+  return adminRequest("/portal/close", {
+    method: "POST",
+    body: JSON.stringify({ portalType: portalType.trim().toUpperCase() }),
     headers: {
       "Content-Type": "application/json",
     },

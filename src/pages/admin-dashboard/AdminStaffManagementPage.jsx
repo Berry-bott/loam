@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react"
-import { ArrowLeft, CheckCircle2, RefreshCcw, UserCog, UsersRound, X } from "lucide-react"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { ArrowLeft, CheckCircle2, Ellipsis, RefreshCcw, UserCog, UsersRound, X } from "lucide-react"
 import { Link } from "react-router-dom"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
@@ -56,6 +56,47 @@ function getStaffQualification(item) {
 
 function getStaffYearOfEmployment(item) {
   return getStaffProfile(item)?.yearOfEmployment || item?.yearOfEmployment || ""
+}
+
+function shouldShowDepartmentForStaff(item) {
+  const role = String(getStaffRole(item)).toUpperCase()
+  return !["ADMISSIONS_OFFICER", "BURSARY_OFFICER"].includes(role)
+}
+
+function resolveStaffDepartmentName(item, departments) {
+  const directDepartmentName =
+    item?.department?.name ||
+    item?.departmentName ||
+    item?.department?.title ||
+    item?.lecturer?.department?.name ||
+    item?.hod?.department?.name ||
+    item?.profile?.departmentName ||
+    item?.staffProfile?.departmentName
+
+  if (directDepartmentName) return directDepartmentName
+
+  const departmentId = String(
+    item?.departmentId ||
+    item?.department?.id ||
+    item?.department?._id ||
+    item?.lecturer?.departmentId ||
+    item?.hod?.departmentId ||
+    item?.lecturer?.department?.id ||
+    item?.lecturer?.department?._id ||
+    item?.hod?.department?.id ||
+    item?.hod?.department?._id ||
+    item?.profile?.departmentId ||
+    item?.staffProfile?.departmentId ||
+    "",
+  )
+
+  if (!departmentId) return "Unassigned"
+
+  const matchedDepartment = departments.find(
+    (department) => String(getEntityId(department)) === departmentId,
+  )
+
+  return matchedDepartment ? getDepartmentName(matchedDepartment) : "Unassigned"
 }
 
 const STAFF_TYPE_OPTIONS = [
@@ -179,10 +220,14 @@ export default function AdminStaffManagementPage() {
   const [staffLoadError, setStaffLoadError] = useState("")
   const [departmentLoadError, setDepartmentLoadError] = useState("")
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingDepartments, setIsLoadingDepartments] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [staffFilter, setStaffFilter] = useState("all")
+  const [staffDepartmentFilter, setStaffDepartmentFilter] = useState("all")
+  const [departmentFilterMenuOpen, setDepartmentFilterMenuOpen] = useState(false)
   const [togglingStaffIds, setTogglingStaffIds] = useState([])
   const [staffForm, setStaffForm] = useState(defaultStaffForm)
+  const departmentFilterMenuRef = useRef(null)
 
   const departmentOptions = useMemo(
     () =>
@@ -193,24 +238,88 @@ export default function AdminStaffManagementPage() {
     [departments],
   )
 
+  const staffDepartmentFilterOptions = useMemo(
+    () => [
+      { value: "all", label: "All Departments" },
+      ...departments.map((department) => ({
+        value: String(getEntityId(department)),
+        label: getDepartmentName(department),
+      })),
+    ],
+    [departments],
+  )
+
   const selectedStaff = useMemo(
     () => staff.find((member) => String(getEntityId(member)) === String(selectedStaffId)) || null,
     [selectedStaffId, staff],
   )
 
   const filteredStaff = useMemo(() => {
-    if (staffFilter === "all") return staff
+    const filteredByType =
+      staffFilter === "all"
+        ? staff
+        : staff.filter((member) => {
+            const role = String(getStaffRole(member)).toUpperCase()
+            const academicRoles = ["LECTURER", "HOD"]
+            const administrativeRoles = ["ADMISSIONS_OFFICER", "BURSARY_OFFICER", "REGISTRAR", "ADMIN", "STAFF", "SUPER_ADMIN"]
 
-    return staff.filter((member) => {
-      const role = String(getStaffRole(member)).toUpperCase()
-      const academicRoles = ["LECTURER", "HOD"]
-      const administrativeRoles = ["ADMISSIONS_OFFICER", "BURSARY_OFFICER", "REGISTRAR", "ADMIN", "STAFF", "SUPER_ADMIN"]
+            return staffFilter === "academic"
+              ? academicRoles.includes(role)
+              : administrativeRoles.includes(role)
+          })
 
-      return staffFilter === "academic"
-        ? academicRoles.includes(role)
-        : administrativeRoles.includes(role)
+    if (staffDepartmentFilter === "all") return filteredByType
+
+    return filteredByType.filter((member) => {
+      const departmentId = String(
+        member?.departmentId ||
+        member?.department?.id ||
+        member?.department?._id ||
+        member?.lecturer?.departmentId ||
+        member?.hod?.departmentId ||
+        member?.lecturer?.department?.id ||
+        member?.lecturer?.department?._id ||
+        member?.hod?.department?.id ||
+        member?.hod?.department?._id ||
+        member?.profile?.departmentId ||
+        member?.staffProfile?.departmentId ||
+        "",
+      )
+
+      if (departmentId) {
+        return departmentId === String(staffDepartmentFilter)
+      }
+
+      const matchedDepartment = departments.find(
+        (department) =>
+          getDepartmentName(department).toLowerCase() === resolveStaffDepartmentName(member, departments).toLowerCase(),
+      )
+
+      return matchedDepartment
+        ? String(getEntityId(matchedDepartment)) === String(staffDepartmentFilter)
+        : false
     })
-  }, [staff, staffFilter])
+  }, [departments, staff, staffDepartmentFilter, staffFilter])
+
+  useEffect(() => {
+    if (!departmentFilterMenuOpen) return
+
+    function handleOutsideClick(event) {
+      if (departmentFilterMenuRef.current && !departmentFilterMenuRef.current.contains(event.target)) {
+        setDepartmentFilterMenuOpen(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleOutsideClick)
+    return () => document.removeEventListener("mousedown", handleOutsideClick)
+  }, [departmentFilterMenuOpen])
+
+  const selectedDepartmentFilterLabel = useMemo(() => {
+    return (
+      staffDepartmentFilterOptions.find((option) => option.value === staffDepartmentFilter)?.label ||
+      "All Departments"
+    )
+  }, [staffDepartmentFilter, staffDepartmentFilterOptions])
 
   const selectedStaffDisplayName = useMemo(() => {
     if (!selectedStaff) return ""
@@ -226,41 +335,42 @@ export default function AdminStaffManagementPage() {
   const isAcademicStaff = staffForm.staffType === "academic"
   const roleOptions = isAcademicStaff ? ACADEMIC_ROLE_OPTIONS : ADMIN_ROLE_OPTIONS
 
-  const loadStaffData = async () => {
-    setIsLoading(true)
-    setStaffLoadError("")
+  const loadDepartments = async () => {
+    setIsLoadingDepartments(true)
     setDepartmentLoadError("")
 
     try {
-      const [staffResult, departmentResult] = await Promise.allSettled([
-        getAllStaff(),
-        getAllDepartments(),
-      ])
+      const payload = await getAllDepartments()
+      setDepartments(resolveArray(payload))
+    } catch (error) {
+      setDepartments([])
+      setDepartmentLoadError(
+        error.message || "Unable to load departments right now.",
+      )
+    } finally {
+      setIsLoadingDepartments(false)
+    }
+  }
 
-      if (staffResult.status === "fulfilled") {
-        const resolvedStaff = resolveArray(staffResult.value)
-        setStaff(resolvedStaff)
-        setSelectedStaffId((current) =>
-          current && resolvedStaff.some((member) => String(getEntityId(member)) === String(current))
-            ? current
-            : "",
-        )
-      } else {
-        setStaff([])
-        setSelectedStaffId("")
-        setStaffLoadError(
-          staffResult.reason?.message || "Unable to load staff records right now.",
-        )
-      }
+  const loadStaffData = async () => {
+    setIsLoading(true)
+    setStaffLoadError("")
 
-      if (departmentResult.status === "fulfilled") {
-        setDepartments(resolveArray(departmentResult.value))
-      } else {
-        setDepartments([])
-        setDepartmentLoadError(
-          departmentResult.reason?.message || "Unable to load departments right now.",
-        )
-      }
+    try {
+      const staffPayload = await getAllStaff()
+      const resolvedStaff = resolveArray(staffPayload)
+      setStaff(resolvedStaff)
+      setSelectedStaffId((current) =>
+        current && resolvedStaff.some((member) => String(getEntityId(member)) === String(current))
+          ? current
+          : "",
+      )
+    } catch (error) {
+      setStaff([])
+      setSelectedStaffId("")
+      setStaffLoadError(
+        error.message || "Unable to load staff records right now.",
+      )
     } finally {
       setIsLoading(false)
     }
@@ -269,6 +379,11 @@ export default function AdminStaffManagementPage() {
   useEffect(() => {
     loadStaffData()
   }, [])
+
+  useEffect(() => {
+    if (!isAcademicStaff || departments.length || isLoadingDepartments) return
+    loadDepartments()
+  }, [departments.length, isAcademicStaff, isLoadingDepartments])
 
   const handleStaffChange = (field, value) => {
     setStaffForm((current) => {
@@ -686,6 +801,12 @@ export default function AdminStaffManagementPage() {
               </p>
             ) : null}
 
+            {isLoadingDepartments && isAcademicStaff ? (
+              <p className="mt-4 text-sm text-admin-registry-text">
+                Loading departments...
+              </p>
+            ) : null}
+
             <div className="mt-6 flex flex-wrap gap-3">
               <PortalButton onClick={handleSubmit} disabled={isSubmitting}>
                 {isSubmitting ? "Creating..." : `Create ${isAcademicStaff ? "Academic" : "Administrative"} Staff`}
@@ -713,25 +834,87 @@ export default function AdminStaffManagementPage() {
                   <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-staff-list-label">
                     Staff Registry
                   </p>
-                  <div className="inline-flex rounded-[8px] bg-admin-tab-bg p-1">
-                    {[
-                      { label: "All", value: "all" },
-                      { label: "Academic", value: "academic" },
-                      { label: "Administrative", value: "administrative" },
-                    ].map((option) => (
+                  <div className="flex items-center gap-2">
+                    <div className="inline-flex rounded-[8px] bg-admin-tab-bg p-1">
+                      {[
+                        { label: "All", value: "all" },
+                        { label: "Academic", value: "academic" },
+                        { label: "Administrative", value: "administrative" },
+                      ].map((option) => (
+                        <button
+                          key={option.value}
+                          type="button"
+                          onClick={() => setStaffFilter(option.value)}
+                          className={`rounded-[6px] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] transition-colors ${
+                            staffFilter === option.value
+                              ? "bg-white text-admin-tab-active-text shadow-sm"
+                              : "text-admin-tab-inactive-text"
+                          }`}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="relative" ref={departmentFilterMenuRef}>
                       <button
-                        key={option.value}
                         type="button"
-                        onClick={() => setStaffFilter(option.value)}
-                        className={`rounded-[6px] px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] transition-colors ${
-                          staffFilter === option.value
-                            ? "bg-white text-admin-tab-active-text shadow-sm"
-                            : "text-admin-tab-inactive-text"
+                        onClick={() => {
+                          if (!departments.length && !isLoadingDepartments) {
+                            loadDepartments()
+                          }
+                          setDepartmentFilterMenuOpen((current) => !current)
+                        }}
+                        className={`inline-flex h-9 w-9 items-center justify-center rounded-[8px] border bg-white text-admin-tab-inactive-text transition-all duration-200 ease-out hover:-translate-y-[1px] hover:border-staff-hover-border hover:text-admin-tab-active-text ${
+                          departmentFilterMenuOpen
+                            ? "border-staff-hover-border text-admin-tab-active-text shadow-[0_10px_20px_rgba(74,25,16,0.10)]"
+                            : "border-admin-registry-border"
                         }`}
+                        aria-label="Filter staff by department"
                       >
-                        {option.label}
+                        <Ellipsis className={`h-4 w-4 transition-transform duration-200 ${departmentFilterMenuOpen ? "scale-110" : ""}`} />
                       </button>
-                    ))}
+
+                      {departmentFilterMenuOpen ? (
+                        <div className="absolute right-0 top-11 z-20 w-64 origin-top-right rounded-[10px] border border-admin-registry-border bg-white p-2 shadow-[0_18px_40px_rgba(74,25,16,0.12)] transition-all duration-200 ease-out animate-[staffFilterMenuIn_180ms_ease-out]">
+                          <div className="border-b border-admin-registry-border px-2 pb-2">
+                            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-staff-list-label">
+                              Filter By Department
+                            </p>
+                            <p className="mt-1 text-xs text-admin-registry-text">
+                              {selectedDepartmentFilterLabel}
+                            </p>
+                          </div>
+
+                          <div className="mt-2 max-h-64 overflow-y-auto">
+                            {isLoadingDepartments ? (
+                              <p className="px-2 py-3 text-sm text-admin-registry-text">Loading departments...</p>
+                            ) : (
+                              staffDepartmentFilterOptions.map((option) => (
+                                <button
+                                  key={option.value}
+                                  type="button"
+                                  onClick={() => {
+                                    setStaffDepartmentFilter(option.value)
+                                    setDepartmentFilterMenuOpen(false)
+                                  }}
+                                  className={`flex w-full items-center justify-between rounded-[8px] px-2 py-2 text-left text-sm transition-all duration-150 ${
+                                    staffDepartmentFilter === option.value
+                                      ? "bg-admin-tab-bg text-admin-tab-active-text"
+                                      : "text-admin-registry-title hover:bg-admin-registry-bg hover:translate-x-[2px]"
+                                  }`}
+                                >
+                                  <span>{option.label}</span>
+                                  {staffDepartmentFilter === option.value ? (
+                                    <CheckCircle2 className="h-4 w-4" />
+                                  ) : null}
+                                </button>
+                              ))
+                            )}
+                          </div>
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -786,6 +969,11 @@ export default function AdminStaffManagementPage() {
                                 {[getStaffTitle(member), getStaffFirstName(member), getStaffLastName(member)].filter(Boolean).join(" ") || getStaffName(member)}
                               </p>
                               <p className="mt-1 text-sm text-staff-meta">{getStaffEmail(member)}</p>
+                              {shouldShowDepartmentForStaff(member) ? (
+                                <p className="mt-1 text-xs uppercase tracking-[0.12em] text-staff-meta-soft">
+                                  Department: {resolveStaffDepartmentName(member, departments)}
+                                </p>
+                              ) : null}
                               <p className="mt-1 text-xs uppercase tracking-[0.12em] text-staff-meta-soft">
                                 {getStaffRole(member)}
                               </p>
@@ -865,7 +1053,9 @@ export default function AdminStaffManagementPage() {
                   <DetailField label="First Name" value={getStaffFirstName(selectedStaff) || "-"} />
                   <DetailField label="Last Name" value={getStaffLastName(selectedStaff) || "-"} />
                   <DetailField label="Middle Name" value={getStaffMiddleName(selectedStaff) || "-"} />
-                  <DetailField label="Department" value={getStaffDepartment(selectedStaff)} />
+                  {shouldShowDepartmentForStaff(selectedStaff) ? (
+                    <DetailField label="Department" value={resolveStaffDepartmentName(selectedStaff, departments)} />
+                  ) : null}
                   <DetailField label="Staff ID" value={getStaffProfile(selectedStaff)?.staffId || "-"} />
                   <DetailField label="Status" value={getStaffStatus(selectedStaff)} />
                 </div>

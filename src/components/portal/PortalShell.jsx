@@ -2,7 +2,7 @@ import { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { PortalSidebar } from "./PortalSidebar"
 import { PortalTopbar } from "./PortalTopbar"
-import { clearPortalSession, getPortalSession } from "../../lib/portal-auth"
+import { clearPortalSession, getPortalSession, isAdminPortalRole } from "../../lib/portal-auth"
 import { useAuthStore } from "../../store/admin/authStore"
 
 export function PortalShell({
@@ -38,14 +38,14 @@ export function PortalShell({
     const session = getPortalSession()
 
     try {
-      if (session?.role === "admin") {
+      if (isAdminPortalRole(session?.role)) {
         await logoutAdmin()
       }
     } catch {
       // Always clear local session and continue to login screen.
     } finally {
       clearPortalSession()
-      navigate(session?.role === "admin" ? "/superadmin" : "/auth/login")
+      navigate(isAdminPortalRole(session?.role) ? "/superadminlogin" : "/portal")
     }
   }
 

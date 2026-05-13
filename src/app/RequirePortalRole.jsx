@@ -4,6 +4,7 @@ import {
   clearPortalSession,
   getDefaultRouteForRole,
   getPortalSession,
+  isAdminPortalRole,
   setPortalSession,
 } from "../lib/portal-auth"
 import { useAuthStore } from "../store/admin/authStore"
@@ -12,9 +13,11 @@ export function RequirePortalRole({ allowedRoles, children }) {
   const location = useLocation()
   const session = getPortalSession()
   const { accessToken, isAuthenticated, refreshAdminToken, refreshRouteAvailable } = useAuthStore()
-  const unauthorizedRoute = allowedRoles.includes("admin") ? "/superadmin" : "/auth/login"
+  const unauthorizedRoute = allowedRoles.some((role) => isAdminPortalRole(role))
+    ? "/superadminlogin"
+    : "/portal/studentslogin"
   const needsAdminRefresh = Boolean(
-    session?.role === "admin" && allowedRoles.includes("admin")
+    isAdminPortalRole(session?.role) && allowedRoles.some((role) => isAdminPortalRole(role))
   )
   const shouldForceAdminRefresh =
     needsAdminRefresh &&

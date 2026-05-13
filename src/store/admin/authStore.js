@@ -83,7 +83,7 @@ export const useAuthStore = create(
           ...CLEARED_AUTH_STATE,
           refreshRouteAvailable: get().refreshRouteAvailable,
         })
-        window.location.replace("/superadmin")
+        window.location.replace("/superadminlogin")
       },
 
       loginAdmin: async (credentials) => {

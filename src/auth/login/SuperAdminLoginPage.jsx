@@ -7,7 +7,42 @@ import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalInput } from "../../components/portal/PortalInput"
 import { useAuthStore } from "../../store/admin/authStore"
 
-export default function SuperAdminLoginPage() {
+function normalizeAdminRole(value) {
+  const normalizedValue = String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[\s-]+/g, "_")
+
+  if (["superadmin", "super_admin"].includes(normalizedValue)) return "superadmin"
+  if (["admission_officer", "admission"].includes(normalizedValue)) return "admission_officer"
+  if (["bursary_officer", "bursary", "bursar"].includes(normalizedValue)) return "bursary_officer"
+  return ""
+}
+
+function resolveAdminRole(payload, fallbackRole) {
+  const candidates = [
+    payload?.data?.user?.role,
+    payload?.data?.user?.userRole,
+    payload?.data?.user?.accountType,
+    payload?.data?.role,
+    payload?.data?.userType,
+    payload?.role,
+    payload?.userRole,
+  ]
+
+  const resolvedRole = candidates.map(normalizeAdminRole).find(Boolean)
+  return resolvedRole || fallbackRole
+}
+
+export default function SuperAdminLoginPage({
+  fallbackRole = "superadmin",
+  allowedRoles = ["superadmin"],
+  title = "SUPER ADMIN",
+  subtitle = "Restricted Registry Access",
+  heading = "Administrative Login",
+  description = "Login with your admin credentials to access dashboard.",
+  submitLabel = "Access Super Admin",
+}) {
   const navigate = useNavigate()
   const location = useLocation()
   const { loginAdmin, isLoading, error, clearError } = useAuthStore()
@@ -16,10 +51,12 @@ export default function SuperAdminLoginPage() {
   const [password, setPassword] = useState("")
   const [keepLoggedIn, setKeepLoggedIn] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
+  const [localError, setLocalError] = useState("")
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     clearError()
+    setLocalError("")
 
     const normalizedEmail = email.trim().toLowerCase()
 
@@ -29,17 +66,24 @@ export default function SuperAdminLoginPage() {
         password,
       })
 
+      const resolvedRole = resolveAdminRole(payload, fallbackRole)
+
+      if (!allowedRoles.includes(resolvedRole)) {
+        setLocalError("Your account is not permitted to use this login route.")
+        return
+      }
+
       setPortalSession({
-        role: "admin",
+        role: resolvedRole,
         email: normalizedEmail,
         keepLoggedIn,
         name:
           payload?.data?.user?.name ||
           payload?.data?.name ||
-          "Super Administrator",
+          "Loam Polytechnic Admin",
       })
 
-      const redirectRoute = location.state?.from || getDefaultRouteForRole("admin")
+      const redirectRoute = location.state?.from || getDefaultRouteForRole(resolvedRole)
       navigate(redirectRoute)
     } catch {
       // Store already owns the visible error state.
@@ -54,10 +98,10 @@ export default function SuperAdminLoginPage() {
             <ShieldCheck className="h-8 w-8 text-primary" />
           </div>
           <h1 className="text-[34px] font-bold uppercase tracking-tight text-admin-tab-active-text">
-            SUPER ADMIN
+            {title}
           </h1>
           <p className="text-sm font-medium uppercase tracking-[0.08em] text-[#a79a8f]">
-            Restricted Registry Access
+            {subtitle}
           </p>
         </div>
 
@@ -65,10 +109,10 @@ export default function SuperAdminLoginPage() {
           <div className="space-y-6">
             <div>
               <h2 className="text-[28px] font-bold tracking-tight text-portal-brand-strong">
-                Administrative Login
+                {heading}
               </h2>
               <p className="mt-2 max-w-[320px] text-[15px] leading-7 text-portal-text-body">
-                Login with your admin credentials to access dashboard. 
+                {description}
               </p>
             </div>
 
@@ -108,6 +152,12 @@ export default function SuperAdminLoginPage() {
                 required
               />
 
+              {localError ? (
+                <p className="rounded-[4px] border border-admin-error-border bg-admin-error-bg px-3 py-2 text-sm text-admin-error-text">
+                  {localError}
+                </p>
+              ) : null}
+
               {error ? (
                 <p className="rounded-[4px] border border-admin-error-border bg-admin-error-bg px-3 py-2 text-sm text-admin-error-text">
                   {error}
@@ -131,7 +181,7 @@ export default function SuperAdminLoginPage() {
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? "Signing In..." : "Access Super Admin"}
+                {isLoading ? "Signing In..." : submitLabel}
                 <ArrowRight className="h-4 w-4" />
               </PortalButton>
             </form>

@@ -5,6 +5,7 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { Play, X } from "lucide-react"
 import { Button } from "../ui/button";
+import { LazyImage } from "./LazyMedia"
 
 export function VideoSection({ videoUrl, posterUrl, title, description }) {
   const containerRef = useRef(null)
@@ -41,8 +42,8 @@ export function VideoSection({ videoUrl, posterUrl, title, description }) {
     <div ref={containerRef} className="relative rounded-2xl overflow-hidden">
       {!isPlaying ? (
         <div className="relative aspect-video group cursor-pointer" onClick={() => setIsPlaying(true)}>
-          <img
-            src={posterUrl || "/placeholder.svg"}
+          <LazyImage
+            src={posterUrl}
             alt={title || "Video thumbnail"}
             className="w-full  h-[550px]  object-contain transition-transform duration-700 group-hover:scale-105"
           />
@@ -60,7 +61,7 @@ export function VideoSection({ videoUrl, posterUrl, title, description }) {
         </div>
       ) : (
         <div className="relative aspect-video">
-          <video autoPlay controls className="w-full h-[500px] border object-cover">
+          <video autoPlay controls preload="metadata" poster={posterUrl} className="w-full h-[500px] border object-cover">
             <source src={videoUrl} type="video/mp4" />
           </video>
           <Button

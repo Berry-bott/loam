@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { CheckCircle, ChevronLeft, ChevronRight, Clock, Mail, X } from "lucide-react"
 import { Button } from "../../ui/button"
 import { nigeriaStatesAndLgas } from "../../../lib/portal-data"
-import { createJambSubject, createSitting, formStepLabels, subjectOptions } from "./admissionsData"
+import { courseOptions, createJambSubject, createSitting, formStepLabels, subjectOptions } from "./admissionsData"
 import { AcademicHistoryStep, DocumentUploadStep, PersonalInformationStep, ReviewSubmitStep } from "./AdmissionsFormSections"
 import { getStepErrors } from "./admissionsValidation"
 import { useAdmissionsStore } from "../../../store/index"
@@ -19,11 +19,13 @@ const INITIAL_FORM = {
   maritalStatus: "",
   email: "",
   phone: "",
+  chosenCourse: "",
   residentialAddress: "",
-  nationality: "Nigeria",
+  nationality: "Nigerian",
   stateOfOrigin: "",
   lga: "",
   lastSchool: "",
+  yearOfGraduation: "",
   sponsorName: "",
   sponsorPhone: "",
   emergencyContactName: "",
@@ -92,9 +94,11 @@ function SubmissionSuccess({ trackingId, onViewGuide }) {
 
 function resolveTrackingId(payload, fallbackTrackingId) {
   return (
+    payload?.data?.id ||
     payload?.data?.trackingId ||
     payload?.data?.applicationId ||
     payload?.data?.reference ||
+    payload?.id ||
     payload?.trackingId ||
     payload?.applicationId ||
     payload?.reference ||
@@ -390,6 +394,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
             handleJambChange={handleJambChange}
             getAvailableSubjectOptions={getAvailableSubjectOptions}
             totalJambScore={totalJambScore}
+            courseOptions={courseOptions}
             errors={errors}
           />
         )}

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import { LazyImage } from "./LazyMedia"
 
 const footerLinks = {
   navigation: [
@@ -12,7 +13,7 @@ const footerLinks = {
   ],
   resources: [
     { href: "/adverts", label: "Announcements" },
-    { href: "#", label: "Student Portal" },
+    { href: "/portal", label: "Student Portal" },
     { href: "#", label: "Parent Portal" },
     { href: "#", label: "Career Opportunities" },
   ],
@@ -33,7 +34,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
                <div className="h-12 w-12 rounded-full bg-" >
-            <img src="/school-logo.jpeg" alt="" className="rounded-full" />
+            <LazyImage src="/school-logo.jpeg" alt="" className="rounded-full" />
               </div>
             <div className="flex flex-col">
             <span className="font-serif text-xl font-semibold text-">Loam Polytechnic..

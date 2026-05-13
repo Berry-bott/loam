@@ -104,7 +104,7 @@ export default function StudentDashboardPage() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
               <div className="flex  gap-4">
                 <img
-                  src="/IMG_3175.jpeg"
+                  src="/student-avatar.jpeg"
                   alt={studentName}
                   className="h-[150px] w-[150px] rounded-[8px] object-cover"
                 />

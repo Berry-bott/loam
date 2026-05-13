@@ -2,11 +2,11 @@ import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { ChevronDown, Menu, X } from "lucide-react"
 import { Button } from "../ui/button"
+import { LazyImage } from "./LazyMedia"
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/admissions", label: "Admissions" },
   { href: "/student-life", label: "Student Life" },
   { href: "/gallery", label: "Gallery" },
   { href: "/events", label: "Events" },
@@ -108,9 +108,10 @@ export function Navbar() {
         <div className="flex h-16 items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <div className="h-9 w-9 rounded-full bg-primary overflow-hidden">
-              <img
+              <LazyImage
                 src="/school-logo.jpeg"
                 alt="Loam Polytechnic Logo"
+                eager
                 className="h-full w-full object-cover"
               />
             </div>
@@ -126,7 +127,7 @@ export function Navbar() {
           </Link>
 
           <div className="hidden lg:flex items-center gap-6">
-            {navLinks.slice(0, 3).map((link) => (
+            {navLinks.slice(0, 2).map((link) => (
               <NavLink
                 key={link.href}
                 to={link.href}
@@ -145,13 +146,15 @@ export function Navbar() {
             >
               <button
                 type="button"
-                className="flex items-center gap-1 border-b-2 border-transparent pb-1 text-sm font-medium text-muted-foreground transition-colors group-hover:border-primary group-hover:text-primary hover:text-foreground"
+                className="flex items-center gap-1 border-b-2 border-transparent pb-1 text-sm font-medium text-muted-foreground transition-all duration-200 group-hover:border-primary group-hover:text-primary hover:text-foreground"
               >
-                Academics
-                <ChevronDown className="h-4 w-4" />
+                <span className="transition-transform duration-200 group-hover:-translate-y-0.5">
+                  Academics
+                </span>
+                <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5 group-hover:rotate-180" />
               </button>
 
-              <div className="invisible absolute left-0 right-0 top-full z-50 border-t border-primary/10 bg-primary opacity-0 shadow-[0_18px_42px_rgba(34,12,8,0.22)] transition-all duration-200 group-hover:visible group-hover:opacity-100">
+              <div className="invisible absolute left-0 right-0 top-full z-50 -translate-y-1 border-t border-primary/10 bg-primary opacity-0 shadow-[0_18px_42px_rgba(34,12,8,0.22)] transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
                 <div className="absolute left-1/2 top-0 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rotate-45 border-l border-t border-primary/10 bg-primary" />
                 <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-5 px-10 py-5 text-primary-foreground md:grid-cols-2 xl:grid-cols-4">
                   <div>
@@ -190,7 +193,7 @@ export function Navbar() {
               </div>
             </div>
 
-            {navLinks.slice(3).map((link) => (
+            {navLinks.slice(2).map((link) => (
               <NavLink
                 key={link.href}
                 to={link.href}
@@ -204,9 +207,9 @@ export function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/auth/login">
+            <Link to="/portal">
               <Button variant="outline" className="rounded-full">
-                Login
+                Portal
               </Button>
             </Link>
             <Link to="/contact">
@@ -228,7 +231,7 @@ export function Navbar() {
         {isOpen && (
           <div className="lg:hidden py-4 border-t border-border">
             <div className="flex flex-col gap-4">
-              {navLinks.slice(0, 3).map((link) => (
+              {navLinks.slice(0, 2).map((link) => (
                 <NavLink
                   key={link.href}
                   to={link.href}
@@ -284,7 +287,7 @@ export function Navbar() {
                 ) : null}
               </div>
 
-              {navLinks.slice(3).map((link) => (
+              {navLinks.slice(2).map((link) => (
                 <NavLink
                   key={link.href}
                   to={link.href}
@@ -304,9 +307,9 @@ export function Navbar() {
                   Contact Us
                 </Button>
               </Link>
-              <Link to="/auth/login" onClick={() => setIsOpen(false)}>
+              <Link to="/portal" onClick={() => setIsOpen(false)}>
                 <Button variant="outline" className="rounded-full w-fit">
-                  Login
+                  Portal
                 </Button>
               </Link>
             </div>

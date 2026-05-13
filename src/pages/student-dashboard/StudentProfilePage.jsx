@@ -38,7 +38,7 @@ export default function StudentProfilePage() {
         </span>
         <div className="flex relative">
           <img
-            src="/IMG_3175.jpeg"
+            src="/student-avatar.jpeg"
             alt=""
             className="h-[150px] w-[150px] rounded-[8px] object-cover"
           />

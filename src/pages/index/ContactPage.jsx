@@ -11,6 +11,7 @@ import { Navbar } from "../../components/index/Navbar"
 import { Footer } from "../../components/index/Footer"
 import { ScrollReveal } from "../../components/index/ScrollReveal"
 import { MagneticButton } from "../../components/index/MagneticButton"
+import { LazyImage } from "../../components/index/LazyMedia"
 
 const contactInfo = [
   {
@@ -88,7 +89,12 @@ export default function ContactPage() {
       <main className="min-h-screen pt-16 overflow-hidden">
         <section className="relative h-[50vh] flex items-center justify-center overflow-hidden">
           <div ref={heroRef} className="absolute inset-0 z-0">
-            <img src="/WhatsApp Image 2023-05-13 at 7.13.26 PM (1).jpeg" alt="Loam Polytechic" className="w-full h-full object-cover" />
+            <LazyImage
+              src="/WhatsApp Image 2023-05-13 at 7.13.26 PM (1).jpeg"
+              alt="Loam Polytechic"
+              eager
+              className="w-full h-full object-cover"
+            />
              <div className="absolute inset-0 bg-gradient-to-b from-foreground via-foreground/80 to-foreground/100" />
 
           </div>
@@ -194,7 +200,7 @@ export default function ContactPage() {
                 <div className="space-y-8">
                   <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-border">
                   <a href="https://maps.app.goo.gl/cVRDg2anzCEqd5LF6" target="_blank">
-                    <img src="/maps.jpeg" alt="Campus Map" className="w-full h-full object-cover" />
+                    <LazyImage src="/maps.jpeg" alt="Campus Map" className="w-full h-full object-cover" />
 
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="bg-background/90 backdrop-blur-sm rounded-xl p-4 shadow-lg text-center">

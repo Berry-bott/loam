@@ -5,21 +5,40 @@ import { adminSidebarItems, adminTopbarLinks, logoutItem } from "../../lib/porta
 import { getPortalSession } from "../../lib/portal-auth"
 import { Printer, Save } from "lucide-react"
 
+const adminRoleConfig = {
+  superadmin: {
+    subtitle: "Super Admin Panel",
+    sessionLabel: "Super Admin Portal",
+    userRole: "Super Admin",
+  },
+  admission_officer: {
+    subtitle: "Admission Officer Panel",
+    sessionLabel: "Admissions Office",
+    userRole: "Admission Officer",
+  },
+  bursary_officer: {
+    subtitle: "Bursary Officer Panel",
+    sessionLabel: "Bursary Office",
+    userRole: "Bursary Officer",
+  },
+}
+
 export default function AdminPortalLayout() {
   const session = getPortalSession()
+  const roleConfig = adminRoleConfig[session?.role] || adminRoleConfig.superadmin
 
   return (
     <PortalShell
       title="LOAM POLYTECHNIC"
-      subtitle="Super Admin Panel"
-      sessionLabel="Super Admin Portal"
+      subtitle={roleConfig.subtitle}
+      sessionLabel={roleConfig.sessionLabel}
       links={adminTopbarLinks}
       items={adminSidebarItems}
       logoutItem={logoutItem}
       user={{
         name: session?.name || "Admin James Okafor",
-        role: "Super Admin",
-        avatar: "/IMG_3173.jpeg",
+        role: roleConfig.userRole,
+        avatar: "/admin-avatar.jpeg",
       }}
       footer={
         <>
