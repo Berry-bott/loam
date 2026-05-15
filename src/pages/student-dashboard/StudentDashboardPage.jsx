@@ -45,7 +45,7 @@ const profileFields = [
 
 function DashboardPanel({ children, className = "" }) {
   return (
-    <section className={`rounded-[6px] border border-[#ebe1d5] bg-white shadow-[0_14px_30px_rgba(74,25,16,0.06)] ${className}`}>
+    <section className={`rounded-[6px] border border-stone-200 bg-white shadow-[0_14px_30px_rgba(74,25,16,0.06)] ${className}`}>
       <div className="h-[3px] w-full bg-primary" />
       <div className="p-5 sm:p-6">{children}</div>
     </section>
@@ -66,8 +66,8 @@ export default function StudentDashboardPage() {
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-shared-eyebrow">
               Academic Session 2024-2025
             </p>
-            <h1 className="mt-2 text-[30px] font-bold tracking-tight text-[#111f2f] sm:text-[44px]">
-              Welcome back, <span className="text-[#7c160f]">{studentName}</span>.
+            <h1 className="mt-2 text-[30px] font-bold tracking-tight text-slate-900 sm:text-[44px]">
+              Welcome back, <span className="text-red-900">{studentName}</span>.
             </h1>
             <p className="max-w-[760px] text-sm text-portal-text-muted sm:text-[15px]">
               Ensure all portal registration requirements are met for the current semester.
@@ -85,13 +85,13 @@ export default function StudentDashboardPage() {
             <DashboardPanel key={card.label}>
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#af9c89]">
+                  <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-stone-400">
                     {card.label}
                   </p>
-                  <p className="mt-4 text-[34px] font-bold leading-none text-[#551c14]">{card.value}</p>
-                  <p className="mt-3 text-[11px] text-[#8f7d6d]">{card.note}</p>
+                  <p className="mt-4 text-[34px] font-bold leading-none text-red-950">{card.value}</p>
+                  <p className="mt-3 text-[11px] text-stone-500">{card.note}</p>
                 </div>
-                <div className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#faf2ef] text-primary">
+                <div className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-rose-50 text-primary">
                   <card.icon className="h-4 w-4" />
                 </div>
               </div>
@@ -119,7 +119,7 @@ export default function StudentDashboardPage() {
                 </div>
               </div>
 
-              <span className="inline-flex self-start rounded-full bg-[#f8eeea] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#a03a25]">
+              <span className="inline-flex self-start rounded-full bg-rose-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-red-700">
                 Active Student
               </span>
             </div>
@@ -128,7 +128,7 @@ export default function StudentDashboardPage() {
           <div className="grid gap-x-6 gap-y-5 px-5 py-5 sm:grid-cols-2 sm:px-6 lg:grid-cols-3">
             {profileFields.map((field) => (
               <div key={field.label}>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#b19d89]">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-400">
                   {field.label}
                 </p>
                 <p className="mt-2 text-[13px] font-semibold uppercase leading-6 text-portal-text-strong">
@@ -150,7 +150,7 @@ export default function StudentDashboardPage() {
               Academic Calendar Preview
             </p>
             <button
-              className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[#9c1710]"
+              className="text-[11px] font-semibold uppercase tracking-[0.14em] text-red-900"
               onClick={() => setActiveModal("calendar")}
             >
               Full Calendar
@@ -169,7 +169,7 @@ export default function StudentDashboardPage() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-[14px] font-semibold text-portal-text-strong">{item.title}</p>
-                    <p className="mt-1 text-[11px] leading-5 text-[#9b8979]">{item.meta}</p>
+                    <p className="mt-1 text-[11px] leading-5 text-stone-400">{item.meta}</p>
                   </div>
                 </div>
               </div>
@@ -177,7 +177,7 @@ export default function StudentDashboardPage() {
           </div>
         </DashboardPanel>
 
-        <div className="flex flex-col gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#b09f8f] sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-stone-400 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex gap-6">
             <span>Current GPA 4.28 / 5.0</span>
             <span>Credits Earned 92</span>
@@ -193,7 +193,7 @@ export default function StudentDashboardPage() {
         description="Generate a temporary digital identification card and request a printed pickup slip."
       >
         <div className="space-y-4">
-          <div className="rounded-[12px] bg-[#faf3ea] p-4">
+          <div className="rounded-[12px] bg-shared-helper-bg p-4">
             <p className="text-sm leading-6 text-shared-helper-text">
               Your active profile is eligible for a digital ID card. Printed card requests can be routed to the registry after validation.
             </p>
@@ -224,8 +224,8 @@ export default function StudentDashboardPage() {
           {studentCalendarItems.map((item) => (
             <div key={item.title} className="rounded-[10px] border border-portal-border bg-portal-surface p-4">
               <p className="text-sm font-semibold text-portal-text-strong">{item.title}</p>
-              <p className="mt-1 text-sm text-[#8d7a68]">{item.date}</p>
-              <p className="mt-2 text-sm text-[#8d7a68]">{item.meta}</p>
+              <p className="mt-1 text-sm text-shared-description">{item.date}</p>
+              <p className="mt-2 text-sm text-shared-description">{item.meta}</p>
             </div>
           ))}
         </div>

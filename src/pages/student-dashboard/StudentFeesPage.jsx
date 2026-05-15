@@ -26,15 +26,15 @@ function formatNaira(value) {
 
 function SelectField({ label, value, onChange, options }) {
   return (
-    <label className="block rounded-[6px] border border-[#eee3d7] bg-[#fcfaf7] px-4 py-3">
-      <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#b7a391]">
+    <label className="block rounded-[6px] border border-stone-200 bg-stone-50 px-4 py-3">
+      <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-stone-400">
         {label}
       </span>
       <div className="relative mt-3">
         <select
           value={value}
           onChange={onChange}
-          className="h-10 w-full appearance-none rounded-[4px] border border-portal-border-soft bg-white px-3 pr-10 text-sm font-medium text-[#5f2419] outline-none transition-colors focus:border-[#c39d48]"
+          className="h-10 w-full appearance-none rounded-[4px] border border-portal-border-soft bg-white px-3 pr-10 text-sm font-medium text-red-950 outline-none transition-colors focus:border-amber-600"
         >
           {options.map((option) => (
             <option key={option} value={option}>
@@ -42,7 +42,7 @@ function SelectField({ label, value, onChange, options }) {
             </option>
           ))}
         </select>
-        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a8878]" />
+        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
       </div>
     </label>
   )
@@ -83,7 +83,7 @@ export default function StudentFeesPage() {
               <History className="h-4 w-4" />
               Financial statement
             </PortalButton>
-            <div className="inline-flex h-9 items-center gap-2 rounded-[6px] border border-portal-border-soft bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#6f170f]">
+            <div className="inline-flex h-9 items-center gap-2 rounded-[6px] border border-portal-border-soft bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-red-900">
               <Wallet className="h-4 w-4" />
               Wallet: N0.00
             </div>
@@ -96,7 +96,7 @@ export default function StudentFeesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[22px] font-bold text-portal-text-strong">School Fees Calculator</p>
-                  <p className="mt-1 text-sm text-[#9f8d7d]">
+                  <p className="mt-1 text-sm text-stone-400">
                     Select your parameters to calculate session fees.
                   </p>
                 </div>
@@ -124,14 +124,14 @@ export default function StudentFeesPage() {
                    Amount To pay
                   </p>
                   <div className="mt-3 flex flex-wrap items-end gap-3">
-                    <p className="text-[40px] font-bold leading-none text-[#5a1c14]">
+                    <p className="text-[40px] font-bold leading-none text-red-950">
                       {formatNaira(calculatedFee)}.00
                     </p>
                    
                   </div>
                 </div>
 
-                <div className="rounded-[8px] bg-[#7c130d] p-2 text-white">
+                <div className="rounded-[8px] bg-red-900 p-2 text-white">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-white/65">
                     Quick Action
                   </p>
@@ -149,7 +149,7 @@ export default function StudentFeesPage() {
             <PortalCard>
               <div className="flex items-center justify-between">
                 <p className="text-[22px] font-bold text-portal-text-strong">Statutory & Administrative Fees</p>
-                <div className="rounded-[6px] border border-portal-border-soft bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8b7765]">
+                <div className="rounded-[6px] border border-portal-border-soft bg-white px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-topbar-link">
                   All
                 </div>
               </div>
@@ -164,7 +164,7 @@ export default function StudentFeesPage() {
                       {fee.title}
                     </p>
                     <div className="flex items-center gap-3">
-                      <span className="min-w-[92px] text-right text-[14px] font-bold text-[#5c2016]">
+                      <span className="min-w-[92px] text-right text-[14px] font-bold text-red-950">
                         {formatNaira(fee.amount)}
                       </span>
                       <PortalButton
@@ -200,7 +200,7 @@ export default function StudentFeesPage() {
                 </div>
               </div>
 
-              <div className="mt-5 rounded-[8px] bg-[#faf3ea] p-4">
+              <div className="mt-5 rounded-[8px] bg-shared-helper-bg p-4">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">
                   Total Payable
                 </p>
@@ -252,7 +252,7 @@ export default function StudentFeesPage() {
         description="Support tickets are routed to the finance office for billing or payment issues."
       >
         <div className="space-y-4">
-          <div className="rounded-[12px] bg-[#faf3ea] p-4 text-sm leading-6 text-shared-helper-text">
+          <div className="rounded-[12px] bg-shared-helper-bg p-4 text-sm leading-6 text-shared-helper-text">
             Office hours are Monday to Friday, 8:00 AM to 4:00 PM. Response time is usually within one business day.
           </div>
           <PortalButton

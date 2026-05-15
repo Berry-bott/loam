@@ -90,15 +90,15 @@ const repeatCourseSeed = [
 
 function SelectField({ label, value, onChange, options }) {
   return (
-    <label className="block rounded-[6px] border border-[#eee3d7] bg-[#fcfaf7] px-4 py-3">
-      <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#b7a391]">
+    <label className="block rounded-[6px] border border-stone-200 bg-stone-50 px-4 py-3">
+      <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-stone-400">
         {label}
       </span>
       <div className="relative mt-3">
         <select
           value={value}
           onChange={onChange}
-          className="h-10 w-full appearance-none rounded-[4px] border border-portal-border-soft bg-white px-3 pr-10 text-sm font-medium text-[#5f2419] outline-none transition-colors focus:border-[#c39d48]"
+          className="h-10 w-full appearance-none rounded-[4px] border border-portal-border-soft bg-white px-3 pr-10 text-sm font-medium text-red-950 outline-none transition-colors focus:border-amber-600"
         >
           {options.map((option) => (
             <option key={option} value={option}>
@@ -106,7 +106,7 @@ function SelectField({ label, value, onChange, options }) {
             </option>
           ))}
         </select>
-        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#9a8878]" />
+        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-stone-400" />
       </div>
     </label>
   )
@@ -117,7 +117,7 @@ function SectionTitle({ title, subtitle, right }) {
     <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
       <div>
         <h2 className="text-[24px] font-bold tracking-tight text-student-title">{title}</h2>
-        <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c5b19d]">
+        <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-300">
           {subtitle}
         </p>
       </div>
@@ -192,13 +192,13 @@ export default function CourseRegistrationPage() {
       <div className="course-registration-screen space-y-8">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#c5a552]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-amber-600">
               Academic Portal
             </p>
-            <h1 className="mt-2 text-[30px] font-bold tracking-tight text-[#0f2235] sm:text-[44px]">
+            <h1 className="mt-2 text-[30px] font-bold tracking-tight text-blue-950 sm:text-[44px]">
               Course Registration
             </h1>
-            <p className="mt-3 max-w-[760px] text-sm leading-6 text-[#8f8173] sm:text-[15px]">
+            <p className="mt-3 max-w-[760px] text-sm leading-6 text-stone-500 sm:text-[15px]">
               Select your mandatory and elective modules for the current semester. Please
               ensure all previous carry-over courses are accounted for before finalizing your
               ledger.
@@ -224,15 +224,15 @@ export default function CourseRegistrationPage() {
             onChange={(event) => setLevel(event.target.value)}
             options={levelOptions}
           />
-          <PortalCard accent="gold" padding="sm" className="flex h-full flex-col justify-center bg-[#f8f5ef]">
-            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#b7a391]">
+          <PortalCard accent="gold" padding="sm" className="flex h-full flex-col justify-center bg-stone-50">
+            <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-stone-400">
               Maximum Allowed
             </p>
             <div className="mt-3 flex items-end justify-between">
-              <p className="text-[40px] font-bold leading-none text-[#5c2016]">
+              <p className="text-[40px] font-bold leading-none text-red-950">
                 {currentUnits.toFixed(1)}
               </p>
-              <span className="rounded-full bg-[#f3e8cd] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#9a7a1d]">
+              <span className="rounded-full bg-amber-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-amber-700">
                 {maxUnits.toFixed(1)}
               </span>
             </div>
@@ -244,7 +244,7 @@ export default function CourseRegistrationPage() {
             title="Available Courses"
             subtitle="Recommended for ND2 curriculum"
             right={
-              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#c1ad99]">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-300">
                 {availableCourses.length} Total
               </span>
             }
@@ -255,25 +255,25 @@ export default function CourseRegistrationPage() {
               <PortalCard key={course.code} padding="sm" className="flex h-full flex-col">
                 <div className="flex items-start justify-between gap-2">
                   <div>
-                    <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#b7a391]">
+                    <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-stone-400">
                       {course.code}
                     </p>
-                    <h3 className="mt-3 text-[13px] font-bold leading-tight text-[#4d1b14]">
+                    <h3 className="mt-3 text-[13px] font-bold leading-tight text-red-950">
                       {course.title}
                     </h3>
                   </div>
                   <span
                     className={`rounded-full px-2.5 py-1 text-[8px] font-semibold uppercase tracking-[0.12em] ${
                       course.track === "Core"
-                        ? "bg-[#fce8e6] text-portal-brand-soft"
-                        : "bg-[#f1f4fb] text-[#52719c]"
+                        ? "bg-rose-50 text-portal-brand-soft"
+                        : "bg-slate-100 text-blue-700"
                     }`}
                   >
                     {course.track}
                   </span>
                 </div>
 
-                <div className="mt-4 flex items-center gap-3 text-[11px] font-medium text-[#a39184]">
+                <div className="mt-4 flex items-center gap-3 text-[11px] font-medium text-admin-field-disabled-text">
                   <span>{course.sessions}</span>
                   <span>{course.schedule}</span>
                 </div>
@@ -282,7 +282,7 @@ export default function CourseRegistrationPage() {
                   <PortalButton className="min-w-[100px]" onClick={() => handleAcceptCourse(course)}>
                     Accept Now
                   </PortalButton>
-                  <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-[6px] border border-portal-border-soft bg-[#fcfaf7] px-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#8c7768]">
+                  <span className="inline-flex h-10 min-w-10 items-center justify-center rounded-[6px] border border-portal-border-soft bg-stone-50 px-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-stone-500">
                     {course.units.toFixed(1)}
                   </span>
                 </div>
@@ -296,7 +296,7 @@ export default function CourseRegistrationPage() {
             title="Courses to Take"
             subtitle="Active selection for this session"
             right={
-              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#4d1b14]">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-red-950">
                 Current Units: {currentUnits.toFixed(1)}
               </span>
             }
@@ -306,7 +306,7 @@ export default function CourseRegistrationPage() {
             <div className="hidden md:block">
               <table className="min-w-full border-separate border-spacing-y-3">
                 <thead>
-                  <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-[#b7a391]">
+                  <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-stone-400">
                     <th className="pb-1">Course</th>
                     <th className="pb-1">Lecturer</th>
                     <th className="pb-1 text-right">Units</th>
@@ -322,15 +322,15 @@ export default function CourseRegistrationPage() {
                         </p>
                         <p className="mt-2 text-sm font-semibold text-portal-text-strong">{course.title}</p>
                       </td>
-                      <td className="border-y border-portal-border px-4 py-4 text-[#a18e7f]">
+                      <td className="border-y border-portal-border px-4 py-4 text-stone-400">
                         {course.lecturer}
                       </td>
-                      <td className="border-y border-portal-border px-4 py-4 text-right text-[20px] font-bold text-[#163049]">
+                      <td className="border-y border-portal-border px-4 py-4 text-right text-[20px] font-bold text-blue-950">
                         {course.units.toFixed(1)}
                       </td>
                       <td className="rounded-r-[6px] border-y border-r border-portal-border px-4 py-4 text-right">
                         <button
-                          className="inline-flex h-10 w-10 items-center justify-center rounded-[6px] border border-portal-border-soft text-[#bca897] transition-colors hover:bg-[#faf5ef] hover:text-primary"
+                          className="inline-flex h-10 w-10 items-center justify-center rounded-[6px] border border-portal-border-soft text-stone-400 transition-colors hover:bg-stone-50 hover:text-primary"
                           onClick={() => handleRemoveCourse(course)}
                           aria-label={`Remove ${course.code}`}
                         >
@@ -352,9 +352,9 @@ export default function CourseRegistrationPage() {
                         {course.code}
                       </p>
                       <p className="mt-2 text-sm font-semibold text-portal-text-strong">{course.title}</p>
-                      <p className="mt-1 text-sm text-[#a18e7f]">{course.lecturer}</p>
+                      <p className="mt-1 text-sm text-stone-400">{course.lecturer}</p>
                     </div>
-                    <span className="text-lg font-bold text-[#163049]">{course.units.toFixed(1)}</span>
+                    <span className="text-lg font-bold text-blue-950">{course.units.toFixed(1)}</span>
                   </div>
                   <button
                     className="mt-4 inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft"
@@ -374,7 +374,7 @@ export default function CourseRegistrationPage() {
             title="Courses to Repeat"
             subtitle="Pending modules from previous levels"
             right={
-              <span className="inline-flex items-center gap-2 rounded-full bg-[#fbe8e8] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-[#b33a34]">
+              <span className="inline-flex items-center gap-2 rounded-full bg-rose-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-red-700">
                 <AlertTriangle className="h-3.5 w-3.5" />
                 2 Carry-Overs
               </span>
@@ -385,7 +385,7 @@ export default function CourseRegistrationPage() {
             <div className="hidden md:block">
               <table className="min-w-full border-separate border-spacing-y-3">
                 <thead>
-                  <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-[#b7a391]">
+                  <tr className="text-left text-[10px] font-semibold uppercase tracking-[0.16em] text-stone-400">
                     <th className="pb-1">Course Detail</th>
                     <th className="pb-1">Level Failed</th>
                     <th className="pb-1">Status</th>
@@ -396,7 +396,7 @@ export default function CourseRegistrationPage() {
                   {repeatCourseSeed.map((course) => (
                     <tr key={course.code} className="bg-portal-surface text-sm text-portal-text">
                       <td className="rounded-l-[6px] border-y border-l border-portal-border px-4 py-4">
-                        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#b7a391]">
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-stone-400">
                           {course.code}
                         </p>
                         <p className="mt-2 text-sm font-semibold text-portal-text-strong">{course.title}</p>
@@ -408,7 +408,7 @@ export default function CourseRegistrationPage() {
                         <span
                           className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
                             course.status === "Matured"
-                              ? "bg-[#fde8e4] text-[#b81d13]"
+                              ? "bg-portal-status-danger-bg text-portal-status-danger-text"
                               : "bg-portal-status-warning-bg text-portal-status-warning-text"
                           }`}
                         >
@@ -433,18 +433,18 @@ export default function CourseRegistrationPage() {
             <div className="space-y-3 md:hidden">
               {repeatCourseSeed.map((course) => (
                 <div key={course.code} className="rounded-[8px] border border-portal-border bg-portal-surface p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-[#b7a391]">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-stone-400">
                     {course.code}
                   </p>
                   <p className="mt-2 text-sm font-semibold text-portal-text-strong">{course.title}</p>
                   <div className="mt-3 flex items-center justify-between gap-3">
-                    <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#8f8173]">
+                    <span className="text-xs font-semibold uppercase tracking-[0.12em] text-stone-500">
                       {course.level}
                     </span>
                     <span
                       className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
                         course.status === "Matured"
-                          ? "bg-[#fde8e4] text-[#b81d13]"
+                          ? "bg-portal-status-danger-bg text-portal-status-danger-text"
                           : "bg-portal-status-warning-bg text-portal-status-warning-text"
                       }`}
                     >
@@ -484,7 +484,7 @@ export default function CourseRegistrationPage() {
         className="max-w-[1080px]"
       >
         <div className="space-y-5">
-          <div className="max-h-[72vh] overflow-y-auto rounded-[14px] border border-portal-border-soft bg-[#f6f1e8] p-4 sm:p-6">
+          <div className="max-h-[72vh] overflow-y-auto rounded-[14px] border border-portal-border-soft bg-stone-100 p-4 sm:p-6">
             <CourseRegistrationPrintPreview
               studentName={studentName}
               department={department}

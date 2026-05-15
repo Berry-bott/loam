@@ -29,7 +29,7 @@ export function PortalModal({
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-[#230705]/55 px-4 py-6 backdrop-blur-[3px]">
+    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-red-950/55 px-4 py-6 backdrop-blur-[3px]">
       <div className="absolute inset-0" onClick={onClose} />
       <div
         className={cn(
@@ -37,15 +37,15 @@ export function PortalModal({
           className,
         )}
       >
-        <div className="border-b border-[#efe5db] px-5 py-4 sm:px-6">
+        <div className="border-b border-topbar-border px-5 py-4 sm:px-6">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[22px] font-bold tracking-tight text-[#551d14]">{title}</p>
-              {description ? <p className="mt-1 text-sm leading-6 text-[#8d7a68]">{description}</p> : null}
+              <p className="text-[22px] font-bold tracking-tight text-red-950">{title}</p>
+              {description ? <p className="mt-1 text-sm leading-6 text-shared-description">{description}</p> : null}
             </div>
             <button
               onClick={onClose}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-portal-border-soft bg-white text-[#7a6554]"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-portal-border-soft bg-white text-topbar-button-text"
               aria-label="Close modal"
             >
               <X className="h-4 w-4" />

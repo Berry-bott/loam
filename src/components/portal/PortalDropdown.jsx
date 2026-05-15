@@ -30,7 +30,7 @@ export function PortalDropdown({
         type="button"
         onClick={() => setOpen((value) => !value)}
         className={cn(
-          "inline-flex h-11 items-center gap-2 rounded-[6px] border border-portal-border-soft bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#7e6c5e]",
+          "inline-flex h-11 items-center gap-2 rounded-[6px] border border-portal-border-soft bg-white px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-stone-600",
           triggerClassName,
         )}
       >
@@ -53,7 +53,7 @@ export function PortalDropdown({
                 setOpen(false)
                 item.onClick?.()
               }}
-              className="flex w-full items-center justify-between rounded-[6px] px-3 py-2.5 text-left text-sm text-[#5e2619] transition-colors hover:bg-[#faf3ea]"
+              className="flex w-full items-center justify-between rounded-[6px] px-3 py-2.5 text-left text-sm text-red-950 transition-colors hover:bg-shared-helper-bg"
             >
               <span>{item.label}</span>
               {item.meta ? <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-shared-eyebrow">{item.meta}</span> : null}

@@ -38,22 +38,32 @@ import AdminStudentsPage from "./pages/admin-dashboard/AdminStudentsPage"
 import AdminPortalManagementPage from "./pages/admin-dashboard/AdminPortalManagementPage"
 import { RequirePortalRole } from "./app/RequirePortalRole"
 import { ScrollToTop } from "./app/ScrollToTop"
+import { isPortalSubdomain } from "./lib/portal-routing"
 
 function App() {
+  const portalHost = isPortalSubdomain()
+
   return (
     <>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/admissions" element={<AdmissionsPage />} />
-        <Route path="/portal" element={<PortalPage />} />
-        <Route path="/student-life" element={<StudentLifePage />} />
-        <Route path="/gallery" element={<GalleryPage />} />
-        <Route path="/events" element={<EventsPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/auth/login" element={<LoginPage />} />
-        <Route path="/portal/studentslogin" element={<LoginPage />} />
+        {portalHost ? (
+          <Route path="/" element={<PortalPage />} />
+        ) : (
+          <>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/admissions" element={<AdmissionsPage />} />
+            <Route path="/portal" element={<PortalPage />} />
+            <Route path="/student-life" element={<StudentLifePage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/auth/login" element={<LoginPage />} />
+            <Route path="/portal/studentslogin" element={<LoginPage />} />
+          </>
+        )}
+        <Route path="/studentslogin" element={<LoginPage />} />
         <Route path="/superadminlogin" element={<SuperAdminLoginPage />} />
         <Route
           path="/admissionofficerlogin"

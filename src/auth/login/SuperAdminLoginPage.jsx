@@ -100,7 +100,7 @@ export default function SuperAdminLoginPage({
           <h1 className="text-[34px] font-bold uppercase tracking-tight text-admin-tab-active-text">
             {title}
           </h1>
-          <p className="text-sm font-medium uppercase tracking-[0.08em] text-[#a79a8f]">
+          <p className="text-sm font-medium uppercase tracking-[0.08em] text-stone-400">
             {subtitle}
           </p>
         </div>

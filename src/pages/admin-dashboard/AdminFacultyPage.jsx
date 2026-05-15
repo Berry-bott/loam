@@ -136,14 +136,14 @@ export default function AdminFacultyPage() {
                     <p className="text-sm font-semibold text-portal-text">
                       {getDepartmentName(department)}
                     </p>
-                    <p className="mt-1 text-xs uppercase tracking-[0.12em] text-[#a18f80]">
+                    <p className="mt-1 text-xs uppercase tracking-[0.12em] text-staff-meta-soft">
                       HOD
                     </p>
                     <p className="mt-1 text-sm text-portal-text-muted">{getHodName(department)}</p>
                   </div>
                 ))
               ) : (
-                <div className="rounded-[8px] border border-dashed border-[#ddcdb8] bg-portal-surface px-4 py-8 text-center text-sm text-portal-text-muted">
+                <div className="rounded-[8px] border border-dashed border-staff-empty-border bg-portal-surface px-4 py-8 text-center text-sm text-portal-text-muted">
                   No departments created yet.
                 </div>
               )}
@@ -186,7 +186,7 @@ export default function AdminFacultyPage() {
                   </div>
                 ))
               ) : (
-                <div className="rounded-[8px] border border-dashed border-[#ddcdb8] bg-portal-surface px-4 py-8 text-center text-sm text-portal-text-muted">
+                <div className="rounded-[8px] border border-dashed border-staff-empty-border bg-portal-surface px-4 py-8 text-center text-sm text-portal-text-muted">
                   No staff created yet.
                 </div>
               )}

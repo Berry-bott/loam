@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { PortalSidebar } from "./PortalSidebar"
 import { PortalTopbar } from "./PortalTopbar"
 import { clearPortalSession, getPortalSession, isAdminPortalRole } from "../../lib/portal-auth"
+import { getPortalHomeRoute } from "../../lib/portal-routing"
 import { useAuthStore } from "../../store/admin/authStore"
 
 export function PortalShell({
@@ -26,13 +27,13 @@ export function PortalShell({
   const shellClassName = useMemo(
     () =>
       darkMode
-        ? "bg-[#1d1614] text-[#f6ede3]"
-        : "bg-[radial-gradient(circle,_rgba(137,110,86,0.18)_1.2px,_transparent_1.2px)] [background-size:28px_28px] bg-[#f4f1eb] text-[#4f2015]",
+        ? "bg-stone-900 text-stone-100"
+        : "bg-[radial-gradient(circle,_rgba(137,110,86,0.18)_1.2px,_transparent_1.2px)] [background-size:28px_28px] bg-stone-100 text-red-950",
     [darkMode],
   )
 
-  const panelClassName = darkMode ? "bg-[#211917] border-[#372723]" : "bg-[#fbfaf6] border-[#e8ddd0]"
-  const contentClassName = darkMode ? "bg-[#261e1b]" : "bg-portal-surface"
+  const panelClassName = darkMode ? "bg-stone-900 border-stone-800" : "bg-stone-50 border-stone-200"
+  const contentClassName = darkMode ? "bg-stone-900" : "bg-portal-surface"
 
   const handleLogout = async () => {
     const session = getPortalSession()
@@ -45,7 +46,7 @@ export function PortalShell({
       // Always clear local session and continue to login screen.
     } finally {
       clearPortalSession()
-      navigate(isAdminPortalRole(session?.role) ? "/superadminlogin" : "/portal")
+      navigate(isAdminPortalRole(session?.role) ? "/superadminlogin" : getPortalHomeRoute())
     }
   }
 
@@ -84,7 +85,7 @@ export function PortalShell({
           </main>
 
           {footer ? (
-            <footer className="border-t border-[#efe5db] px-3 py-3 text-[10px] uppercase tracking-[0.12em] text-[#a18f80] sm:px-5 lg:px-6">
+            <footer className="border-t border-topbar-border px-3 py-3 text-[10px] uppercase tracking-[0.12em] text-staff-meta-soft sm:px-5 lg:px-6">
               {typeof footer === "string" ? (
                 footer
               ) : (

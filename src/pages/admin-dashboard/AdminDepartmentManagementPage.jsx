@@ -342,11 +342,11 @@ export default function AdminDepartmentManagementPage() {
     const trimmedFacultyCode = departmentForm.facultyCode.trim().toUpperCase()
 
     if (!trimmedFacultyName) {
-      throw new Error("Faculty name is required.")
+      throw new Error("Schools name is required.")
     }
 
     if (!trimmedFacultyCode) {
-      throw new Error("Faculty code is required.")
+      throw new Error("Schools code is required.")
     }
 
     const payload = await createFaculty({
@@ -480,9 +480,9 @@ export default function AdminDepartmentManagementPage() {
             <div className="flex items-center gap-3">
               <Building2 className="h-5 w-5 text-portal-brand" />
               <div>
-                <p className="text-[22px] font-bold text-shared-heading">Faculty Then Department</p>
+                <p className="text-[22px] font-bold text-shared-heading">Schools Then Department</p>
                 <p className="mt-1 text-sm text-admin-registry-text">
-                  Follow these steps: 1. create a new faculty or select an existing faculty, 2. choose whether you want a new department or an existing department, 3. enter the department name or select the department record, 4. save the department setup.
+                  Follow these steps: 1. create a new schools or select an existing schools, 2. choose whether you want a new department or an existing department, 3. enter the department name or select the department record, 4. save the department setup.
                 </p>
               </div>
             </div>
@@ -490,12 +490,12 @@ export default function AdminDepartmentManagementPage() {
             <div className="mt-6 grid gap-5">
               <label className="block">
                 <span className="mb-2 block text-[12px] font-extrabold uppercase tracking-[0.14em] text-admin-field-label">
-                  Faculty Source
+                  Schools
                 </span>
                 <div className="grid grid-cols-2 rounded-[3px] bg-admin-tab-bg p-1">
                   {[
-                    { label: "Choose Existing", value: "existing" },
-                    { label: "Create Faculty", value: "new" },
+                    { label: "Choose Existing Schools", value: "existing" },
+                    { label: "Create Schools", value: "new" },
                   ].map((option) => (
                     <button
                       key={option.value}
@@ -517,13 +517,13 @@ export default function AdminDepartmentManagementPage() {
                 {departmentForm.facultyMode === "new" ? (
                   <>
                     <PortalInput
-                      label="Faculty Name"
+                      label="Schools Name"
                       value={departmentForm.facultyName}
-                      placeholder="e.g. Faculty of Computing"
+                      placeholder="e.g. Schools of Computing"
                       onChange={(event) => handleDepartmentChange("facultyName", event.target.value)}
                     />
                     <PortalInput
-                      label="Faculty Code"
+                      label="Schools Code"
                       value={departmentForm.facultyCode}
                       placeholder="e.g. CO"
                       onChange={(event) => handleDepartmentChange("facultyCode", event.target.value.toUpperCase())}
@@ -532,11 +532,11 @@ export default function AdminDepartmentManagementPage() {
                 ) : (
                   <div className="md:col-span-2">
                     <SelectField
-                      label="Existing Faculty"
+                      label="Existing Schools"
                       value={departmentForm.selectedFacultyId}
                       onChange={(value) => handleDepartmentChange("selectedFacultyId", value)}
                       options={facultyOptions}
-                      placeholder="Select an existing faculty"
+                      placeholder="Select an existing Schools"
                     />
                   </div>
                 )}
@@ -609,7 +609,7 @@ export default function AdminDepartmentManagementPage() {
                 groupedDepartments.map((group) => (
                   <div
                     key={group.facultyName}
-                    className="rounded-[10px] border border-admin-registry-border bg-gradient-to-b from-white via-[#fffdfa] to-admin-registry-bg p-4 shadow-[0_18px_40px_rgba(74,25,16,0.06)]"
+                    className="rounded-[10px] border border-admin-registry-border bg-gradient-to-b from-white via-analytics-chart-bg to-admin-registry-bg p-4 shadow-[0_18px_40px_rgba(74,25,16,0.06)]"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-3 border-b border-admin-registry-border/70 pb-3">
                       <div className="inline-flex px-1 py-1 text-base font-semibold text-admin-registry-chip-text">
@@ -624,14 +624,14 @@ export default function AdminDepartmentManagementPage() {
                       {group.records.map((department) => (
                         <div
                           key={getEntityId(department) || getDepartmentName(department)}
-                          className="rounded-[8px] border border-admin-registry-border-alt bg-white px-4 py-3 shadow-[0_10px_24px_rgba(74,25,16,0.04)] transition-colors hover:border-[#d9c0a7]"
+                          className="rounded-[8px] border border-admin-registry-border-alt bg-white px-4 py-3 shadow-[0_10px_24px_rgba(74,25,16,0.04)] transition-colors hover:border-stone-300"
                         >
                           <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                             <div>
                               <p className="text-sm font-semibold text-admin-registry-title">
                                 {`Department of ${getDepartmentName(department)}`}
                               </p>
-                              <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-[#fff7ee] px-2.5 py-1">
+                              <div className="mt-2 inline-flex items-center gap-2 rounded-full bg-amber-50 px-2.5 py-1">
                                 <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-admin-registry-count">
                                   HOD
                                 </span>
@@ -701,8 +701,8 @@ export default function AdminDepartmentManagementPage() {
                     key={memberId || getStaffEmail(member)}
                     className={`group w-full rounded-[10px] border px-4 py-4 text-left transition-colors ${
                       isSelected
-                        ? "border-portal-brand bg-[#fff8f0]"
-                        : "border-admin-registry-border bg-admin-registry-bg hover:border-[#c9b39f]"
+                        ? "border-portal-brand bg-amber-50"
+                        : "border-admin-registry-border bg-admin-registry-bg hover:border-stone-300"
                     }`}
                   >
                     <div className="flex items-center justify-between gap-3">
@@ -718,9 +718,9 @@ export default function AdminDepartmentManagementPage() {
                       <button
                         type="button"
                         onClick={() => handleOpenConfirmAssign(member)}
-                        className="inline-flex items-center gap-2 rounded-full border border-portal-brand/70 bg-white px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-portal-brand opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 hover:bg-[#fff1e4]"
+                        className="inline-flex items-center gap-2 rounded-full border border-portal-brand/70 bg-white px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.12em] text-portal-brand opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0 translate-x-2 hover:bg-amber-50"
                       >
-                        <span className="relative inline-flex h-4 w-7 items-center rounded-full bg-[#f3dfc8] p-[2px]">
+                        <span className="relative inline-flex h-4 w-7 items-center rounded-full bg-amber-100 p-[2px]">
                           <span className="h-3 w-3 rounded-full bg-portal-brand shadow-sm" />
                         </span>
                         Make HOD
@@ -752,7 +752,7 @@ export default function AdminDepartmentManagementPage() {
         className="max-w-xl"
       >
         <div className="space-y-5">
-          <div className="rounded-[8px] border border-[#efd7b2] bg-[#fff7e8] px-4 py-3">
+          <div className="rounded-[8px] border border-amber-100 bg-amber-50 px-4 py-3">
             <p className="text-sm font-semibold text-admin-registry-title">
               You are about to make {getStaffName(confirmCandidate)} HOD of {selectedDepartment ? getDepartmentName(selectedDepartment) : "-"}.
             </p>

@@ -14,8 +14,8 @@ import { FloatingCard } from "../../components/index/FloatingCard"
 import { HeroSlider } from "../../components/index/HeroSlider"
 import VideoSection from "../../components/index/VideoSection"
 import { LazyImage } from "../../components/index/LazyMedia"
+import { PORTAL_SUBDOMAIN_URL } from "../../lib/portal-routing"
 import video from "../../assets/video/loam-mega.mp4"
-
 
 const heroSlides = [
   {
@@ -132,15 +132,15 @@ export default function HomePage() {
                 </Link>
               </MagneticButton>
               <MagneticButton>
-                <Link to="/portal">
+                <a href={PORTAL_SUBDOMAIN_URL}>
                   <Button
                     size="lg"
-                    className="rounded-full bg-primary px-8 text-background shadow-xl hover:bg-[#7d0f0b]"
+                    className="rounded-full bg-primary px-8 text-background shadow-xl hover:bg-red-900"
                   >
-                    Portal
+                    Portals
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                </Link>
+                </a>
               </MagneticButton>
               <MagneticButton>
                 <Link to="/gallery">
@@ -315,4 +315,3 @@ export default function HomePage() {
     </>
   )
 }
-

@@ -71,7 +71,7 @@ function ResultSelect({ value, onChange, options, className = "" }) {
     <select
       value={value}
       onChange={onChange}
-      className={`h-10 w-full rounded-[4px] border border-admin-field-border bg-white px-3 text-[12px] text-admin-field-text outline-none focus:border-[#c7a98a] focus:ring-2 focus:ring-[#efe0c1] ${className}`}
+      className={`h-10 w-full rounded-[4px] border border-admin-field-border bg-white px-3 text-[12px] text-admin-field-text outline-none focus:border-stone-300 focus:ring-2 focus:ring-amber-100 ${className}`}
     >
       {options.map((option) => (
         <option key={option} value={option}>
@@ -113,7 +113,7 @@ export default function AdminResultsPage() {
   return (
     <>
       <div className="space-y-5">
-        <div className="rounded-[8px] border border-[#e5dccf] bg-[#fdfbf7] px-4 py-3">
+        <div className="rounded-[8px] border border-stone-200 bg-stone-50 px-4 py-3">
           <p className="text-[12px] font-semibold uppercase tracking-[0.18em] text-portal-brand-soft">
             Result Management & Upload
           </p>
@@ -121,15 +121,15 @@ export default function AdminResultsPage() {
 
         <div className="space-y-5">
             <PortalCard className="p-0">
-              <div className="rounded-[6px] border border-[#ede3d8] bg-portal-surface p-5">
-                <div className="mb-5 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a58d78]">
-                  <AlertCircle className="h-4 w-4 text-[#c7a146]" />
+              <div className="rounded-[6px] border border-stone-200 bg-portal-surface p-5">
+                <div className="mb-5 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-400">
+                  <AlertCircle className="h-4 w-4 text-amber-600" />
                   Academic Context
                 </div>
 
                 <div className="grid gap-5 md:grid-cols-2">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a58d78]">
+                    <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-400">
                       Department
                     </label>
                     <ResultSelect
@@ -140,7 +140,7 @@ export default function AdminResultsPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a58d78]">
+                    <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-400">
                       Course Group
                     </label>
                     <ResultSelect
@@ -151,7 +151,7 @@ export default function AdminResultsPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a58d78]">
+                    <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-400">
                       Level
                     </label>
                     <ResultSelect
@@ -162,7 +162,7 @@ export default function AdminResultsPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#a58d78]">
+                    <label className="text-[10px] font-semibold uppercase tracking-[0.14em] text-stone-400">
                       Semester
                     </label>
                     <ResultSelect
@@ -176,18 +176,18 @@ export default function AdminResultsPage() {
             </PortalCard>
 
             <PortalCard accent="none" className="border-dashed bg-portal-surface p-0 shadow-none">
-              <div className="rounded-[6px] border border-dashed border-[#eadfd2] bg-portal-surface px-5 py-10 text-center">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-[10px] border border-[#efe4d8] bg-white shadow-[0_8px_18px_rgba(70,22,13,0.06)]">
+              <div className="rounded-[6px] border border-dashed border-stone-200 bg-portal-surface px-5 py-10 text-center">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-[10px] border border-stone-100 bg-white shadow-[0_8px_18px_rgba(70,22,13,0.06)]">
                   <UploadCloud className="h-5 w-5 text-portal-brand-soft" />
                 </div>
                 <p className="mt-5 text-[20px] font-bold text-portal-text-strong">Bulk Upload Results</p>
-                <p className="mx-auto mt-2 max-w-[440px] text-[12px] leading-5 text-[#9b8a7d]">
+                <p className="mx-auto mt-2 max-w-[440px] text-[12px] leading-5 text-stone-400">
                   Drag and drop your Excel or CSV files here to process scores instantly.
                   Ensure student matric numbers match the ledger exactly.
                 </p>
                 <PortalButton
                   variant="outline"
-                  className="mt-6 border-[#c78379] px-6 text-portal-brand-soft"
+                  className="mt-6 border-red-300 px-6 text-portal-brand-soft"
                   onClick={() => setToastMessage("File browser opened for bulk result upload.")}
                 >
                   Browse Files
@@ -198,28 +198,28 @@ export default function AdminResultsPage() {
             <section className="space-y-4">
               <div className="sticky top-[84px] z-40 md:top-[78px] lg:top-[72px]">
                 <PortalCard className="relative isolate overflow-visible p-0">
-                  <div className="border-b border-[#e7d7c9] bg-portal-surface px-5 pb-4 pt-5 shadow-[0_16px_28px_rgba(72,23,15,0.12)]">
+                  <div className="border-b border-stone-200 bg-portal-surface px-5 pb-4 pt-5 shadow-[0_16px_28px_rgba(72,23,15,0.12)]">
                     <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                       <div>
-                        <p className="text-[18px] font-bold text-[#7c1610]">Manual Entry Ledger</p>
-                        <p className="mt-1 text-[10px] italic tracking-[0.03em] text-[#9f8f80]">
+                        <p className="text-[18px] font-bold text-red-900">Manual Entry Ledger</p>
+                        <p className="mt-1 text-[10px] italic tracking-[0.03em] text-stone-400">
                           Direct grid entry enabled. Scroll horizontally to view all courses.
                         </p>
                       </div>
-                      <div className="inline-flex items-center gap-3 rounded-[6px] border border-[#ecdccf] bg-[#fff8f1] px-3 py-2">
+                      <div className="inline-flex items-center gap-3 rounded-[6px] border border-stone-200 bg-amber-50 px-3 py-2">
                         <div>
-                          <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-[#a58d78]">
+                          <p className="text-[9px] font-semibold uppercase tracking-[0.18em] text-stone-400">
                             Total Entries
                           </p>
                           <p className="mt-1 text-[24px] font-bold leading-none text-primary">
                             {totalRecords}
                           </p>
                         </div>
-                        <div className="h-9 w-px bg-[#eadbcd]" />
+                        <div className="h-9 w-px bg-stone-200" />
                         <PortalButton
                           variant="outline"
                           size="sm"
-                          className="border-[#d6c6b3]"
+                          className="border-stone-300"
                           onClick={() => setToastMessage("Bulk import action panel opened.")}
                         >
                           Bulk Import
@@ -229,15 +229,15 @@ export default function AdminResultsPage() {
                   </div>
 
                   <div className="px-3 pb-4 pt-2">
-                    <div className="relative isolate max-h-[560px] overflow-auto rounded-[8px] border border-[#dcc6b5] bg-portal-surface shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_16px_36px_rgba(72,23,15,0.08)]">
+                    <div className="relative isolate max-h-[560px] overflow-auto rounded-[8px] border border-stone-300 bg-portal-surface shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_16px_36px_rgba(72,23,15,0.08)]">
                     <table className="min-w-[1540px] border-separate border-spacing-0 text-left">
                       <thead>
-                        <tr className="text-[11px] font-semibold text-[#67180f]">
-                          <th className="sticky left-0 top-0 z-20 w-[58px] border border-[#63110c] bg-[#7c1610] px-3 py-3 text-white shadow-[2px_0_0_rgba(90,13,8,1),0_1px_0_rgba(99,17,12,1)]">S/N</th>
-                          <th className="sticky top-0 z-10 min-w-[232px] border border-[#d3bba8] bg-[#f6ede4] px-3 py-3 shadow-[0_1px_0_rgba(211,187,168,1)]">Student Name</th>
-                          <th className="sticky left-[58px] top-0 z-20 min-w-[150px] border border-[#63110c] bg-[#65110c] px-3 py-3 text-white shadow-[3px_0_0_rgba(90,13,8,1),0_1px_0_rgba(99,17,12,1)]">Reg. No.</th>
+                        <tr className="text-[11px] font-semibold text-red-950">
+                          <th className="sticky left-0 top-0 z-20 w-[58px] border border-red-950 bg-red-900 px-3 py-3 text-white shadow-[2px_0_0_rgba(90,13,8,1),0_1px_0_rgba(99,17,12,1)]">S/N</th>
+                          <th className="sticky top-0 z-10 min-w-[232px] border border-stone-300 bg-stone-100 px-3 py-3 shadow-[0_1px_0_rgba(211,187,168,1)]">Student Name</th>
+                          <th className="sticky left-[58px] top-0 z-20 min-w-[150px] border border-red-950 bg-red-950 px-3 py-3 text-white shadow-[3px_0_0_rgba(90,13,8,1),0_1px_0_rgba(99,17,12,1)]">Reg. No.</th>
                           {columnHeaders.map((header) => (
-                            <th key={header} colSpan={2} className="sticky top-0 z-10 border border-[#d3bba8] bg-[#f6ede4] px-3 py-3 text-center shadow-[0_1px_0_rgba(211,187,168,1)]">
+                            <th key={header} colSpan={2} className="sticky top-0 z-10 border border-stone-300 bg-stone-100 px-3 py-3 text-center shadow-[0_1px_0_rgba(211,187,168,1)]">
                               {header}
                             </th>
                           ))}
@@ -245,14 +245,14 @@ export default function AdminResultsPage() {
                       </thead>
                       <tbody>
                         {rows.map((row, rowIndex) => (
-                          <tr key={row.regNo} className="text-[11px] text-[#5b2318]">
-                            <td className="sticky left-0 z-[5] w-[58px] border border-[#caa693] bg-[#efd8cf] px-3 py-3 font-semibold text-[#67110d] shadow-[2px_0_0_rgba(223,193,179,1)]">
+                          <tr key={row.regNo} className="text-[11px] text-admin-registry-strong">
+                            <td className="sticky left-0 z-[5] w-[58px] border border-stone-300 bg-rose-100 px-3 py-3 font-semibold text-red-950 shadow-[2px_0_0_rgba(223,193,179,1)]">
                               {row.sn}
                             </td>
-                            <td className="min-w-[232px] border border-[#e8ddd0] bg-white px-3 py-3 font-semibold uppercase">
+                            <td className="min-w-[232px] border border-stone-200 bg-white px-3 py-3 font-semibold uppercase">
                               {row.student}
                             </td>
-                            <td className="sticky left-[58px] z-[5] min-w-[150px] border border-[#d7baaa] bg-[#fae9e2] px-3 py-3 font-medium text-[#67110d] shadow-[3px_0_0_rgba(223,193,179,1)]">
+                            <td className="sticky left-[58px] z-[5] min-w-[150px] border border-rose-200 bg-rose-50 px-3 py-3 font-medium text-red-950 shadow-[3px_0_0_rgba(223,193,179,1)]">
                               {row.regNo}
                             </td>
                             {row.scores.map((entry, columnIndex) => (
@@ -277,7 +277,7 @@ export default function AdminResultsPage() {
                 </PortalCard>
               </div>
 
-              <div className="rounded-[10px] border border-[#d9c8bb] bg-portal-surface px-4 py-3 text-[10px] uppercase tracking-[0.12em] text-[#a08f80] shadow-[0_12px_32px_rgba(63,20,12,0.06)]">
+              <div className="rounded-[10px] border border-stone-300 bg-portal-surface px-4 py-3 text-[10px] uppercase tracking-[0.12em] text-stone-400 shadow-[0_12px_32px_rgba(63,20,12,0.06)]">
                 <span>Last Synchronized: Just now</span>
               </div>
             </section>
@@ -296,19 +296,19 @@ export default function AdminResultsPage() {
 function FragmentCell({ score, grade, onScoreChange, onGradeChange }) {
   return (
     <>
-      <td className="border border-[#e8ddd0] bg-white px-1 py-1.5">
+      <td className="border border-stone-200 bg-white px-1 py-1.5">
         <input
           value={score}
           onChange={(event) => onScoreChange(event.target.value.replace(/[^\d]/g, ""))}
           placeholder="-"
-          className="h-9 w-[56px] rounded-[4px] border border-admin-field-border bg-admin-field-bg px-2 text-[11px] text-admin-field-text outline-none focus:border-[#c7a98a] focus:ring-2 focus:ring-[#efe0c1]"
+          className="h-9 w-[56px] rounded-[4px] border border-admin-field-border bg-admin-field-bg px-2 text-[11px] text-admin-field-text outline-none focus:border-stone-300 focus:ring-2 focus:ring-amber-100"
         />
       </td>
-      <td className="border border-[#e8ddd0] bg-white px-1 py-1.5">
+      <td className="border border-stone-200 bg-white px-1 py-1.5">
         <select
           value={grade}
           onChange={(event) => onGradeChange(event.target.value)}
-          className="h-9 w-[54px] rounded-[4px] border border-admin-field-border bg-admin-field-bg px-1 text-[11px] text-admin-field-text outline-none focus:border-[#c7a98a] focus:ring-2 focus:ring-[#efe0c1]"
+          className="h-9 w-[54px] rounded-[4px] border border-admin-field-border bg-admin-field-bg px-1 text-[11px] text-admin-field-text outline-none focus:border-stone-300 focus:ring-2 focus:ring-amber-100"
         >
           <option value="">-</option>
           {gradeOptions.map((option) => (

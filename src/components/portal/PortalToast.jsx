@@ -13,12 +13,12 @@ export function PortalToast({ open, message, onClose }) {
   return (
     <div className="fixed bottom-4 right-4 z-[130] w-[calc(100vw-2rem)] max-w-sm rounded-[14px] border border-portal-border-soft bg-portal-surface p-4 shadow-[0_18px_45px_rgba(44,16,10,0.18)]">
       <div className="flex items-start gap-3">
-        <div className="mt-0.5 rounded-full bg-[#eaf7ec] p-1 text-[#2f8a44]">
+        <div className="mt-0.5 rounded-full bg-portal-status-success-bg p-1 text-portal-status-success-text">
           <CheckCircle2 className="h-4 w-4" />
         </div>
         <div>
-          <p className="text-sm font-semibold text-[#551d14]">Action completed</p>
-          <p className="mt-1 text-sm text-[#857260]">{message}</p>
+          <p className="text-sm font-semibold text-red-950">Action completed</p>
+          <p className="mt-1 text-sm text-stone-500">{message}</p>
         </div>
       </div>
     </div>

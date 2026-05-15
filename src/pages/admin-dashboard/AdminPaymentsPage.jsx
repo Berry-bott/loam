@@ -81,23 +81,23 @@ export default function AdminPaymentsPage() {
             <div className="mt-6 flex h-[220px] items-end gap-4 rounded-[8px] bg-portal-surface p-4">
               {[70, 95, 88, 120, 104, 138].map((bar, index) => (
                 <div key={bar} className="flex flex-1 flex-col items-center gap-2">
-                  <div className="relative flex h-full w-full items-end rounded-[4px] bg-[#f4eee6]">
+                  <div className="relative flex h-full w-full items-end rounded-[4px] bg-stone-100">
                     <div
-                      className={`w-full rounded-[4px] ${index === 5 ? "bg-analytics-series-primary" : "bg-[#ebe1d6]"}`}
+                      className={`w-full rounded-[4px] ${index === 5 ? "bg-analytics-series-primary" : "bg-stone-200"}`}
                       style={{ height: `${bar}px` }}
                     />
                   </div>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#ad9a86]">{`M${index + 1}`}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-stone-400">{`M${index + 1}`}</span>
                 </div>
               ))}
             </div>
           </ChartCard>
 
-          <PortalCard className="bg-[#283f53] text-white before:bg-[#283f53]">
+          <PortalCard className="bg-slate-800 text-white before:bg-slate-800">
             <p className="text-[22px] font-bold">Exception Monitor</p>
             <ul className="mt-4 space-y-3 text-sm text-white/80">
               <li>Duplicate transaction flagged in faculty services.</li>
-              <li>Pending verification for receipt batch #9034.</li>
+              <li>Pending verification for receipt batch 9034.</li>
               <li>Cashless kiosk sync delayed in satellite campus.</li>
             </ul>
           </PortalCard>

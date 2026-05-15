@@ -49,7 +49,7 @@ export default function AdminCoursesPage() {
           <PortalCard>
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Active Enrollments</p>
             <p className="mt-4 text-[48px] font-bold text-portal-text-strong">14,208</p>
-            <span className="mt-3 inline-flex rounded-full bg-[#f8f2e2] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-value">
+            <span className="mt-3 inline-flex rounded-full bg-amber-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-value">
               + 12% from last semester
             </span>
           </PortalCard>

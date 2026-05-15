@@ -9,7 +9,7 @@ import { documentRecords, documentSummary } from "../../lib/portal-data"
 const toneMap = {
   red: "text-portal-brand-soft",
   gold: "text-portal-gold-chip-text",
-  neutral: "text-[#7a6b5c]",
+  neutral: "text-stone-600",
 }
 
 export default function StudentDocumentsPage() {
@@ -35,7 +35,7 @@ export default function StudentDocumentsPage() {
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {documentSummary.map((item) => (
           <PortalCard key={item.label} accent={item.tone === "gold" ? "gold" : "red"} className="p-5">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#a99682]">{item.label}</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-stone-400">{item.label}</p>
             <p className={`mt-3 text-[38px] font-bold ${toneMap[item.tone]}`}>{item.value}</p>
           </PortalCard>
         ))}
@@ -62,7 +62,7 @@ export default function StudentDocumentsPage() {
                   <tr key={record.name} className="bg-portal-surface-warm text-sm text-portal-text">
                     <td className="rounded-l-[6px] border-y border-l border-portal-border px-4 py-4">
                       <p className="font-semibold">{record.name}</p>
-                      <p className="text-[9px] uppercase tracking-[0.12em] text-[#af9b84]">{record.note}</p>
+                      <p className="text-[9px] uppercase tracking-[0.12em] text-stone-400">{record.note}</p>
                     </td>
                     <td className="border-y border-portal-border px-4 py-4">
                       <span
@@ -70,8 +70,8 @@ export default function StudentDocumentsPage() {
                           record.status === "Verified"
                             ? "bg-portal-status-success-soft-bg text-portal-status-success-soft-text"
                             : record.status === "Pending"
-                              ? "bg-[#f4f0eb] text-[#866f5d]"
-                              : "bg-[#fde8e4] text-[#a31f15]"
+                              ? "bg-stone-100 text-stone-600"
+                              : "bg-portal-status-danger-bg text-red-700"
                         }`}
                       >
                         {record.status}
@@ -90,15 +90,15 @@ export default function StudentDocumentsPage() {
             {documentRecords.map((record) => (
               <div key={record.name} className="rounded-[8px] border border-portal-border bg-portal-surface-warm p-4">
                 <p className="text-sm font-semibold text-portal-text">{record.name}</p>
-                <p className="mt-1 text-xs uppercase tracking-[0.12em] text-[#af9b84]">{record.note}</p>
+                <p className="mt-1 text-xs uppercase tracking-[0.12em] text-stone-400">{record.note}</p>
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <span
                     className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
                       record.status === "Verified"
                         ? "bg-portal-status-success-soft-bg text-portal-status-success-soft-text"
                         : record.status === "Pending"
-                          ? "bg-[#f4f0eb] text-[#866f5d]"
-                          : "bg-[#fde8e4] text-[#a31f15]"
+                          ? "bg-stone-100 text-stone-600"
+                          : "bg-portal-status-danger-bg text-red-700"
                     }`}
                   >
                     {record.status}
@@ -124,9 +124,9 @@ export default function StudentDocumentsPage() {
 
           <PortalCard accent="gold">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-shared-eyebrow">Support and Verification</p>
-            <div className="mt-4 rounded-[6px] border border-portal-border bg-[#fffcf8] p-4">
-              <p className="text-sm font-semibold text-[#5b2117]">Verification Office</p>
-              <p className="mt-1 text-sm text-[#7d6b5e]">Block B, Room 204</p>
+            <div className="mt-4 rounded-[6px] border border-portal-border bg-amber-50 p-4">
+              <p className="text-sm font-semibold text-staff-payload-heading">Verification Office</p>
+              <p className="mt-1 text-sm text-stone-600">Block B, Room 204</p>
             </div>
             <PortalButton variant="outline" className="mt-4 w-full" onClick={() => setActiveModal("support")}>
               <TriangleAlert className="h-4 w-4" />
@@ -144,7 +144,7 @@ export default function StudentDocumentsPage() {
         description="Submit a replacement or additional supporting credential."
       >
         <div className="space-y-4">
-          <div className="rounded-[12px] border border-dashed border-[#ddcdb8] bg-portal-surface p-6 text-center text-sm text-[#84705f]">
+          <div className="rounded-[12px] border border-dashed border-staff-empty-border bg-portal-surface p-6 text-center text-sm text-stone-600">
             Drag and drop a file here or browse from your device.
           </div>
           <PortalButton

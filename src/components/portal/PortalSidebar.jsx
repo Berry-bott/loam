@@ -17,7 +17,7 @@ export function PortalSidebar({
     <>
       <div
         className={cn(
-          "fixed inset-0 z-40 bg-[#2b0704]/40 backdrop-blur-sm transition-opacity lg:hidden",
+          "fixed inset-0 z-40 bg-red-950/40 backdrop-blur-sm transition-opacity lg:hidden",
           isOpen ? "opacity-100" : "pointer-events-none opacity-0",
         )}
         onClick={onClose}
@@ -25,7 +25,7 @@ export function PortalSidebar({
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex h-full w-[86vw] max-w-[284px] flex-col overflow-hidden bg-[#61100c] text-white transition-transform lg:static lg:z-auto lg:h-full lg:w-[260px] lg:max-w-none lg:translate-x-0",
+          "fixed inset-y-0 left-0 z-50 flex h-full w-[86vw] max-w-[284px] flex-col overflow-hidden bg-portal-brand-strong text-white transition-transform lg:static lg:z-auto lg:h-full lg:w-[260px] lg:max-w-none lg:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
@@ -59,7 +59,7 @@ export function PortalSidebar({
               className={({ isActive }) =>
                 cn(
                   "flex items-center gap-3 rounded-[3px] px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/70 transition-colors",
-                  isActive ? "bg-[#7c1711] text-white" : "hover:bg-white/8 hover:text-white",
+                  isActive ? "bg-red-900 text-white" : "hover:bg-white/8 hover:text-white",
                 )
               }
               onClick={onClose}

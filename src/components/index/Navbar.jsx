@@ -3,6 +3,7 @@ import { Link, NavLink } from "react-router-dom"
 import { ChevronDown, Menu, X } from "lucide-react"
 import { Button } from "../ui/button"
 import { LazyImage } from "./LazyMedia"
+import { PORTAL_SUBDOMAIN_URL } from "../../lib/portal-routing"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -146,7 +147,7 @@ export function Navbar() {
             >
               <button
                 type="button"
-                className="flex items-center gap-1 border-b-2 border-transparent pb-1 text-sm font-medium text-muted-foreground transition-all duration-200 group-hover:border-primary group-hover:text-primary hover:text-foreground"
+                className={`${normalClass} flex items-center gap-1 border-b-2 border-transparent pb-0`}
               >
                 <span className="transition-transform duration-200 group-hover:-translate-y-0.5">
                   Academics
@@ -207,11 +208,11 @@ export function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/portal">
+            <a href={PORTAL_SUBDOMAIN_URL}>
               <Button variant="outline" className="rounded-full">
-                Portal
+                Portals
               </Button>
-            </Link>
+            </a>
             <Link to="/contact">
               <Button className="rounded-full">
                 Contact Us
@@ -307,11 +308,11 @@ export function Navbar() {
                   Contact Us
                 </Button>
               </Link>
-              <Link to="/portal" onClick={() => setIsOpen(false)}>
+              <a href={PORTAL_SUBDOMAIN_URL} onClick={() => setIsOpen(false)}>
                 <Button variant="outline" className="rounded-full w-fit">
                   Portal
                 </Button>
-              </Link>
+              </a>
             </div>
           </div>
         )}

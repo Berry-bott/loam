@@ -50,7 +50,8 @@ export const adminTopbarLinks = ["Directory", "Archives", "Faculty Portal"]
 export const loginIdentityOptions = [
   { label: "Student", value: "student" },
   // { label: "Admission", value: "admission" },
-]
+];
+
 
 export const studentAlerts = [
   {
@@ -62,7 +63,7 @@ export const studentAlerts = [
     time: "Yesterday",
   },
   {
-    title: "Receipt generated for Payment ID #981209.",
+    title: "Receipt generated for Payment ID 981209.",
     time: "Oct 03",
   },
 ]

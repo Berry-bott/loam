@@ -47,7 +47,7 @@ export default function AdminStudentsPage() {
         <div className="grid gap-4 md:grid-cols-3">
           <MetricCard label="Student Population" value="12,482" note="Current active learners" />
           <MetricCard label="Graduates Archived" value="5,201" note="Records from previous sessions" accent="gold" />
-          <PortalCard className="bg-[#324758] text-white before:bg-[#324758]">
+          <PortalCard className="bg-admin-audit-card text-white before:bg-admin-audit-card">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">Current Notice</p>
             <p className="mt-3 text-[24px] font-bold">Final Year Clearance Active</p>
             <p className="mt-2 text-sm text-white/75">

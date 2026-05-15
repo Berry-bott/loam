@@ -610,10 +610,10 @@ export default function AdminPortalManagementPage() {
                       aria-hidden="true"
                       className={`relative inline-flex h-5 w-10 shrink-0 items-center rounded-full border ${
                         isLoadingPortalStatus
-                          ? "border-[#cdb79b] bg-[#f7efe4]"
+                          ? "border-stone-300 bg-stone-100"
                           : portalStatuses.FEE_PAYMENT
-                            ? "border-[#1f8f4c] bg-[#d8f5e3]"
-                            : "border-[#c53131] bg-[#fde1e1]"
+                            ? "border-green-700 bg-green-100"
+                            : "border-red-700 bg-red-100"
                       }`}
                     >
                       <span
@@ -649,10 +649,10 @@ export default function AdminPortalManagementPage() {
                       aria-hidden="true"
                       className={`relative inline-flex h-5 w-10 shrink-0 items-center rounded-full border ${
                         isLoadingPortalStatus
-                          ? "border-[#cdb79b] bg-[#f7efe4]"
+                          ? "border-stone-300 bg-stone-100"
                           : portalStatuses.COURSE_REGISTRATION
-                            ? "border-[#1f8f4c] bg-[#d8f5e3]"
-                            : "border-[#c53131] bg-[#fde1e1]"
+                            ? "border-green-700 bg-green-100"
+                            : "border-red-700 bg-red-100"
                       }`}
                     >
                       <span

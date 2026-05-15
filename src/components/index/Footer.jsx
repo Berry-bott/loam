@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { LazyImage } from "./LazyMedia"
+import { PORTAL_SUBDOMAIN_URL } from "../../lib/portal-routing"
 
 const footerLinks = {
   navigation: [
@@ -13,7 +14,7 @@ const footerLinks = {
   ],
   resources: [
     { href: "/adverts", label: "Announcements" },
-    { href: "/portal", label: "Student Portal" },
+    { href: PORTAL_SUBDOMAIN_URL, label: "Student Portal", external: true },
     { href: "#", label: "Parent Portal" },
     { href: "#", label: "Career Opportunities" },
   ],
@@ -65,12 +66,21 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.resources.map((link, idx) => (
                 <li key={idx}>
-                  <Link
-                    to={link.href}
-                    className="text-primary-foreground hover:text-primary-foreground transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      className="text-primary-foreground hover:text-primary-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className="text-primary-foreground hover:text-primary-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

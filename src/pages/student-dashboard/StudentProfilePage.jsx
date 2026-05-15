@@ -42,7 +42,7 @@ export default function StudentProfilePage() {
             alt=""
             className="h-[150px] w-[150px] rounded-[8px] object-cover"
           />
-          <span className="text-[12px] absolute top-0 right-0 bg-[#b48b26] hover:bg-[#9c721f] m-1  rounded cursor-pointer text-white border-2 border-[#b48b26]">update</span>
+          <span className="text-[12px] absolute top-0 right-0 bg-portal-gold-chip-text hover:bg-amber-700 m-1  rounded cursor-pointer text-white border-2 border-portal-gold-chip-text">update</span>
           <div>
           </div>
         </div>
@@ -68,7 +68,7 @@ export default function StudentProfilePage() {
           </div>
         </PortalCard>
 
-        <PortalCard accent="gold" className="bg-[#f3f1ed]">
+        <PortalCard accent="gold" className="bg-stone-100">
           <p className="text-[24px] font-bold text-portal-text-strong">Academic Standing</p>
           <div className="mt-5 space-y-4">
             <div className="rounded-[6px] border border-portal-border-strong bg-white px-4 py-4">
@@ -104,7 +104,7 @@ export default function StudentProfilePage() {
             <PortalButton variant="outline" onClick={() => setActiveModal("credentials")}>Update Credentials</PortalButton>
           </div>
 
-          <div className="space-y-5 rounded-[6px] border border-[#ece2d4] bg-portal-surface p-5">
+          <div className="space-y-5 rounded-[6px] border border-stone-200 bg-portal-surface p-5">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-portal-text-faded">
@@ -116,7 +116,7 @@ export default function StudentProfilePage() {
                 </p>
               </div>
               <button
-                className={`flex h-7 w-12 items-center rounded-full px-1 transition-colors ${mfaEnabled ? "bg-[#1f6fd0]" : "bg-[#d1c6bb]"}`}
+                className={`flex h-7 w-12 items-center rounded-full px-1 transition-colors ${mfaEnabled ? "bg-blue-600" : "bg-stone-300"}`}
                 onClick={() => {
                   setMfaEnabled((value) => !value)
                   setToastMessage(`SMS authentication ${mfaEnabled ? "disabled" : "enabled"} successfully.`)

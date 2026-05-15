@@ -30,8 +30,8 @@ export default function StudentFinancialPage() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-analytics-gold-label">
                 Account Balance
               </p>
-              <p className="mt-3 text-[38px] font-bold text-[#0d1b29]">N1,450,200.00</p>
-              <span className="mt-3 inline-flex rounded-full bg-[#9b1810] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white">
+              <p className="mt-3 text-[38px] font-bold text-slate-950">N1,450,200.00</p>
+              <span className="mt-3 inline-flex rounded-full bg-admin-registry-chip-text px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-white">
                 Outstanding
               </span>
             </div>
@@ -52,11 +52,11 @@ export default function StudentFinancialPage() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-shared-eyebrow">Payment Schedule</p>
           <div className="mt-4 space-y-4">
             <div className="rounded-[6px] border border-portal-border px-4 py-3">
-              <p className="text-sm font-semibold text-[#5a2017]">Division Exam Fee</p>
+              <p className="text-sm font-semibold text-red-950">Division Exam Fee</p>
               <p className="mt-1 text-[24px] font-bold text-primary">N750,000</p>
             </div>
             <div className="rounded-[6px] border border-portal-border px-4 py-3">
-              <p className="text-sm font-semibold text-[#5a2017]">Examination Fee</p>
+              <p className="text-sm font-semibold text-red-950">Examination Fee</p>
               <p className="mt-1 text-[24px] font-bold text-primary">N25,000</p>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default function StudentFinancialPage() {
                         className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
                           transaction.status === "Success"
                             ? "bg-portal-status-success-soft-bg text-portal-status-success-soft-text"
-                            : "bg-[#fff1d3] text-portal-status-warning-text"
+                            : "bg-amber-100 text-portal-status-warning-text"
                         }`}
                       >
                         {transaction.status}
@@ -124,7 +124,7 @@ export default function StudentFinancialPage() {
                     className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
                       transaction.status === "Success"
                         ? "bg-portal-status-success-soft-bg text-portal-status-success-soft-text"
-                        : "bg-[#fff1d3] text-portal-status-warning-text"
+                        : "bg-amber-100 text-portal-status-warning-text"
                     }`}
                   >
                     {transaction.status}
@@ -152,10 +152,10 @@ export default function StudentFinancialPage() {
 
           <PortalCard accent="gold">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-shared-eyebrow">Need Assistance?</p>
-            <p className="mt-3 text-sm leading-6 text-[#7c6b5d]">
+            <p className="mt-3 text-sm leading-6 text-stone-600">
               The bursary office is open Monday to Friday, 8:00 AM - 4:00 PM for all financial inquiries.
             </p>
-            <p className="mt-4 text-sm font-semibold text-[#5b2117]">bursar@loampolytechnic.edu</p>
+            <p className="mt-4 text-sm font-semibold text-staff-payload-heading">bursar@loampolytechnic.edu</p>
           </PortalCard>
         </div>
       </div>

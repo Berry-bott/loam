@@ -2,6 +2,7 @@ import { useState } from "react"
 import { ArrowRight, Eye, EyeOff } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { getDefaultRouteForRole, setPortalSession } from "../../lib/portal-auth"
+import { getAdmissionsUrl, getPortalHomeRoute } from "../../lib/portal-routing"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalInput } from "../../components/portal/PortalInput"
@@ -11,6 +12,8 @@ const STUDENT_LOGIN_PASSWORD = "loam123"
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const admissionsUrl = getAdmissionsUrl()
+  const portalHomeRoute = getPortalHomeRoute()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [keepLoggedIn, setKeepLoggedIn] = useState(true)
@@ -56,10 +59,10 @@ export default function LoginPage() {
             alt="Loam Poly"
             className="mx-auto mb-3 h-14 w-14 rounded-full border border-portal-border-strong object-cover shadow-sm"
           />
-          <h1 className="text-[34px] font-bold uppercase tracking-tight text-[#be2a22]">
+          <h1 className="text-[34px] font-bold uppercase tracking-tight text-red-700">
             LOAM POLYTECHNIC
           </h1>
-          <p className="text-sm font-medium uppercase tracking-[0.08em] text-[#a79a8f]">
+          <p className="text-sm font-medium uppercase tracking-[0.08em] text-stone-400">
             The Prestigious Ledger
           </p>
         </div>
@@ -147,13 +150,15 @@ export default function LoginPage() {
               <div className="space-y-3">
                 <PortalButton
                   variant="outline"
-                  className="w-full border-portal-border-strong text-[#b08b2d]"
-                  onClick={() => navigate("/admissions")}
+                  className="w-full border-portal-border-strong text-amber-700"
+                  onClick={() => {
+                    window.location.href = admissionsUrl
+                  }}
                 >
                   New Student? Start Application
                 </PortalButton>
                 <Link
-                  to="/portal"
+                  to={portalHomeRoute}
                   className="block text-center text-sm font-medium text-portal-brand-strong transition-colors hover:text-primary"
                 >
                   Back to Portal

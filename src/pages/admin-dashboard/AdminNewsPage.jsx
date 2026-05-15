@@ -30,7 +30,7 @@ export default function AdminNewsPage() {
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1fr_1fr_1.35fr]">
           <MetricCard label="Published Stories" value="1,284" note="+ 12% this month" />
           <MetricCard label="Active Announcers" value="14" note="Across all faculties" accent="gold" />
-          <PortalCard className="bg-[linear-gradient(135deg,#7b0f0d,#b32a1d)] text-white before:bg-transparent">
+          <PortalCard className="bg-gradient-to-br from-red-900 to-red-700 text-white before:bg-transparent">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">Priority Alert</p>
             <p className="mt-3 text-[26px] font-bold leading-tight">
               Emergency Protocol Update: Faculty of Engineering
@@ -52,15 +52,15 @@ export default function AdminNewsPage() {
                 key={item[1]}
                 className="flex flex-col gap-4 rounded-[6px] border border-portal-border bg-portal-surface px-4 py-4 sm:flex-row sm:items-center"
               >
-                <div className="w-14 rounded-[4px] border border-portal-border bg-[#faf5ed] px-2 py-2 text-center">
+                <div className="w-14 rounded-[4px] border border-portal-border bg-stone-50 px-2 py-2 text-center">
                   <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-label">
                     {item[0].split(" ")[1]}
                   </p>
-                  <p className="text-[20px] font-bold text-[#5c1a12]">{item[0].split(" ")[0]}</p>
+                  <p className="text-[20px] font-bold text-red-950">{item[0].split(" ")[0]}</p>
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="text-[15px] font-semibold text-portal-text-strong">{item[1]}</p>
-                  <p className="text-sm text-[#a18f7d]">{item[2]}</p>
+                  <p className="text-sm text-stone-400">{item[2]}</p>
                 </div>
                 <div className="flex gap-3 text-portal-brand-soft">
                   <button onClick={() => setToastMessage(`Preview opened for "${item[1]}".`)}>

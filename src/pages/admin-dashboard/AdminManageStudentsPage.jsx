@@ -99,7 +99,7 @@ export default function AdminManageStudentsPage() {
         <div className="grid gap-4 md:grid-cols-3">
           <MetricCard label="Editable Records" value="1,482" note="Registry controlled student data" />
           <MetricCard label="Search Key" value="Reg Number" note="Use the official student registration ID" accent="gold" />
-          <PortalCard className="bg-[#324758] h-[150px] text-white before:bg-[#324758]">
+          <PortalCard className="bg-admin-audit-card h-[150px] text-white before:bg-admin-audit-card">
             <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-white/70">Registry Notice</p>
             <p className="mt-3 text-[18px] font-bold">Admin Review Only</p>
             <p className="mt-2 text-[10px] text-white/75">
@@ -183,7 +183,7 @@ export default function AdminManageStudentsPage() {
                 </div>
 
                 <label className="mt-5 block">
-                  <span className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[#8d7969]">
+                  <span className="mb-2 block text-[11px] font-semibold uppercase tracking-[0.14em] text-admin-field-label">
                     Residential Address
                   </span>
                   <textarea
@@ -234,7 +234,7 @@ export default function AdminManageStudentsPage() {
 
                 <PortalCard accent="gold">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-shared-eyebrow">Loaded Record</p>
-                  <div className="mt-4 space-y-4 text-sm text-[#6f5b4a]">
+                  <div className="mt-4 space-y-4 text-sm text-stone-600">
                     <div>
                       <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-shared-label">Registration Number</p>
                       <p className="mt-1 font-semibold text-portal-text-strong">{formData.regNumber}</p>
@@ -254,7 +254,7 @@ export default function AdminManageStudentsPage() {
           </>
         ) : (
           <PortalCard>
-            <div className="rounded-[12px] border border-dashed border-[#ddcdb8] bg-portal-surface px-6 py-12 text-center">
+            <div className="rounded-[12px] border border-dashed border-staff-empty-border bg-portal-surface px-6 py-12 text-center">
               <p className="text-[24px] font-bold text-student-title">No Student Record Loaded</p>
               <p className="mt-3 text-sm leading-6 text-portal-text-muted">
                 Search with a valid registration number to open a student file for administrative editing.

@@ -134,20 +134,20 @@ export default function AdminDashboardPage() {
             right={
               <div className="flex gap-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-portal-text-faded">
                 <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-analytics-series-primary" />Current</span>
-                <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-[#d4c7b8]" />Previous</span>
+                <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-analytics-series-secondary" />Previous</span>
               </div>
             }
           >
             <div className="mt-6 flex h-[220px] items-end gap-3 rounded-[8px] bg-portal-surface p-4">
               {[42, 54, 87, 110, 94, 128].map((bar, index) => (
                 <div key={bar} className="flex flex-1 flex-col items-center justify-end gap-2">
-                  <div className="relative flex h-full w-full items-end justify-center rounded-[4px] bg-[#f4eee6]">
+                  <div className="relative flex h-full w-full items-end justify-center rounded-[4px] bg-stone-100">
                     <div
-                      className={`w-full rounded-[4px] ${index % 2 === 0 ? "bg-[#e6deda]" : "bg-analytics-series-primary"}`}
+                      className={`w-full rounded-[4px] ${index % 2 === 0 ? "bg-stone-200" : "bg-analytics-series-primary"}`}
                       style={{ height: `${bar}px` }}
                     />
                   </div>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#ad9a86]">{`Q${index + 1}`}</span>
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-stone-400">{`Q${index + 1}`}</span>
                 </div>
               ))}
             </div>
@@ -157,7 +157,7 @@ export default function AdminDashboardPage() {
             title="Revenue Summary"
             accent="gold"
             right={
-              <span className="rounded-full bg-[#f8f2e2] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-value">
+              <span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-value">
                 Current Year
               </span>
             }
@@ -166,12 +166,12 @@ export default function AdminDashboardPage() {
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Tuition Revenue</p>
                 <p className="mt-2 text-[34px] font-bold text-shared-title">N214.8M</p>
-                <div className="mt-4 h-2 rounded-full bg-[#eee2d7]"><div className="h-2 w-[68%] rounded-full bg-analytics-series-primary" /></div>
+                <div className="mt-4 h-2 rounded-full bg-stone-200"><div className="h-2 w-[68%] rounded-full bg-analytics-series-primary" /></div>
               </div>
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Target Achieved</p>
                 <p className="mt-2 text-[34px] font-bold text-shared-title">N90.4M</p>
-                <div className="mt-4 h-2 rounded-full bg-[#eee2d7]"><div className="h-2 w-[52%] rounded-full bg-[#c7a146]" /></div>
+                <div className="mt-4 h-2 rounded-full bg-stone-200"><div className="h-2 w-[52%] rounded-full bg-amber-600" /></div>
               </div>
             </div>
           </ChartCard>

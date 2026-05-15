@@ -52,7 +52,7 @@ export default function AdminSettingsPage() {
                   Multi-Factor Protocol
                 </p>
                 <p className="mt-3 text-[24px] font-bold text-shared-title">65%</p>
-                <div className="mt-4 h-2 rounded-full bg-[#eee2d7]">
+                <div className="mt-4 h-2 rounded-full bg-stone-200">
                   <div className="h-2 w-[65%] rounded-full bg-analytics-series-primary" />
                 </div>
               </div>
@@ -114,13 +114,13 @@ export default function AdminSettingsPage() {
         <div className="grid gap-5 xl:grid-cols-[280px_minmax(0,1fr)]">
           <PortalCard accent="gold">
             <p className="text-[22px] font-bold text-shared-title">Portal Identity</p>
-            <div className="mt-5 space-y-3 text-sm text-[#7d6b5e]">
+            <div className="mt-5 space-y-3 text-sm text-stone-600">
               <p>Brand primary: Maroon</p>
               <p>Logo status: Active</p>
               <p>Ledger mode: Institutional</p>
             </div>
           </PortalCard>
-          <PortalCard className="bg-[#283f53] text-white before:bg-[#283f53]">
+          <PortalCard className="bg-slate-800 text-white before:bg-slate-800">
             <p className="text-[24px] font-bold">Infrastructure Health</p>
             <p className="mt-3 text-sm leading-6 text-white/75">
               Monitoring indicates stable performance across core services. Storage and nightly backups are operating within standard safety margins.
