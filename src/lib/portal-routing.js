@@ -27,5 +27,5 @@ export function getMainWebsiteUrl() {
 }
 
 export function getAdmissionsUrl() {
-  return isPortalSubdomain() ? `${getMainWebsiteUrl()}/admissions` : "/admissions"
+  return "/admissions"
 }
