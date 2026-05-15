@@ -2,9 +2,10 @@ import { FileText, GraduationCap, Settings2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Navbar } from "../../components/index/Navbar"
 import { ScrollReveal } from "../../components/index/ScrollReveal"
-import { getAdmissionsUrl, getStudentLoginRoute } from "../../lib/portal-routing"
+import { ADMISSIONS_SUBDOMAIN_URL, getStudentLoginRoute } from "../../lib/portal-routing"
 
 function PortalCard({ title, subtitle, to, icon: Icon, delay = 0 }) {
+  const isExternalLink = typeof to === "string" && /^https?:\/\//.test(to)
   const cardContent = (
     <div className="group relative overflow-hidden rounded-md border border-primary bg-white p-8 shadow-[0_12px_28px_rgba(31,41,55,0.10)] transition-all duration-150 hover:-translate-y-1 hover:shadow-[0_18px_36px_rgba(31,41,55,0.14)]">
       {/* <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-stone-100 transition-all duration-150 group-hover:h-32 group-hover:w-32 group-hover:bg-primary" /> */}
@@ -32,9 +33,15 @@ function PortalCard({ title, subtitle, to, icon: Icon, delay = 0 }) {
   return (
     <ScrollReveal delay={delay}>
       {to ? (
-        <Link to={to} className="block focus:outline-none">
-          {cardContent}
-        </Link>
+        isExternalLink ? (
+          <a href={to} className="block focus:outline-none">
+            {cardContent}
+          </a>
+        ) : (
+          <Link to={to} className="block focus:outline-none">
+            {cardContent}
+          </Link>
+        )
       ) : (
         <div aria-disabled="true" className="block cursor-default opacity-95">
           {cardContent}
@@ -50,7 +57,7 @@ export default function PortalPage() {
     {
       title: "ADMISSION",
       subtitle: "Admissions Portal",
-      to: getAdmissionsUrl(),
+      to: ADMISSIONS_SUBDOMAIN_URL,
       icon: FileText,
     },
     {

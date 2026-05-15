@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom"
 import { LazyImage } from "./LazyMedia"
 import {
+  ADMISSIONS_SUBDOMAIN_URL,
   PORTAL_SUBDOMAIN_URL,
-  getAdmissionsUrl,
   getMainWebsitePath,
+  isAdmissionsSubdomain,
   isPortalSubdomain,
 } from "../../lib/portal-routing"
 
@@ -34,6 +35,7 @@ const footerLinks = {
 
 export function Footer() {
   const onPortalHost = isPortalSubdomain()
+  const onAdmissionsHost = isAdmissionsSubdomain()
 
   return (
     <footer className="bg-footer text-primary-foreground">
@@ -58,13 +60,13 @@ export function Footer() {
               {footerLinks.navigation.map((link) => (
                 <li key={link.href}>
                   {link.href === "/admissions" ? (
-                    <Link
-                      to={getAdmissionsUrl()}
+                    <a
+                      href={onAdmissionsHost ? "/" : ADMISSIONS_SUBDOMAIN_URL}
                       className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
                     >
                       {link.label}
-                    </Link>
-                  ) : onPortalHost ? (
+                    </a>
+                  ) : onPortalHost || onAdmissionsHost ? (
                     <a
                       href={getMainWebsitePath(link.href)}
                       className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"

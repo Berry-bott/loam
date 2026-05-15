@@ -38,19 +38,23 @@ import AdminStudentsPage from "./pages/admin-dashboard/AdminStudentsPage"
 import AdminPortalManagementPage from "./pages/admin-dashboard/AdminPortalManagementPage"
 import { RequirePortalRole } from "./app/RequirePortalRole"
 import { ScrollToTop } from "./app/ScrollToTop"
-import { isPortalSubdomain } from "./lib/portal-routing"
+import { isAdmissionsSubdomain, isPortalSubdomain } from "./lib/portal-routing"
 
 function App() {
   const portalHost = isPortalSubdomain()
+  const admissionsHost = isAdmissionsSubdomain()
 
   return (
     <>
       <ScrollToTop />
       <Routes>
-        {portalHost ? (
+        {admissionsHost ? (
+          <>
+            <Route path="/" element={<AdmissionsPage />} />
+          </>
+        ) : portalHost ? (
           <>
             <Route path="/" element={<PortalPage />} />
-            <Route path="/admissions" element={<AdmissionsPage />} />
             <Route path="/studentslogin" element={<LoginPage />} />
             <Route path="/superadminlogin" element={<SuperAdminLoginPage />} />
             <Route

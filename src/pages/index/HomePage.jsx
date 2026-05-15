@@ -14,7 +14,7 @@ import { FloatingCard } from "../../components/index/FloatingCard"
 import { HeroSlider } from "../../components/index/HeroSlider"
 import VideoSection from "../../components/index/VideoSection"
 import { LazyImage } from "../../components/index/LazyMedia"
-import { PORTAL_SUBDOMAIN_URL } from "../../lib/portal-routing"
+import { ADMISSIONS_SUBDOMAIN_URL, PORTAL_SUBDOMAIN_URL } from "../../lib/portal-routing"
 import video from "../../assets/video/loam-mega.mp4"
 
 const heroSlides = [
@@ -121,7 +121,7 @@ export default function HomePage() {
 
             <div className="flex flex-col gap-4 sm:flex-row">
               <MagneticButton>
-                <Link to="/admissions">
+                <a href={ADMISSIONS_SUBDOMAIN_URL}>
                   <Button
                     size="lg"
                     className="rounded-full bg-background text-foreground hover:bg-background/90 px-8 shadow-xl"
@@ -129,7 +129,7 @@ export default function HomePage() {
                     Apply Now
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                </Link>
+                </a>
               </MagneticButton>
               <MagneticButton>
                 <a href={PORTAL_SUBDOMAIN_URL}>

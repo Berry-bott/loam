@@ -13,6 +13,7 @@ import { VideoSection } from "../../components/index/VideoSection"
 import { FloatingCard } from "../../components/index/FloatingCard"
 import { MagneticButton } from "../../components/index/MagneticButton"
 import { LazyImage } from "../../components/index/LazyMedia"
+import { ADMISSIONS_SUBDOMAIN_URL } from "../../lib/portal-routing"
 
 const activities = [
   {
@@ -290,12 +291,12 @@ export default function StudentLifePage() {
               <h2 className="font-serif text-4xl md:text-5xl font-bold mb-8">Ready to Join Our Community?</h2>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <MagneticButton>
-                  <Link to="/admissions">
+                  <a href={ADMISSIONS_SUBDOMAIN_URL}>
                     <Button size="lg" className="rounded-full">
                       Apply Now
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
-                  </Link>
+                  </a>
                 </MagneticButton>
                 <MagneticButton>
                   <Link to="/contact">

@@ -13,6 +13,7 @@ import { VideoSection } from "../../components/index/VideoSection"
 import { FloatingCard } from "../../components/index/FloatingCard"
 import { MagneticButton } from "../../components/index/MagneticButton"
 import { LazyImage, LazyVideo } from "../../components/index/LazyMedia"
+import { ADMISSIONS_SUBDOMAIN_URL } from "../../lib/portal-routing"
 
 const departments = [
   {
@@ -176,12 +177,12 @@ export default function AcademicsPage() {
                     <div className="p-6">
                       <h3 className="font-serif text-2xl font-semibold mb-2">{program.title}</h3>
                       <p className="text-muted-foreground mb-4">{program.description}</p>
-                      <Link
-                        to="/admissions"
+                      <a
+                        href={ADMISSIONS_SUBDOMAIN_URL}
                         className="text-accent font-medium inline-flex items-center hover:gap-2 transition-all"
                       >
                         Learn More <ArrowRight className="ml-1 h-4 w-4" />
-                      </Link>
+                      </a>
                     </div>
                   </div>
                 </FloatingCard>
@@ -242,12 +243,12 @@ export default function AcademicsPage() {
                 academic programs.
               </p>
               <MagneticButton className="inline-block">
-                <Link to="/admissions">
+                <a href={ADMISSIONS_SUBDOMAIN_URL}>
                   <Button size="lg" variant="secondary" className="rounded-full bg-background text-primary">
                     Apply for Admission
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                </Link>
+                </a>
               </MagneticButton>
             </ScrollReveal>
           </div>
