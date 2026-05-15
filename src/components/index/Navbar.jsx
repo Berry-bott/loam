@@ -3,7 +3,12 @@ import { Link, NavLink } from "react-router-dom"
 import { ChevronDown, Menu, X } from "lucide-react"
 import { Button } from "../ui/button"
 import { LazyImage } from "./LazyMedia"
-import { PORTAL_SUBDOMAIN_URL } from "../../lib/portal-routing"
+import {
+  PORTAL_SUBDOMAIN_URL,
+  getAdmissionsUrl,
+  getMainWebsitePath,
+  isPortalSubdomain,
+} from "../../lib/portal-routing"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -12,6 +17,28 @@ const navLinks = [
   { href: "/gallery", label: "Gallery" },
   { href: "/events", label: "Events" },
 ]
+
+function MainNavLink({ href, label, className, onClick }) {
+  if (isPortalSubdomain()) {
+    return (
+      <a href={getMainWebsitePath(href)} onClick={onClick} className={className}>
+        {label}
+      </a>
+    )
+  }
+
+  return (
+    <NavLink
+      to={href}
+      onClick={onClick}
+      className={({ isActive }) =>
+        `${className} ${isActive ? "text-primary border-b-2 border-primary" : ""}`
+      }
+    >
+      {label}
+    </NavLink>
+  )
+}
 
 const academicsMenu = [
   {
@@ -76,9 +103,21 @@ const academicsMenu = [
 
 function MenuItem({ item, onClick }) {
   if (item.to) {
+    if (isPortalSubdomain() && item.to !== "/admissions") {
+      return (
+        <a
+          href={getMainWebsitePath(item.to)}
+          onClick={onClick}
+          className="block text-[15px] leading-6 text-primary-foreground/85 transition-colors hover:text-portal-gold"
+        >
+          {item.label}
+        </a>
+      )
+    }
+
     return (
       <Link
-        to={item.to}
+        to={item.to === "/admissions" ? getAdmissionsUrl() : item.to}
         onClick={onClick}
         className="block text-[15px] leading-6 text-primary-foreground/85 transition-colors hover:text-portal-gold"
       >
@@ -94,8 +133,8 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isAcademicsOpen, setIsAcademicsOpen] = useState(false)
   const [isAcademicsHovered, setIsAcademicsHovered] = useState(false)
+  const onPortalHost = isPortalSubdomain()
 
-  const activeClass = "text-primary border-b-2 border-primary"
   const normalClass = "text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
   const admissionsSection = academicsMenu[0]
   const scholarshipSection = academicsMenu[1]
@@ -107,7 +146,7 @@ export function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background backdrop-blur-md border-b border-border">
       <nav className="mx-auto px-4 lg:px-4">
         <div className="flex h-16 items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
+          <a href={onPortalHost ? getMainWebsitePath("/") : "/"} className="flex items-center gap-2">
             <div className="h-9 w-9 rounded-full bg-primary overflow-hidden">
               <LazyImage
                 src="/school-logo.jpeg"
@@ -125,19 +164,16 @@ export function Navbar() {
                 Loamy soil for academic excellence
               </span>
             </div>
-          </Link>
+          </a>
 
           <div className="hidden lg:flex items-center gap-6">
             {navLinks.slice(0, 2).map((link) => (
-              <NavLink
+              <MainNavLink
                 key={link.href}
-                to={link.href}
-                className={({ isActive }) =>
-                  `${normalClass} ${isActive && !isAcademicsHovered ? activeClass : ""}`
-                }
-              >
-                {link.label}
-              </NavLink>
+                href={link.href}
+                label={link.label}
+                className={normalClass}
+              />
             ))}
 
             <div
@@ -195,15 +231,12 @@ export function Navbar() {
             </div>
 
             {navLinks.slice(2).map((link) => (
-              <NavLink
+              <MainNavLink
                 key={link.href}
-                to={link.href}
-                className={({ isActive }) =>
-                  `${normalClass} ${isActive && !isAcademicsHovered ? activeClass : ""}`
-                }
-              >
-                {link.label}
-              </NavLink>
+                href={link.href}
+                label={link.label}
+                className={normalClass}
+              />
             ))}
           </div>
 
@@ -213,11 +246,11 @@ export function Navbar() {
                 Portals
               </Button>
             </a>
-            <Link to="/contact">
+            <a href={onPortalHost ? getMainWebsitePath("/contact") : "/contact"}>
               <Button className="rounded-full">
                 Contact Us
               </Button>
-            </Link>
+            </a>
           </div>
 
           <button
@@ -233,18 +266,13 @@ export function Navbar() {
           <div className="lg:hidden py-4 border-t border-border">
             <div className="flex flex-col gap-4">
               {navLinks.slice(0, 2).map((link) => (
-                <NavLink
+                <MainNavLink
                   key={link.href}
-                  to={link.href}
+                  href={link.href}
+                  label={link.label}
                   onClick={() => setIsOpen(false)}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-primary font-semibold"
-                      : "text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                  }
-                >
-                  {link.label}
-                </NavLink>
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                />
               ))}
 
               <div className="rounded-xl border border-border bg-primary/5">
@@ -267,14 +295,25 @@ export function Navbar() {
                         <div className="mt-3 space-y-3">
                           {section.items.map((item) =>
                             item.to ? (
-                              <Link
-                                key={item.label}
-                                to={item.to}
-                                onClick={() => setIsOpen(false)}
-                                className="block text-sm text-muted-foreground"
-                              >
-                                {item.label}
-                              </Link>
+                              item.to === "/admissions" ? (
+                                <Link
+                                  key={item.label}
+                                  to={getAdmissionsUrl()}
+                                  onClick={() => setIsOpen(false)}
+                                  className="block text-sm text-muted-foreground"
+                                >
+                                  {item.label}
+                                </Link>
+                              ) : (
+                                <a
+                                  key={item.label}
+                                  href={onPortalHost ? getMainWebsitePath(item.to) : item.to}
+                                  onClick={() => setIsOpen(false)}
+                                  className="block text-sm text-muted-foreground"
+                                >
+                                  {item.label}
+                                </a>
+                              )
                             ) : (
                               <span key={item.label} className="block text-sm text-muted-foreground">
                                 {item.label}
@@ -289,25 +328,20 @@ export function Navbar() {
               </div>
 
               {navLinks.slice(2).map((link) => (
-                <NavLink
+                <MainNavLink
                   key={link.href}
-                  to={link.href}
+                  href={link.href}
+                  label={link.label}
                   onClick={() => setIsOpen(false)}
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-primary font-semibold"
-                      : "text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                  }
-                >
-                  {link.label}
-                </NavLink>
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                />
               ))}
 
-              <Link to="/contact" onClick={() => setIsOpen(false)}>
+              <a href={onPortalHost ? getMainWebsitePath("/contact") : "/contact"} onClick={() => setIsOpen(false)}>
                 <Button className="rounded-full w-fit">
                   Contact Us
                 </Button>
-              </Link>
+              </a>
               <a href={PORTAL_SUBDOMAIN_URL} onClick={() => setIsOpen(false)}>
                 <Button variant="outline" className="rounded-full w-fit">
                   Portal

@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom"
 import { LazyImage } from "./LazyMedia"
-import { PORTAL_SUBDOMAIN_URL } from "../../lib/portal-routing"
+import {
+  PORTAL_SUBDOMAIN_URL,
+  getAdmissionsUrl,
+  getMainWebsitePath,
+  isPortalSubdomain,
+} from "../../lib/portal-routing"
 
 const footerLinks = {
   navigation: [
@@ -28,6 +33,8 @@ const footerLinks = {
 }
 
 export function Footer() {
+  const onPortalHost = isPortalSubdomain()
+
   return (
     <footer className="bg-footer text-primary-foreground">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
@@ -50,12 +57,28 @@ export function Footer() {
             <ul className="space-y-1">
               {footerLinks.navigation.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.href === "/admissions" ? (
+                    <Link
+                      to={getAdmissionsUrl()}
+                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : onPortalHost ? (
+                    <a
+                      href={getMainWebsitePath(link.href)}
+                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.href}
+                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

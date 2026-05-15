@@ -29,3 +29,7 @@ export function getMainWebsiteUrl() {
 export function getAdmissionsUrl() {
   return "/admissions"
 }
+
+export function getMainWebsitePath(path = "/") {
+  return `${getMainWebsiteUrl()}${path}`
+}
