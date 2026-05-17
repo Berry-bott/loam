@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom"
 import { PortalShell } from "../../components/portal/PortalShell"
 import { PortalButton } from "../../components/portal/PortalButton"
-import { adminSidebarItems, adminTopbarLinks, logoutItem } from "../../lib/portal-data"
+import { adminTopbarLinks, getAdminSidebarItems, logoutItem } from "../../lib/portal-data"
 import { getPortalSession } from "../../lib/portal-auth"
 import { Printer, Save } from "lucide-react"
 
@@ -21,11 +21,17 @@ const adminRoleConfig = {
     sessionLabel: "Bursary Office",
     userRole: "Bursary Officer",
   },
+  lecturer: {
+    subtitle: "Lecturer Panel",
+    sessionLabel: "Academic Staff Portal",
+    userRole: "Lecturer",
+  },
 }
 
 export default function AdminPortalLayout() {
   const session = getPortalSession()
   const roleConfig = adminRoleConfig[session?.role] || adminRoleConfig.superadmin
+  const sidebarItems = getAdminSidebarItems(session?.role)
 
   return (
     <PortalShell
@@ -33,7 +39,7 @@ export default function AdminPortalLayout() {
       subtitle={roleConfig.subtitle}
       sessionLabel={roleConfig.sessionLabel}
       links={adminTopbarLinks}
-      items={adminSidebarItems}
+      items={sidebarItems}
       logoutItem={logoutItem}
       user={{
         name: session?.name || "Admin James Okafor",

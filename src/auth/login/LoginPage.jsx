@@ -169,9 +169,9 @@ export default function LoginPage() {
         </PortalCard>
 
         <div className="mt-5 flex items-center justify-center gap-5 text-[10px] font-semibold uppercase tracking-[0.15em] text-portal-text-soft">
-          <span>Secure Login</span>
+          <span>Student Portal</span>
           <span className="h-1 w-1 rounded-full bg-admin-field-disabled-text" />
-          <span>AES-256 Bit</span>
+          <span>Setup In Progress</span>
         </div>
       </div>
     </div>

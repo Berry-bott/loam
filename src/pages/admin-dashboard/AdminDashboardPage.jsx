@@ -5,6 +5,7 @@ import { Download, Plus } from "lucide-react"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalToast } from "../../components/portal/PortalToast"
+import { getPortalSession } from "../../lib/portal-auth"
 import { adminActivityRows } from "../../lib/portal-data"
 import { getOverview } from "../../store/admin/adminApi"
 import {
@@ -12,12 +13,18 @@ import {
   ResponsiveTable, StatusPill, StandardActionModal,
 } from "../../components/admin-shared/Shared"
 
-const overviewCardTemplate = [
+const superAdminOverviewCardTemplate = [
   { label: "Total Students", note: "Registered student records", accent: "red" },
   { label: "Total Staff", note: "Active administrative staff", accent: "gold" },
   { label: "Departments", note: "Academic departments configured", accent: "red" },
   { label: "Courses", note: "Course registry entries", accent: "gold" },
   { label: "Applications", note: "Admission applications received", accent: "red" },
+]
+
+const lecturerOverviewCardTemplate = [
+  { label: "Total Students", note: "Registered student records", accent: "red" },
+  { label: "Courses", note: "Course registry entries", accent: "gold" },
+  { label: "Results", note: "Published result records", accent: "red" },
 ]
 
 let overviewCache = null
@@ -45,10 +52,13 @@ async function loadOverviewOnce() {
 }
 
 export default function AdminDashboardPage() {
+  const session = getPortalSession()
+  const isLecturer = session?.role === "lecturer"
+  const overviewTemplate = isLecturer ? lecturerOverviewCardTemplate : superAdminOverviewCardTemplate
   const [modalOpen, setModalOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState("")
   const [overviewStats, setOverviewStats] = useState(
-    overviewCardTemplate.map((item) => ({ ...item, value: "0" })),
+    overviewTemplate.map((item) => ({ ...item, value: "0" })),
   )
 
   useEffect(() => {
@@ -60,25 +70,43 @@ export default function AdminDashboardPage() {
         if (ignore) return
 
         const totals = payload?.data?.totals || {}
+        if (isLecturer) {
+          setOverviewStats([
+            {
+              ...lecturerOverviewCardTemplate[0],
+              value: formatMetricValue(totals.students),
+            },
+            {
+              ...lecturerOverviewCardTemplate[1],
+              value: formatMetricValue(totals.courses),
+            },
+            {
+              ...lecturerOverviewCardTemplate[2],
+              value: formatMetricValue(totals.results),
+            },
+          ])
+          return
+        }
+
         setOverviewStats([
           {
-            ...overviewCardTemplate[0],
+            ...superAdminOverviewCardTemplate[0],
             value: formatMetricValue(totals.students),
           },
           {
-            ...overviewCardTemplate[1],
+            ...superAdminOverviewCardTemplate[1],
             value: formatMetricValue(totals.staff),
           },
           {
-            ...overviewCardTemplate[2],
+            ...superAdminOverviewCardTemplate[2],
             value: formatMetricValue(totals.departments),
           },
           {
-            ...overviewCardTemplate[3],
+            ...superAdminOverviewCardTemplate[3],
             value: formatMetricValue(totals.courses),
           },
           {
-            ...overviewCardTemplate[4],
+            ...superAdminOverviewCardTemplate[4],
             value: formatMetricValue(totals.applications),
           },
         ])
@@ -93,7 +121,7 @@ export default function AdminDashboardPage() {
     return () => {
       ignore = true
     }
-  }, [])
+  }, [isLecturer])
 
   return (
     <>
@@ -116,7 +144,7 @@ export default function AdminDashboardPage() {
           }
         />
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        <div className={`grid gap-4 md:grid-cols-2 ${isLecturer ? "lg:grid-cols-3" : "lg:grid-cols-5"}`}>
           {overviewStats.map((item, index) => (
             <MetricCard
               key={item.label}
@@ -230,4 +258,3 @@ export default function AdminDashboardPage() {
     </>
   )
 }
-

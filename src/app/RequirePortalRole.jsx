@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Navigate, useLocation } from "react-router-dom"
 import {
   clearPortalSession,
@@ -7,23 +7,49 @@ import {
   isAdminPortalRole,
   setPortalSession,
 } from "../lib/portal-auth"
-import { getStudentLoginRoute } from "../lib/portal-routing"
+import { getAdminLoginRoute, getStudentLoginRoute } from "../lib/portal-routing"
 import { useAuthStore } from "../store/admin/authStore"
+
+function normalizeAdminRole(value) {
+  const normalizedValue = String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[\s-]+/g, "_")
+
+  if (["superadmin", "super_admin"].includes(normalizedValue)) return "superadmin"
+  if (["admission_officer", "admission"].includes(normalizedValue)) return "admission_officer"
+  if (["bursary_officer", "bursary", "bursar"].includes(normalizedValue)) return "bursary_officer"
+  if (["lecturer", "lecture"].includes(normalizedValue)) return "lecturer"
+  return ""
+}
+
+function resolveAuthenticatedAdminRole(user) {
+  const candidates = [
+    user?.role,
+    user?.userRole,
+    user?.accountType,
+    user?.userType,
+  ]
+
+  return candidates.map(normalizeAdminRole).find(Boolean) || ""
+}
 
 export function RequirePortalRole({ allowedRoles, children }) {
   const location = useLocation()
   const session = getPortalSession()
-  const { accessToken, isAuthenticated, refreshAdminToken, refreshRouteAvailable } = useAuthStore()
+  const { accessToken, isAuthenticated, refreshAdminToken, refreshRouteAvailable, user } = useAuthStore()
+  const authenticatedAdminRole = resolveAuthenticatedAdminRole(user)
   const unauthorizedRoute = allowedRoles.some((role) => isAdminPortalRole(role))
-    ? "/superadminlogin"
+    ? getAdminLoginRoute()
     : getStudentLoginRoute()
-  const needsAdminRefresh = Boolean(
-    isAdminPortalRole(session?.role) && allowedRoles.some((role) => isAdminPortalRole(role))
-  )
+  const expectsAdminRole = allowedRoles.some((role) => isAdminPortalRole(role))
+  const sessionHasAdminRole = isAdminPortalRole(session?.role)
+  const needsAdminRefresh = Boolean(sessionHasAdminRole && expectsAdminRole)
   const shouldForceAdminRefresh =
     needsAdminRefresh &&
     refreshRouteAvailable &&
     location.key === "default"
+  const refreshAttemptedRef = useRef(false)
   const [status, setStatus] = useState(
     shouldForceAdminRefresh || (needsAdminRefresh && !isAuthenticated && !accessToken && refreshRouteAvailable)
       ? "checking"
@@ -33,17 +59,40 @@ export function RequirePortalRole({ allowedRoles, children }) {
   useEffect(() => {
     let isActive = true
 
-    if (
-      !needsAdminRefresh ||
-      !refreshRouteAvailable ||
-      (!shouldForceAdminRefresh && (isAuthenticated || accessToken))
-    ) {
-      setStatus("ready")
+    if (!needsAdminRefresh) {
+      if (status !== "ready") {
+        setStatus("ready")
+      }
       return () => {
         isActive = false
       }
     }
 
+    if (isAuthenticated || accessToken) {
+      if (status !== "ready") {
+        setStatus("ready")
+      }
+      return () => {
+        isActive = false
+      }
+    }
+
+    if (!refreshRouteAvailable) {
+      if (status !== "failed") {
+        setStatus("failed")
+      }
+      return () => {
+        isActive = false
+      }
+    }
+
+    if (refreshAttemptedRef.current) {
+      return () => {
+        isActive = false
+      }
+    }
+
+    refreshAttemptedRef.current = true
     setStatus("checking")
 
     refreshAdminToken({ force: shouldForceAdminRefresh })
@@ -75,11 +124,15 @@ export function RequirePortalRole({ allowedRoles, children }) {
     needsAdminRefresh,
     refreshAdminToken,
     refreshRouteAvailable,
-    session,
+    status,
     shouldForceAdminRefresh,
   ])
 
   if (!session) {
+    return <Navigate to={unauthorizedRoute} replace state={{ from: location.pathname }} />
+  }
+
+  if (expectsAdminRole && !sessionHasAdminRole) {
     return <Navigate to={unauthorizedRoute} replace state={{ from: location.pathname }} />
   }
 
@@ -93,6 +146,18 @@ export function RequirePortalRole({ allowedRoles, children }) {
 
   if (status === "failed") {
     return <Navigate to={unauthorizedRoute} replace state={{ from: location.pathname }} />
+  }
+
+  if (expectsAdminRole) {
+    if (!isAuthenticated || !accessToken || !authenticatedAdminRole) {
+      return <Navigate to={unauthorizedRoute} replace state={{ from: location.pathname }} />
+    }
+
+    if (!allowedRoles.includes(authenticatedAdminRole)) {
+      return <Navigate to={getDefaultRouteForRole(authenticatedAdminRole)} replace />
+    }
+
+    return children
   }
 
   if (!allowedRoles.includes(session.role)) {

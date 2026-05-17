@@ -1,51 +1,101 @@
 import {
-  Archive,
   Bell,
   BriefcaseBusiness,
   CreditCard,
   FileBadge2,
-  FileText,
   FolderClosed,
   LayoutGrid,
   LogOut,
-  Newspaper,
   Settings,
   ShieldCheck,
   BarChart3,
   UserRoundCog,
   Users,
   BookOpenCheck,
-  GraduationCap,
 } from "lucide-react"
+import { getPortalHomeRoute } from "./portal-routing"
+
+const portalBasePath = getPortalHomeRoute() === "/" ? "" : getPortalHomeRoute()
+
+function withPortalBase(path) {
+  return `${portalBasePath}${path}`
+}
 
 export const studentSidebarItems = [
-  { label: "Dashboard", to: "/student-dashboard", icon: LayoutGrid },
-  { label: "Academic Fees", to: "/student-dashboard/academic-fees", icon: FileBadge2 },
+  { label: "Dashboard", to: withPortalBase("/student-dashboard"), icon: LayoutGrid },
+  { label: "Academic Fees", to: withPortalBase("/student-dashboard/academic-fees"), icon: FileBadge2 },
   // { label: "Financial Statement", to: "/student-dashboard/financial-statement", icon: CreditCard },
-  { label: "Documents", to: "/student-dashboard/documents", icon: FolderClosed },
-  { label: "Course Registration", to: "/student-dashboard/course-registration", icon: BookOpenCheck },
-  { label: "Profile Settings", to: "/student-dashboard/profile-settings", icon: UserRoundCog },
+  { label: "Documents", to: withPortalBase("/student-dashboard/documents"), icon: FolderClosed },
+  { label: "Course Registration", to: withPortalBase("/student-dashboard/course-registration"), icon: BookOpenCheck },
+  { label: "Profile Settings", to: withPortalBase("/student-dashboard/profile-settings"), icon: UserRoundCog },
 ]
 
-export const adminSidebarItems = [
-  { label: "Dashboard Overview", to: "/admin-dashboard", icon: LayoutGrid },
-  { label: "General Management", to: "/admin-dashboard/general-management", icon: Users },
-  { label: "Manage Courses", to: "/admin-dashboard/courses", icon: BookOpenCheck },
-  { label: "Upload Results", to: "/admin-dashboard/results", icon: Newspaper },
-  { label: "Manage Applications", to: "/admin-dashboard/applications", icon: FileText },
-  { label: "Portal Management", to: "/admin-dashboard/portal-management", icon: BriefcaseBusiness },
-  { label: "Manage Students", to: "/admin-dashboard/students", icon: GraduationCap },
-  { label: "Payment Monitoring", to: "/admin-dashboard/payments", icon: CreditCard },
-  { label: "News Management", to: "/admin-dashboard/news", icon: Newspaper },
-  { label: "Analytics", to: "/admin-dashboard/analytics", icon: BarChart3 },
-  { label: "Settings", to: "/admin-dashboard/settings", icon: Settings },
+const sharedAdminSidebarItems = [
+  { label: "Dashboard Overview", to: withPortalBase("/admin-dashboard"), icon: LayoutGrid },
+  { label: "Analytics", to: withPortalBase("/admin-dashboard/analytics"), icon: BarChart3 },
+  { label: "Settings", to: withPortalBase("/admin-dashboard/settings"), icon: Settings },
 ]
 
-export const logoutItem = { label: "Logout", to: "/portal", icon: LogOut }
+const superAdminSidebarItems = [
+  { label: "Department Management", to: withPortalBase("/admin-dashboard/general-management/departments"), icon: Users },
+  { label: "Staff Management", to: withPortalBase("/admin-dashboard/general-management/staff"), icon: UserRoundCog },
+  { label: "Portal Management", to: withPortalBase("/admin-dashboard/portal-management"), icon: BriefcaseBusiness },
+  { label: "News Management", to: withPortalBase("/admin-dashboard/news"), icon: Bell },
+]
 
-export const studentTopbarLinks = ["Help", "Directory", "Support"]
+const lecturerSidebarItems = [
+  { label: "Manage Courses", to: withPortalBase("/admin-dashboard/courses"), icon: BookOpenCheck },
+  { label: "Upload Results", to: withPortalBase("/admin-dashboard/results"), icon: FileBadge2 },
+]
 
-export const adminTopbarLinks = ["Directory", "Archives", "Faculty Portal"]
+const officerSidebarItems = [
+  { label: "Manage Applications", to: withPortalBase("/admin-dashboard/applications"), icon: BriefcaseBusiness },
+  { label: "Manage Students", to: withPortalBase("/admin-dashboard/students"), icon: Users },
+  { label: "Payment Monitoring", to: withPortalBase("/admin-dashboard/payments"), icon: CreditCard },
+]
+
+export function getAdminSidebarItems(role) {
+  if (role === "superadmin") {
+    return [
+      sharedAdminSidebarItems[0],
+      superAdminSidebarItems[0],
+      superAdminSidebarItems[1],
+      superAdminSidebarItems[2],
+      superAdminSidebarItems[3],
+      sharedAdminSidebarItems[1],
+      sharedAdminSidebarItems[2],
+    ]
+  }
+
+  if (role === "lecturer") {
+    return [
+      sharedAdminSidebarItems[0],
+      lecturerSidebarItems[0],
+      lecturerSidebarItems[1],
+      sharedAdminSidebarItems[1],
+      sharedAdminSidebarItems[2],
+    ]
+  }
+
+  if (role === "admission_officer" || role === "bursary_officer") {
+    return [
+      sharedAdminSidebarItems[0],
+      officerSidebarItems[0],
+      officerSidebarItems[1],
+      officerSidebarItems[2],
+      sharedAdminSidebarItems[1],
+      sharedAdminSidebarItems[2],
+    ]
+  }
+
+  return sharedAdminSidebarItems
+}
+
+export const logoutItem = { label: "Logout", to: getPortalHomeRoute(), icon: LogOut }
+
+export const studentTopbarLinks = ["Help", "Support"]
+
+export const adminTopbarLinks = []
 
 export const loginIdentityOptions = [
   { label: "Student", value: "student" },

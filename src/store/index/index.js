@@ -7,6 +7,9 @@ const INITIAL_STATE = {
   isSubmitting: false,
   submitError: null,
   submitResponse: null,
+  departments: [],
+  isLoadingDepartments: false,
+  departmentsError: null,
 }
 
 function appendIfPresent(formData, key, value) {
@@ -28,6 +31,26 @@ function getErrorMessage(payload, fallbackMessage) {
     payload?.detail ||
     fallbackMessage
   )?.trim()
+}
+
+function resolveArray(payload) {
+  if (Array.isArray(payload)) return payload
+  if (Array.isArray(payload?.data)) return payload.data
+  if (Array.isArray(payload?.data?.departments)) return payload.data.departments
+  if (Array.isArray(payload?.departments)) return payload.departments
+  return []
+}
+
+function getDepartmentName(item) {
+  return item?.name || item?.departmentName || item?.title || item?.code || ""
+}
+
+function normalizeDepartmentName(value) {
+  return String(value || "").replace(/\s+/g, " ").trim()
+}
+
+function getDepartmentId(item) {
+  return item?.id || item?._id || item?.departmentId || ""
 }
 
 function buildOLevelSittings(sittings, sittingCount) {
@@ -64,6 +87,9 @@ function buildApplicationPayload(form) {
   appendIfPresent(formData, "maritalStatus", form.maritalStatus)
   appendIfPresent(formData, "email", form.email?.trim())
   appendIfPresent(formData, "phoneNumber", form.phone?.trim())
+  appendIfPresent(formData, "department", form.chosenDepartmentId?.trim() || form.chosenCourse?.trim())
+  appendIfPresent(formData, "departmentId", form.chosenDepartmentId?.trim())
+  appendIfPresent(formData, "departmentName", form.chosenCourse?.trim())
   appendIfPresent(formData, "chosenCourse", form.chosenCourse?.trim())
   appendIfPresent(formData, "stateOfResidence", form.stateOfOrigin?.trim())
   appendIfPresent(formData, "cityOfResidence", form.lga?.trim())
@@ -97,12 +123,60 @@ export const useAdmissionsStore = create((set) => ({
 
   clearSubmitError: () => set({ submitError: null }),
 
+  clearDepartmentsError: () => set({ departmentsError: null }),
+
   resetSubmissionState: () =>
     set({
       isSubmitting: false,
       submitError: null,
       submitResponse: null,
     }),
+
+  fetchDepartments: async () => {
+    set({
+      isLoadingDepartments: true,
+      departmentsError: null,
+    })
+
+    try {
+      const response = await fetch(`${APPLICATIONS_URL}/departments`, {
+        method: "GET",
+      })
+
+      const payload = await parseJsonResponse(response)
+
+      if (!response.ok) {
+        throw new Error(
+          getErrorMessage(payload, "Unable to load departments. Please try again."),
+        )
+      }
+
+      const departments = resolveArray(payload)
+        .map((item) => ({
+          id: String(getDepartmentId(item)).trim(),
+          name: normalizeDepartmentName(getDepartmentName(item)),
+          facultyName: item?.faculty?.name || item?.facultyName || "",
+        }))
+        .filter((item) => item.name)
+        .filter((item, index, items) => items.findIndex((entry) => entry.name === item.name) === index)
+        .sort((left, right) => left.name.localeCompare(right.name))
+
+      set({
+        departments,
+        isLoadingDepartments: false,
+        departmentsError: null,
+      })
+
+      return departments
+    } catch (error) {
+      set({
+        departments: [],
+        isLoadingDepartments: false,
+        departmentsError: error.message,
+      })
+      throw error
+    }
+  },
 
   submitApplication: async (form) => {
     set({

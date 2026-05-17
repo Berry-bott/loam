@@ -14,7 +14,7 @@ import { FloatingCard } from "../../components/index/FloatingCard"
 import { HeroSlider } from "../../components/index/HeroSlider"
 import VideoSection from "../../components/index/VideoSection"
 import { LazyImage } from "../../components/index/LazyMedia"
-import { ADMISSIONS_SUBDOMAIN_URL, PORTAL_SUBDOMAIN_URL } from "../../lib/portal-routing"
+import { getAdmissionsUrl, getPortalUrl } from "../../lib/portal-routing"
 import video from "../../assets/video/loam-mega.mp4"
 
 const heroSlides = [
@@ -82,6 +82,8 @@ const stats = [
 export default function HomePage() {
   const heroRef = useRef(null)
   const ctaRef = useRef(null)
+  const admissionsUrl = getAdmissionsUrl()
+  const portalUrl = getPortalUrl()
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -121,7 +123,7 @@ export default function HomePage() {
 
             <div className="flex flex-col gap-4 sm:flex-row">
               <MagneticButton>
-                <a href={ADMISSIONS_SUBDOMAIN_URL}>
+                <a href={admissionsUrl}>
                   <Button
                     size="lg"
                     className="rounded-full bg-background text-foreground hover:bg-background/90 px-8 shadow-xl"
@@ -132,7 +134,7 @@ export default function HomePage() {
                 </a>
               </MagneticButton>
               <MagneticButton>
-                <a href={PORTAL_SUBDOMAIN_URL}>
+                <a href={portalUrl}>
                   <Button
                     size="lg"
                     className="rounded-full bg-primary px-8 text-background shadow-xl hover:bg-red-900"

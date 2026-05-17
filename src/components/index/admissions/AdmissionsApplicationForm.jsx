@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react"
 import { CheckCircle, ChevronLeft, ChevronRight, Clock, Mail, X } from "lucide-react"
 import { Button } from "../../ui/button"
 import { nigeriaStatesAndLgas } from "../../../lib/portal-data"
-import { courseOptions, createJambSubject, createSitting, formStepLabels, subjectOptions } from "./admissionsData"
+import { createJambSubject, createSitting, formStepLabels, subjectOptions } from "./admissionsData"
 import { AcademicHistoryStep, DocumentUploadStep, PersonalInformationStep, ReviewSubmitStep } from "./AdmissionsFormSections"
 import { getStepErrors } from "./admissionsValidation"
 import { useAdmissionsStore } from "../../../store/index"
@@ -20,6 +20,7 @@ const INITIAL_FORM = {
   email: "",
   phone: "",
   chosenCourse: "",
+  chosenDepartmentId: "",
   residentialAddress: "",
   nationality: "Nigerian",
   stateOfOrigin: "",
@@ -186,6 +187,11 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
   const {
     isSubmitting,
     submitError,
+    departments,
+    isLoadingDepartments,
+    departmentsError,
+    fetchDepartments,
+    clearDepartmentsError,
     submitApplication,
     clearSubmitError,
     resetSubmissionState,
@@ -196,6 +202,7 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
   const stateOptions = Object.keys(nigeriaStatesAndLgas)
   const lgaOptions = form.stateOfOrigin ? nigeriaStatesAndLgas[form.stateOfOrigin] ?? [] : []
   const totalJambScore = form.jambSubjects.reduce((total, subject) => total + (Number(subject.score) || 0), 0)
+  const departmentOptions = departments.map((department) => department.name)
 
   const handleChange = (key) => (event) => {
     setForm((current) => ({ ...current, [key]: event.target.value }))
@@ -352,6 +359,12 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
     scrollContainer?.scrollTo({ top: 0, behavior: "smooth" })
   }, [step])
 
+  useEffect(() => {
+    if (departments.length || isLoadingDepartments) return
+
+    fetchDepartments().catch(() => {})
+  }, [departments.length, fetchDepartments, isLoadingDepartments])
+
   if (submitted) {
     return <SubmissionSuccess trackingId={trackingId} onViewGuide={onViewGuide} />
   }
@@ -394,7 +407,27 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
             handleJambChange={handleJambChange}
             getAvailableSubjectOptions={getAvailableSubjectOptions}
             totalJambScore={totalJambScore}
-            courseOptions={courseOptions}
+            courseOptions={departmentOptions}
+            selectedDepartments={departments}
+            handleCourseChange={(value) => {
+              const matchedDepartment = departments.find((department) => department.name === value)
+              setForm((current) => ({
+                ...current,
+                chosenCourse: value,
+                chosenDepartmentId: matchedDepartment?.id || "",
+              }))
+              setErrors((current) => ({
+                ...current,
+                chosenCourse: undefined,
+              }))
+              if (submitError) clearSubmitError()
+            }}
+            isLoadingCourses={isLoadingDepartments}
+            courseOptionsError={departmentsError}
+            onRetryCourses={() => {
+              clearDepartmentsError()
+              fetchDepartments().catch(() => {})
+            }}
             errors={errors}
           />
         )}

@@ -6,6 +6,7 @@ import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalCardSkeleton } from "../../components/portal/PortalSkeleton"
 import { PortalToast } from "../../components/portal/PortalToast"
 import { PageEyebrow, PageTitle, StatusPill } from "../../components/admin-shared/Shared"
+import { getAdminDashboardRoute } from "../../lib/portal-routing"
 import { getAllDepartments, getAllStaff } from "../../store/admin/adminApi"
 import {
   getDepartmentName,
@@ -88,7 +89,7 @@ export default function AdminFacultyPage() {
         />
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Link to="/admin-dashboard/general-management/departments">
+          <Link to={getAdminDashboardRoute("/general-management/departments")}>
             <PortalButton className="h-12 w-full justify-between px-4 text-[11px] tracking-[0.14em]">
               <span className="flex items-center gap-3">
                 <Building2 className="h-4 w-4" />
@@ -97,7 +98,7 @@ export default function AdminFacultyPage() {
               <span>Open Page</span>
             </PortalButton>
           </Link>
-          <Link to="/admin-dashboard/general-management/staff">
+          <Link to={getAdminDashboardRoute("/general-management/staff")}>
             <PortalButton variant="gold" className="h-12 w-full justify-between px-4 text-[11px] tracking-[0.14em]">
               <span className="flex items-center gap-3">
                 <UserCog className="h-4 w-4" />

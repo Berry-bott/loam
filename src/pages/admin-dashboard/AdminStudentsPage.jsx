@@ -6,6 +6,7 @@ import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalToast } from "../../components/portal/PortalToast"
 import { adminStudents } from "../../lib/portal-data"
+import { getAdminDashboardRoute } from "../../lib/portal-routing"
 import {
   PageEyebrow, PageTitle, MetricCard, ResponsiveTable,
   StatusPill, StandardActionModal,
@@ -30,7 +31,7 @@ export default function AdminStudentsPage() {
               </PortalButton>
               <PortalButton
                 variant="gold"
-                onClick={() => navigate("/admin-dashboard/students/manage")}
+                onClick={() => navigate(getAdminDashboardRoute("/students/manage"))}
               >
                 <Eye className="h-4 w-4" />Manage Students
               </PortalButton>
@@ -69,7 +70,7 @@ export default function AdminStudentsPage() {
                 <td className="border-y border-portal-border px-4 py-4"><StatusPill>{row[4]}</StatusPill></td>
                 <td className="rounded-r-[6px] border-y border-r border-portal-border px-4 py-4 text-portal-brand-soft">
                   <button
-                    onClick={() => navigate("/admin-dashboard/students/manage", { state: { regNumber: row[1] } })}
+                    onClick={() => navigate(getAdminDashboardRoute("/students/manage"), { state: { regNumber: row[1] } })}
                   >
                     <Eye className="h-4 w-4" />
                   </button>
@@ -84,7 +85,7 @@ export default function AdminStudentsPage() {
                   <StatusPill>{row[4]}</StatusPill>
                   <button
                     className="text-[11px] font-semibold uppercase tracking-[0.12em] text-portal-brand-soft"
-                    onClick={() => navigate("/admin-dashboard/students/manage", { state: { regNumber: row[1] } })}
+                    onClick={() => navigate(getAdminDashboardRoute("/students/manage"), { state: { regNumber: row[1] } })}
                   >
                     View
                   </button>

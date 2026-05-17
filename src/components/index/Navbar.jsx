@@ -4,13 +4,13 @@ import { ChevronDown, Menu, X } from "lucide-react"
 import { Button } from "../ui/button"
 import { LazyImage } from "./LazyMedia"
 import {
-  ADMISSIONS_SUBDOMAIN_URL,
-  PORTAL_SUBDOMAIN_URL,
-  getAdmissionsUrl,
+  getPortalUrl,
   getMainWebsitePath,
   isAdmissionsSubdomain,
+  isBlogSubdomain,
   isPortalSubdomain,
 } from "../../lib/portal-routing"
+import { academicSections } from "../../pages/index/academics/academicData"
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -21,7 +21,7 @@ const navLinks = [
 ]
 
 function MainNavLink({ href, label, className, onClick }) {
-  if (isPortalSubdomain() || isAdmissionsSubdomain()) {
+  if (isPortalSubdomain() || isAdmissionsSubdomain() || isBlogSubdomain()) {
     return (
       <a href={getMainWebsitePath(href)} onClick={onClick} className={className}>
         {label}
@@ -42,70 +42,18 @@ function MainNavLink({ href, label, className, onClick }) {
   )
 }
 
-const academicsMenu = [
-  {
-    title: "Admissions",
-    items: [
-      { label: "Pre-National Diploma (Pre-ND)", to: "/admissions" },
-      { label: "National Diploma (ND)", to: "/admissions" },
-      { label: "Higher National Diploma (HND)", to: "/admissions" },
-      { label: "National Diploma (Part-Time)", to: "/admissions" },
-      { label: "Higher National Diploma (Part-Time)", to: "/admissions" },
-    ],
-  },
-  {
-    title: "Scholarship Schemes",
-    items: [
-      { label: "One-year Tuition Free Scholarship", to: "/admissions" },
-      { label: "Victory Idewele Scholarship", to: "/admissions" },
-      { label: "Prince Akpabio Scholarship", to: "/admissions" },
-      { label: "Hon Jerry Otu Scholarship", to: "/admissions" },
-      { label: "Father John (Jnr) Scholarship", to: "/admissions" },
-    ],
-  },
-  {
-    title: "Departments",
-    items: [
-      { label: "Accountancy" },
-      { label: "Statistics" },
-      { label: "Mass Communication" },
-      { label: "Computer Science" },
-      { label: "Electrical Electronics Enginneringn" },
-      { label: "Science Laboratory Technology" },
-      { label: "Computer Engineering Technology" },
-      { label: "Estate Management" },
-      { label: "Hospitality Management" },
-    ],
-  },
-  {
-    title: "PRINCIPAL OFFICDRS",
-    items: [
-      { label: "BoT Chairperson" },
-      { label: "Rector" },
-      { label: "Deputy Rector Administration" },
-      { label: "Deputy Rector Academics" },
-      { label: "Registrar" },
-      { label: "Bursar" },
-      { label: "Librarian" },
-      { label: "Director of Programme" },
-      { label: "Director of Institution of Continuing Education" },
-      { label: "Admission Officer" },
-    ],
-  },
-  {
-    title: "Resources",
-    items: [
-      { label: "Digital Library", to: "/about" },
-      { label: "Workshops and Laboratories", to: "/gallery" },
-      { label: "Student Experience", to: "/student-life" },
-      { label: "Campus Events", to: "/events" },
-    ],
-  },
-]
+const academicsMenu = academicSections.map((section) => ({
+  ...section,
+  title: section.title === "Principal Officers" ? "PRINCIPAL OFFICERS" : section.title,
+  items: section.items.map((item) => ({
+    label: item.label,
+    to: `/academics?${item.queryKey || item.slug}`,
+  })),
+}))
 
 function MenuItem({ item, onClick }) {
   if (item.to) {
-    if ((isPortalSubdomain() || isAdmissionsSubdomain()) && item.to !== "/admissions") {
+    if (isPortalSubdomain() || isAdmissionsSubdomain() || isBlogSubdomain()) {
       return (
         <a
           href={getMainWebsitePath(item.to)}
@@ -118,23 +66,13 @@ function MenuItem({ item, onClick }) {
     }
 
     return (
-      item.to === "/admissions" ? (
-        <a
-          href={getAdmissionsUrl()}
-          onClick={onClick}
-          className="block text-[15px] leading-6 text-primary-foreground/85 transition-colors hover:text-portal-gold"
-        >
-          {item.label}
-        </a>
-      ) : (
-        <Link
-          to={item.to}
-          onClick={onClick}
-          className="block text-[15px] leading-6 text-primary-foreground/85 transition-colors hover:text-portal-gold"
-        >
-          {item.label}
-        </Link>
-      )
+      <Link
+        to={item.to}
+        onClick={onClick}
+        className="block text-[15px] leading-6 text-primary-foreground/85 transition-colors hover:text-portal-gold"
+      >
+        {item.label}
+      </Link>
     )
   }
 
@@ -144,9 +82,10 @@ function MenuItem({ item, onClick }) {
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isAcademicsOpen, setIsAcademicsOpen] = useState(false)
-  const [isAcademicsHovered, setIsAcademicsHovered] = useState(false)
+  const [isDesktopAcademicsOpen, setIsDesktopAcademicsOpen] = useState(false)
   const onPortalHost = isPortalSubdomain()
   const onAdmissionsHost = isAdmissionsSubdomain()
+  const onBlogHost = isBlogSubdomain()
 
   const normalClass = "text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
   const admissionsSection = academicsMenu[0]
@@ -154,12 +93,17 @@ export function Navbar() {
   const departmentsSection = academicsMenu[2]
   const principalOfficersSection = academicsMenu[3]
   const resourcesSection = academicsMenu[4]
+  const closeAllMenus = () => {
+    setIsOpen(false)
+    setIsAcademicsOpen(false)
+    setIsDesktopAcademicsOpen(false)
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background backdrop-blur-md border-b border-border">
       <nav className="mx-auto px-4 lg:px-4">
         <div className="flex h-16 items-center justify-between">
-          <a href={onPortalHost || onAdmissionsHost ? getMainWebsitePath("/") : "/"} className="flex items-center gap-2">
+          <a href={onPortalHost || onAdmissionsHost || onBlogHost ? getMainWebsitePath("/") : "/"} className="flex items-center gap-2">
             <div className="h-9 w-9 rounded-full bg-primary overflow-hidden">
               <LazyImage
                 src="/school-logo.jpeg"
@@ -191,11 +135,12 @@ export function Navbar() {
 
             <div
               className="group static"
-              onMouseEnter={() => setIsAcademicsHovered(true)}
-              onMouseLeave={() => setIsAcademicsHovered(false)}
+              onMouseEnter={() => setIsDesktopAcademicsOpen(true)}
+              onMouseLeave={() => setIsDesktopAcademicsOpen(false)}
             >
               <button
                 type="button"
+                onClick={() => setIsDesktopAcademicsOpen((current) => !current)}
                 className={`${normalClass} flex items-center gap-1 border-b-2 border-transparent pb-0`}
               >
                 <span className="transition-transform duration-200 group-hover:-translate-y-0.5">
@@ -204,7 +149,13 @@ export function Navbar() {
                 <ChevronDown className="h-4 w-4 transition-transform duration-200 group-hover:translate-y-0.5 group-hover:rotate-180" />
               </button>
 
-              <div className="invisible absolute left-0 right-0 top-full z-50 -translate-y-1 border-t border-primary/10 bg-primary opacity-0 shadow-[0_18px_42px_rgba(34,12,8,0.22)] transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
+              <div
+                className={`absolute left-0 right-0 top-full z-50 border-t border-primary/10 bg-primary shadow-[0_18px_42px_rgba(34,12,8,0.22)] transition-all duration-200 ${
+                  isDesktopAcademicsOpen
+                    ? "visible translate-y-0 opacity-100"
+                    : "invisible -translate-y-1 opacity-0"
+                }`}
+              >
                 <div className="absolute left-1/2 top-0 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rotate-45 border-l border-t border-primary/10 bg-primary" />
                 <div className="mx-auto grid max-w-7xl gap-x-8 gap-y-5 px-10 py-5 text-primary-foreground md:grid-cols-2 xl:grid-cols-4">
                   <div>
@@ -213,7 +164,7 @@ export function Navbar() {
                     </h3>
                     <div className="mt-3 space-y-2.5">
                       {admissionsSection.items.map((item) => (
-                        <MenuItem key={item.label} item={item} />
+                        <MenuItem key={item.label} item={item} onClick={closeAllMenus} />
                       ))}
                     </div>
 
@@ -222,7 +173,7 @@ export function Navbar() {
                     </h3>
                     <div className="mt-3 space-y-2.5">
                       {scholarshipSection.items.map((item) => (
-                        <MenuItem key={item.label} item={item} />
+                        <MenuItem key={item.label} item={item} onClick={closeAllMenus} />
                       ))}
                     </div>
                   </div>
@@ -234,7 +185,7 @@ export function Navbar() {
                       </h3>
                       <div className="mt-3 space-y-2.5">
                         {section.items.map((item) => (
-                          <MenuItem key={item.label} item={item} />
+                          <MenuItem key={item.label} item={item} onClick={closeAllMenus} />
                         ))}
                       </div>
                     </div>
@@ -254,12 +205,12 @@ export function Navbar() {
           </div>
 
           <div className="hidden lg:flex items-center gap-3">
-            <a href={PORTAL_SUBDOMAIN_URL}>
+            <a href={getPortalUrl()}>
               <Button variant="outline" className="rounded-full">
                 Portals
               </Button>
             </a>
-            <a href={onPortalHost || onAdmissionsHost ? getMainWebsitePath("/contact") : "/contact"}>
+            <a href={onPortalHost || onAdmissionsHost || onBlogHost ? getMainWebsitePath("/contact") : "/contact"}>
               <Button className="rounded-full">
                 Contact Us
               </Button>
@@ -308,25 +259,14 @@ export function Navbar() {
                         <div className="mt-3 space-y-3">
                           {section.items.map((item) =>
                             item.to ? (
-                              item.to === "/admissions" ? (
-                                <a
-                                  key={item.label}
-                                  href={getAdmissionsUrl()}
-                                  onClick={() => setIsOpen(false)}
-                                  className="block text-sm text-muted-foreground"
-                                >
-                                  {item.label}
-                                </a>
-                              ) : (
-                                <a
-                                  key={item.label}
-                                  href={onPortalHost || onAdmissionsHost ? getMainWebsitePath(item.to) : item.to}
-                                  onClick={() => setIsOpen(false)}
-                                  className="block text-sm text-muted-foreground"
-                                >
-                                  {item.label}
-                                </a>
-                              )
+                              <a
+                                key={item.label}
+                                href={onPortalHost || onAdmissionsHost || onBlogHost ? getMainWebsitePath(item.to) : item.to}
+                                onClick={closeAllMenus}
+                                className="block text-sm text-muted-foreground"
+                              >
+                                {item.label}
+                              </a>
                             ) : (
                               <span key={item.label} className="block text-sm text-muted-foreground">
                                 {item.label}
@@ -350,12 +290,12 @@ export function Navbar() {
                 />
               ))}
 
-              <a href={onPortalHost || onAdmissionsHost ? getMainWebsitePath("/contact") : "/contact"} onClick={() => setIsOpen(false)}>
+              <a href={onPortalHost || onAdmissionsHost || onBlogHost ? getMainWebsitePath("/contact") : "/contact"} onClick={() => setIsOpen(false)}>
                 <Button className="rounded-full w-fit">
                   Contact Us
                 </Button>
               </a>
-              <a href={PORTAL_SUBDOMAIN_URL} onClick={() => setIsOpen(false)}>
+              <a href={getPortalUrl()} onClick={() => setIsOpen(false)}>
                 <Button variant="outline" className="rounded-full w-fit">
                   Portal
                 </Button>

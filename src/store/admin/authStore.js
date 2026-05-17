@@ -1,10 +1,11 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 import { API_CONFIG } from "../../config/api"
+import { getAdminLoginRoute } from "../../lib/portal-routing"
 
 const AUTH_BASE_URL = `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.auth}`
 const ADMIN_LOGIN_URL = `${AUTH_BASE_URL}/login`
-const ADMIN_REFRESH_URL = `${AUTH_BASE_URL}/refresh-token`
+const ADMIN_REFRESH_URL = `${AUTH_BASE_URL}/refresh`
 const ADMIN_LOGOUT_URL = `${AUTH_BASE_URL}/logout`
 
 const CLEARED_AUTH_STATE = {
@@ -83,7 +84,7 @@ export const useAuthStore = create(
           ...CLEARED_AUTH_STATE,
           refreshRouteAvailable: get().refreshRouteAvailable,
         })
-        window.location.replace("/superadminlogin")
+        window.location.replace(getAdminLoginRoute())
       },
 
       loginAdmin: async (credentials) => {
@@ -222,6 +223,12 @@ export const useAuthStore = create(
     }),
     {
       name: "auth-storage",
+      partialize: (state) => ({
+        accessToken: state.accessToken,
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+        refreshRouteAvailable: state.refreshRouteAvailable,
+      }),
       storage: {
         getItem: (key) => {
           const value = sessionStorage.getItem(key)

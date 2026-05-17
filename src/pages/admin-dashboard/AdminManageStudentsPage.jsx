@@ -6,6 +6,7 @@ import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalInput } from "../../components/portal/PortalInput"
 import { PortalToast } from "../../components/portal/PortalToast"
 import { adminStudentProfiles } from "../../lib/portal-data"
+import { getAdminDashboardRoute } from "../../lib/portal-routing"
 import { MetricCard, PageEyebrow, PageTitle, StatusPill } from "../../components/admin-shared/Shared"
 
 const emptyForm = {
@@ -89,7 +90,7 @@ export default function AdminManageStudentsPage() {
           title="Student Record Control"
           description="Search by registration number to open a student file for administrative editing. Students cannot alter these core profile details after initial submission, so all corrections must be handled by the registry or admin department."
           actions={
-            <PortalButton variant="outline" onClick={() => navigate("/admin-dashboard/students")}>
+            <PortalButton variant="outline" onClick={() => navigate(getAdminDashboardRoute("/students"))}>
               <ArrowLeft className="h-4 w-4" />
               Back to Student List
             </PortalButton>

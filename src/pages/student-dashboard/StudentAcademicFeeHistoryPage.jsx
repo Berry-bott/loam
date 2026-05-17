@@ -5,6 +5,7 @@ import { AcademicFeePaymentHistory } from "../../components/student-shared/Acade
 import { PortalToast } from "../../components/portal/PortalToast"
 import { getPortalSession } from "../../lib/portal-auth"
 import { academicFeeHistory, studentAcademicProfile } from "../../lib/portal-data"
+import { getStudentDashboardRoute } from "../../lib/portal-routing"
 import { useState } from "react"
 
 export default function StudentAcademicFeeHistoryPage() {
@@ -35,7 +36,7 @@ export default function StudentAcademicFeeHistoryPage() {
             </p>
           </div>
 
-          <PortalButton variant="outline" onClick={() => navigate("/student-dashboard/academic-fees")}>
+          <PortalButton variant="outline" onClick={() => navigate(getStudentDashboardRoute("/academic-fees"))}>
             <ArrowLeft className="h-4 w-4" />
             Back to Academic Fees
           </PortalButton>

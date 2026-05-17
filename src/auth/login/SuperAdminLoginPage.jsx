@@ -16,6 +16,7 @@ function normalizeAdminRole(value) {
   if (["superadmin", "super_admin"].includes(normalizedValue)) return "superadmin"
   if (["admission_officer", "admission"].includes(normalizedValue)) return "admission_officer"
   if (["bursary_officer", "bursary", "bursar"].includes(normalizedValue)) return "bursary_officer"
+  if (["lecturer", "lecture"].includes(normalizedValue)) return "lecturer"
   return ""
 }
 
@@ -31,7 +32,7 @@ function resolveAdminRole(payload, fallbackRole) {
   ]
 
   const resolvedRole = candidates.map(normalizeAdminRole).find(Boolean)
-  return resolvedRole || fallbackRole
+  return resolvedRole || normalizeAdminRole(fallbackRole)
 }
 
 export default function SuperAdminLoginPage({
@@ -66,7 +67,12 @@ export default function SuperAdminLoginPage({
         password,
       })
 
-      const resolvedRole = resolveAdminRole(payload, fallbackRole)
+      const resolvedRole = resolveAdminRole(payload, "")
+
+      if (!resolvedRole) {
+        setLocalError("Unable to verify your administrative role. Please contact support.")
+        return
+      }
 
       if (!allowedRoles.includes(resolvedRole)) {
         setLocalError("Your account is not permitted to use this login route.")

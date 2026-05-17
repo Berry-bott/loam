@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom"
 import { LazyImage } from "./LazyMedia"
 import {
-  ADMISSIONS_SUBDOMAIN_URL,
-  PORTAL_SUBDOMAIN_URL,
+  getAdmissionsUrl,
+  getBlogUrl,
+  getPortalUrl,
   getMainWebsitePath,
   isAdmissionsSubdomain,
+  isBlogSubdomain,
   isPortalSubdomain,
 } from "../../lib/portal-routing"
 
@@ -20,7 +22,7 @@ const footerLinks = {
   ],
   resources: [
     { href: "/adverts", label: "Announcements" },
-    { href: PORTAL_SUBDOMAIN_URL, label: "Student Portal", external: true },
+    { href: "/portal", label: "Student Portal", external: true },
     { href: "#", label: "Parent Portal" },
     { href: "#", label: "Career Opportunities" },
   ],
@@ -36,6 +38,7 @@ const footerLinks = {
 export function Footer() {
   const onPortalHost = isPortalSubdomain()
   const onAdmissionsHost = isAdmissionsSubdomain()
+  const onBlogHost = isBlogSubdomain()
 
   return (
     <footer className="bg-footer text-primary-foreground">
@@ -61,12 +64,12 @@ export function Footer() {
                 <li key={link.href}>
                   {link.href === "/admissions" ? (
                     <a
-                      href={onAdmissionsHost ? "/" : ADMISSIONS_SUBDOMAIN_URL}
+                      href={getAdmissionsUrl()}
                       className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
                     >
                       {link.label}
                     </a>
-                  ) : onPortalHost || onAdmissionsHost ? (
+                  ) : onPortalHost || onAdmissionsHost || onBlogHost ? (
                     <a
                       href={getMainWebsitePath(link.href)}
                       className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
@@ -91,7 +94,21 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.resources.map((link, idx) => (
                 <li key={idx}>
-                  {link.external ? (
+                  {link.href === "/adverts" ? (
+                    <a
+                      href={getBlogUrl()}
+                      className="text-primary-foreground hover:text-primary-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  ) : link.href === "/portal" ? (
+                    <a
+                      href={getPortalUrl()}
+                      className="text-primary-foreground hover:text-primary-foreground transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  ) : link.external ? (
                     <a
                       href={link.href}
                       className="text-primary-foreground hover:text-primary-foreground transition-colors text-sm"

@@ -7,7 +7,8 @@ import { PortalInput } from "../../components/portal/PortalInput"
 import { PortalModal } from "../../components/portal/PortalModal"
 import { PortalCardSkeleton, PortalSkeleton } from "../../components/portal/PortalSkeleton"
 import { PortalToast } from "../../components/portal/PortalToast"
-import { PageEyebrow, PageTitle } from "../../components/admin-shared/Shared"
+import { MetricCard, PageEyebrow, PageTitle } from "../../components/admin-shared/Shared"
+import { getAdminDashboardRoute } from "../../lib/portal-routing"
 import {
   assignHod,
   createDepartment,
@@ -145,6 +146,11 @@ export default function AdminDepartmentManagementPage() {
       ),
     }))
   }, [departments])
+
+  const hodAssignedCount = useMemo(
+    () => departments.filter((department) => getHodName(department) !== "Unassigned").length,
+    [departments],
+  )
 
   const loadManagementData = async () => {
     setIsLoading(true)
@@ -458,10 +464,10 @@ export default function AdminDepartmentManagementPage() {
         <PageEyebrow>The Prestigious Ledger</PageEyebrow>
         <PageTitle
           title="Department Management"
-          description="Create a faculty or choose an existing one first. After faculty is resolved, create a new department or load an existing department under that faculty."
+          description="Get an overview of all departments, create new departments under existing or new schools, and assign heads of department to their respective departments all from this page."
           actions={
             <div className="flex items-center gap-2">
-              <Link to="/admin-dashboard/general-management">
+              <Link to={getAdminDashboardRoute()}>
                 <PortalButton variant="outline">
                   <ArrowLeft className="h-4 w-4" />
                   Back
@@ -474,6 +480,20 @@ export default function AdminDepartmentManagementPage() {
             </div>
           }
         />
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <MetricCard
+            label="Departments Overview"
+            value={String(departments.length).padStart(2, "0")}
+            note="Total departments created"
+          />
+          <MetricCard
+            label="HOD Assigned"
+            value={String(hodAssignedCount).padStart(2, "0")}
+            note={`${hodAssignedCount} departments now have a head assigned`}
+            accent="gold"
+          />
+        </div>
 
         <div className="grid gap-16">
           <PortalCard>
@@ -566,10 +586,10 @@ export default function AdminDepartmentManagementPage() {
               ) : null}
 
               <div className="flex flex-wrap gap-3">
-                <PortalButton onClick={handleSubmit} disabled={isSubmitting}>
-                  {isSubmitting ? "Saving..." : "Save Department"}
-                </PortalButton>
-                <Link to="/admin-dashboard/general-management/staff">
+              <PortalButton onClick={handleSubmit} disabled={isSubmitting}>
+                {isSubmitting ? "Saving..." : "Save Department"}
+              </PortalButton>
+                <Link to={getAdminDashboardRoute("/general-management/staff")}>
                   <PortalButton variant="gold">
                     Manage Staff
                   </PortalButton>

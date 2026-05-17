@@ -2,7 +2,7 @@ import { FileText, GraduationCap, Settings2 } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Navbar } from "../../components/index/Navbar"
 import { ScrollReveal } from "../../components/index/ScrollReveal"
-import { ADMISSIONS_SUBDOMAIN_URL, getStudentLoginRoute } from "../../lib/portal-routing"
+import { getAdmissionsUrl, getStudentLoginRoute } from "../../lib/portal-routing"
 
 function PortalCard({ title, subtitle, to, icon: Icon, delay = 0 }) {
   const isExternalLink = typeof to === "string" && /^https?:\/\//.test(to)
@@ -53,11 +53,12 @@ function PortalCard({ title, subtitle, to, icon: Icon, delay = 0 }) {
 
 export default function PortalPage() {
   const currentHour = new Date().getHours()
+  const admissionsUrl = getAdmissionsUrl()
   const portalCards = [
     {
       title: "ADMISSION",
       subtitle: "Admissions Portal",
-      to: ADMISSIONS_SUBDOMAIN_URL,
+      to: admissionsUrl,
       icon: FileText,
     },
     {

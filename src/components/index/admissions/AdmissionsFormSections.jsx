@@ -105,7 +105,7 @@ function CustomSelect({ value, onChange, options, placeholder = "Select", error,
       </button>
 
       {open && !disabled && (
-        <ul className="absolute z-20 mt-1 max-h-48 w-full overflow-y-auto rounded-sm border border-input bg-background shadow-lg">
+        <ul className="admissions-select-scroll absolute z-20 mt-1 max-h-60 w-full overflow-y-auto rounded-sm border border-input bg-background shadow-lg">
           <li
             onClick={() => { onChange(""); setOpen(false) }}
             className="cursor-pointer px-3 py-2 text-sm text-muted-foreground hover:bg-muted"
@@ -324,6 +324,11 @@ export function AcademicHistoryStep({
   getAvailableSubjectOptions,
   totalJambScore,
   courseOptions,
+  selectedDepartments = [],
+  handleCourseChange,
+  isLoadingCourses = false,
+  courseOptionsError = "",
+  onRetryCourses,
   errors = {},
 }) {
   return (
@@ -505,12 +510,49 @@ export function AcademicHistoryStep({
             <label className="mb-1 block text-xs uppercase tracking-wider text-muted-foreground">Chosen Course</label>
             <CustomSelect
               value={form.chosenCourse}
-              onChange={(val) => handleChange("chosenCourse")({ target: { value: val } })}
+              onChange={(val) => {
+                if (handleCourseChange) {
+                  handleCourseChange(val)
+                  return
+                }
+
+                handleChange("chosenCourse")({ target: { value: val } })
+              }}
               options={courseOptions}
-              placeholder="Select course"
+              placeholder={
+                isLoadingCourses
+                  ? "Loading departments..."
+                  : courseOptions.length
+                    ? "Select course"
+                    : "No departments available"
+              }
               error={errors.chosenCourse}
+              disabled={isLoadingCourses || !courseOptions.length}
             />
             <FieldError message={errors.chosenCourse} />
+            {form.chosenDepartmentId ? (
+              <p className="mt-2 text-[11px] text-muted-foreground">
+                Department ID: {form.chosenDepartmentId}
+              </p>
+            ) : selectedDepartments.length && form.chosenCourse ? (
+              <p className="mt-2 text-[11px] text-red-500">
+                The selected department could not be matched to a backend ID.
+              </p>
+            ) : null}
+            {courseOptionsError ? (
+              <div className="mt-2 flex items-center gap-3">
+                <p className="text-xs text-red-500">{courseOptionsError}</p>
+                {onRetryCourses ? (
+                  <button
+                    type="button"
+                    onClick={onRetryCourses}
+                    className="text-xs font-medium text-accent underline underline-offset-2"
+                  >
+                    Retry
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
@@ -589,18 +631,6 @@ export function ReviewSubmitStep({
             ["Emergency Phone", form.emergencyContactPhone],
           ],
         },
-        {
-          title: "Academic History",
-          rows: [
-            ["Last School", form.lastSchool],
-            ["Year of Graduation", form.yearOfGraduation],
-            ["Chosen Course", form.chosenCourse],
-            ["Number of Sittings", form.sittingCount],
-            ["JAMB Registration Number", form.jambRegistrationNumber],
-            ["JAMB Year", form.jambYear],
-            ["JAMB Total Score", String(totalJambScore)],
-          ],
-        },
       ].map((section) => (
         <div key={section.title} className="mb-6 overflow-hidden rounded-sm border border-border bg-background/70">
           <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">{section.title}</div>
@@ -614,15 +644,19 @@ export function ReviewSubmitStep({
       ))}
 
       <div className="mb-6 overflow-hidden rounded-sm border border-border bg-background/70">
-        <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">Documents</div>
-        <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2">
-          <FilePreview file={form.passport} label="Passport Photograph" emptyLabel="Passport not uploaded" />
-          <FilePreview file={form.waecResult} label="WAEC Result" emptyLabel="WAEC result not uploaded" />
-        </div>
-      </div>
-
-      <div className="mb-6 overflow-hidden rounded-sm border border-border bg-background/70">
         <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">O&apos;Level Sittings</div>
+        <div className="grid grid-cols-2 gap-3 border-b border-border px-4 py-3 text-sm">
+          <span className="text-muted-foreground">Last School</span>
+          <span className="font-medium">{form.lastSchool || <span className="italic text-muted-foreground">-</span>}</span>
+        </div>
+        <div className="grid grid-cols-2 gap-3 border-b border-border px-4 py-3 text-sm">
+          <span className="text-muted-foreground">Year of Graduation</span>
+          <span className="font-medium">{form.yearOfGraduation || <span className="italic text-muted-foreground">-</span>}</span>
+        </div>
+        <div className="grid grid-cols-2 gap-3 border-b border-border px-4 py-3 text-sm">
+          <span className="text-muted-foreground">Number of Sittings</span>
+          <span className="font-medium">{form.sittingCount || <span className="italic text-muted-foreground">-</span>}</span>
+        </div>
         <div className={`grid grid-cols-1 gap-4 p-4 ${Number(form.sittingCount) === 2 ? "lg:grid-cols-2" : ""}`}>
           {activeSittings.map((sitting, sittingIndex) => (
             <div key={`review-sitting-${sittingIndex}`} className={`rounded-sm border p-4 ${sittingIndex === 0 ? "border-accent/30 bg-accent/5" : "border-emerald-200 bg-emerald-50/60"}`}>
@@ -670,6 +704,22 @@ export function ReviewSubmitStep({
             <span className="font-semibold">Total Score</span>
             <span className="font-semibold">{totalJambScore}</span>
           </div>
+        </div>
+      </div>
+
+      <div className="mb-6 overflow-hidden rounded-sm border border-border bg-background/70">
+        <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">Documents</div>
+        <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2">
+          <FilePreview file={form.passport} label="Passport Photograph" emptyLabel="Passport not uploaded" />
+          <FilePreview file={form.waecResult} label="WAEC Result" emptyLabel="WAEC result not uploaded" />
+        </div>
+      </div>
+
+      <div className="mb-6 overflow-hidden rounded-sm border border-border bg-background/70">
+        <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">Chosen Course</div>
+        <div className="grid grid-cols-2 gap-3 px-4 py-4 text-sm">
+          <span className="text-muted-foreground">Selected Department</span>
+          <span className="font-medium">{form.chosenCourse || "Not provided"}</span>
         </div>
       </div>
 

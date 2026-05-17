@@ -6,7 +6,8 @@ import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalInput } from "../../components/portal/PortalInput"
 import { PortalCardSkeleton, PortalSkeleton } from "../../components/portal/PortalSkeleton"
 import { PortalToast } from "../../components/portal/PortalToast"
-import { PageEyebrow, PageTitle, StatusPill } from "../../components/admin-shared/Shared"
+import { MetricCard, PageEyebrow, PageTitle, StatusPill } from "../../components/admin-shared/Shared"
+import { getAdminDashboardRoute } from "../../lib/portal-routing"
 import {
   createStaff,
   getAllDepartments,
@@ -97,6 +98,10 @@ function resolveStaffDepartmentName(item, departments) {
   )
 
   return matchedDepartment ? getDepartmentName(matchedDepartment) : "Unassigned"
+}
+
+function isStaffActive(item) {
+  return String(getStaffStatus(item)).trim().toLowerCase() === "active"
 }
 
 const STAFF_TYPE_OPTIONS = [
@@ -300,6 +305,16 @@ export default function AdminStaffManagementPage() {
         : false
     })
   }, [departments, staff, staffDepartmentFilter, staffFilter])
+
+  const activeStaffCount = useMemo(
+    () => staff.filter((member) => isStaffActive(member)).length,
+    [staff],
+  )
+
+  const inactiveStaffCount = useMemo(
+    () => staff.filter((member) => !isStaffActive(member)).length,
+    [staff],
+  )
 
   useEffect(() => {
     if (!departmentFilterMenuOpen) return
@@ -542,10 +557,10 @@ export default function AdminStaffManagementPage() {
         <PageEyebrow>The Prestigious Ledger</PageEyebrow>
         <PageTitle
           title="Staff Management"
-          description="Choose the staff type first, then fill the right form for either academic or administrative staff creation."
+          description="Create new staff records, get an overview of all staff members, filter by staff type and department, and manage individual staff details and status all from this page."
           actions={
             <>
-              <Link to="/admin-dashboard/general-management">
+              <Link to={getAdminDashboardRoute()}>
                 <PortalButton variant="outline">
                   <ArrowLeft className="h-4 w-4" />
                   Back
@@ -557,6 +572,25 @@ export default function AdminStaffManagementPage() {
             </>
           }
         />
+
+        <div className="grid gap-4 md:grid-cols-3">
+          <MetricCard
+            label="Staff Overview"
+            value={String(staff.length).padStart(2, "0")}
+            note="Total staff records created"
+          />
+          <MetricCard
+            label="Active Staff"
+            value={String(activeStaffCount).padStart(2, "0")}
+            note={`${activeStaffCount} staff records currently active`}
+            accent="gold"
+          />
+          <MetricCard
+            label="Inactive Staff"
+            value={String(inactiveStaffCount).padStart(2, "0")}
+            note={`${inactiveStaffCount} staff records currently inactive`}
+          />
+        </div>
 
         <div className="grid gap-6 ">
           <SectionFrame
@@ -819,7 +853,7 @@ export default function AdminStaffManagementPage() {
 
           <SectionFrame
             icon={UsersRound}
-            title="Select Existing Staff"
+            title="Staff Registry"
             description="This section is visually separated for reviewing current staff records, selecting one, and applying registry actions like status toggle or password reset."
             accent="gold"
           >
@@ -942,11 +976,18 @@ export default function AdminStaffManagementPage() {
                       const isToggling = togglingStaffIds.some((id) => String(id) === String(staffId))
 
                       return (
-                        <button
+                        <div
                           key={staffId || getStaffEmail(member)}
-                          type="button"
+                          role="button"
+                          tabIndex={0}
                           onClick={() => setSelectedStaffId(staffId)}
-                        className={`w-full rounded-[8px] border px-2.5 py-2.5 text-left transition-colors ${
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter" || event.key === " ") {
+                              event.preventDefault()
+                              setSelectedStaffId(staffId)
+                            }
+                          }}
+                          className={`w-full rounded-[8px] border px-2.5 py-2.5 text-left transition-colors ${
                             isSelected
                               ? "border-staff-selected-border bg-staff-selected-bg"
                               : "border-admin-registry-border bg-admin-registry-bg hover:border-staff-hover-border"
@@ -1001,7 +1042,7 @@ export default function AdminStaffManagementPage() {
                               {isSelected ? <CheckCircle2 className="h-4 w-4 text-staff-selected-icon" /> : null}
                             </div>
                           </div>
-                        </button>
+                        </div>
                       )
                     })
                   ) : (

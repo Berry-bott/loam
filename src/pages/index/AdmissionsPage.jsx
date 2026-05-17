@@ -180,9 +180,7 @@ export default function AdmissionsPage() {
               <div className="rounded-[28px] shadow-2xl border border-border bg-background px-6 py-10 text-center md:px-10">
                 <div className="mx-auto max-w-2xl">
                   <h3 className="mb-3 font-serif text-2xl font-semibold md:text-3xl">Ready to start your application?</h3>
-                  <p className="mb-8 text-muted-foreground">
-                    The admission form opens in a modal so you can finish it without losing your place on this page.
-                  </p>
+
                   <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
                     <Button size="lg" className="rounded-full" onClick={() => setShowApplicationModal(true)}>
                       Start Application <ArrowRight className="ml-2 h-4 w-4" />

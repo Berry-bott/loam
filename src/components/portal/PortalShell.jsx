@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { PortalSidebar } from "./PortalSidebar"
 import { PortalTopbar } from "./PortalTopbar"
 import { clearPortalSession, getPortalSession, isAdminPortalRole } from "../../lib/portal-auth"
-import { getPortalHomeRoute } from "../../lib/portal-routing"
+import { getAdminLoginRoute, getPortalHomeRoute } from "../../lib/portal-routing"
 import { useAuthStore } from "../../store/admin/authStore"
 
 export function PortalShell({
@@ -46,7 +46,7 @@ export function PortalShell({
       // Always clear local session and continue to login screen.
     } finally {
       clearPortalSession()
-      navigate(isAdminPortalRole(session?.role) ? "/superadminlogin" : getPortalHomeRoute())
+      navigate(isAdminPortalRole(session?.role) ? getAdminLoginRoute() : getPortalHomeRoute())
     }
   }
 

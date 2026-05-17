@@ -52,6 +52,7 @@ export default function ContactPage() {
     subject: "",
     message: "",
   })
+  const [submitMessage, setSubmitMessage] = useState("")
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
@@ -80,7 +81,7 @@ export default function ContactPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(formState)
+    setSubmitMessage("The contact form is not connected yet. Please use the phone number or email on this page for now.")
   }
 
   return (
@@ -145,7 +146,7 @@ export default function ContactPage() {
                     Fill out the form below and our team will get back to you within 24 hours.
                   </p>
 
-                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
                         <label className="block text-sm font-medium mb-2">Full Name</label>
@@ -192,6 +193,11 @@ export default function ContactPage() {
                         <Send className="ml-2 h-4 w-4" />
                       </Button>
                     </MagneticButton>
+                    {submitMessage ? (
+                      <p className="text-sm text-muted-foreground">
+                        {submitMessage}
+                      </p>
+                    ) : null}
                   </form>
                 </div>
               </ScrollReveal>
@@ -199,7 +205,11 @@ export default function ContactPage() {
               <ScrollReveal animation="slideLeft">
                 <div className="space-y-8">
                   <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-border">
-                  <a href="https://maps.app.goo.gl/cVRDg2anzCEqd5LF6" target="_blank">
+                  <a
+                    href="https://maps.app.goo.gl/cVRDg2anzCEqd5LF6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     <LazyImage src="/maps.jpeg" alt="Campus Map" className="w-full h-full object-cover" />
 
                     <div className="absolute inset-0 flex items-center justify-center">

@@ -1,6 +1,11 @@
 import { Link, NavLink } from "react-router-dom"
 import { X } from "lucide-react"
 import { cn } from "../../lib/utils"
+import { getPortalHomeRoute } from "../../lib/portal-routing"
+
+const portalBasePath = getPortalHomeRoute() === "/" ? "" : getPortalHomeRoute()
+const studentDashboardRoot = `${portalBasePath}/student-dashboard`
+const adminDashboardRoot = `${portalBasePath}/admin-dashboard`
 
 export function PortalSidebar({
   title,
@@ -50,15 +55,15 @@ export function PortalSidebar({
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <nav className="flex-1 space-y-3 overflow-y-auto px-2 py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {items.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
-              end={item.to === "/student-dashboard" || item.to === "/admin-dashboard"}
+              end={item.to === studentDashboardRoot || item.to === adminDashboardRoot}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center gap-3 rounded-[3px] px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/70 transition-colors",
+                  "flex items-center gap-2 rounded-[3px] px-4 py-3 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/70 transition-colors",
                   isActive ? "bg-red-900 text-white" : "hover:bg-white/8 hover:text-white",
                 )
               }

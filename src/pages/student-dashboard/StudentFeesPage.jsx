@@ -5,6 +5,7 @@ import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalModal } from "../../components/portal/PortalModal"
 import { PortalToast } from "../../components/portal/PortalToast"
+import { getStudentDashboardRoute } from "../../lib/portal-routing"
 
 const sessionOptions = ["ND 1 ", "ND 2 ", "HND 1",  "HND 2"]
 const paymentOptions = ["Full Session Payment", "First Semester Payment", "Second Semester Payment"]
@@ -78,7 +79,7 @@ export default function StudentFeesPage() {
               // variant="outline"
               variant="gold"
               size="sm"
-              onClick={() => navigate("/student-dashboard/academic-fees/history")}
+              onClick={() => navigate(getStudentDashboardRoute("/academic-fees/history"))}
             >
               <History className="h-4 w-4" />
               Financial statement
