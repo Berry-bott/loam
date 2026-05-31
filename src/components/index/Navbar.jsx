@@ -114,7 +114,7 @@ export function Navbar() {
             </div>
 
             <div className="flex flex-col">
-              <span className="font-serif text-xl font-semibold text-foreground">
+              <span className="font-sans text-xl font-semibold text-foreground">
                 Loam Polytechnic
               </span>
               <span className="text-[10.5px]">

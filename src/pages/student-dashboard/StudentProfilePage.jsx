@@ -1,9 +1,11 @@
 import { useState } from "react"
-import {  UserRound, ShieldCheck } from "lucide-react"
+import { Eye, EyeOff, ShieldCheck } from "lucide-react"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
+import { PortalInput } from "../../components/portal/PortalInput"
 import { PortalModal } from "../../components/portal/PortalModal"
 import { PortalToast } from "../../components/portal/PortalToast"
+import { useStudentAuthStore } from "../../store/student/authStore"
 
 function InfoRow({ label, value }) {
   return (
@@ -15,9 +17,92 @@ function InfoRow({ label, value }) {
 }
 
 export default function StudentProfilePage() {
+  const { changePassword, isLoading, clearError } = useStudentAuthStore()
   const [activeModal, setActiveModal] = useState(null)
   const [mfaEnabled, setMfaEnabled] = useState(true)
   const [toastMessage, setToastMessage] = useState("")
+  const [passwordForm, setPasswordForm] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  })
+  const [passwordError, setPasswordError] = useState("")
+  const [showOldPassword, setShowOldPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+
+  const handlePasswordChange = (field, value) => {
+    setPasswordForm((current) => ({
+      ...current,
+      [field]: value,
+    }))
+  }
+
+  const resetPasswordForm = () => {
+    setPasswordForm({
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    })
+    setPasswordError("")
+    setShowOldPassword(false)
+    setShowNewPassword(false)
+    setShowConfirmPassword(false)
+  }
+
+  const closeCredentialsModal = () => {
+    setActiveModal(null)
+    clearError()
+    resetPasswordForm()
+  }
+
+  const handleChangePassword = async () => {
+    clearError()
+    setPasswordError("")
+
+    if (!passwordForm.oldPassword.trim()) {
+      setPasswordError("Current password is required.")
+      return
+    }
+
+    if (!passwordForm.newPassword.trim()) {
+      setPasswordError("New password is required.")
+      return
+    }
+
+    if (passwordForm.newPassword.trim().length < 8) {
+      setPasswordError("New password must be at least 8 characters long.")
+      return
+    }
+
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+      setPasswordError("New password and confirmation do not match.")
+      return
+    }
+
+    try {
+      const payload = await changePassword({
+        oldPassword: passwordForm.oldPassword,
+        newPassword: passwordForm.newPassword,
+      })
+
+      closeCredentialsModal()
+      setToastMessage(payload?.message || "Password changed successfully.")
+    } catch (error) {
+      setPasswordError(error.message || "Unable to change password right now.")
+    }
+  }
+
+  const renderPasswordToggle = (isVisible, onToggle) => (
+    <button
+      type="button"
+      onClick={onToggle}
+      className="inline-flex h-8 w-8 items-center justify-center rounded-full text-portal-text-muted transition-colors hover:bg-portal-surface-soft hover:text-portal-brand-strong"
+      aria-label={isVisible ? "Hide password" : "Show password"}
+    >
+      {isVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+    </button>
+  )
 
   return (
     <>
@@ -101,7 +186,16 @@ export default function StudentProfilePage() {
           <div className="space-y-5">
             <InfoRow label="Current Password" value="********" />
             <InfoRow label="Recovery Email" value="johndoe.personal@email.com" />
-            <PortalButton variant="outline" onClick={() => setActiveModal("credentials")}>Update Credentials</PortalButton>
+            <PortalButton
+              variant="outline"
+              onClick={() => {
+                clearError()
+                setPasswordError("")
+                setActiveModal("credentials")
+              }}
+            >
+              Update Credentials
+            </PortalButton>
           </div>
 
           <div className="space-y-5 rounded-[6px] border border-stone-200 bg-portal-surface p-5">
@@ -163,22 +257,50 @@ export default function StudentProfilePage() {
 
       <PortalModal
         open={activeModal === "credentials"}
-        onClose={() => setActiveModal(null)}
-        title="Update Credentials"
-        description="Change your portal password and recovery options."
+        onClose={closeCredentialsModal}
+        title="Change Password"
+        description="Update the password you use to sign in to the student portal."
       >
-        <div className="space-y-3">
-          <input className="h-11 w-full rounded-[6px] border border-portal-border-soft px-4 text-sm outline-none" type="password" placeholder="Current password" />
-          <input className="h-11 w-full rounded-[6px] border border-portal-border-soft px-4 text-sm outline-none" type="password" placeholder="New password" />
-          <input className="h-11 w-full rounded-[6px] border border-portal-border-soft px-4 text-sm outline-none" type="email" placeholder="Recovery email" />
+        <div className="space-y-4">
+          <PortalInput
+            label="Current Password"
+            type={showOldPassword ? "text" : "password"}
+            value={passwordForm.oldPassword}
+            onChange={(event) => handlePasswordChange("oldPassword", event.target.value)}
+            autoComplete="current-password"
+            disabled={isLoading}
+            trailingElement={renderPasswordToggle(showOldPassword, () => setShowOldPassword((value) => !value))}
+          />
+          <PortalInput
+            label="New Password"
+            type={showNewPassword ? "text" : "password"}
+            value={passwordForm.newPassword}
+            onChange={(event) => handlePasswordChange("newPassword", event.target.value)}
+            autoComplete="new-password"
+            disabled={isLoading}
+            hint="Use at least 8 characters."
+            trailingElement={renderPasswordToggle(showNewPassword, () => setShowNewPassword((value) => !value))}
+          />
+          <PortalInput
+            label="Confirm New Password"
+            type={showConfirmPassword ? "text" : "password"}
+            value={passwordForm.confirmPassword}
+            onChange={(event) => handlePasswordChange("confirmPassword", event.target.value)}
+            autoComplete="new-password"
+            disabled={isLoading}
+            trailingElement={renderPasswordToggle(showConfirmPassword, () => setShowConfirmPassword((value) => !value))}
+          />
+          {passwordError ? (
+            <p className="rounded-[4px] border border-admin-error-border bg-admin-error-bg px-3 py-2 text-sm text-admin-error-text">
+              {passwordError}
+            </p>
+          ) : null}
           <PortalButton
             className="w-full"
-            onClick={() => {
-              setActiveModal(null)
-              setToastMessage("Credential update request submitted successfully.")
-            }}
+            onClick={handleChangePassword}
+            disabled={isLoading}
           >
-            Save Changes
+            {isLoading ? "Updating..." : "Save Changes"}
           </PortalButton>
         </div>
       </PortalModal>

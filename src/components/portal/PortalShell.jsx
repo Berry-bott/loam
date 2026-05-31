@@ -5,6 +5,7 @@ import { PortalTopbar } from "./PortalTopbar"
 import { clearPortalSession, getPortalSession, isAdminPortalRole } from "../../lib/portal-auth"
 import { getAdminLoginRoute, getPortalHomeRoute } from "../../lib/portal-routing"
 import { useAuthStore } from "../../store/admin/authStore"
+import { useStudentAuthStore } from "../../store/student/authStore"
 
 export function PortalShell({
   title,
@@ -21,6 +22,7 @@ export function PortalShell({
 }) {
   const navigate = useNavigate()
   const { logoutAdmin } = useAuthStore()
+  const { logoutStudent } = useStudentAuthStore()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
 
@@ -41,6 +43,8 @@ export function PortalShell({
     try {
       if (isAdminPortalRole(session?.role)) {
         await logoutAdmin()
+      } else {
+        await logoutStudent()
       }
     } catch {
       // Always clear local session and continue to login screen.

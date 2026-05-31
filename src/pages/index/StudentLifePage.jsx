@@ -180,7 +180,7 @@ export default function StudentLifePage() {
                         <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
                           <activity.icon className="h-6 w-6 text-accent" />
                         </div>
-                        <h3 className="font-serif text-2xl font-semibold mb-2">{activity.title}</h3>
+                        <h3 className="font-sans text-2xl font-light  mb-2">{activity.title}</h3>
                         <p className="text-muted-foreground mb-4">{activity.description}</p>
                         <Link
                           to="#"

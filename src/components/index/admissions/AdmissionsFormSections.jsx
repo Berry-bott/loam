@@ -609,6 +609,34 @@ export function ReviewSubmitStep({
   errors = {},
   showConfirmationSection = true,
 }) {
+  const toTitleCase = (value) =>
+    String(value || "")
+      .toLowerCase()
+      .replace(/\b\w/g, (letter) => letter.toUpperCase())
+
+  const formatValue = (value, fallback = "-") => {
+    if (value === null || value === undefined) return fallback
+    if (typeof value === "string") {
+      const trimmedValue = value.trim()
+      return trimmedValue || fallback
+    }
+
+    return String(value)
+  }
+
+  const formatDate = (value) => {
+    if (!value) return "-"
+
+    const date = new Date(value)
+    if (Number.isNaN(date.getTime())) return formatValue(value)
+
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "2-digit",
+    })
+  }
+
   return (
     <div>
       <SectionHeading title="Review & Submit" />
@@ -616,18 +644,32 @@ export function ReviewSubmitStep({
 
       {[
         {
+          title: "Application Record",
+          rows: [
+            ["Application ID", form.applicationId],
+            ["Status", form.status],
+            ["Submitted On", formatDate(form.createdAt)],
+            ["Last Updated", formatDate(form.updatedAt)],
+          ],
+        },
+        {
           title: "Personal Information",
           rows: [
-            ["Full Name", [form.firstName, form.middleName, form.lastName].filter(Boolean).join(" ")],
-            ["Date of Birth", form.dateOfBirth || "Optional"],
-            ["Gender", form.gender],
+            ["Full Name", toTitleCase([form.firstName, form.middleName, form.lastName].filter(Boolean).join(" "))],
+            ["Date of Birth", formatDate(form.dateOfBirth)],
+            ["Gender", toTitleCase(form.gender)],
+            ["Marital Status", toTitleCase(form.maritalStatus)],
             ["Email", form.email],
             ["Phone", form.phone],
-            ["Nationality", form.nationality],
-            ["State / LGA", `${form.stateOfOrigin} / ${form.lga}`],
-            ["Sponsor", form.sponsorName],
+            ["Nationality", toTitleCase(form.nationality)],
+            ["State of Origin", toTitleCase(form.stateOfOrigin)],
+            ["LGA", toTitleCase(form.lga)],
+            ["State of Residence", toTitleCase(form.stateOfResidence)],
+            ["City of Residence", toTitleCase(form.cityOfResidence)],
+            ["Residential Address", toTitleCase(form.residentialAddress)],
+            ["Sponsor", toTitleCase(form.sponsorName)],
             ["Sponsor Phone", form.sponsorPhone],
-            ["Emergency Contact", form.emergencyContactName],
+            ["Emergency Contact", toTitleCase(form.emergencyContactName)],
             ["Emergency Phone", form.emergencyContactPhone],
           ],
         },
@@ -637,7 +679,7 @@ export function ReviewSubmitStep({
           {section.rows.map(([label, value]) => (
             <div key={label} className="grid grid-cols-2 border-t border-border px-4 py-2 text-sm">
               <span className="text-muted-foreground">{label}</span>
-              <span className="truncate font-medium">{value || <span className="italic text-muted-foreground">-</span>}</span>
+              <span className="font-medium break-words">{formatValue(value) || <span className="italic text-muted-foreground">-</span>}</span>
             </div>
           ))}
         </div>
@@ -647,33 +689,41 @@ export function ReviewSubmitStep({
         <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">O&apos;Level Sittings</div>
         <div className="grid grid-cols-2 gap-3 border-b border-border px-4 py-3 text-sm">
           <span className="text-muted-foreground">Last School</span>
-          <span className="font-medium">{form.lastSchool || <span className="italic text-muted-foreground">-</span>}</span>
+          <span className="font-medium break-words">{formatValue(toTitleCase(form.lastSchool))}</span>
         </div>
         <div className="grid grid-cols-2 gap-3 border-b border-border px-4 py-3 text-sm">
           <span className="text-muted-foreground">Year of Graduation</span>
-          <span className="font-medium">{form.yearOfGraduation || <span className="italic text-muted-foreground">-</span>}</span>
+          <span className="font-medium">{formatValue(form.yearOfGraduation)}</span>
         </div>
         <div className="grid grid-cols-2 gap-3 border-b border-border px-4 py-3 text-sm">
           <span className="text-muted-foreground">Number of Sittings</span>
-          <span className="font-medium">{form.sittingCount || <span className="italic text-muted-foreground">-</span>}</span>
+          <span className="font-medium">{formatValue(form.sittingCount)}</span>
         </div>
         <div className={`grid grid-cols-1 gap-4 p-4 ${Number(form.sittingCount) === 2 ? "lg:grid-cols-2" : ""}`}>
           {activeSittings.map((sitting, sittingIndex) => (
             <div key={`review-sitting-${sittingIndex}`} className={`rounded-sm border p-4 ${sittingIndex === 0 ? "border-accent/30 bg-accent/5" : "border-emerald-200 bg-emerald-50/60"}`}>
               <div className="mb-3 flex items-center justify-between">
                 <h4 className="text-sm font-semibold">Sitting {sittingIndex === 0 ? "A" : "B"}</h4>
-                <span className="text-xs text-muted-foreground">{sitting.examType || "Exam type not set"}</span>
+                <span className="text-xs text-muted-foreground">{formatValue(toTitleCase(sitting.examType), "Exam type not set")}</span>
               </div>
               <div className="mb-4 grid grid-cols-2 gap-3 text-sm">
                 <div>
+                  <p className="text-muted-foreground">Exam Year</p>
+                  <p className="font-medium">{formatValue(sitting.examYear, "Not provided")}</p>
+                </div>
+                <div>
                   <p className="text-muted-foreground">Candidate Number</p>
-                  <p className="font-medium">{sitting.candidateNumber || "Not provided"}</p>
+                  <p className="font-medium">{formatValue(sitting.candidateNumber, "Not provided")}</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-muted-foreground">Serial Number</p>
+                  <p className="font-medium">{formatValue(sitting.serialNumber, "Not provided")}</p>
                 </div>
               </div>
               <div className="space-y-2">
                 {sitting.subjects.map((subject, subjectIndex) => (
                   <div key={`review-sitting-${sittingIndex}-subject-${subjectIndex}`} className="grid grid-cols-[minmax(0,1fr)_80px] gap-3 text-sm">
-                    <span className="truncate">{subject.subject || `Subject ${subjectIndex + 1}`}</span>
+                    <span className="truncate">{toTitleCase(subject.subject || `Subject ${subjectIndex + 1}`)}</span>
                     <span className="font-medium">{subject.grade || "-"}</span>
                   </div>
                 ))}
@@ -688,7 +738,7 @@ export function ReviewSubmitStep({
         <div className="space-y-2 p-4">
           <div className="grid grid-cols-2 gap-3 border-b border-border pb-3 text-sm">
             <span className="text-muted-foreground">Registration Number</span>
-            <span className="font-medium">{form.jambRegistrationNumber || "Not provided"}</span>
+            <span className="font-medium">{formatValue(form.jambRegistrationNumber, "Not provided")}</span>
           </div>
           <div className="grid grid-cols-2 gap-3 border-b border-border pb-3 text-sm">
             <span className="text-muted-foreground">Year</span>
@@ -696,7 +746,7 @@ export function ReviewSubmitStep({
           </div>
           {form.jambSubjects.map((subject, subjectIndex) => (
             <div key={`review-jamb-${subjectIndex}`} className="grid grid-cols-[minmax(0,1fr)_80px] gap-3 text-sm">
-              <span className="truncate">{subject.subject || `Subject ${subjectIndex + 1}`}</span>
+              <span className="truncate">{toTitleCase(subject.subject || `Subject ${subjectIndex + 1}`)}</span>
               <span className="font-medium">{subject.score || "-"}</span>
             </div>
           ))}
@@ -713,13 +763,20 @@ export function ReviewSubmitStep({
           <FilePreview file={form.passport} label="Passport Photograph" emptyLabel="Passport not uploaded" />
           <FilePreview file={form.waecResult} label="WAEC Result" emptyLabel="WAEC result not uploaded" />
         </div>
-      </div>
-
-      <div className="mb-6 overflow-hidden rounded-sm border border-border bg-background/70">
-        <div className="bg-gradient-to-r from-accent/10 to-secondary/40 px-4 py-2 text-sm font-semibold">Chosen Course</div>
-        <div className="grid grid-cols-2 gap-3 px-4 py-4 text-sm">
-          <span className="text-muted-foreground">Selected Department</span>
-          <span className="font-medium">{form.chosenCourse || "Not provided"}</span>
+        <div className="border-t border-border px-4 py-4">
+          <p className="mb-3 text-sm font-medium text-foreground">Backend Document Records</p>
+          {Array.isArray(form.documents) && form.documents.length ? (
+            <div className="space-y-2">
+              {form.documents.map((document, index) => (
+                <div key={`${document?.id || document?.url || document?.name || "document"}-${index}`} className="rounded-sm border border-border bg-background px-3 py-3 text-sm">
+                  <p className="font-medium">{formatValue(document?.name || document?.type || `Document ${index + 1}`)}</p>
+                  <p className="mt-1 text-muted-foreground break-all">{formatValue(document?.url || document?.path || document?.fileName || "No file path provided")}</p>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground">No backend documents were attached to this application.</p>
+          )}
         </div>
       </div>
 

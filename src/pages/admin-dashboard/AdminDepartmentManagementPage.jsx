@@ -13,12 +13,10 @@ import {
   assignHod,
   createDepartment,
   createFaculty,
-  getAllDepartments,
   getDepartmentsByFaculty,
-  getAllFaculties,
-  getAllStaff,
   getStaffById,
 } from "../../store/admin/adminApi"
+import { useAdminDataStore } from "../../store/admin/adminDataStore"
 import {
   getDepartmentName,
   getEntityId,
@@ -66,12 +64,7 @@ function SelectField({ label, value, onChange, options, placeholder = "Select op
 
 export default function AdminDepartmentManagementPage() {
   const [toastMessage, setToastMessage] = useState("")
-  const [faculties, setFaculties] = useState([])
-  const [departments, setDepartments] = useState([])
   const [facultyDepartments, setFacultyDepartments] = useState([])
-  const [facultyLoadError, setFacultyLoadError] = useState("")
-  const [departmentLoadError, setDepartmentLoadError] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isAssigningHod, setIsAssigningHod] = useState(false)
   const [isLoadingDepartmentStaff, setIsLoadingDepartmentStaff] = useState(false)
@@ -81,6 +74,18 @@ export default function AdminDepartmentManagementPage() {
   const [selectedLecturer, setSelectedLecturer] = useState(null)
   const [confirmCandidate, setConfirmCandidate] = useState(null)
   const [departmentStaff, setDepartmentStaff] = useState([])
+  const {
+    faculties,
+    departments,
+    facultyError: facultyLoadError,
+    departmentError: departmentLoadError,
+    isLoadingFaculties,
+    isLoadingDepartments,
+    fetchFaculties,
+    fetchDepartments,
+    fetchStaff,
+  } = useAdminDataStore()
+  const isLoading = isLoadingFaculties || isLoadingDepartments
 
   const facultyOptions = useMemo(
     () =>
@@ -153,41 +158,18 @@ export default function AdminDepartmentManagementPage() {
   )
 
   const loadManagementData = async () => {
-    setIsLoading(true)
-    setFacultyLoadError("")
-    setDepartmentLoadError("")
-
-    try {
-      const [facultyResult, departmentResult] = await Promise.allSettled([
-        getAllFaculties(),
-        getAllDepartments(),
-      ])
-
-      if (facultyResult.status === "fulfilled") {
-        setFaculties(resolveArray(facultyResult.value))
-      } else {
-        setFaculties([])
-        setFacultyLoadError(
-          facultyResult.reason?.message || "Unable to load faculties right now.",
-        )
-      }
-
-      if (departmentResult.status === "fulfilled") {
-        setDepartments(resolveArray(departmentResult.value))
-      } else {
-        setDepartments([])
-        setDepartmentLoadError(
-          departmentResult.reason?.message || "Unable to load departments right now.",
-        )
-      }
-    } finally {
-      setIsLoading(false)
-    }
+    await Promise.allSettled([
+      fetchFaculties({ force: true }),
+      fetchDepartments({ force: true }),
+    ])
   }
 
   useEffect(() => {
-    loadManagementData()
-  }, [])
+    Promise.allSettled([
+      fetchFaculties({ force: true }),
+      fetchDepartments({ force: true }),
+    ])
+  }, [fetchDepartments, fetchFaculties])
 
   useEffect(() => {
     let isActive = true
@@ -227,8 +209,7 @@ export default function AdminDepartmentManagementPage() {
     setIsLoadingDepartmentStaff(true)
 
     try {
-      const staffPayload = await getAllStaff()
-      const allStaff = resolveArray(staffPayload)
+      const allStaff = await fetchStaff()
       const selectedDepartmentId = String(getEntityId(department))
       const selectedDepartmentName = String(getDepartmentName(department)).toLowerCase()
 

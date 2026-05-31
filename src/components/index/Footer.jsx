@@ -50,29 +50,29 @@ export function Footer() {
             <LazyImage src="/school-logo.jpeg" alt="" className="rounded-full" />
               </div>
             <div className="flex flex-col">
-            <span className="font-serif text-xl font-semibold text-">Loam Polytechnic..
+            <span className="font-sans text-xl font-semibold text-">Loam Polytechnic..
             </span>
-            <span className="text-[14px] text-destructive">Loamy soil for academic excellence</span>
+            <span className="text-[12px] text-destructive">Loamy soil for academic excellence</span>
             </div>
             </div>
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Navigation</h4>
+            <h4 className="font-semibold font-sans mb-4">Navigation</h4>
             <ul className="space-y-1">
               {footerLinks.navigation.map((link) => (
                 <li key={link.href}>
                   {link.href === "/admissions" ? (
                     <a
                       href={getAdmissionsUrl()}
-                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
+                      className="text-primary-foreground/70 hover:text-primary-foreground font-sans transition-colors text-sm"
                     >
                       {link.label}
                     </a>
                   ) : onPortalHost || onAdmissionsHost || onBlogHost ? (
                     <a
                       href={getMainWebsitePath(link.href)}
-                      className="text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
+                      className="font-sans text-primary-foreground/70 hover:text-primary-foreground transition-colors text-sm"
                     >
                       {link.label}
                     </a>
@@ -90,7 +90,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Resources</h4>
+            <h4 className="font-semibold font-sans mb-4">Resources</h4>
             <ul className="space-y-2">
               {footerLinks.resources.map((link, idx) => (
                 <li key={idx}>
@@ -129,10 +129,10 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
+            <h4 className="font-semibold font-sans mb-4">Contact</h4>
             <ul className="space-y-2">
               {footerLinks.contact.map((item, idx) => (
-                <li key={idx} className="text-primary-foreground text-sm">
+                <li key={idx} className="font-sans text-primary-foreground text-sm">
                   {item.label}
                 </li>
               ))}

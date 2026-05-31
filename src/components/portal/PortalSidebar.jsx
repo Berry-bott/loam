@@ -1,11 +1,10 @@
 import { Link, NavLink } from "react-router-dom"
 import { X } from "lucide-react"
 import { cn } from "../../lib/utils"
-import { getPortalHomeRoute } from "../../lib/portal-routing"
+import { getAdminDashboardRoute, getStudentDashboardRoute } from "../../lib/portal-routing"
 
-const portalBasePath = getPortalHomeRoute() === "/" ? "" : getPortalHomeRoute()
-const studentDashboardRoot = `${portalBasePath}/student-dashboard`
-const adminDashboardRoot = `${portalBasePath}/admin-dashboard`
+const studentDashboardRoot = getStudentDashboardRoute()
+const adminDashboardRoot = getAdminDashboardRoute()
 
 export function PortalSidebar({
   title,
@@ -55,7 +54,7 @@ export function PortalSidebar({
           </button>
         </div>
 
-        <nav className="flex-1 space-y-3 overflow-y-auto px-2 py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <nav className="flex-1 space-y-1 overflow-y-auto px-2 py-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {items.map((item) => (
             <NavLink
               key={item.to}

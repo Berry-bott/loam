@@ -6,47 +6,46 @@ import { getAdmissionsUrl, getPortalHomeRoute } from "../../lib/portal-routing"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
 import { PortalInput } from "../../components/portal/PortalInput"
-
-const STUDENT_LOGIN_EMAIL = "loampoly@gmail.com"
-const STUDENT_LOGIN_PASSWORD = "loam123"
+import { useStudentAuthStore } from "../../store/student/authStore"
 
 export default function LoginPage() {
   const navigate = useNavigate()
   const admissionsUrl = getAdmissionsUrl()
   const portalHomeRoute = getPortalHomeRoute()
+  const { loginStudent, isLoading, error, clearError } = useStudentAuthStore()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [keepLoggedIn, setKeepLoggedIn] = useState(true)
   const [localError, setLocalError] = useState("")
   const [showPassword, setShowPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (event) => {
     event.preventDefault()
+    clearError()
     setLocalError("")
-    setIsLoading(true)
 
     try {
       const normalizedEmail = email.trim().toLowerCase()
-
-      if (
-        normalizedEmail !== STUDENT_LOGIN_EMAIL ||
-        password !== STUDENT_LOGIN_PASSWORD
-      ) {
-        setLocalError("Invalid student email or password.")
-        return
-      }
+      const payload = await loginStudent({
+        email: normalizedEmail,
+        password,
+      })
+      const user = payload?.data?.user || payload?.data || {}
+      const studentName =
+        user?.name ||
+        [user?.firstName, user?.middleName, user?.lastName].filter(Boolean).join(" ") ||
+        "Student"
 
       setPortalSession({
         role: "student",
         email: normalizedEmail,
         keepLoggedIn,
-        name: "Adewale John",
+        name: studentName,
       })
 
       navigate(getDefaultRouteForRole("student"))
-    } finally {
-      setIsLoading(false)
+    } catch (loginError) {
+      setLocalError(loginError.message || "Invalid student email or password.")
     }
   }
 
@@ -121,6 +120,12 @@ export default function LoginPage() {
                 </p>
               ) : null}
 
+              {error && !localError ? (
+                <p className="rounded-[4px] border border-admin-error-border bg-admin-error-bg px-3 py-2 text-sm text-admin-error-text">
+                  {error}
+                </p>
+              ) : null}
+
               <label className="flex items-center gap-3 text-sm text-topbar-button-text">
                 <input
                   type="checkbox"
@@ -171,7 +176,7 @@ export default function LoginPage() {
         <div className="mt-5 flex items-center justify-center gap-5 text-[10px] font-semibold uppercase tracking-[0.15em] text-portal-text-soft">
           <span>Student Portal</span>
           <span className="h-1 w-1 rounded-full bg-admin-field-disabled-text" />
-          <span>Setup In Progress</span>
+          <span>Authorized Access</span>
         </div>
       </div>
     </div>

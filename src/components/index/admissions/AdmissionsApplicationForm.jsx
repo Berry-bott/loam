@@ -360,10 +360,8 @@ export function AdmissionsApplicationForm({ onClose, onViewGuide }) {
   }, [step])
 
   useEffect(() => {
-    if (departments.length || isLoadingDepartments) return
-
     fetchDepartments().catch(() => {})
-  }, [departments.length, fetchDepartments, isLoadingDepartments])
+  }, [fetchDepartments])
 
   if (submitted) {
     return <SubmissionSuccess trackingId={trackingId} onViewGuide={onViewGuide} />

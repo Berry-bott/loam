@@ -9,6 +9,7 @@ import {
 } from "../lib/portal-auth"
 import { getAdminLoginRoute, getStudentLoginRoute } from "../lib/portal-routing"
 import { useAuthStore } from "../store/admin/authStore"
+import { useStudentAuthStore } from "../store/student/authStore"
 
 function normalizeAdminRole(value) {
   const normalizedValue = String(value || "")
@@ -17,9 +18,12 @@ function normalizeAdminRole(value) {
     .replace(/[\s-]+/g, "_")
 
   if (["superadmin", "super_admin"].includes(normalizedValue)) return "superadmin"
-  if (["admission_officer", "admission"].includes(normalizedValue)) return "admission_officer"
+  if (["admission_officer", "admissions_officer", "admission", "admissions"].includes(normalizedValue)) {
+    return "admission_officer"
+  }
   if (["bursary_officer", "bursary", "bursar"].includes(normalizedValue)) return "bursary_officer"
   if (["lecturer", "lecture"].includes(normalizedValue)) return "lecturer"
+  if (["hod", "head_of_department", "head_department"].includes(normalizedValue)) return "hod"
   return ""
 }
 
@@ -37,21 +41,29 @@ function resolveAuthenticatedAdminRole(user) {
 export function RequirePortalRole({ allowedRoles, children }) {
   const location = useLocation()
   const session = getPortalSession()
-  const { accessToken, isAuthenticated, refreshAdminToken, refreshRouteAvailable, user } = useAuthStore()
+  const { accessToken, isAuthenticated, refreshAdminToken, refreshRouteAvailable, user, hasHydrated } = useAuthStore()
+  const {
+    accessToken: studentAccessToken,
+    isAuthenticated: isStudentAuthenticated,
+    refreshStudentToken,
+    refreshRouteAvailable: studentRefreshRouteAvailable,
+    hasHydrated: hasStudentHydrated,
+  } = useStudentAuthStore()
   const authenticatedAdminRole = resolveAuthenticatedAdminRole(user)
   const unauthorizedRoute = allowedRoles.some((role) => isAdminPortalRole(role))
     ? getAdminLoginRoute()
     : getStudentLoginRoute()
   const expectsAdminRole = allowedRoles.some((role) => isAdminPortalRole(role))
   const sessionHasAdminRole = isAdminPortalRole(session?.role)
+  const sessionHasStudentRole = session?.role === "student"
   const needsAdminRefresh = Boolean(sessionHasAdminRole && expectsAdminRole)
-  const shouldForceAdminRefresh =
-    needsAdminRefresh &&
-    refreshRouteAvailable &&
-    location.key === "default"
+  const needsStudentRefresh = Boolean(sessionHasStudentRole && !expectsAdminRole)
   const refreshAttemptedRef = useRef(false)
   const [status, setStatus] = useState(
-    shouldForceAdminRefresh || (needsAdminRefresh && !isAuthenticated && !accessToken && refreshRouteAvailable)
+    !hasHydrated ||
+      !hasStudentHydrated ||
+      (needsAdminRefresh && !isAuthenticated && !accessToken && refreshRouteAvailable) ||
+      (needsStudentRefresh && !isStudentAuthenticated && !studentAccessToken && studentRefreshRouteAvailable)
       ? "checking"
       : "ready"
   )
@@ -59,7 +71,20 @@ export function RequirePortalRole({ allowedRoles, children }) {
   useEffect(() => {
     let isActive = true
 
+    if (!hasHydrated || !hasStudentHydrated) {
+      if (status !== "checking") {
+        setStatus("checking")
+      }
+      return () => {
+        isActive = false
+      }
+    }
+
     if (!needsAdminRefresh) {
+      refreshAttemptedRef.current = false
+    }
+
+    if (needsAdminRefresh && (isAuthenticated || accessToken)) {
       if (status !== "ready") {
         setStatus("ready")
       }
@@ -68,18 +93,36 @@ export function RequirePortalRole({ allowedRoles, children }) {
       }
     }
 
-    if (isAuthenticated || accessToken) {
-      if (status !== "ready") {
-        setStatus("ready")
-      }
-      return () => {
-        isActive = false
-      }
-    }
-
-    if (!refreshRouteAvailable) {
+    if (needsAdminRefresh && !refreshRouteAvailable) {
       if (status !== "failed") {
         setStatus("failed")
+      }
+      return () => {
+        isActive = false
+      }
+    }
+
+    if (needsStudentRefresh && (isStudentAuthenticated || studentAccessToken)) {
+      if (status !== "ready") {
+        setStatus("ready")
+      }
+      return () => {
+        isActive = false
+      }
+    }
+
+    if (needsStudentRefresh && !studentRefreshRouteAvailable) {
+      if (status !== "failed") {
+        setStatus("failed")
+      }
+      return () => {
+        isActive = false
+      }
+    }
+
+    if (!needsAdminRefresh && !needsStudentRefresh) {
+      if (status !== "ready") {
+        setStatus("ready")
       }
       return () => {
         isActive = false
@@ -95,12 +138,14 @@ export function RequirePortalRole({ allowedRoles, children }) {
     refreshAttemptedRef.current = true
     setStatus("checking")
 
-    refreshAdminToken({ force: shouldForceAdminRefresh })
+    const refreshPromise = needsAdminRefresh ? refreshAdminToken() : refreshStudentToken()
+
+    refreshPromise
       .then((payload) => {
         if (!isActive) return
 
         const refreshedUser = payload?.data?.user || payload?.data
-        if (refreshedUser?.name) {
+        if (refreshedUser?.name && session) {
           setPortalSession({
             ...session,
             name: refreshedUser.name,
@@ -120,12 +165,19 @@ export function RequirePortalRole({ allowedRoles, children }) {
     }
   }, [
     accessToken,
+    hasHydrated,
     isAuthenticated,
     needsAdminRefresh,
+    needsStudentRefresh,
     refreshAdminToken,
     refreshRouteAvailable,
+    refreshStudentToken,
     status,
-    shouldForceAdminRefresh,
+    studentAccessToken,
+    studentRefreshRouteAvailable,
+    hasStudentHydrated,
+    isStudentAuthenticated,
+    session,
   ])
 
   if (!session) {
@@ -162,6 +214,10 @@ export function RequirePortalRole({ allowedRoles, children }) {
 
   if (!allowedRoles.includes(session.role)) {
     return <Navigate to={getDefaultRouteForRole(session.role)} replace />
+  }
+
+  if (sessionHasStudentRole && (!isStudentAuthenticated || !studentAccessToken)) {
+    return <Navigate to={unauthorizedRoute} replace state={{ from: location.pathname }} />
   }
 
   return children

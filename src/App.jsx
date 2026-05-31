@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { Routes, Route, Navigate } from "react-router-dom"
 import HomePage from "./pages/index/HomePage"
 import AboutPage from "./pages/index/AboutPage"
@@ -38,6 +39,7 @@ import AdminStaffManagementPage from "./pages/admin-dashboard/AdminStaffManageme
 import AdminManageStudentsPage from "./pages/admin-dashboard/AdminManageStudentsPage"
 import AdminStudentsPage from "./pages/admin-dashboard/AdminStudentsPage"
 import AdminPortalManagementPage from "./pages/admin-dashboard/AdminPortalManagementPage"
+import AdminHodLecturersPage from "./pages/admin-dashboard/AdminHodLecturersPage"
 import { RequirePortalRole } from "./app/RequirePortalRole"
 import { ScrollToTop } from "./app/ScrollToTop"
 import {
@@ -45,6 +47,7 @@ import {
   isBlogSubdomain,
   isLocalDevelopment,
   isPortalSubdomain,
+  getMainWebsitePath,
 } from "./lib/portal-routing"
 
 const OFFICER_LOGIN_PROPS = {
@@ -59,12 +62,20 @@ const OFFICER_LOGIN_PROPS = {
 
 const LECTURER_LOGIN_PROPS = {
   fallbackRole: "lecturer",
-  allowedRoles: ["lecturer"],
-  title: "LECTURER",
+  allowedRoles: ["lecturer", "hod"],
+  title: "ACADEMIC STAFF",
   subtitle: "Academic Staff Access",
-  heading: "Lecturer Login",
-  description: "Login with your lecturer credentials to access courses, results, and portal tools.",
-  submitLabel: "Access Lecturer Dashboard",
+  heading: "Academic Staff Login",
+  description: "Login with your lecturer or HOD credentials to access academic portal tools.",
+  submitLabel: "Access Academic Dashboard",
+}
+
+function MainDomainRedirect({ path }) {
+  useEffect(() => {
+    window.location.replace(getMainWebsitePath(path))
+  }, [path])
+
+  return null
 }
 
 function renderStudentPortalRoutes() {
@@ -83,9 +94,10 @@ function renderStudentPortalRoutes() {
 }
 
 function renderAdminPortalRoutes() {
-  const sharedAdminRoles = ["superadmin", "admission_officer", "bursary_officer", "lecturer"]
+  const sharedAdminRoles = ["superadmin", "admission_officer", "bursary_officer", "lecturer", "hod"]
   const superAdminRoles = ["superadmin"]
-  const lecturerRoles = ["lecturer"]
+  const lecturerRoles = ["lecturer", "hod"]
+  const hodRoles = ["hod"]
   const officerRoles = ["admission_officer", "bursary_officer"]
 
   return (
@@ -117,8 +129,16 @@ function renderAdminPortalRoutes() {
       <Route
         path="applications"
         element={
-          <RequirePortalRole allowedRoles={officerRoles}>
+          <RequirePortalRole allowedRoles={[...officerRoles, ...hodRoles]}>
             <AdminApplicationsPage />
+          </RequirePortalRole>
+        }
+      />
+      <Route
+        path="lecturers"
+        element={
+          <RequirePortalRole allowedRoles={hodRoles}>
+            <AdminHodLecturersPage />
           </RequirePortalRole>
         }
       />
@@ -210,21 +230,12 @@ function renderAdminPortalRoutes() {
   )
 }
 
-function renderSharedPortalRoutes(basePath = "") {
+function renderStudentPortalShellRoutes(basePath = "") {
   const withBasePath = (path) => `${basePath}${path}`
 
   return (
     <>
       <Route path={withBasePath("/studentslogin")} element={<LoginPage />} />
-      <Route path={withBasePath("/superadminlogin")} element={<SuperAdminLoginPage />} />
-      <Route
-        path={withBasePath("/admissionofficerlogin")}
-        element={<SuperAdminLoginPage {...OFFICER_LOGIN_PROPS} />}
-      />
-      <Route
-        path={withBasePath("/lecturerlogin")}
-        element={<SuperAdminLoginPage {...LECTURER_LOGIN_PROPS} />}
-      />
       <Route
         path={withBasePath("/student-dashboard")}
         element={
@@ -235,10 +246,28 @@ function renderSharedPortalRoutes(basePath = "") {
       >
         {renderStudentPortalRoutes()}
       </Route>
+    </>
+  )
+}
+
+function renderAdminPortalShellRoutes(basePath = "") {
+  const withBasePath = (path) => `${basePath}${path}`
+
+  return (
+    <>
+      <Route path={withBasePath("/superadminlogin")} element={<SuperAdminLoginPage />} />
+      <Route
+        path={withBasePath("/admissionofficerlogin")}
+        element={<SuperAdminLoginPage {...OFFICER_LOGIN_PROPS} />}
+      />
+      <Route
+        path={withBasePath("/academicstafflogin")}
+        element={<SuperAdminLoginPage {...LECTURER_LOGIN_PROPS} />}
+      />
       <Route
         path={withBasePath("/admin-dashboard")}
         element={
-          <RequirePortalRole allowedRoles={["superadmin", "admission_officer", "bursary_officer", "lecturer"]}>
+          <RequirePortalRole allowedRoles={["superadmin", "admission_officer", "bursary_officer", "lecturer", "hod"]}>
             <AdminPortalLayout />
           </RequirePortalRole>
         }
@@ -270,7 +299,11 @@ function App() {
         ) : portalHost ? (
           <>
             <Route path="/" element={<PortalPage />} />
-            {renderSharedPortalRoutes()}
+            {renderStudentPortalShellRoutes()}
+            <Route path="/superadminlogin" element={<MainDomainRedirect path="/superadminlogin" />} />
+            <Route path="/admissionofficerlogin" element={<MainDomainRedirect path="/admissionofficerlogin" />} />
+            <Route path="/academicstafflogin" element={<MainDomainRedirect path="/academicstafflogin" />} />
+            <Route path="/admin-dashboard/*" element={<MainDomainRedirect path="/admin-dashboard" />} />
           </>
         ) : (
           <>
@@ -285,7 +318,8 @@ function App() {
             {localDevelopment ? <Route path="/blog" element={<AdvertsPage />} /> : null}
             {localDevelopment ? <Route path="/admissions" element={<AdmissionsPage />} /> : null}
             {localDevelopment ? <Route path="/portal" element={<PortalPage />} /> : null}
-            {localDevelopment ? renderSharedPortalRoutes("/portal") : null}
+            {localDevelopment ? renderStudentPortalShellRoutes("/portal") : null}
+            {renderAdminPortalShellRoutes()}
             <Route path="/contact" element={<ContactPage />} />
           </>
         )}

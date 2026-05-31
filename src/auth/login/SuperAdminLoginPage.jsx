@@ -14,9 +14,12 @@ function normalizeAdminRole(value) {
     .replace(/[\s-]+/g, "_")
 
   if (["superadmin", "super_admin"].includes(normalizedValue)) return "superadmin"
-  if (["admission_officer", "admission"].includes(normalizedValue)) return "admission_officer"
+  if (["admission_officer", "admissions_officer", "admission", "admissions"].includes(normalizedValue)) {
+    return "admission_officer"
+  }
   if (["bursary_officer", "bursary", "bursar"].includes(normalizedValue)) return "bursary_officer"
   if (["lecturer", "lecture"].includes(normalizedValue)) return "lecturer"
+  if (["hod", "head_of_department", "head_department"].includes(normalizedValue)) return "hod"
   return ""
 }
 

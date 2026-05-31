@@ -10,11 +10,10 @@ import { MetricCard, PageEyebrow, PageTitle, StatusPill } from "../../components
 import { getAdminDashboardRoute } from "../../lib/portal-routing"
 import {
   createStaff,
-  getAllDepartments,
-  getAllStaff,
   resetStaffPassword,
   toggleStaffStatus,
 } from "../../store/admin/adminApi"
+import { useAdminDataStore } from "../../store/admin/adminDataStore"
 import {
   getDepartmentName,
   getEntityId,
@@ -24,7 +23,6 @@ import {
   getStaffName,
   getStaffRole,
   getStaffStatus,
-  resolveArray,
 } from "../../components/admin-shared/adminManagementUtils"
 
 function getStaffProfile(item) {
@@ -62,6 +60,10 @@ function getStaffYearOfEmployment(item) {
 function shouldShowDepartmentForStaff(item) {
   const role = String(getStaffRole(item)).toUpperCase()
   return !["ADMISSIONS_OFFICER", "BURSARY_OFFICER"].includes(role)
+}
+
+function roleRequiresDepartment(role) {
+  return ["LECTURER", "HOD", "ADMISSIONS_OFFICER"].includes(String(role).toUpperCase())
 }
 
 function resolveStaffDepartmentName(item, departments) {
@@ -219,13 +221,7 @@ function DetailField({ label, value }) {
 
 export default function AdminStaffManagementPage() {
   const [toastMessage, setToastMessage] = useState("")
-  const [departments, setDepartments] = useState([])
-  const [staff, setStaff] = useState([])
   const [selectedStaffId, setSelectedStaffId] = useState("")
-  const [staffLoadError, setStaffLoadError] = useState("")
-  const [departmentLoadError, setDepartmentLoadError] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
-  const [isLoadingDepartments, setIsLoadingDepartments] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [staffFilter, setStaffFilter] = useState("all")
   const [staffDepartmentFilter, setStaffDepartmentFilter] = useState("all")
@@ -233,6 +229,17 @@ export default function AdminStaffManagementPage() {
   const [togglingStaffIds, setTogglingStaffIds] = useState([])
   const [staffForm, setStaffForm] = useState(defaultStaffForm)
   const departmentFilterMenuRef = useRef(null)
+  const {
+    departments,
+    staff,
+    staffError: staffLoadError,
+    departmentError: departmentLoadError,
+    isLoadingStaff: isLoading,
+    isLoadingDepartments,
+    fetchDepartments,
+    fetchStaff,
+    updateStaffRecord,
+  } = useAdminDataStore()
 
   const departmentOptions = useMemo(
     () =>
@@ -348,57 +355,30 @@ export default function AdminStaffManagementPage() {
   }, [selectedStaff])
 
   const isAcademicStaff = staffForm.staffType === "academic"
+  const selectedRoleRequiresDepartment = roleRequiresDepartment(staffForm.role)
   const roleOptions = isAcademicStaff ? ACADEMIC_ROLE_OPTIONS : ADMIN_ROLE_OPTIONS
 
   const loadDepartments = async () => {
-    setIsLoadingDepartments(true)
-    setDepartmentLoadError("")
-
-    try {
-      const payload = await getAllDepartments()
-      setDepartments(resolveArray(payload))
-    } catch (error) {
-      setDepartments([])
-      setDepartmentLoadError(
-        error.message || "Unable to load departments right now.",
-      )
-    } finally {
-      setIsLoadingDepartments(false)
-    }
+    return fetchDepartments({ force: true })
   }
 
   const loadStaffData = async () => {
-    setIsLoading(true)
-    setStaffLoadError("")
-
-    try {
-      const staffPayload = await getAllStaff()
-      const resolvedStaff = resolveArray(staffPayload)
-      setStaff(resolvedStaff)
-      setSelectedStaffId((current) =>
-        current && resolvedStaff.some((member) => String(getEntityId(member)) === String(current))
-          ? current
-          : "",
-      )
-    } catch (error) {
-      setStaff([])
-      setSelectedStaffId("")
-      setStaffLoadError(
-        error.message || "Unable to load staff records right now.",
-      )
-    } finally {
-      setIsLoading(false)
-    }
+    const resolvedStaff = await fetchStaff({ force: true })
+    setSelectedStaffId((current) =>
+      current && resolvedStaff.some((member) => String(getEntityId(member)) === String(current))
+        ? current
+        : "",
+    )
   }
 
   useEffect(() => {
-    loadStaffData()
-  }, [])
+    fetchStaff({ force: true }).catch(() => {})
+  }, [fetchStaff])
 
   useEffect(() => {
-    if (!isAcademicStaff || departments.length || isLoadingDepartments) return
-    loadDepartments()
-  }, [departments.length, isAcademicStaff, isLoadingDepartments])
+    if (!selectedRoleRequiresDepartment) return
+    fetchDepartments().catch(() => {})
+  }, [fetchDepartments, selectedRoleRequiresDepartment])
 
   const handleStaffChange = (field, value) => {
     setStaffForm((current) => {
@@ -406,9 +386,10 @@ export default function AdminStaffManagementPage() {
 
       if (field === "staffType") {
         next.role = value === "academic" ? "LECTURER" : "ADMISSIONS_OFFICER"
-        if (value !== "academic") {
-          next.departmentId = ""
-        }
+      }
+
+      if (field === "role" && !roleRequiresDepartment(value)) {
+        next.departmentId = ""
       }
 
       return next
@@ -435,8 +416,12 @@ export default function AdminStaffManagementPage() {
       return
     }
 
-    if (isAcademicStaff && !staffForm.departmentId) {
-      setToastMessage("Select the department the academic staff belongs to.")
+    if (selectedRoleRequiresDepartment && !staffForm.departmentId) {
+      setToastMessage(
+        staffForm.role === "ADMISSIONS_OFFICER"
+          ? "Select the department for the admissions officer."
+          : "Select the department the academic staff belongs to.",
+      )
       return
     }
 
@@ -481,7 +466,7 @@ export default function AdminStaffManagementPage() {
       const payload = {
         email: normalizedEmail,
         role: staffForm.role,
-        ...(isAcademicStaff ? { departmentId: staffForm.departmentId } : {}),
+        ...(selectedRoleRequiresDepartment ? { departmentId: staffForm.departmentId } : {}),
         title: staffForm.title,
         firstName: staffForm.firstName.trim(),
         middleName: staffForm.middleName.trim(),
@@ -527,13 +512,10 @@ export default function AdminStaffManagementPage() {
 
     try {
       await toggleStaffStatus(staffId, nextIsActive)
-      setStaff((current) =>
-        current.map((member) =>
-          String(getEntityId(member)) === String(staffId)
-            ? { ...member, isActive: nextIsActive, status: nextIsActive ? "Active" : "Inactive" }
-            : member,
-        ),
-      )
+      updateStaffRecord(staffId, {
+        isActive: nextIsActive,
+        status: nextIsActive ? "Active" : "Inactive",
+      })
       setToastMessage("Staff status updated successfully.")
     } catch (error) {
       setToastMessage(error.message || "Unable to update staff status right now.")
@@ -596,7 +578,7 @@ export default function AdminStaffManagementPage() {
           <SectionFrame
             icon={UserCog}
             title="Create New Staff"
-            description="Pick the staff category first. Academic staff requires a department, while administrative staff uses administrative role options."
+            description="Pick the staff category first. Academic staff requires a department, and admissions officers also need one before their account can be created."
           >
             <div className="grid gap-5">
               <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
@@ -637,7 +619,7 @@ export default function AdminStaffManagementPage() {
                   <p className="mt-2 text-sm text-admin-registry-text">
                     {isAcademicStaff
                       ? "This form will require a department and academic role."
-                      : "This form uses administrative roles and does not require a department."}
+                      : "This form uses administrative roles. Admissions officers require a department, while bursary officers do not."}
                   </p>
                 </div>
               </div>
@@ -664,7 +646,7 @@ export default function AdminStaffManagementPage() {
                   />
                 </div>
 
-                {isAcademicStaff ? (
+                {selectedRoleRequiresDepartment ? (
                   <div className="md:max-w-[50%]">
                     <SelectField
                       label="Department"

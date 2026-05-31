@@ -167,10 +167,10 @@ export default function HomePage() {
         </section>
 
         <section className="py-24 md:py-32 px-4 bg-secondary/30">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto ml-12">
             <ScrollReveal>
               <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Why Choose Us</p>
-              <h2 className="font-serif text-4xl md:text-2xl font-bold mb-4 text-balance max-w-2xl">
+              <h2 className=" text-4xl md:text-2xl mb-4 text-balance max-w-2xl">
                Loam Polytechnic is committed to training students with real-world skills. Our focus is on practical learning, 
                innovation, and preparing students for employment and entrepreneurship.
               </h2>
@@ -199,7 +199,7 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto">
             <ScrollReveal className="text-center mb-16">
               <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Experience Loam Polytechnic</p>
-              <h2 className="font-serif text-4xl md:text-5xl font-bold mb-4 text-balance">See our campus come alive</h2>
+              <h2 className="font-serif uppercase text-4xl md:text-5xl font- mb-4 text-balance">See our campus come alive</h2>
             </ScrollReveal>
               <div className="-mb-32">
             <VideoSection

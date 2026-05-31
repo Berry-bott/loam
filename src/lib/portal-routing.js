@@ -255,7 +255,7 @@ export function getPortalHomeRoute() {
 
   return isPortalSubdomain()
     ? "/"
-    : "/portal"
+    : PORTAL_SUBDOMAIN_URL
 }
 
 export function getStudentLoginRoute() {
@@ -265,17 +265,17 @@ export function getStudentLoginRoute() {
 
   return isPortalSubdomain()
     ? "/studentslogin"
-    : "/portal/studentslogin"
+    : `${PORTAL_SUBDOMAIN_URL}/studentslogin`
 }
 
 export function getAdminLoginRoute() {
   if (isLocalDevelopment()) {
-    return "/portal/superadminlogin"
+    return "/superadminlogin"
   }
 
-  return isPortalSubdomain()
-    ? "/superadminlogin"
-    : "/portal/superadminlogin"
+  return isAnySubdomain()
+    ? `${MAIN_WEBSITE_URL}/superadminlogin`
+    : "/superadminlogin"
 }
 
 export function getStudentDashboardRoute(path = "") {
@@ -283,5 +283,11 @@ export function getStudentDashboardRoute(path = "") {
 }
 
 export function getAdminDashboardRoute(path = "") {
-  return `${getPortalHomeRoute()}/admin-dashboard${path}`
+  if (isLocalDevelopment()) {
+    return `/admin-dashboard${path}`
+  }
+
+  return isAnySubdomain()
+    ? `${MAIN_WEBSITE_URL}/admin-dashboard${path}`
+    : `/admin-dashboard${path}`
 }

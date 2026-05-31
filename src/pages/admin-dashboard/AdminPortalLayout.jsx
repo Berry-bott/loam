@@ -26,6 +26,11 @@ const adminRoleConfig = {
     sessionLabel: "Academic Staff Portal",
     userRole: "Lecturer",
   },
+  hod: {
+    subtitle: "HOD Panel",
+    sessionLabel: "Head of Department Portal",
+    userRole: "HOD",
+  },
 }
 
 export default function AdminPortalLayout() {

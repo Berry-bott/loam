@@ -7,7 +7,7 @@ import { PortalCardSkeleton } from "../../components/portal/PortalSkeleton"
 import { PortalToast } from "../../components/portal/PortalToast"
 import { PageEyebrow, PageTitle, StatusPill } from "../../components/admin-shared/Shared"
 import { getAdminDashboardRoute } from "../../lib/portal-routing"
-import { getAllDepartments, getAllStaff } from "../../store/admin/adminApi"
+import { useAdminDataStore } from "../../store/admin/adminDataStore"
 import {
   getDepartmentName,
   getEntityId,
@@ -15,14 +15,19 @@ import {
   getStaffName,
   getHodName,
   getStaffStatus,
-  resolveArray,
 } from "../../components/admin-shared/adminManagementUtils"
 
 export default function AdminFacultyPage() {
-  const [departments, setDepartments] = useState([])
-  const [staff, setStaff] = useState([])
   const [toastMessage, setToastMessage] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
+  const {
+    departments,
+    staff,
+    isLoadingDepartments,
+    isLoadingStaff,
+    fetchDepartments,
+    fetchStaff,
+  } = useAdminDataStore()
+  const isLoading = isLoadingDepartments || isLoadingStaff
 
   const hodAssignedCount = useMemo(
     () => departments.filter((department) => getHodName(department) !== "Unassigned").length,
@@ -38,40 +43,29 @@ export default function AdminFacultyPage() {
   const recentStaff = useMemo(() => staff, [staff])
 
   const loadOverview = async () => {
-    setIsLoading(true)
+    const [departmentResult, staffResult] = await Promise.allSettled([
+      fetchDepartments({ force: true }),
+      fetchStaff({ force: true }),
+    ])
 
-    try {
-      const [departmentResult, staffResult] = await Promise.allSettled([
-        getAllDepartments(),
-        getAllStaff(),
-      ])
-
-      if (departmentResult.status === "fulfilled") {
-        setDepartments(resolveArray(departmentResult.value))
-      } else {
-        setDepartments([])
-      }
-
-      if (staffResult.status === "fulfilled") {
-        setStaff(resolveArray(staffResult.value))
-      } else {
-        setStaff([])
-      }
-
-      if (
-        departmentResult.status === "rejected" &&
-        staffResult.status === "rejected"
-      ) {
-        setToastMessage("Unable to load management summary right now.")
-      }
-    } finally {
-      setIsLoading(false)
+    if (
+      departmentResult.status === "rejected" &&
+      staffResult.status === "rejected"
+    ) {
+      setToastMessage("Unable to load management summary right now.")
     }
   }
 
   useEffect(() => {
-    loadOverview()
-  }, [])
+    Promise.allSettled([
+      fetchDepartments({ force: true }),
+      fetchStaff({ force: true }),
+    ]).then((results) => {
+      if (results.every((result) => result.status === "rejected")) {
+        setToastMessage("Unable to load management summary right now.")
+      }
+    })
+  }, [fetchDepartments, fetchStaff])
 
   return (
     <>

@@ -4,10 +4,11 @@ import { useEffect, useState } from "react"
 import { Download, Plus } from "lucide-react"
 import { PortalButton } from "../../components/portal/PortalButton"
 import { PortalCard } from "../../components/portal/PortalCard"
+import { PortalCardSkeleton, PortalSkeleton } from "../../components/portal/PortalSkeleton"
 import { PortalToast } from "../../components/portal/PortalToast"
 import { getPortalSession } from "../../lib/portal-auth"
 import { adminActivityRows } from "../../lib/portal-data"
-import { getOverview } from "../../store/admin/adminApi"
+import { useAdminDataStore } from "../../store/admin/adminDataStore"
 import {
   PageEyebrow, PageTitle, MetricCard, ChartCard,
   ResponsiveTable, StatusPill, StandardActionModal,
@@ -27,34 +28,29 @@ const lecturerOverviewCardTemplate = [
   { label: "Results", note: "Published result records", accent: "red" },
 ]
 
-let overviewCache = null
-let overviewRequest = null
+const admissionsOfficerOverviewCardTemplate = [
+  { label: "Applications", note: "Pending application reviews", accent: "red" },
+  { label: "Screenings", note: "Screening queue assignments", accent: "gold" },
+  { label: "Letters", note: "Admission letter actions", accent: "red" },
+]
 
 function formatMetricValue(value) {
   if (value === undefined || value === null || value === "") return "0"
   return typeof value === "number" ? value.toLocaleString() : String(value)
 }
 
-async function loadOverviewOnce() {
-  if (overviewCache) return overviewCache
-  if (overviewRequest) return overviewRequest
-
-  overviewRequest = getOverview()
-    .then((payload) => {
-      overviewCache = payload
-      return payload
-    })
-    .finally(() => {
-      overviewRequest = null
-    })
-
-  return overviewRequest
-}
-
 export default function AdminDashboardPage() {
   const session = getPortalSession()
-  const isLecturer = session?.role === "lecturer"
-  const overviewTemplate = isLecturer ? lecturerOverviewCardTemplate : superAdminOverviewCardTemplate
+  const isLecturer = session?.role === "lecturer" || session?.role === "hod"
+  const isAdmissionsOfficer = session?.role === "admission_officer"
+  const usesThreeCardOverview = isLecturer || isAdmissionsOfficer
+  const shouldUseAdminOverview = !isAdmissionsOfficer
+  const { overview, isLoadingOverview, fetchOverview } = useAdminDataStore()
+  const overviewTemplate = isLecturer
+    ? lecturerOverviewCardTemplate
+    : isAdmissionsOfficer
+      ? admissionsOfficerOverviewCardTemplate
+      : superAdminOverviewCardTemplate
   const [modalOpen, setModalOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState("")
   const [overviewStats, setOverviewStats] = useState(
@@ -64,9 +60,16 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     let ignore = false
 
+    if (!shouldUseAdminOverview) {
+      setOverviewStats(overviewTemplate.map((item) => ({ ...item, value: "0" })))
+      return () => {
+        ignore = true
+      }
+    }
+
     const loadOverview = async () => {
       try {
-        const payload = await loadOverviewOnce()
+        const payload = await fetchOverview({ force: true })
         if (ignore) return
 
         const totals = payload?.data?.totals || {}
@@ -121,7 +124,10 @@ export default function AdminDashboardPage() {
     return () => {
       ignore = true
     }
-  }, [isLecturer])
+  }, [fetchOverview, isLecturer, shouldUseAdminOverview])
+
+  const showOverviewSkeleton = shouldUseAdminOverview && isLoadingOverview && !overview
+  const showChartSkeleton = shouldUseAdminOverview && isLoadingOverview && !overview
 
   return (
     <>
@@ -144,65 +150,107 @@ export default function AdminDashboardPage() {
           }
         />
 
-        <div className={`grid gap-4 md:grid-cols-2 ${isLecturer ? "lg:grid-cols-3" : "lg:grid-cols-5"}`}>
-          {overviewStats.map((item, index) => (
-            <MetricCard
-              key={item.label}
-              label={item.label}
-              value={item.value}
-              note={item.note}
-              accent={index === 1 ? "gold" : "red"}
-            />
-          ))}
-        </div>
+        {showOverviewSkeleton ? (
+          <div className={`grid gap-4 md:grid-cols-2 ${usesThreeCardOverview ? "lg:grid-cols-3" : "lg:grid-cols-5"}`}>
+            {overviewTemplate.map((item, index) => (
+              <PortalCardSkeleton key={item.label} lines={2} showBadge={index % 2 === 1} />
+            ))}
+          </div>
+        ) : (
+          <div className={`grid gap-4 md:grid-cols-2 ${usesThreeCardOverview ? "lg:grid-cols-3" : "lg:grid-cols-5"}`}>
+            {overviewStats.map((item, index) => (
+              <MetricCard
+                key={item.label}
+                label={item.label}
+                value={item.value}
+                note={item.note}
+                accent={index === 1 ? "gold" : "red"}
+              />
+            ))}
+          </div>
+        )}
 
         <div className="grid gap-5 xl:grid-cols-[minmax(0,1.55fr)_minmax(320px,1fr)]">
-          <ChartCard
-            title="Application Trends"
-            right={
-              <div className="flex gap-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-portal-text-faded">
-                <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-analytics-series-primary" />Current</span>
-                <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-analytics-series-secondary" />Previous</span>
+          {showChartSkeleton ? (
+            <PortalCard>
+              <div className="space-y-4">
+                <PortalSkeleton className="h-6 w-40" />
+                <PortalSkeleton className="h-[220px] w-full rounded-[8px]" />
               </div>
-            }
-          >
-            <div className="mt-6 flex h-[220px] items-end gap-3 rounded-[8px] bg-portal-surface p-4">
-              {[42, 54, 87, 110, 94, 128].map((bar, index) => (
-                <div key={bar} className="flex flex-1 flex-col items-center justify-end gap-2">
-                  <div className="relative flex h-full w-full items-end justify-center rounded-[4px] bg-stone-100">
-                    <div
-                      className={`w-full rounded-[4px] ${index % 2 === 0 ? "bg-stone-200" : "bg-analytics-series-primary"}`}
-                      style={{ height: `${bar}px` }}
-                    />
-                  </div>
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-stone-400">{`Q${index + 1}`}</span>
+            </PortalCard>
+          ) : (
+            <ChartCard
+              title="Application Trends"
+              right={
+                <div className="flex gap-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-portal-text-faded">
+                  <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-analytics-series-primary" />Current</span>
+                  <span className="inline-flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-analytics-series-secondary" />Previous</span>
                 </div>
-              ))}
-            </div>
-          </ChartCard>
+              }
+            >
+              <div className="mt-6 flex h-[220px] items-end gap-3 rounded-[8px] bg-portal-surface p-4">
+                {[42, 54, 87, 110, 94, 128].map((bar, index) => (
+                  <div key={bar} className="flex flex-1 flex-col items-center justify-end gap-2">
+                    <div className="relative flex h-full w-full items-end justify-center rounded-[4px] bg-stone-100">
+                      <div
+                        className={`w-full rounded-[4px] ${index % 2 === 0 ? "bg-stone-200" : "bg-analytics-series-primary"}`}
+                        style={{ height: `${bar}px` }}
+                      />
+                    </div>
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-stone-400">{`Q${index + 1}`}</span>
+                  </div>
+                ))}
+              </div>
+            </ChartCard>
+          )}
 
-          <ChartCard
-            title="Revenue Summary"
-            accent="gold"
-            right={
-              <span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-value">
-                Current Year
-              </span>
-            }
-          >
-            <div className="mt-8 grid gap-6 sm:grid-cols-2">
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Tuition Revenue</p>
-                <p className="mt-2 text-[34px] font-bold text-shared-title">N214.8M</p>
-                <div className="mt-4 h-2 rounded-full bg-stone-200"><div className="h-2 w-[68%] rounded-full bg-analytics-series-primary" /></div>
+          {isAdmissionsOfficer ? (
+            <ChartCard
+              title="Operations Snapshot"
+              accent="gold"
+              right={
+                <span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-value">
+                  Live Workflow
+                </span>
+              }
+            >
+              <div className="mt-8 grid gap-6 sm:grid-cols-2">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Files Reviewed</p>
+                  <p className="mt-2 text-[34px] font-bold text-shared-title">128</p>
+                  <div className="mt-4 h-2 rounded-full bg-stone-200"><div className="h-2 w-[68%] rounded-full bg-analytics-series-primary" /></div>
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Tasks Closed</p>
+                  <p className="mt-2 text-[34px] font-bold text-shared-title">52</p>
+                  <div className="mt-4 h-2 rounded-full bg-stone-200"><div className="h-2 w-[52%] rounded-full bg-amber-600" /></div>
+                </div>
               </div>
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Target Achieved</p>
-                <p className="mt-2 text-[34px] font-bold text-shared-title">N90.4M</p>
-                <div className="mt-4 h-2 rounded-full bg-stone-200"><div className="h-2 w-[52%] rounded-full bg-amber-600" /></div>
+            </ChartCard>
+          ) : (
+            <ChartCard
+              title="Revenue Summary"
+              accent="gold"
+              right={
+                <span className="rounded-full bg-amber-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-analytics-gold-value">
+                  Current Year
+                </span>
+              }
+            >
+              <div className="mt-8 grid gap-6 sm:grid-cols-2">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Tuition Revenue</p>
+                  <p className="mt-2 text-[34px] font-bold text-shared-title">N214.8M</p>
+                  <div className="mt-4 h-2 rounded-full bg-stone-200"><div className="h-2 w-[68%] rounded-full bg-analytics-series-primary" /></div>
+                </div>
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-analytics-gold-label">Target Achieved</p>
+                  <p className="mt-2 text-[34px] font-bold text-shared-title">N90.4M</p>
+                  <div className="mt-4 h-2 rounded-full bg-stone-200"><div className="h-2 w-[52%] rounded-full bg-amber-600" /></div>
+                </div>
               </div>
-            </div>
-          </ChartCard>
+            </ChartCard>
+          )}
         </div>
 
         <PortalCard>

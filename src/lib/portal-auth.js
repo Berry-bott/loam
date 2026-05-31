@@ -1,12 +1,12 @@
 const PORTAL_SESSION_KEY = "loam-portal-session"
 
-export const ADMIN_PORTAL_ROLES = ["superadmin", "admission_officer", "bursary_officer", "lecturer"]
+export const ADMIN_PORTAL_ROLES = ["superadmin", "admission_officer", "bursary_officer", "lecturer", "hod"]
 
 export function isAdminPortalRole(role) {
   return ADMIN_PORTAL_ROLES.includes(role)
 }
 
-function getPortalBasePath() {
+function getStudentPortalBasePath() {
   if (typeof window === "undefined") return ""
 
   const host = window.location.hostname
@@ -38,11 +38,11 @@ function parseStoredSession(storage) {
 }
 
 export function getDefaultRouteForRole(role) {
-  const portalBasePath = getPortalBasePath()
+  const studentPortalBasePath = getStudentPortalBasePath()
 
-  if (isAdminPortalRole(role)) return `${portalBasePath}/admin-dashboard`
+  if (isAdminPortalRole(role)) return "/admin-dashboard"
   if (role === "admission") return "/admissions"
-  return `${portalBasePath}/student-dashboard`
+  return `${studentPortalBasePath}/student-dashboard`
 }
 
 export function getPortalSession() {

@@ -4,10 +4,10 @@ import { API_CONFIG } from "../../config/api"
 import { clearPortalSession } from "../../lib/portal-auth"
 
 const AUTH_BASE_URL = `${API_CONFIG.baseUrl}${API_CONFIG.endpoints.auth}`
-const ADMIN_LOGIN_URL = `${AUTH_BASE_URL}/login`
-const ADMIN_REFRESH_URL = `${AUTH_BASE_URL}/refresh`
-const ADMIN_LOGOUT_URL = `${AUTH_BASE_URL}/logout`
+const STUDENT_LOGIN_URL = `${AUTH_BASE_URL}/login`
+const STUDENT_REFRESH_URL = `${AUTH_BASE_URL}/refresh`
 const CHANGE_PASSWORD_URL = `${AUTH_BASE_URL}/change-password`
+const STUDENT_LOGOUT_URL = `${AUTH_BASE_URL}/logout`
 
 const CLEARED_AUTH_STATE = {
   accessToken: null,
@@ -58,13 +58,6 @@ function resolveAccessToken(payload) {
   )
 }
 
-function isMissingRouteResponse(response, payload) {
-  if (response.status === 404) return true
-
-  const message = getErrorMessage(payload, "").toLowerCase()
-  return message.includes("route") && message.includes("not found")
-}
-
 function isUnauthorizedResponse(response, payload) {
   if (response.status === 401) return true
 
@@ -77,7 +70,36 @@ function isUnauthorizedResponse(response, payload) {
   )
 }
 
-export const useAuthStore = create(
+function isMissingRouteResponse(response, payload) {
+  if (response.status === 404) return true
+
+  const message = getErrorMessage(payload, "").toLowerCase()
+  return message.includes("route") && message.includes("not found")
+}
+
+function normalizeStudentRole(value) {
+  const normalizedValue = String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[\s-]+/g, "_")
+
+  if (["student", "admitted_student"].includes(normalizedValue)) return "student"
+  return ""
+}
+
+function resolveStudentRole(payload, user) {
+  const candidates = [
+    user?.role,
+    user?.userRole,
+    user?.accountType,
+    payload?.data?.role,
+    payload?.role,
+  ]
+
+  return candidates.map(normalizeStudentRole).find(Boolean) || ""
+}
+
+export const useStudentAuthStore = create(
   persist(
     (set, get) => ({
       ...CLEARED_AUTH_STATE,
@@ -93,20 +115,11 @@ export const useAuthStore = create(
           : {}
       },
 
-      clearSession: () => {
-        sessionStorage.removeItem("auth-storage")
-        clearPortalSession()
-        set({
-          ...CLEARED_AUTH_STATE,
-          refreshRouteAvailable: get().refreshRouteAvailable,
-        })
-      },
-
-      loginAdmin: async (credentials) => {
+      loginStudent: async (credentials) => {
         set({ isLoading: true, error: null })
 
         try {
-          const response = await fetch(ADMIN_LOGIN_URL, {
+          const response = await fetch(STUDENT_LOGIN_URL, {
             method: "POST",
             headers: getJsonHeaders(),
             credentials: "include",
@@ -118,13 +131,18 @@ export const useAuthStore = create(
             throw new Error(
               getErrorMessage(
                 payload,
-                "Admin login failed. Please check your credentials and try again.",
+                "Student login failed. Please check your email and password.",
               ),
             )
           }
 
-          const accessToken = resolveAccessToken(payload)
           const user = resolveUser(payload)
+          const accessToken = resolveAccessToken(payload)
+          const role = resolveStudentRole(payload, user)
+
+          if (role !== "student") {
+            throw new Error("Your account is not permitted to use the student portal.")
+          }
 
           set({
             accessToken,
@@ -147,7 +165,7 @@ export const useAuthStore = create(
         }
       },
 
-      refreshAdminToken: async (options = {}) => {
+      refreshStudentToken: async (options = {}) => {
         const force = Boolean(options?.force)
 
         if (!force && !get().refreshRouteAvailable) {
@@ -159,7 +177,7 @@ export const useAuthStore = create(
         set({ isLoading: true, error: null })
 
         try {
-          const response = await fetch(ADMIN_REFRESH_URL, {
+          const response = await fetch(STUDENT_REFRESH_URL, {
             method: "POST",
             headers: getJsonHeaders(),
             credentials: "include",
@@ -182,14 +200,22 @@ export const useAuthStore = create(
 
           if (!response.ok) {
             throw new Error(
-              getErrorMessage(payload, "Unable to refresh admin session."),
+              getErrorMessage(payload, "Unable to refresh student session."),
             )
+          }
+
+          const user = resolveUser(payload)
+          const accessToken = resolveAccessToken(payload)
+          const role = resolveStudentRole(payload, user)
+
+          if (role !== "student") {
+            throw new Error("Your account is not permitted to use the student portal.")
           }
 
           set((current) => ({
             ...current,
-            accessToken: resolveAccessToken(payload) || current.accessToken,
-            user: resolveUser(payload) || current.user,
+            accessToken: accessToken || current.accessToken,
+            user: user || current.user,
             isAuthenticated: true,
             isLoading: false,
             error: null,
@@ -208,34 +234,6 @@ export const useAuthStore = create(
         }
       },
 
-      logoutAdmin: async () => {
-        set({ isLoading: true, error: null })
-
-        try {
-          const response = await fetch(ADMIN_LOGOUT_URL, {
-            method: "POST",
-            headers: {
-              ...getJsonHeaders(),
-              ...get().getAuthHeaders(),
-            },
-            credentials: "include",
-          })
-
-          const payload = await parseJsonResponse(response)
-          if (!response.ok) {
-            throw new Error(
-              getErrorMessage(payload, "Unable to log out admin session."),
-            )
-          }
-
-          get().clearSession()
-          return payload
-        } catch (error) {
-          get().clearSession()
-          throw error
-        }
-      },
-
       changePassword: async ({ oldPassword, newPassword }, hasRetried = false) => {
         if (!oldPassword?.trim()) throw new Error("Current password is required.")
         if (!newPassword?.trim()) throw new Error("New password is required.")
@@ -246,8 +244,8 @@ export const useAuthStore = create(
           const response = await fetch(CHANGE_PASSWORD_URL, {
             method: "POST",
             headers: {
-              ...getJsonHeaders(),
               ...get().getAuthHeaders(),
+              ...getJsonHeaders(),
             },
             credentials: "include",
             body: JSON.stringify({
@@ -257,10 +255,11 @@ export const useAuthStore = create(
           })
 
           const payload = await parseJsonResponse(response)
+
           if (!response.ok && isUnauthorizedResponse(response, payload)) {
             if (!hasRetried) {
               try {
-                await get().refreshAdminToken()
+                await get().refreshStudentToken()
                 return get().changePassword({ oldPassword, newPassword }, true)
               } catch (error) {
                 if (error.code === "AUTH_REFRESH_UNAVAILABLE") {
@@ -299,10 +298,45 @@ export const useAuthStore = create(
         }
       },
 
+      logoutStudent: async () => {
+        set({ isLoading: true, error: null })
+
+        try {
+          const response = await fetch(STUDENT_LOGOUT_URL, {
+            method: "POST",
+            headers: {
+              ...get().getAuthHeaders(),
+              ...getJsonHeaders(),
+            },
+            credentials: "include",
+          })
+
+          const payload = await parseJsonResponse(response)
+          if (!response.ok) {
+            throw new Error(
+              getErrorMessage(payload, "Unable to log out student session."),
+            )
+          }
+
+          get().clearSession()
+          return payload
+        } catch (error) {
+          get().clearSession()
+          throw error
+        }
+      },
+
       clearError: () => set({ error: null }),
+      clearSession: () => {
+        clearPortalSession()
+        set({
+          ...CLEARED_AUTH_STATE,
+          refreshRouteAvailable: get().refreshRouteAvailable,
+        })
+      },
     }),
     {
-      name: "auth-storage",
+      name: "student-auth-storage",
       partialize: (state) => ({
         accessToken: state.accessToken,
         user: state.user,

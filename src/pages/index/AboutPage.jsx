@@ -213,7 +213,7 @@ export default function AboutPage() {
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                       />
                     </div>
-                    <h3 className="font-serif text-xl font-semibold">{person.name}</h3>
+                    <h3 className="font-sans text-xl font-semibold">{person.name}</h3>
                     <p className="text-primary-foreground/70">{person.role}</p>
                   </div>
                 </ScrollReveal>
@@ -235,7 +235,7 @@ export default function AboutPage() {
 
               <div>
                 <ScrollReveal>
-                  <h2 className="font-serif text-3xl md:text-4xl font-bold mb-8">Excellence by the Numbers</h2>
+                  <h2 className="font-sans text-3xl md:text-4xl font-bold mb-8">Excellence by the Numbers</h2>
                 </ScrollReveal>
 
                 <div className="grid grid-cols-2 gap-8">
