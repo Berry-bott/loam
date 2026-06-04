@@ -111,17 +111,17 @@ export default function HomePage() {
       <Navbar />
       <main className="min-h-screen mt-10">
 
-        <section className="relative h-screen overflow-hidden">
-          <div ref={heroRef} className="absolute inset-0 z-0 scale-110">
+        <section className="relative h-[90vh] overflow-hidden md:h-screen">
+          <div ref={heroRef} className="absolute inset-0 z-0 scale-105 md:scale-110">
             <HeroSlider slides={heroSlides} autoPlayInterval={6000} />
           </div>
 
           <div
             ref={ctaRef}
-            className="absolute bottom-32 left-1/2 z-20 flex -translate-x-1/2 flex-col gap-4"
+            className="absolute left-1/2 top-[62%] z-20 flex -translate-x-1/2 flex-col gap-4 md:bottom-32 md:top-auto"
           >
 
-            <div className="flex flex-col gap-4 sm:flex-row">
+            <div className="flex flex-wrap gap-4 sm:flex-row">
               <MagneticButton>
                 <a href={admissionsUrl}>
                   <Button
@@ -159,18 +159,25 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce z-20">
+          <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 animate-bounce md:bottom-12">
             <div className="w-6 h-10 border-2 border-background/50 rounded-full flex justify-center">
               <div className="w-1 h-3 bg-background/50 rounded-full mt-2" />
             </div>
           </div>
         </section>
 
-        <section className="py-24 md:py-32 px-4 bg-secondary/30">
-          <div className="max-w-7xl mx-auto ml-12">
+        <section className="relative bg-secondary/30 px-4 py-16 md:py-24">
+          <a
+            href={admissionsUrl}
+            className="absolute right-0 top-4 z-40 inline-flex rotate-180 items-center justify-center whitespace-nowrap rounded-r-md border border-primary-foreground/30 
+            bg-primary px-3 py-2 md:py-5 text-[11px] font-extrabold uppercase leading-none tracking-[0.16em] text-primary-foreground shadow-lg transition hover:bg-primary/90 [writing-mode:vertical-rl]"
+          >
+            Admission Ongoing 2026/2027
+          </a>
+          <div className="max-w-7xl mx-auto md:ml-12">
             <ScrollReveal>
               <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Why Choose Us</p>
-              <h2 className=" text-4xl md:text-2xl mb-4 text-balance max-w-2xl">
+              <h2 className=" text-2xl md:text-2xl mb-4 text-balance max-w-2xl">
                Loam Polytechnic is committed to training students with real-world skills. Our focus is on practical learning, 
                innovation, and preparing students for employment and entrepreneurship.
               </h2>

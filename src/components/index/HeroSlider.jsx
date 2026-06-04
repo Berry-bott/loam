@@ -109,7 +109,7 @@ export function HeroSlider({ slides, autoPlayInterval = 5000 }) {
   }, [])
 
   return (
-    <div ref={sliderRef} className="relative w-full h-full overflow-hidden pt-32">
+    <div ref={sliderRef} className="relative h-full w-full overflow-hidden pt-16 md:pt-32">
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -128,11 +128,11 @@ export function HeroSlider({ slides, autoPlayInterval = 5000 }) {
         </div>
       ))}
 
-      <div ref={textRef} className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 z-10">
-        <p className="text-blue-200 text-sm md:text-base uppercase tracking-[0.3em] font-medium mb-4">
+      <div ref={textRef} className="absolute inset-0 z-10 flex flex-col items-center justify-start px-4 pt-40 text-center md:justify-center md:pt-0">
+        <p className="mb-3 text-xs font-medium uppercase tracking-[0.24em] text-blue-200 md:mb-4 md:text-base md:tracking-[0.3em]">
           {slides[currentSlide].subtitle}
         </p>
-        <h2 className="font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-background max-w-5xl text-balance">
+        <h2 className="max-w-5xl text-balance font-sans text-2xl font-bold text-background sm:text-4xl md:text-5xl lg:text-6xl">
           {slides[currentSlide].title}
         </h2>
       </div>
@@ -152,7 +152,7 @@ export function HeroSlider({ slides, autoPlayInterval = 5000 }) {
         <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
       </button>
 
-      <div className="absolute bottom-[65px] left-1/2 -translate-x-1/2 z-20 flex gap-3  ">
+      <div className="absolute bottom-10 left-1/2 z-20 flex -translate-x-1/2 gap-3 md:bottom-[65px]">
         {slides.map((_, index) => (
           <button
             key={index}

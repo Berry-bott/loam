@@ -117,6 +117,13 @@ export default function AdmissionsPage() {
             <div className="max-w-2xl">
               <ScrollReveal>
                 <p className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-muted">Admissions</p>
+                <button
+                  type="button"
+                  onClick={() => setShowApplicationModal(true)}
+                  className="mb-5 inline-flex animate-bounce items-center rounded-full border border-background/40 bg-primary px-5 py-2 text-sm font-bold uppercase tracking-[0.16em] text-primary-foreground shadow-2xl shadow-primary/40 transition hover:scale-105 hover:bg-primary/90"
+                >
+                  Admission Ongoing for 2026/2027
+                </button>
                 <h1 className="mb-6 font-serif text-3xl font-bold text-background text-balance sm:text-5xl">
                   Your Future <span className="italic">Starts Here</span>
                 </h1>
