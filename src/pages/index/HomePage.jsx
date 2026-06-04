@@ -126,9 +126,9 @@ export default function HomePage() {
                 <a href={admissionsUrl}>
                   <Button
                     size="lg"
-                    className="rounded-full bg-background text-foreground hover:bg-background/90 px-8 shadow-xl"
+                    className="rounded-full bg-background font-extrabold text-primary hover:bg-background/90 px-8 shadow-xl"
                   >
-                    Apply Now
+                   Admission Ongoing for 2026/2027
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </a>
