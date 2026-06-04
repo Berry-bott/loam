@@ -177,7 +177,7 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto md:ml-12">
             <ScrollReveal>
               <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">Why Choose Us</p>
-              <h2 className=" text-2xl md:text-2xl mb-4 text-balance max-w-2xl">
+              <h2 className=" text-md mr-3 md:mr-0  md:text-2xl mb-4 text-balance max-w-2xl">
                Loam Polytechnic is committed to training students with real-world skills. Our focus is on practical learning, 
                innovation, and preparing students for employment and entrepreneurship.
               </h2>
